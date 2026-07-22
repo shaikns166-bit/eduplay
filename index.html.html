@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EduPlay Complete PWA</title>
+    
+    <!-- 100% UNIVERSAL FONTS FOR ALL MOBILES (English & Urdu) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Kids EduPlay Offline","short_name":"EduPlay","description":"Interactive offline educational flashcards.","start_url":".","display":"standalone","background_color":"#f0f4f8","theme_color":"#4EA8DE","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=","sizes":"192x192","type":"image/png"}]}'>
+    <meta name="theme-color" content="#4EA8DE">
+    <style>
+        /* =========================================
+           UI / UX & LIQUID GLASS CSS STYLES
+           ========================================= */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #FFD166, #4EA8DE, #9D4EDD);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            --text-dark: #2B2D42;
+            --primary: #EF476F;
+            --success: #06D6A0;
+            --danger: #EF476F;
+        }
+
+        /* CHANGED DEFAULT FONT TO GOOGLE FREDOKA FOR UNIVERSAL SUPPORT */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Comic Sans MS', 'Nunito', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+        body { background-color: #f0f4f8; color: var(--text-dark); height: 100dvh; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+
+        /* LIQUID BLOBS */
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.8; animation: floatBlob 15s infinite alternate ease-in-out; pointer-events: none; }
+        .blob-1 { width: 400px; height: 400px; background: #FFD166; top: -100px; left: -100px; }
+        .blob-2 { width: 500px; height: 500px; background: #4EA8DE; bottom: -150px; right: -100px; animation-delay: -5s; }
+        .blob-3 { width: 350px; height: 350px; background: #9D4EDD; top: 30%; left: 30%; animation-delay: -10s; }
+        @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, 80px) scale(1.1); } 100% { transform: translate(-50px, 30px) scale(0.9); } }
+
+        .hidden { display: none !important; }
+        .active { display: flex !important; }
+
+        /* Overlays & Modals */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; }
+        .modal { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); padding: 2rem; border-radius: 24px; text-align: center; width: 90%; max-width: 400px; box-shadow: var(--shadow); border: 1px solid var(--glass-border); }
+        .modal h2 { margin-bottom: 1rem; color: var(--primary); }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: bold; }
+        input[type="range"] { width: 60%; }
+
+        /* Glass Panels */
+        .glass-panel, .glass-header { 
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.9); border-left: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 1.5rem; text-align: center; 
+        }
+        .glass-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; margin: 0.8rem; border-radius: 50px; flex-shrink: 0; }
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.3); border-radius: 10px; margin-top: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
+
+        /* =========================================
+           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE FIXES)
+           ========================================= */
+        /* Changed from vh to vw so long words shrink horizontally instead of wrapping down */
+        /* =========================================
+           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE & RENDERING FIXES)
+           ========================================= */
+         /* =========================================
+           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE & RENDERING FIXES)
+           ========================================= */
+        .huge-text { font-size: clamp(3rem, 18vw, 10rem); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
+        .sub-text { font-size: clamp(1.8rem, 8vw, 5rem); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; }
+
+        .colorful-letter {
+            font-family: 'Fredoka', Impact, Arial, sans-serif; font-weight: 700; display: inline-block; transform: translateZ(30px);
+            /* Fixed Outline: Using an 8-way shadow instead of a stroke removes the internal glitches */
+            text-shadow: 
+                -2px -2px 0 #2B2D42,  2px -2px 0 #2B2D42, -2px  2px 0 #2B2D42,  2px  2px 0 #2B2D42,
+                -2px  0px 0 #2B2D42,  2px  0px 0 #2B2D42,  0px -2px 0 #2B2D42,  0px  2px 0 #2B2D42,
+                1px 1px 0 #2B2D42, 2px 2px 0 #2B2D42, 3px 3px 0 #2B2D42, 4px 4px 0 #2B2D42, 5px 5px 0 #2B2D42, 6px 6px 0 #2B2D42, 
+                0 15px 20px rgba(0,0,0,0.4);
+        }
+        
+        .sub-text .colorful-letter { 
+            text-shadow: 
+                -1px -1px 0 #2B2D42,  1px -1px 0 #2B2D42, -1px  1px 0 #2B2D42,  1px  1px 0 #2B2D42,
+                -1px  0px 0 #2B2D42,  1px  0px 0 #2B2D42,  0px -1px 0 #2B2D42,  0px  1px 0 #2B2D42,
+                1px 1px 0 #2B2D42, 2px 2px 0 #2B2D42, 3px 3px 0 #2B2D42, 
+                0 10px 15px rgba(0,0,0,0.4); 
+        }
+
+        .c-1 { color: #FF595E; } .c-2 { color: #FFCA3A; } .c-3 { color: #8AC926; } .c-4 { color: #1982C4; } .c-5 { color: #6A4C93; } .c-6 { color: #FF924C; }
+        
+        .urdu-text { 
+            font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Mehr Nastaliq Web', 'Nafees', Arial, sans-serif; 
+            font-size: clamp(4rem, 16vw, 8rem); 
+            line-height: 1.6; 
+            color: #FFCA3A; 
+            -webkit-text-stroke: 2px #2B2D42; 
+            text-shadow: 1px 1px 0 #2B2D42, 2px 2px 0 #2B2D42, 3px 3px 0 #2B2D42, 4px 4px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); 
+            transform: translateZ(30px); 
+        }
+        }
+        }
+
+        /* Images */
+        .card-image-wrapper { flex: 1 1 auto; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 0; margin: 5px 0; transform: translateZ(40px); }
+        .real-img { max-height: 100%; max-width: 90%; object-fit: contain; filter: drop-shadow(0 20px 25px rgba(0,0,0,0.4)); }
+        .emoji-text { font-size: clamp(4rem, 20vh, 10rem); margin: 0; text-align: center; line-height: 1.2; transition: font-size 0.3s ease; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.3));}
+
+        /* Buttons & Containers */
+        #app-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; z-index: 10; }
+        .btn-large { background: var(--primary); color: white; border: none; padding: 0.8rem 1.2rem; font-size: clamp(1rem, 2.5vw, 1.5rem); font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 20px rgba(239, 71, 111, 0.4); transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-large:active { transform: scale(0.9); }
+        .btn-large.secondary { background: #4EA8DE; box-shadow: 0 10px 20px rgba(78, 168, 222, 0.4); }
+        .btn-large.success { background: var(--success); box-shadow: 0 10px 20px rgba(6, 214, 160, 0.4); }
+        .btn-icon { background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.8); font-size: 1.5rem; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+        .btn-icon:active { transform: scale(0.85); }
+
+        /* Grids */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1.5rem; padding: 1rem 1.5rem; overflow-y: auto; flex: 1; align-content: start; padding-bottom: 2rem; perspective: 1000px;}
+        .category-card { 
+            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px) saturate(120%); border-radius: 20px; padding: 1rem; text-align: center; font-size: 1.2rem; font-weight: bold; 
+            border: 1px solid rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.9); border-left: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.3); 
+            cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; transform-style: preserve-3d;
+        }
+        .category-card:hover { transform: translateY(-10px) rotateX(10deg); box-shadow: 0 20px 30px rgba(0,0,0,0.15), inset 0 0 20px rgba(255,255,255,0.6); }
+        .category-card .icon { font-size: 3rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
+
+        /* Liquid Flashcard */
+        #module-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; }
+        .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; }
+        
+        .card { 
+            width: 100%; height: 100%; 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%); backdrop-filter: blur(25px) saturate(150%);
+            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.4); border-top: 1.5px solid rgba(255, 255, 255, 0.9); border-left: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), inset 0 15px 20px rgba(255, 255, 255, 0.6), inset 0 -10px 20px rgba(0, 0, 0, 0.05); 
+            display: flex; align-items: center; justify-content: center; padding: 1.5rem; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); text-align: center; position: relative; transform-style: preserve-3d; cursor: pointer; 
+        }
+        
+        /* Game Screen specific */
+        #game-screen { flex: 1; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 10px; }
+        .game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
+        .game-question-text { font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); margin-bottom: 20px; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
+        
+        .game-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 95%; max-width: 500px; margin-bottom: 20px; }
+        .game-option {
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 20px; padding: 15px; font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s, background 0.2s; display: flex; justify-content: center; align-items: center;
+        }
+        .game-option:active { transform: scale(0.9); }
+        .game-option.correct { background: var(--success); color: white; border-color: white; box-shadow: 0 0 30px var(--success); }
+        .game-option.wrong { background: var(--danger); color: white; border-color: white; }
+
+        .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
+        .controls-container { display: flex; gap: 0.8rem; padding: 0.8rem; border-radius: 50px; margin: 0 1rem 0.5rem 1rem; align-items: center; justify-content: center; flex-wrap: wrap; width: 95%; max-width: 600px; flex-shrink: 0;}
+
+        /* Animations */
+        .scale-in { animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes scaleIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .bounce-anim { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-8px); } }
+        .flip-next { animation: flipNextAnim 0.6s cubic-bezier(0.4, 0.2, 0.2, 1) forwards; }
+        @keyframes flipNextAnim { 0% { transform: rotateY(90deg) scale(0.8) translateX(200px); opacity: 0; } 100% { transform: rotateY(0deg) scale(1) translateX(0); opacity: 1; } }
+        .flip-prev { animation: flipPrevAnim 0.6s cubic-bezier(0.4, 0.2, 0.2, 1) forwards; }
+        @keyframes flipPrevAnim { 0% { transform: rotateY(-90deg) scale(0.8) translateX(-200px); opacity: 0; } 100% { transform: rotateY(0deg) scale(1) translateX(0); opacity: 1; } }
+        
+        .correct-anim { animation: correctAnim 0.5s ease; }
+        @keyframes correctAnim { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .shake-anim { animation: shakeAnim 0.4s ease; }
+        @keyframes shakeAnim { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 50% { transform: translateX(10px); } 75% { transform: translateX(-10px); } }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Start Screen -->
+    <div id="start-overlay" class="overlay active">
+        <div class="glass-panel scale-in">
+            <h1 style="font-size: 3.5rem; margin-bottom: 10px;">EduPlay! 🌟</h1>
+            <p style="margin-bottom: 2rem; font-size: 1.2rem; font-weight: bold; color: #333;">Universal Fonts Edition</p>
+            <button id="btn-start" class="btn-large bounce-anim" style="margin: 0 auto; margin-bottom: 15px;">Start Learning ▶</button>
+            <button id="btn-install" class="btn-large success hidden" style="margin: 0 auto;">💾 Install App</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="overlay hidden">
+        <div class="modal scale-in">
+            <h2>⚙️ Audio Settings</h2>
+            <div class="setting-row">
+                <label>Sound & Voice</label>
+                <button id="toggle-mute" class="btn-large" style="padding: 0.5rem 1rem;">🔊 ON</button>
+            </div>
+            <div class="setting-row">
+                <label>Volume</label>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+            </div>
+            <button id="btn-close-settings" class="btn-large secondary" style="width: 100%; margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <main id="app-container" class="hidden">
+        <header class="glass-header">
+            <!-- EXPLICIT BACK BUTTON -->
+            <button id="btn-home" class="btn-large secondary hidden" style="font-size: 1.2rem; padding: 0.5rem 1rem; border-radius: 15px;">⬅️ Back</button>
+            <h2 id="app-title" style="margin:0; font-size:1.6rem; color:#2B2D42; font-weight:bold; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Categories</h2>
+            <div class="header-controls">
+                <button id="btn-install-header" class="btn-icon hidden" title="Install App">💾</button>
+                <button id="btn-settings" class="btn-icon">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Categories Grid -->
+        <section id="home-screen" class="grid-container scale-in active"></section>
+
+        <!-- Flashcards Screen -->
+        <section id="module-screen" class="hidden">
+            <div class="flashcard-container">
+                <div style="width: 100%; text-align: center; padding: 0 10px;">
+                    <div class="card-counter"><span id="current-card-num">1</span> / <span id="total-card-num">26</span></div>
+                    <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+                </div>
+                <br>
+                <div id="flashcard" class="card">
+                    <div class="card-inner flex-col">
+                        <div id="card-front-content" class="card-front flex-col" style="justify-content: space-between;">
+                            <div id="card-main-text" class="huge-text"></div>
+                            <div id="card-image-wrapper" class="card-image-wrapper">
+                                <img id="card-real-img" class="real-img hidden bounce-anim" src="" alt="" onerror="this.style.display='none';">
+                                <div id="card-emoji-img" class="emoji-text hidden bounce-anim">🍎</div>
+                            </div>
+                            <div id="card-sub-text" class="sub-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-container glass-panel">
+                <button id="btn-prev" class="btn-large secondary" title="Previous Card">◀</button>
+                <button id="btn-auto" class="btn-large success" title="Auto Play">▶ Auto</button>
+                <button id="btn-random" class="btn-large secondary" title="Random Card">🔀</button>
+                <button id="btn-repeat" class="btn-large secondary" title="Listen Again">🔊</button>
+                <button id="btn-next" class="btn-large secondary" title="Next Card">▶</button>
+            </div>
+        </section>
+
+        <!-- Interactive Games Screen -->
+        <section id="game-screen" class="hidden">
+            <div class="glass-panel" style="width: 95%; max-width: 600px; margin: 10px auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 20px;">
+                <!-- DEDICATED EXIT GAME BUTTON -->
+                <button id="btn-exit-game" class="btn-large secondary" style="font-size: 1.2rem; padding: 0.5rem 1rem; border-radius: 10px;">⬅️ Exit</button>
+                <div class="card-counter" style="font-size: 1.5rem;">Score: <span id="game-score">0</span></div>
+            </div>
+            
+            <div class="game-question-area">
+                <div id="game-question-text" class="game-question-text">Find the letter...</div>
+                <div style="display: flex; justify-content: center; align-items: center; height: 180px; margin-bottom: 20px;">
+                    <img id="game-real-img" class="hidden bounce-anim" style="max-height: 180px; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.3));" src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div id="game-emoji-img" class="emoji-text bounce-anim" style="font-size: 8rem;">🍎</div>
+                </div>
+            </div>
+
+            <div id="game-options" class="game-options-grid"></div>
+        </section>
+    </main>
+
+    <script>
+        /* =========================================
+           COMPLETE DATA CONFIGURATION 
+           ========================================= */
+        const genAlpha = (isLower) => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => {
+            let l = isLower ? c.toLowerCase() : c; return { main: l, sub: "", emoji: "", img: "", speak: l };
+        });
+
+        const alphabetWordsData = [
+            { main: "A", sub: "A for Apple", emoji: "🍎", img: "apple.png", speak: "A. A for Apple." },
+            { main: "B", sub: "B for Ball", emoji: "⚽", img: "ball.png", speak: "B. B for Ball." },
+            { main: "C", sub: "C for Cat", emoji: "🐱", img: "cat.png", speak: "C. C for Cat." },
+            { main: "D", sub: "D for Dog", emoji: "🐶", img: "dog.png", speak: "D. D for Dog." },
+            { main: "E", sub: "E for Elephant", emoji: "🐘", img: "elephant.png", speak: "E. E for Elephant." },
+            { main: "F", sub: "F for Fish", emoji: "🐟", img: "fish.png", speak: "F. F for Fish." },
+            { main: "G", sub: "G for Grapes", emoji: "🍇", img: "grapes.png", speak: "G. G for Grapes." },
+            { main: "H", sub: "H for Hen", emoji: "🐔", img: "hen.png", speak: "H. H for Hen." },
+            { main: "I", sub: "I for Ice Cream", emoji: "🍦", img: "ice.png", speak: "I. I for Ice Cream." },
+            { main: "J", sub: "J for Jug", emoji: "🏺", img: "jug.png", speak: "J. J for Jug." },
+            { main: "K", sub: "K for Kite", emoji: "🪁", img: "kite.png", speak: "K. K for Kite." },
+            { main: "L", sub: "L for Lion", emoji: "🦁", img: "lion.png", speak: "L. L for Lion." },
+            { main: "M", sub: "M for Mango", emoji: "🥭", img: "mango.png", speak: "M. M for Mango." },
+            { main: "N", sub: "N for Nest", emoji: "🪹", img: "nest.png", speak: "N. N for Nest." },
+            { main: "O", sub: "O for Orange", emoji: "🍊", img: "orange.png", speak: "O. O for Orange." },
+            { main: "P", sub: "P for Parrot", emoji: "🦜", img: "parrot.png", speak: "P. P for Parrot." },
+            { main: "Q", sub: "Q for Queen", emoji: "👑", img: "queen.png", speak: "Q. Q for Queen." },
+            { main: "R", sub: "R for Rabbit", emoji: "🐰", img: "rabbit.png", speak: "R. R for Rabbit." },
+            { main: "S", sub: "S for Sun", emoji: "☀️", img: "sun.png", speak: "S. S for Sun." },
+            { main: "T", sub: "T for Tiger", emoji: "🐅", img: "tiger.png", speak: "T. T for Tiger." },
+            { main: "U", sub: "U for Umbrella", emoji: "☂️", img: "umbrella.png", speak: "U. U for Umbrella." },
+            { main: "V", sub: "V for Van", emoji: "🚐", img: "van.png", speak: "V. V for Van." },
+            { main: "W", sub: "W for Watch", emoji: "⌚", img: "watch.png", speak: "W. W for Watch." },
+            { main: "X", sub: "X for Xylophone", emoji: "🎹", img: "xylophone.png", speak: "X. X for Xylophone." },
+            { main: "Y", sub: "Y for Yak", emoji: "🐂", img: "yak.png", speak: "Y. Y for Yak." },
+            { main: "Z", sub: "Z for Zebra", emoji: "🦓", img: "zebra.png", speak: "Z. Z for Zebra." }
+        ];
+
+        const genNumbers = () => Array.from({length: 100}, (_, i) => ({ main: (i+1).toString(), sub: "", emoji: "", img: "", speak: (i+1).toString() }));
+        const genDots = () => Array.from({length: 20}, (_, i) => ({ main: (i+1).toString(), sub: "", emoji: Array(i+1).fill("🔴").join(" "), img: "", speak: (i+1).toString() }));
+        const countMap = ['🍎','🐶','🚗','⭐','🍓','🏀','🦋','🎈','🧸','📚'];
+        const genCounting = () => countMap.map((emoji, i) => {
+            let num = Math.floor(Math.random() * 5) + 2; 
+            return { main: num.toString(), sub: `Count the items`, emoji: Array(num).fill(emoji).join(" "), img: "", speak: `There are ${num} items.` };
+        });
+
+        const listToObj = (arr) => arr.map(item => ({ main: "", sub: item[0], emoji: item[1] || "", img: item[2] || "", speak: item[0] }));
+
+        const fruits = [['Apple','🍎','apple.png'],['Banana','🍌','banana.png'],['Orange','🍊','orange.png'],['Mango','🥭','mango.png'],['Grapes','🍇','grapes.png'],['Guava','🍐','guava.png'],['Papaya','🍈','papaya.png'],['Pineapple','🍍','pineapple.png'],['Watermelon','🍉','watermelon.png'],['Pear','🍐','pear.png'],['Cherry','🍒','cherry.png'],['Peach','🍑','peach.png'],['Kiwi','🥝','kiwi.png'],['Strawberry','🍓','strawberry.png'],['Pomegranate','🍎','pomegranate.png'],['Coconut','🥥','coconut.png'],['Lemon','🍋','lemon.png'],['Lychee','🍒','lychee.png'],['Dragon Fruit','🐉','dragonfruit.png'],['Avocado','🥑','avocado.png']];
+        const vegetables = [['Carrot','🥕','carrot.png'],['Potato','🥔','potato.png'],['Tomato','🍅','tomato.png'],['Onion','🧅','onion.png'],['Corn','🌽','corn.png'],['Broccoli','🥦','broccoli.png'],['Cabbage','🥬','cabbage.png'],['Peas','🫛','peas.png'],['Spinach','🥬','spinach.png'],['Mushroom','🍄','mushroom.png'],['Eggplant','🍆','eggplant.png'],['Cucumber','🥒','cucumber.png'],['Bell Pepper','🫑','bellpepper.png'],['Garlic','🧄','garlic.png'],['Ginger','🫚','ginger.png'],['Chili','🌶️','chili.png'],['Pumpkin','🎃','pumpkin.png'],['Radish','🥗','radish.png'],['Sweet Potato','🍠','sweetpotato.png'],['Cauliflower','🥦','cauliflower.png']];
+        const animals = [['Lion','🦁','lion.png'],['Tiger','🐅','tiger.png'],['Elephant','🐘','elephant.png'],['Monkey','🐒','monkey.png'],['Dog','🐶','dog.png'],['Cat','🐱','cat.png'],['Cow','🐄','cow.png'],['Buffalo','🐃','buffalo.png'],['Horse','🐎','horse.png'],['Goat','🐐','goat.png'],['Sheep','🐑','sheep.png'],['Camel','🐫','camel.png'],['Rabbit','🐰','rabbit.png'],['Bear','🐻','bear.png'],['Fox','🦊','fox.png'],['Wolf','🐺','wolf.png'],['Deer','🦌','deer.png'],['Zebra','🦓','zebra.png'],['Giraffe','🦒','giraffe.png'],['Kangaroo','🦘','kangaroo.png'],['Panda','🐼','panda.png'],['Cheetah','🐆','cheetah.png']];
+        const birds = [['Parrot','🦜','parrot.png'],['Peacock','🦚','peacock.png'],['Eagle','🦅','eagle.png'],['Duck','🦆','duck.png'],['Owl','🦉','owl.png'],['Chicken','🐔','chicken.png'],['Pigeon','🕊️','pigeon.png'],['Crow','🐦‍⬛','crow.png'],['Sparrow','🐦','sparrow.png'],['Penguin','🐧','penguin.png'],['Swan','🦢','swan.png'],['Flamingo','🦩','flamingo.png'],['Ostrich','🴩','ostrich.png'],['Turkey','🦃','turkey.png']];
+        const transport = [['Car','🚗','car.png'],['Bus','🚌','bus.png'],['Train','🚂','train.png'],['Airplane','✈️','airplane.png'],['Bicycle','🚲','bicycle.png'],['Ship','🚢','ship.png'],['Motorcycle','🏍️','motorcycle.png'],['Helicopter','🚁','helicopter.png'],['Truck','🚚','truck.png'],['Tractor','🚜','tractor.png'],['Boat','⛵','boat.png'],['Ambulance','🚑','ambulance.png'],['Fire Truck','🚒','firetruck.png'],['Police Car','🚓','policecar.png'],['Rocket','🚀','rocket.png']];
+        const colors = [['Red','🟥','red.png'],['Blue','🟦','blue.png'],['Green','🟩','green.png'],['Yellow','🟨','yellow.png'],['Orange','🟧','orange.png'],['Purple','🟪','purple.png'],['Pink','🌸','pink.png'],['Brown','🟫','brown.png'],['Black','⬛','black.png'],['White','⬜','white.png'],['Grey','🔲','grey.png'],['Gold','🥇','gold.png'],['Silver','🥈','silver.png'],['Violet','🔮','violet.png'],['Maroon','🍷','maroon.png'],['Sky Blue','🩵','skyblue.png'],['Light Green','🍵','lightgreen.png'],['Dark Blue','🌌','darkblue.png'],['Navy Blue','⚓','navyblue.png'],['Turquoise','🌊','turquoise.png'],['Cyan','💎','cyan.png'],['Magenta','🌺','magenta.png'],['Beige','🐪','beige.png'],['Cream','🍦','cream.png']];
+        const shapes = [['Circle','🔴','circle.png'],['Square','🟥','square.png'],['Triangle','🔺','triangle.png'],['Rectangle','🟩','rectangle.png'],['Oval','🥚','oval.png'],['Diamond','♦️','diamond.png'],['Heart','❤️','heart.png'],['Star','⭐','star.png'],['Pentagon','⬟','pentagon.png'],['Hexagon','⬢','hexagon.png'],['Octagon','🛑','octagon.png'],['Cube','🧊','cube.png'],['Cone','🛕','cone.png'],['Cylinder','🥫','cylinder.png'],['Sphere','🔮','sphere.png'],['Semi Circle','🌗','semicircle.png'],['Crescent','🌙','crescent.png'],['Arrow','➡️','arrow.png'],['Cross','➕','cross.png']];
+        const body_parts = [['Eye','👁️','eye.png'],['Ear','👂','ear.png'],['Nose','👃','nose.png'],['Mouth','👄','mouth.png'],['Hand','✋','hand.png'],['Foot','🦶','foot.png'],['Leg','🦵','leg.png'],['Arm','💪','arm.png'],['Teeth','🦷','teeth.png'],['Tongue','👅','tongue.png'],['Hair','💇','hair.png'],['Face','👱','face.png'],['Fingers','🖐️','fingers.png'],['Toes','🦶','toes.png'],['Brain','🧠','brain.png']];
+        const school = [['Book','📚','book.png'],['Bag','🎒','bag.png'],['Pencil','✏️','pencil.png'],['Pen','🖊️','pen.png'],['Ruler','📏','ruler.png'],['Eraser','🧽','eraser.png'],['Scissors','✂️','scissors.png'],['Crayons','🖍️','crayons.png'],['Desk','🪑','desk.png'],['Chair','🪑','chair.png'],['Blackboard','🏫','blackboard.png'],['Globe','🌍','globe.png'],['Calculator','🖩','calculator.png'],['Microscope','🔬','microscope.png'],['Bell','🔔','bell.png']];
+        
+        const urduLetters = ['ا','ب','پ','ت','ٹ','ث','ج','چ','ح','خ','د','ڈ','ذ','ر','ڑ','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ہ','ء','ی','ے'];
+        const genUrdu = () => urduLetters.map(l => ({ main: l, sub: "", emoji: "", img: "", speak: "" }));
+        const urduWordsMap = {'ا':['انار','🍎'],'ب':['بکری','🐐'],'پ':['پتنگ','🪁'],'ت':['تتلی','🦋'],'ٹ':['ٹماٹر','🍅'],'ث':['ثمر','🍎'],'ج':['جوتا','👞'],'چ':['چاند','🌙'],'ح':['حلوہ','🍮'],'خ':['خرگوش','🐰'],'د':['درخت','🌳'],'ڈ':['ڈھول','🥁'],'ذ':['ذخیرہ','📦'],'ر':['ریل','🚂'],'ڑ':['پہاڑ','⛰️'],'ز':['زیبرا','🦓'],'ژ':['ژالہ باری','🌨️'],'س':['سیب','🍎'],'ش':['شیر','🦁'],'ص':['صابن','🧼'],'ض':['ضعیف','👴'],'ط':['طوطا','🦜'],'ظ':['ظروف','🏺'],'ع':['عینک','👓'],'غ':['غبارہ','🎈'],'ف':['فوارہ','⛲'],'ق':['قینچی','✂️'],'ک':['کتاب','📚'],'گ':['گائے','🐄'],'ل':['لومڑی','🦊'],'م':['مچھلی','🐟'],'ن':['ناریل','🥥'],'و':['ورق','📄'],'ہ':['ہاتھی','🐘'],'ی':['یاک','🐂'],'ے':['یقین','🙏']};
+        const genUrduWords = () => urduLetters.filter(l => urduWordsMap[l]).map(l => ({ main: l, sub: `${l} سے ${urduWordsMap[l][0]}`, emoji: urduWordsMap[l][1], img: "", speak: "" }));
+
+        const appData = {
+            categories: [
+                { id: "alphabets", name: "Uppercase A-Z", icon: "🅰️", color: "#FF9F1C" },
+                { id: "lowercase", name: "Lowercase a-z", icon: "a", color: "#4EA8DE" },
+                { id: "alphabet_words", name: "Alphabet Words", icon: "🍎", color: "#EF476F" },
+                { id: "numbers", name: "Numbers 1-100", icon: "1️⃣", color: "#2EC4B6" },
+                { id: "number_dots", name: "Number Dots", icon: "🔴", color: "#8338EC" },
+                { id: "counting", name: "Counting Objects", icon: "🧸", color: "#F72585" },
+                { id: "colors", name: "Colors", icon: "🎨", color: "#FF61A6" },
+                { id: "shapes", name: "Shapes", icon: "⭐", color: "#9D4EDD" },
+                { id: "fruits", name: "Fruits", icon: "🍓", color: "#F07167" },
+                { id: "vegetables", name: "Vegetables", icon: "🥕", color: "#00AFB9" },
+                { id: "animals", name: "Animals", icon: "🦁", color: "#FFBF00" },
+                { id: "birds", name: "Birds", icon: "🦜", color: "#0081A7" },
+                { id: "transport", name: "Transport", icon: "🚗", color: "#6D597A" },
+                { id: "body_parts", name: "Body Parts", icon: "👁️", color: "#E07A5F" },
+                { id: "school", name: "School Objects", icon: "🎒", color: "#3D5A80" },
+                { id: "urdu", name: "Urdu Hurf-e-Tehji", icon: "ا", color: "#2A9D8F" },
+                { id: "urdu_pics", name: "Urdu Pictures", icon: "🕌", color: "#E76F51" },
+                { id: "games", name: "Interactive Games", icon: "🎮", color: "#8AC926", isGame: true }
+            ],
+            modules: {
+                alphabets: genAlpha(false), lowercase: genAlpha(true), alphabet_words: alphabetWordsData,
+                numbers: genNumbers(), number_dots: genDots(), counting: genCounting(),
+                colors: listToObj(colors), shapes: listToObj(shapes), fruits: listToObj(fruits),
+                vegetables: listToObj(vegetables), animals: listToObj(animals), birds: listToObj(birds),
+                transport: listToObj(transport), body_parts: listToObj(body_parts), school: listToObj(school),
+                urdu: genUrdu(), urdu_pics: genUrduWords()
+            }
+        };
+
+        /* =========================================
+           PWA INSTALLATION LOGIC
+           ========================================= */
+        let deferredPrompt;
+        const btnInstall = document.getElementById('btn-install');
+        const btnInstallHeader = document.getElementById('btn-install-header');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); deferredPrompt = e;
+            btnInstall.classList.remove('hidden'); btnInstallHeader.classList.remove('hidden');
+        });
+
+        const installApp = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') { btnInstall.classList.add('hidden'); btnInstallHeader.classList.add('hidden'); }
+                deferredPrompt = null;
+            }
+        };
+        btnInstall.addEventListener('click', installApp); btnInstallHeader.addEventListener('click', installApp);
+
+        /* =========================================
+           CORE APP ENGINE
+           ========================================= */
+        document.addEventListener("DOMContentLoaded", () => {
+            const startOverlay = document.getElementById("start-overlay");
+            const appContainer = document.getElementById("app-container");
+            const homeScreen = document.getElementById("home-screen");
+            const moduleScreen = document.getElementById("module-screen");
+            const gameScreen = document.getElementById("game-screen");
+            const btnHome = document.getElementById("btn-home");
+            const appTitle = document.getElementById("app-title");
+            
+            // Flashcard UI
+            const cardFrontContent = document.getElementById("card-front-content");
+            const cardImageWrapper = document.getElementById("card-image-wrapper");
+            const cardMainText = document.getElementById("card-main-text");
+            const cardSubText = document.getElementById("card-sub-text");
+            const cardEmojiImg = document.getElementById("card-emoji-img");
+            const cardRealImg = document.getElementById("card-real-img");
+            const flashcard = document.getElementById("flashcard");
+            
+            // Game UI
+            const gameQuestionText = document.getElementById("game-question-text");
+            const gameRealImg = document.getElementById("game-real-img");
+            const gameEmojiImg = document.getElementById("game-emoji-img");
+            const gameOptionsContainer = document.getElementById("game-options");
+            const gameScoreElement = document.getElementById("game-score");
+            const btnExitGame = document.getElementById("btn-exit-game");
+
+            let currentModule = []; let currentIndex = 0; let isAutoPlaying = false; let autoPlayInterval;
+            
+            let userSettings = JSON.parse(localStorage.getItem('eduplaySettings')) || { mute: false, volume: 1.0 };
+            function applySettings() {
+                document.getElementById("toggle-mute").innerText = userSettings.mute ? "🔇 OFF" : "🔊 ON";
+                document.getElementById("toggle-mute").style.background = userSettings.mute ? "#E63946" : "var(--success)";
+                document.getElementById("volume-slider").value = userSettings.volume;
+                localStorage.setItem('eduplaySettings', JSON.stringify(userSettings));
+            }
+            applySettings();
+            document.getElementById("toggle-mute").addEventListener("click", () => { userSettings.mute = !userSettings.mute; if(userSettings.mute) window.speechSynthesis.cancel(); applySettings(); });
+            document.getElementById("volume-slider").addEventListener("input", (e) => { userSettings.volume = parseFloat(e.target.value); applySettings(); });
+            document.getElementById("btn-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
+            document.getElementById("btn-close-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
+
+            document.getElementById("btn-start").addEventListener("click", () => {
+                const unlockUtterance = new SpeechSynthesisUtterance(""); unlockUtterance.volume = 0; window.speechSynthesis.speak(unlockUtterance);
+                startOverlay.classList.remove("active"); startOverlay.classList.add("hidden");
+                appContainer.classList.remove("hidden"); appContainer.classList.add("active");
+                renderHome();
+            });
+
+            function renderHome() {
+                homeScreen.innerHTML = ""; appTitle.innerText = "Categories"; btnHome.classList.add("hidden");
+                appData.categories.forEach(cat => {
+                    const card = document.createElement("div");
+                    card.className = "category-card"; card.style.borderBottom = `8px solid ${cat.color}`;
+                    card.innerHTML = `<span class="icon">${cat.icon}</span><span style="color:#2B2D42;">${cat.name}</span>`;
+                    card.addEventListener("click", () => { if (cat.isGame) { loadGamesMenu(); } else { loadModule(cat.id, cat.name); } });
+                    homeScreen.appendChild(card);
+                });
+            }
+
+            function loadModule(moduleId, moduleName) {
+                currentModule = appData.modules[moduleId]; currentIndex = 0;
+                document.getElementById("total-card-num").innerText = currentModule.length;
+                appTitle.innerText = moduleName;
+                homeScreen.classList.remove("active"); homeScreen.classList.add("hidden");
+                gameScreen.classList.remove("active"); gameScreen.classList.add("hidden");
+                moduleScreen.classList.remove("hidden"); moduleScreen.classList.add("active");
+                btnHome.classList.remove("hidden");
+                stopAutoPlay(); showCard(currentIndex, 'scale-in');
+            }
+
+            function makeColorful3D(text, isUrdu) {
+                if (!text) return ""; if (isUrdu || /[\u0600-\u06FF]/.test(text)) return text; 
+                let html = "", colorCounter = 1;
+                for (let char of text) {
+                    if (char === ' ') html += '&nbsp;';
+                    else { html += `<span class="colorful-letter c-${(colorCounter % 6) + 1}">${char}</span>`; colorCounter++; }
+                } return html;
+            }
+
+            function showCard(index, animation) {
+                if(index < 0) index = currentModule.length - 1; if(index >= currentModule.length) index = 0;
+                currentIndex = index; const data = currentModule[currentIndex];
+                
+                document.getElementById("current-card-num").innerText = currentIndex + 1;
+                document.getElementById("progress-bar").style.width = `${((currentIndex + 1) / currentModule.length) * 100}%`;
+                flashcard.className = `card ${animation}`; setTimeout(() => flashcard.classList.remove(animation), 600);
+
+                let isUrduMain = /[\u0600-\u06FF]/.test(data.main); let isUrduSub = /[\u0600-\u06FF]/.test(data.sub);
+                let hasImage = (data.img && data.img !== "") || (data.emoji && data.emoji !== "");
+                let hasSub = (data.sub && data.sub !== "");
+
+                if (hasImage) cardImageWrapper.classList.remove("hidden"); else cardImageWrapper.classList.add("hidden");
+                if (!hasImage && !hasSub) { cardFrontContent.style.justifyContent = "center"; cardMainText.style.minHeight = "auto"; } 
+                else { cardFrontContent.style.justifyContent = "space-between"; }
+
+                // AUTO-SCALER FOR LONG LETTERS/WORDS
+                if (data.main) {
+                    cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain); 
+                    cardMainText.className = isUrduMain ? "urdu-text" : "huge-text"; 
+                    
+                    let mainLen = data.main.length;
+                    if (mainLen > 8) {
+                        cardMainText.style.fontSize = "clamp(2rem, 8vw, 4rem)";
+                    } else if (mainLen > 4) {
+                        cardMainText.style.fontSize = "clamp(2.5rem, 10vw, 6rem)";
+                    } else {
+                        cardMainText.style.fontSize = ""; // reset to CSS default
+                    }
+                    cardMainText.classList.remove("hidden"); 
+                } else {
+                    cardMainText.classList.add("hidden");
+                }
+                
+                if(data.sub) { cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub); cardSubText.className = isUrduSub ? "urdu-text" : "sub-text"; cardSubText.classList.remove("hidden"); } else cardSubText.classList.add("hidden");
+                
+                cardRealImg.classList.add("hidden"); cardEmojiImg.classList.add("hidden");
+                if (data.img && data.img !== "") {
+                    cardRealImg.style.display = "block"; cardRealImg.src = data.img; cardRealImg.classList.remove("hidden");
+                } else if (data.emoji) {
+                    cardEmojiImg.innerText = data.emoji; cardEmojiImg.classList.remove("hidden");
+                    let emojiCount = [...data.emoji.replace(/ /g, '')].length; 
+                    if (emojiCount >= 10) cardEmojiImg.style.fontSize = "clamp(1.5rem, 5vh, 3rem)"; else if (emojiCount > 1) cardEmojiImg.style.fontSize = "clamp(2.5rem, 8vh, 5rem)"; else cardEmojiImg.style.fontSize = ""; 
+                }
+                speak(data.speak);
+            }
+
+            function speak(text) {
+                if(userSettings.mute || !text) return; window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.85; utterance.pitch = 1.1; utterance.volume = userSettings.volume; utterance.lang = 'en-US'; 
+                window.speechSynthesis.speak(utterance);
+            }
+
+            // Controls
+            document.getElementById("btn-next").addEventListener("click", () => { stopAutoPlay(); showCard(currentIndex + 1, 'flip-next'); });
+            document.getElementById("btn-prev").addEventListener("click", () => { stopAutoPlay(); showCard(currentIndex - 1, 'flip-prev'); });
+            document.getElementById("btn-repeat").addEventListener("click", () => showCard(currentIndex, 'bounce-anim'));
+            document.getElementById("btn-random").addEventListener("click", () => {
+                stopAutoPlay(); let randomIdx = Math.floor(Math.random() * currentModule.length);
+                if (currentModule.length > 1 && randomIdx === currentIndex) randomIdx = (randomIdx + 1) % currentModule.length; showCard(randomIdx, 'flip-next'); 
+            });
+
+            document.getElementById("btn-auto").addEventListener("click", () => {
+                if(isAutoPlaying) stopAutoPlay(); else {
+                    isAutoPlaying = true; document.getElementById("btn-auto").innerHTML = "⏸ Stop"; document.getElementById("btn-auto").classList.replace("success", "secondary");
+                    autoPlayInterval = setInterval(() => { showCard(currentIndex + 1, 'flip-next'); }, 3000);
+                }
+            });
+            function stopAutoPlay() { isAutoPlaying = false; clearInterval(autoPlayInterval); document.getElementById("btn-auto").innerHTML = "▶ Auto"; document.getElementById("btn-auto").classList.replace("secondary", "success"); }
+            
+            // THE UNIVERSAL BACK BUTTON
+            btnHome.addEventListener("click", () => {
+                window.speechSynthesis.cancel(); stopAutoPlay();
+                moduleScreen.classList.remove("active"); moduleScreen.classList.add("hidden");
+                gameScreen.classList.remove("active"); gameScreen.classList.add("hidden");
+                homeScreen.classList.remove("hidden"); homeScreen.classList.add("active");
+                renderHome(); // Redraws the main menu safely
+            });
+
+            flashcard.addEventListener('touchstart', e => { window.touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+            flashcard.addEventListener('touchend', e => {
+                let touchEndX = e.changedTouches[0].screenX;
+                if (window.touchStartX - touchEndX > 50) { stopAutoPlay(); showCard(currentIndex + 1, 'flip-next'); } 
+                if (touchEndX - window.touchStartX > 50) { stopAutoPlay(); showCard(currentIndex - 1, 'flip-prev'); }  
+            }, {passive: true});
+
+            /* =========================================
+               INTERACTIVE GAMES ENGINE
+               ========================================= */
+            let gameScore = 0; let currentGameType = ""; let correctAnswer = "";
+
+            function loadGamesMenu() {
+                homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden");
+                
+                // ALL 6 GAMES INCLUDED
+                const gamesList = [
+                    { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" },
+                    { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" },
+                    { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" },
+                    { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" },
+                    { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" },
+                    { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }
+                ];
+                
+                gamesList.forEach(game => {
+                    const card = document.createElement("div"); card.className = "category-card"; card.style.borderBottom = `8px solid ${game.color}`;
+                    card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`;
+                    card.addEventListener("click", () => startGame(game.id));
+                    homeScreen.appendChild(card);
+                });
+            }
+
+            function startGame(gameId) {
+                currentGameType = gameId; gameScore = 0; gameScoreElement.innerText = gameScore;
+                homeScreen.classList.remove("active"); homeScreen.classList.add("hidden");
+                moduleScreen.classList.add("hidden");
+                gameScreen.classList.remove("hidden"); gameScreen.classList.add("active");
+                generateGameRound();
+            }
+
+            // DEDICATED EXIT GAME BUTTON
+            btnExitGame.addEventListener("click", () => {
+                window.speechSynthesis.cancel();
+                gameScreen.classList.remove("active"); gameScreen.classList.add("hidden");
+                homeScreen.classList.remove("hidden"); homeScreen.classList.add("active");
+                loadGamesMenu(); // Back to games menu
+            });
+
+            function setGameImage(item) {
+                gameRealImg.classList.add("hidden"); gameEmojiImg.classList.add("hidden");
+                if (item.img && item.img !== "") { gameRealImg.src = item.img; gameRealImg.style.display = "block"; gameRealImg.classList.remove("hidden"); } 
+                else if (item.emoji) { gameEmojiImg.innerText = item.emoji; gameEmojiImg.classList.remove("hidden"); }
+            }
+
+            function generateGameRound() {
+                gameOptionsContainer.innerHTML = ""; gameRealImg.className = "real-img scale-in";
+                gameEmojiImg.className = "emoji-text scale-in"; gameEmojiImg.style.fontSize = "8rem"; 
+                
+                if (currentGameType === "findLetter") {
+                    let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)];
+                    correctAnswer = randomItem.main;
+                    gameQuestionText.innerText = `Find the letter for ${randomItem.sub.split(" for ")[1]}!`;
+                    setGameImage(randomItem); speak(gameQuestionText.innerText);
+
+                    let options = [correctAnswer];
+                    while(options.length < 4) {
+                        let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); 
+                        if(!options.includes(randomChar)) options.push(randomChar);
+                    }
+                    options.sort(() => Math.random() - 0.5); 
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt;
+                        btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer));
+                        gameOptionsContainer.appendChild(btn);
+                    });
+                }
+                else if (currentGameType === "missingLetter") {
+                    let idx = Math.floor(Math.random() * 23); let l1 = String.fromCharCode(65 + idx); let l2 = String.fromCharCode(65 + idx + 1); let l3 = String.fromCharCode(65 + idx + 2);
+                    let hideIdx = Math.floor(Math.random() * 3); correctAnswer = String.fromCharCode(65 + idx + hideIdx);
+                    let displayString = "";
+                    if(hideIdx === 0) displayString = `_  ${l2}  ${l3}`;
+                    if(hideIdx === 1) displayString = `${l1}  _  ${l3}`;
+                    if(hideIdx === 2) displayString = `${l1}  ${l2}  _`;
+
+                    gameQuestionText.innerText = "What is the missing letter?";
+                    gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden");
+                    gameEmojiImg.innerText = displayString; gameEmojiImg.style.fontSize = "clamp(3rem, 10vh, 5rem)"; speak("What is the missing letter?");
+
+                    let options = [correctAnswer];
+                    while(options.length < 4) {
+                        let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                        if(!options.includes(randomChar)) options.push(randomChar);
+                    }
+                    options.sort(() => Math.random() - 0.5); 
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt;
+                        btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn);
+                    });
+                }
+                else if (currentGameType === "countObjects") {
+                    let num = Math.floor(Math.random() * 8) + 2; let randomEmoji = ['🍎','🐶','🚗','⭐','🏀'][Math.floor(Math.random() * 5)];
+                    correctAnswer = num.toString();
+                    gameQuestionText.innerText = "How many are there?";
+                    gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden");
+                    gameEmojiImg.innerText = Array(num).fill(randomEmoji).join(" "); gameEmojiImg.style.fontSize = "clamp(2rem, 8vh, 4rem)";
+                    speak("How many are there?");
+
+                    let options = [num];
+                    while(options.length < 4) {
+                        let wrongNum = Math.floor(Math.random() * 9) + 1;
+                        if(!options.includes(wrongNum)) options.push(wrongNum);
+                    }
+                    options.sort(() => Math.random() - 0.5);
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt;
+                        btn.addEventListener("click", () => handleAnswer(btn, opt.toString() === correctAnswer)); gameOptionsContainer.appendChild(btn);
+                    });
+                }
+                else if (currentGameType === "matchPicture") {
+                    let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)];
+                    correctAnswer = randomItem.emoji; let targetWord = randomItem.sub.split(" for ")[1];
+                    gameQuestionText.innerText = `Where is the ${targetWord}?`;
+                    gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = "❓";
+                    speak(`Where is the ${targetWord}?`);
+
+                    let options = [randomItem]; 
+                    while(options.length < 4) {
+                        let wrongItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)];
+                        if(!options.some(opt => opt.emoji === wrongItem.emoji)) options.push(wrongItem);
+                    }
+                    options.sort(() => Math.random() - 0.5);
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; 
+                        if (opt.img && opt.img !== "") { btn.innerHTML = `<img src="${opt.img}" style="max-height:80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none;">${opt.emoji}</span>`; } 
+                        else { btn.innerText = opt.emoji; }
+                        btn.addEventListener("click", () => handleAnswer(btn, opt.emoji === correctAnswer)); gameOptionsContainer.appendChild(btn);
+                    });
+                }
+                else if (currentGameType === "guessColor") {
+                    let randomItem = colors[Math.floor(Math.random() * colors.length)];
+                    correctAnswer = randomItem[0]; gameQuestionText.innerText = "What color is this?";
+                    setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What color is this?");
+
+                    let options = [correctAnswer];
+                    while(options.length < 4) {
+                        let wrongColor = colors[Math.floor(Math.random() * colors.length)][0];
+                        if(!options.includes(wrongColor)) options.push(wrongColor);
+                    }
+                    options.sort(() => Math.random() - 0.5);
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt;
+                        btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn);
+                    });
+                }
+                else if (currentGameType === "guessShape") {
+                    let randomItem = shapes[Math.floor(Math.random() * shapes.length)];
+                    correctAnswer = randomItem[0]; gameQuestionText.innerText = "What shape is this?";
+                    setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What shape is this?");
+
+                    let options = [correctAnswer];
+                    while(options.length < 4) {
+                        let wrongShape = shapes[Math.floor(Math.random() * shapes.length)][0];
+                        if(!options.includes(wrongShape)) options.push(wrongShape);
+                    }
+                    options.sort(() => Math.random() - 0.5);
+                    options.forEach(opt => {
+                        const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt;
+                        btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn);
+                    });
+                }
+            }
+
+            function handleAnswer(btnElement, isCorrect) {
+                if (isCorrect) {
+                    btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!");
+                    gameScore += 10; gameScoreElement.innerText = gameScore;
+                    Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true);
+                    setTimeout(() => generateGameRound(), 1500);
+                } else {
+                    btnElement.classList.add("wrong", "shake-anim"); speak("Try again!");
+                    setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500);
+                }
+            }
+
+            /* =========================================
+               RUNTIME CACHING SERVICE WORKER (BUMPED TO V7)
+               ========================================= */
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'eduplay-pwa-games-v7';
+                    self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request).then(cachedResponse => {
+                                if (cachedResponse) return cachedResponse;
+                                return fetch(event.request).then(networkResponse => {
+                                    return caches.open(CACHE_NAME).then(cache => {
+                                        if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone());
+                                        return networkResponse;
+                                    });
+                                });
+                            })
+                        );
+                    });
+                    self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
+            }
+        });
+    </script>
+</body>
+</html>
