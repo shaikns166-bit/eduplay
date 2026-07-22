@@ -25,6 +25,8 @@
             --primary: #EF476F;
             --success: #06D6A0;
             --danger: #EF476F;
+            /* This variable controls the letter sizing! */
+            --font-modifier: 0px; 
         }
 
         /* CHANGED DEFAULT FONT TO GOOGLE FREDOKA FOR UNIVERSAL SUPPORT */
@@ -64,21 +66,13 @@
         .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
 
         /* =========================================
-           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE FIXES)
+           MASSIVE 3D COLORFUL TYPOGRAPHY
            ========================================= */
-        /* Changed from vh to vw so long words shrink horizontally instead of wrapping down */
-        /* =========================================
-           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE & RENDERING FIXES)
-           ========================================= */
-         /* =========================================
-           MASSIVE 3D COLORFUL TYPOGRAPHY (RESPONSIVE & RENDERING FIXES)
-           ========================================= */
-        .huge-text { font-size: clamp(3rem, 18vw, 10rem); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
+        .huge-text { font-size: calc(clamp(3rem, 18vw, 10rem) + var(--font-modifier)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
         .sub-text { font-size: clamp(1.8rem, 8vw, 5rem); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; }
 
         .colorful-letter {
             font-family: 'Fredoka', Impact, Arial, sans-serif; font-weight: 700; display: inline-block; transform: translateZ(30px);
-            /* Fixed Outline: Using an 8-way shadow instead of a stroke removes the internal glitches */
             text-shadow: 
                 -2px -2px 0 #2B2D42,  2px -2px 0 #2B2D42, -2px  2px 0 #2B2D42,  2px  2px 0 #2B2D42,
                 -2px  0px 0 #2B2D42,  2px  0px 0 #2B2D42,  0px -2px 0 #2B2D42,  0px  2px 0 #2B2D42,
@@ -98,14 +92,12 @@
         
         .urdu-text { 
             font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Mehr Nastaliq Web', 'Nafees', Arial, sans-serif; 
-            font-size: clamp(4rem, 16vw, 8rem); 
+            font-size: calc(clamp(4rem, 16vw, 8rem) + var(--font-modifier)); 
             line-height: 1.6; 
             color: #FFCA3A; 
             -webkit-text-stroke: 2px #2B2D42; 
             text-shadow: 1px 1px 0 #2B2D42, 2px 2px 0 #2B2D42, 3px 3px 0 #2B2D42, 4px 4px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); 
             transform: translateZ(30px); 
-        }
-        }
         }
 
         /* Images */
@@ -180,6 +172,12 @@
     </style>
 </head>
 <body>
+    <!-- A+ and A- buttons exactly where they were -->
+    <div style="text-align: center; margin: 15px;">
+        <button onclick="changeFontSize(2)" style="padding: 10px 20px; font-size: 18px; margin: 5px; cursor: pointer; border-radius: 8px; background-color: #4CAF50; color: white; border: none;">A+</button>
+        <button onclick="changeFontSize(-2)" style="padding: 10px 20px; font-size: 18px; margin: 5px; cursor: pointer; border-radius: 8px; background-color: #f44336; color: white; border: none;">A-</button>
+    </div>
+    
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -464,7 +462,7 @@
             }
 
             function makeColorful3D(text, isUrdu) {
-                if (!text) return ""; if (isUrdu || /[\u0600-\u06FF]/.test(text)) return text; 
+                if (!text) return ""; if (isUrdu || /[؀-ۿ]/.test(text)) return text; 
                 let html = "", colorCounter = 1;
                 for (let char of text) {
                     if (char === ' ') html += '&nbsp;';
@@ -480,7 +478,7 @@
                 document.getElementById("progress-bar").style.width = `${((currentIndex + 1) / currentModule.length) * 100}%`;
                 flashcard.className = `card ${animation}`; setTimeout(() => flashcard.classList.remove(animation), 600);
 
-                let isUrduMain = /[\u0600-\u06FF]/.test(data.main); let isUrduSub = /[\u0600-\u06FF]/.test(data.sub);
+                let isUrduMain = /[؀-ۿ]/.test(data.main); let isUrduSub = /[؀-ۿ]/.test(data.sub);
                 let hasImage = (data.img && data.img !== "") || (data.emoji && data.emoji !== "");
                 let hasSub = (data.sub && data.sub !== "");
 
@@ -494,12 +492,13 @@
                     cardMainText.className = isUrduMain ? "urdu-text" : "huge-text"; 
                     
                     let mainLen = data.main.length;
+                    // UPDATED: Keeps the responsive scaling but adds the user's custom A+ modifier!
                     if (mainLen > 8) {
-                        cardMainText.style.fontSize = "clamp(2rem, 8vw, 4rem)";
+                        cardMainText.style.fontSize = "calc(clamp(2rem, 8vw, 4rem) + var(--font-modifier))";
                     } else if (mainLen > 4) {
-                        cardMainText.style.fontSize = "clamp(2.5rem, 10vw, 6rem)";
+                        cardMainText.style.fontSize = "calc(clamp(2.5rem, 10vw, 6rem) + var(--font-modifier))";
                     } else {
-                        cardMainText.style.fontSize = ""; // reset to CSS default
+                        cardMainText.style.fontSize = ""; // reset to CSS default, which uses the var automatically
                     }
                     cardMainText.classList.remove("hidden"); 
                 } else {
@@ -764,6 +763,19 @@
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
         });
+    </script>
+
+    <!-- PERFECTED FONT SCRIPT -->
+    <script>
+        let currentFontModifier = 0; 
+        
+        function changeFontSize(change) {
+            // We multiply your change number by 4 to make the increase more noticeable on such large letters!
+            currentFontModifier = currentFontModifier + (change * 4); 
+            
+            // This securely applies the size shift only to the main letter elements in your CSS
+            document.documentElement.style.setProperty('--font-modifier', currentFontModifier + 'px');
+        }
     </script>
 </body>
 </html>
