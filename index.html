@@ -10,8 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
     
-    <link rel="manifest" href='data:application/manifest+json,{"name":"Kids EduPlay Offline","short_name":"EduPlay","description":"Interactive offline educational flashcards.","start_url":".","display":"standalone","background_color":"#f0f4f8","theme_color":"#4EA8DE","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=","sizes":"192x192","type":"image/png"}]}'>
-    <meta name="theme-color" content="#4EA8DE">
+   <link rel="manifest" href="manifest.json">
     <style>
         /* =========================================
            UI / UX & LIQUID GLASS CSS STYLES
@@ -737,31 +736,13 @@
             }
 
             /* =========================================
-               RUNTIME CACHING SERVICE WORKER (BUMPED TO V7)
-               ========================================= */
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE_NAME = 'eduplay-pwa-games-v8';
-                    self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(
-                            caches.match(event.request).then(cachedResponse => {
-                                if (cachedResponse) return cachedResponse;
-                                return fetch(event.request).then(networkResponse => {
-                                    return caches.open(CACHE_NAME).then(cache => {
-                                        if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone());
-                                        return networkResponse;
-                                    });
-                                });
-                            })
-                        );
-                    });
-                    self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
-            }
+           RUNTIME CACHING SERVICE WORKER 
+           ========================================= */
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW Error:', err));
+            });
+        }
         });
     </script>
 
