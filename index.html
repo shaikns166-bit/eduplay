@@ -145,6 +145,21 @@
         #ar-wrapper .pause-btn.active { display: block; }
         #ar-wrapper .touch-zones { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 4; cursor: pointer; }
         #ar-wrapper .touch-zones.active { display: block; }
+
+        /* ==================================================
+           NEW: LANDSCAPE ROTATION FALLBACK PROMPT
+           ================================================== */
+        #ar-rotate-prompt { 
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(10,10,30,0.98); z-index: 5000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; 
+        }
+        #ar-rotate-prompt h1 { font-size: 2.5rem; color: #ffcc00; margin-bottom: 20px; }
+        #ar-rotate-prompt p { font-size: 1.5rem; color: white; margin-bottom: 30px; }
+        
+        /* If the device is in portrait mode, show the "Please rotate" screen overlay */
+        @media screen and (orientation: portrait) {
+            #ar-wrapper:not(.hidden) #ar-rotate-prompt { display: flex; }
+        }
     </style>
 </head>
 <body>
@@ -191,7 +206,7 @@
             </div>
         </header>
 
-        <!-- 1. THE MAIN MENU WITH 3 BUTTONS NOW -->
+        <!-- 1. THE MAIN MENU WITH 3 BUTTONS -->
         <section id="main-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
             <div id="btn-menu-flashcards" class="menu-btn scale-in" style="background: rgba(239, 71, 111, 0.8); color: white;">
                 <span class="icon">🎴</span>
@@ -262,6 +277,14 @@
 
     <!-- 5. FUN PLAY (ALPHA RUNNER) EMBEDDED WRAPPER -->
     <div id="ar-wrapper" class="hidden">
+        
+        <!-- NEW: THE "PLEASE ROTATE YOUR PHONE" SCREEN -->
+        <div id="ar-rotate-prompt">
+            <h1>📱 Please Rotate Your Phone</h1>
+            <p>This game is best played in Landscape mode!</p>
+            <button class="ar-btn ar-btn-red" onclick="exitAlphaRunner()">🔙 Back to EduPlay</button>
+        </div>
+
         <div id="ar-gameContainer">
             <canvas id="ar-gameCanvas"></canvas>
             
@@ -284,7 +307,6 @@
                     <button class="ar-btn ar-btn-blue" onclick="arShowHowToPlay()">❓ How to Play</button>
                 </div>
                 <br>
-                <!-- NEW EXIT BUTTON -->
                 <button class="ar-btn ar-btn-red" style="margin-top: 20px;" onclick="exitAlphaRunner()">🔙 Back to EduPlay</button>
             </div>
             
@@ -383,7 +405,7 @@
         const countMap = ['🍎','🐶','🚗','⭐','🍓','🏀','🦋','🎈','🧸','📚'];
         const genCounting = () => countMap.map((emoji, i) => {
             let num = Math.floor(Math.random() * 5) + 2; 
-            return { main: num.toString(), sub: `Count the items`, emoji: Array(num).fill(emoji).join(" "), img: "", speak: `There are ${num} items.` };
+            return { main: num.toString(), sub: `Count the item`, emoji: Array(num).fill(emoji).join(" "), img: "", speak: `There are ${num} items.` };
         });
 
         const listToObj = (arr) => arr.map(item => ({ main: "", sub: item[0], emoji: item[1] || "", img: item[2] || "", speak: item[0] }));
@@ -501,7 +523,6 @@
                 appTitle.innerText = "Main Menu";
             });
 
-            // EduPlay Main Menu Handlers
             document.getElementById("btn-menu-flashcards").addEventListener("click", () => {
                 mainMenuScreen.classList.replace("active-flex", "hidden");
                 homeScreen.classList.replace("hidden", "active-grid");
@@ -514,7 +535,6 @@
                 loadGamesMenu();
             });
             
-            // FUN PLAY TRIGGER
             document.getElementById("btn-menu-funplay").addEventListener("click", () => {
                 enterAlphaRunner();
             });
@@ -818,8 +838,8 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // BUMPED TO V11 FOR ALPHA RUNNER UPDATE!
-                    const CACHE_NAME = 'eduplay-pwa-games-v11';
+                    // BUMPED TO V12 FOR AUTO-ROTATE FEATURE!
+                    const CACHE_NAME = 'eduplay-pwa-games-v12';
                     self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
                     self.addEventListener('fetch', event => {
                         event.respondWith(
@@ -861,6 +881,19 @@
             document.getElementById("app-container").classList.replace("active-flex", "hidden");
             document.getElementById("ar-wrapper").classList.remove("hidden");
             arGameActive = true;
+            
+            // ATTEMPT TO FORCE FULLSCREEN AND LANDSCAPE
+            try {
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().then(() => {
+                        if (screen.orientation && screen.orientation.lock) {
+                            screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported by this device."));
+                        }
+                    }).catch(e => console.log("Fullscreen blocked."));
+                }
+            } catch(err) { console.log(err); }
+
             arResize();
             arShowScreen('ar-mainMenu');
         }
@@ -870,6 +903,16 @@
             document.getElementById("ar-wrapper").classList.add("hidden");
             document.getElementById("app-container").classList.replace("hidden", "active-flex");
             arGameActive = false;
+            
+            // EXIT FULLSCREEN AND UNLOCK ORIENTATION
+            try {
+                if (document.exitFullscreen && document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            } catch(err) { console.log(err); }
         }
 
         const arAudioEngine = {
