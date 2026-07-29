@@ -12,6 +12,9 @@
     <link rel="manifest" href='data:application/manifest+json,{"name":"Kids EduPlay Offline","short_name":"EduPlay","description":"Interactive offline educational flashcards.","start_url":".","display":"standalone","background_color":"#f0f4f8","theme_color":"#4EA8DE","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=","sizes":"192x192","type":"image/png"}]}'>
     <meta name="theme-color" content="#4EA8DE">
     <style>
+        /* ==================================================
+           EDUPLAY CORE STYLES
+           ================================================== */
         :root {
             --bg-gradient: linear-gradient(135deg, #FFD166, #4EA8DE, #9D4EDD);
             --text-dark: #2B2D42;
@@ -31,7 +34,6 @@
         .blob-3 { width: 350px; height: 350px; background: #9D4EDD; top: 30%; left: 30%; animation-delay: -10s; }
         @keyframes floatBlob { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, 80px) scale(1.1); } 100% { transform: translate(-50px, 30px) scale(0.9); } }
 
-        /* THE FIX FOR THE GRID BUG */
         .hidden { display: none !important; }
         .active-flex { display: flex !important; }
         .active-grid { display: grid !important; }
@@ -71,43 +73,19 @@
         .btn-large.success { background: var(--success); box-shadow: 0 10px 20px rgba(6, 214, 160, 0.4); }
         .btn-icon { background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.8); font-size: 1.5rem; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* THE MENU BUTTONS */
-        .menu-btn {
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px);
-            border: 2px solid rgba(255,255,255,0.8); border-radius: 20px;
-            width: 85%; max-width: 350px; padding: 25px 20px; font-size: 2rem; font-weight: bold; color: var(--text-dark);
-            display: flex; align-items: center; justify-content: flex-start; gap: 20px;
-            box-shadow: 0 15px 25px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s;
-        }
+        .menu-btn { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.8); border-radius: 20px; width: 85%; max-width: 350px; padding: 25px 20px; font-size: 2rem; font-weight: bold; color: var(--text-dark); display: flex; align-items: center; justify-content: flex-start; gap: 20px; box-shadow: 0 15px 25px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
         .menu-btn:active { transform: scale(0.95); }
         .menu-btn .icon { font-size: 4rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
 
-        /* THE SQUARE BLOCKS GRID */
-        .grid-container { 
-            /* Notice it uses CSS Grid safely now! */
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
-            gap: 15px; padding: 15px; padding-bottom: 80px; overflow-y: auto; overflow-x: hidden; flex: 1; align-content: start; width: 100%;
-        }
-        
-        .category-card { 
-            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 15px; padding: 10px; text-align: center; font-weight: bold; 
-            border: 1px solid rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.9); border-left: 1px solid rgba(255,255,255,0.9);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.3); 
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-            aspect-ratio: 1 / 1; /* FORCES PERFECT SQUARE */
-        }
+        .grid-container { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; padding: 15px; padding-bottom: 80px; overflow-y: auto; overflow-x: hidden; flex: 1; align-content: start; width: 100%; }
+        .category-card { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 15px; padding: 10px; text-align: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.9); border-left: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.3); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; aspect-ratio: 1 / 1; }
         .category-card:active { transform: scale(0.95); }
         .category-card .icon { font-size: 3.5rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
         .category-card span { font-size: 1rem; line-height: 1.1; }
 
         #module-screen { flex: 1; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; }
         .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; }
-        
-        .card { 
-            width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%);
-            border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.4); border-top: 1.5px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15); display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; position: relative; transform-style: preserve-3d;
-        }
+        .card { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.4); border-top: 1.5px solid rgba(255, 255, 255, 0.9); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15); display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; position: relative; transform-style: preserve-3d; }
         
         #game-screen { flex: 1; flex-direction: column; align-items: center; width: 100%; padding: 10px; }
         .game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
@@ -130,10 +108,47 @@
         @keyframes flipNextAnim { 0% { transform: rotateY(90deg) scale(0.8) translateX(200px); opacity: 0; } 100% { transform: rotateY(0deg) scale(1) translateX(0); opacity: 1; } }
         .flip-prev { animation: flipPrevAnim 0.6s forwards; }
         @keyframes flipPrevAnim { 0% { transform: rotateY(-90deg) scale(0.8) translateX(-200px); opacity: 0; } 100% { transform: rotateY(0deg) scale(1) translateX(0); opacity: 1; } }
+
+        /* ==================================================
+           FUN PLAY (ALPHA RUNNER) STYLES
+           ================================================== */
+        #ar-wrapper { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3000; background: #0a0a1a; touch-action: none; user-select: none; -webkit-user-select: none; display: flex; justify-content: center; align-items: center; }
+        #ar-wrapper #ar-gameContainer { position: relative; width: 100vw; height: 100vh; max-width: 1920px; max-height: 1080px; background: #f0e6d2; overflow: hidden; }
+        #ar-wrapper canvas { display: block; width: 100%; height: 100%; }
+        #ar-wrapper .ar-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(10,10,30,0.95); z-index: 10; padding: 20px; }
+        #ar-wrapper .ar-overlay.active { display: flex; }
+        #ar-wrapper h1 { font-size: clamp(36px,7vw,80px); color: #fff; margin-bottom: 10px; text-align: center; font-weight: 900; letter-spacing: 2px; }
+        #ar-wrapper h2 { font-size: clamp(22px,4vw,44px); color: #ffcc00; margin-bottom: 30px; text-align: center; font-weight: 700; }
+        #ar-wrapper .ar-btn { background: #1a237e; border: 2px solid #3949ab; padding: clamp(14px,2.5vw,22px) clamp(40px,6vw,80px); margin: 10px; border-radius: 12px; color: #fff; font-size: clamp(18px,3vw,32px); font-weight: bold; cursor: pointer; transition: all 0.2s; min-width: 260px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: inline-block; }
+        #ar-wrapper .ar-btn:hover { background: #283593; border-color: #5c6bc0; transform: translateY(-2px); }
+        #ar-wrapper .ar-btn:active { transform: translateY(0) scale(0.97); }
+        #ar-wrapper .ar-btn-green { background: #1b5e20; border-color: #2e7d32; }
+        #ar-wrapper .ar-btn-green:hover { background: #2e7d32; }
+        #ar-wrapper .ar-btn-red { background: #b71c1c; border-color: #c62828; }
+        #ar-wrapper .ar-btn-red:hover { background: #c62828; }
+        #ar-wrapper .ar-btn-yellow { background: #f57f17; border-color: #f9a825; }
+        #ar-wrapper .ar-btn-yellow:hover { background: #f9a825; }
+        #ar-wrapper .ar-btn-blue { background: #0d47a1; border-color: #1565c0; }
+        #ar-wrapper .ar-btn-blue:hover { background: #1565c0; }
+        #ar-wrapper .stats-bar { position: absolute; top: 0; left: 0; width: 100%; display: none; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(0,0,0,0.85); border-bottom: 2px solid rgba(255,255,255,0.15); z-index: 5; }
+        #ar-wrapper .stats-bar.active { display: flex; }
+        #ar-wrapper .stat { color: #fff; font-size: clamp(14px,2.2vw,24px); font-weight: 700; }
+        #ar-wrapper .stat-target { position: absolute; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 6px 24px; border-radius: 16px; border: 2px solid #ffd700; color: #ffd700; font-size: clamp(18px,3vw,32px); font-weight: 900; }
+        #ar-wrapper .lives { color: #ff4444; font-size: clamp(16px,2.5vw,28px); }
+        #ar-wrapper .score { color: #ffd700; }
+        #ar-wrapper .stars { color: #fff; }
+        #ar-wrapper .grid-btns { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 600px; }
+        @media(min-width:600px){ #ar-wrapper .grid-btns { grid-template-columns: 1fr 1fr; } }
+        #ar-wrapper .instructions { color: #e0e0e0; font-size: clamp(14px,2vw,20px); text-align: center; max-width: 700px; line-height: 1.8; margin: 20px 0; }
+        #ar-wrapper .high-score { color: #ffd700; font-size: clamp(18px,3vw,32px); margin: 15px 0; font-weight: 700; }
+        #ar-wrapper .pause-btn { position: absolute; top: 65px; right: 12px; width: 40px; height: 40px; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.4); border-radius: 8px; color: white; font-size: 18px; cursor: pointer; z-index: 6; display: none; }
+        #ar-wrapper .pause-btn.active { display: block; }
+        #ar-wrapper .touch-zones { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 4; cursor: pointer; }
+        #ar-wrapper .touch-zones.active { display: block; }
     </style>
 </head>
 <body>
-    <div style="text-align: center; margin: 15px;">
+    <div style="text-align: center; margin: 15px; position: relative; z-index: 500;">
         <button onclick="changeFontSize(2)" style="padding: 10px 20px; font-size: 18px; margin: 5px; cursor: pointer; border-radius: 8px; background-color: #4CAF50; color: white; border: none;">A+</button>
         <button onclick="changeFontSize(-2)" style="padding: 10px 20px; font-size: 18px; margin: 5px; cursor: pointer; border-radius: 8px; background-color: #f44336; color: white; border: none;">A-</button>
     </div>
@@ -176,7 +191,7 @@
             </div>
         </header>
 
-        <!-- 1. THE MAIN MENU -->
+        <!-- 1. THE MAIN MENU WITH 3 BUTTONS NOW -->
         <section id="main-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
             <div id="btn-menu-flashcards" class="menu-btn scale-in" style="background: rgba(239, 71, 111, 0.8); color: white;">
                 <span class="icon">🎴</span>
@@ -185,6 +200,10 @@
             <div id="btn-menu-games" class="menu-btn scale-in" style="background: rgba(138, 201, 38, 0.8); color: white;">
                 <span class="icon">🎮</span>
                 <span>Interactive Games</span>
+            </div>
+            <div id="btn-menu-funplay" class="menu-btn scale-in" style="background: rgba(255, 159, 28, 0.8); color: white;">
+                <span class="icon">🏃</span>
+                <span>Fun Play</span>
             </div>
         </section>
 
@@ -241,6 +260,90 @@
         </section>
     </main>
 
+    <!-- 5. FUN PLAY (ALPHA RUNNER) EMBEDDED WRAPPER -->
+    <div id="ar-wrapper" class="hidden">
+        <div id="ar-gameContainer">
+            <canvas id="ar-gameCanvas"></canvas>
+            
+            <div class="stats-bar" id="ar-hud">
+                <div class="stat score" id="ar-scoreDisplay">Score: 0</div>
+                <div class="stat stars" id="ar-starDisplay">⭐: 0/5</div>
+                <div class="stat-target" id="ar-targetDisplay">Find: A</div>
+                <div class="stat lives" id="ar-livesDisplay">❤️❤️❤️</div>
+            </div>
+            
+            <button class="pause-btn" id="ar-pauseBtn" onclick="arTogglePause(event)">⏸</button>
+            <div class="touch-zones" id="ar-touchZones" ontouchstart="arJump(event)" onmousedown="arJump(event)"></div>
+
+            <div class="ar-overlay active" id="ar-mainMenu">
+                <h1>🏃 ALPHA RUNNER</h1>
+                <h2>Learn & Play</h2>
+                <div class="high-score" id="ar-menuHighScore">🏆 High Score: 0</div>
+                <div class="grid-btns">
+                    <button class="ar-btn ar-btn-green" onclick="arShowModeSelect()">▶ Play Game</button>
+                    <button class="ar-btn ar-btn-blue" onclick="arShowHowToPlay()">❓ How to Play</button>
+                </div>
+                <br>
+                <!-- NEW EXIT BUTTON -->
+                <button class="ar-btn ar-btn-red" style="margin-top: 20px;" onclick="exitAlphaRunner()">🔙 Back to EduPlay</button>
+            </div>
+            
+            <div class="ar-overlay" id="ar-modeSelect">
+                <h1>Select Mode</h1>
+                <div class="grid-btns">
+                    <button class="ar-btn ar-btn-green" onclick="arSelectMode('english')">🔤 English Words</button>
+                    <button class="ar-btn ar-btn-yellow" onclick="arSelectMode('urdu')">🕌 Urdu الفاظ</button>
+                    <button class="ar-btn ar-btn-blue" onclick="arSelectMode('picture')">🖼️ Picture Match</button>
+                    <button class="ar-btn ar-btn-red" onclick="arShowScreen('ar-mainMenu')">🔙 Back</button>
+                </div>
+            </div>
+            
+            <div class="ar-overlay" id="ar-levelSelect">
+                <h1>Select Level</h1>
+                <h2 id="ar-levelModeTitle">Mode</h2>
+                <div class="grid-btns">
+                    <button class="ar-btn ar-btn-green" onclick="arStartGame('easy')">🟢 Easy</button>
+                    <button class="ar-btn ar-btn-yellow" onclick="arStartGame('medium')">🟡 Medium</button>
+                    <button class="ar-btn ar-btn-red" onclick="arStartGame('hard')">🔴 Hard</button>
+                    <button class="ar-btn" onclick="arShowScreen('ar-modeSelect')">🔙 Back</button>
+                </div>
+            </div>
+            
+            <div class="ar-overlay" id="ar-howToPlay">
+                <h1>How to Play</h1>
+                <div class="instructions">
+                    <p><strong>🎮 Controls:</strong> Tap screen or Space to JUMP. Tap up to 3 times for a TRIPLE JUMP!</p>
+                    <p><strong>🎯 Goal:</strong> Collect items! Avoid cacti, animals, and holes!</p>
+                    <p><strong>⭐ Stars:</strong> Every 50 points spawns a star. Get 5 for an Extra Life!</p>
+                    <p><strong>❤️ Lives:</strong> 3 lives. Wrong items or obstacles = lose life!</p>
+                </div>
+                <button class="ar-btn ar-btn-blue" onclick="arShowScreen('ar-mainMenu')">🔙 Back</button>
+            </div>
+            
+            <div class="ar-overlay" id="ar-pauseMenu">
+                <h1>⏸ Paused</h1>
+                <div class="grid-btns">
+                    <button class="ar-btn ar-btn-green" onclick="arTogglePause(event)">▶ Resume</button>
+                    <button class="ar-btn ar-btn-yellow" onclick="arRestartGame()">🔄 Restart</button>
+                    <button class="ar-btn ar-btn-red" onclick="arShowScreen('ar-mainMenu'); arResetGame()">🏠 Game Menu</button>
+                </div>
+            </div>
+            
+            <div class="ar-overlay" id="ar-gameOver">
+                <h1>💀 Game Over</h1>
+                <h2 id="ar-finalScore">Score: 0</h2>
+                <div class="high-score" id="ar-gameOverHigh">🏆 High Score: 0</div>
+                <div class="grid-btns">
+                    <button class="ar-btn ar-btn-green" onclick="arRestartGame()">🔄 Play Again</button>
+                    <button class="ar-btn ar-btn-blue" onclick="arShowScreen('ar-mainMenu'); arResetGame()">🏠 Game Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================
+         EDUPLAY LOGIC SCRIPT
+         ================================================== -->
     <script>
         const genAlpha = (isLower) => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => {
             let l = isLower ? c.toLowerCase() : c; return { main: l, sub: "", emoji: "", img: "", speak: l };
@@ -393,13 +496,12 @@
                 startOverlay.classList.remove("active-flex"); startOverlay.classList.add("hidden");
                 appContainer.classList.remove("hidden"); appContainer.classList.add("active-flex");
                 
-                // Show Main Menu Instead
                 document.getElementById("home-screen").classList.replace("active-grid", "hidden");
                 document.getElementById("main-menu-screen").classList.replace("hidden", "active-flex");
                 appTitle.innerText = "Main Menu";
             });
 
-            // Main Menu Logic
+            // EduPlay Main Menu Handlers
             document.getElementById("btn-menu-flashcards").addEventListener("click", () => {
                 mainMenuScreen.classList.replace("active-flex", "hidden");
                 homeScreen.classList.replace("hidden", "active-grid");
@@ -411,6 +513,11 @@
                 homeScreen.classList.replace("hidden", "active-grid");
                 loadGamesMenu();
             });
+            
+            // FUN PLAY TRIGGER
+            document.getElementById("btn-menu-funplay").addEventListener("click", () => {
+                enterAlphaRunner();
+            });
 
             function renderHome() {
                 homeScreen.innerHTML = ""; appTitle.innerText = "Flashcards"; btnHome.classList.remove("hidden");
@@ -418,7 +525,6 @@
                     const card = document.createElement("div");
                     card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${cat.color}`;
                     card.innerHTML = `<span class="icon">${cat.icon}</span><span style="color:#2B2D42;">${cat.name}</span>`;
-                    
                     card.addEventListener("click", () => { loadModule(cat.id, cat.name); });
                     homeScreen.appendChild(card);
                 });
@@ -505,11 +611,9 @@
             });
             function stopAutoPlay() { isAutoPlaying = false; clearInterval(autoPlayInterval); document.getElementById("btn-auto").innerHTML = "▶ Auto"; document.getElementById("btn-auto").classList.replace("secondary", "success"); }
             
-            // CLEAN BACK BUTTON LOGIC
             btnHome.addEventListener("click", () => {
                 window.speechSynthesis.cancel(); stopAutoPlay();
                 
-                // If looking at a big Flashcard, go back to Categories Square Grid
                 if (moduleScreen.classList.contains("active-flex")) {
                     moduleScreen.classList.replace("active-flex", "hidden");
                     homeScreen.classList.replace("hidden", "active-grid");
@@ -517,7 +621,6 @@
                     return;
                 }
                 
-                // If looking at the Categories or Games Grid, go back to Main Menu
                 if (homeScreen.classList.contains("active-grid")) {
                     homeScreen.classList.replace("active-grid", "hidden");
                     mainMenuScreen.classList.replace("hidden", "active-flex");
@@ -574,7 +677,7 @@
                 window.speechSynthesis.cancel();
                 gameScreen.classList.replace("active-flex", "hidden");
                 homeScreen.classList.replace("hidden", "active-grid");
-                loadGamesMenu(); // Back to games menu
+                loadGamesMenu();
             });
 
             function setGameImage(item) {
@@ -715,8 +818,8 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // BUMPED TO V10 TO FORCE CACHE UPDATE!
-                    const CACHE_NAME = 'eduplay-pwa-games-v10';
+                    // BUMPED TO V11 FOR ALPHA RUNNER UPDATE!
+                    const CACHE_NAME = 'eduplay-pwa-games-v11';
                     self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
                     self.addEventListener('fetch', event => {
                         event.respondWith(
@@ -746,6 +849,470 @@
             currentFontModifier = currentFontModifier + (change * 4); 
             document.documentElement.style.setProperty('--font-modifier', currentFontModifier + 'px');
         }
+    </script>
+
+    <!-- ==================================================
+         ALPHA RUNNER (FUN PLAY) ENGINE
+         ================================================== -->
+    <script>
+        let arGameActive = false;
+
+        function enterAlphaRunner() {
+            document.getElementById("app-container").classList.replace("active-flex", "hidden");
+            document.getElementById("ar-wrapper").classList.remove("hidden");
+            arGameActive = true;
+            arResize();
+            arShowScreen('ar-mainMenu');
+        }
+
+        function exitAlphaRunner() {
+            arResetGame();
+            document.getElementById("ar-wrapper").classList.add("hidden");
+            document.getElementById("app-container").classList.replace("hidden", "active-flex");
+            arGameActive = false;
+        }
+
+        const arAudioEngine = {
+            ctx: null, bgmInterval: null, isMuted: false,
+            init() { try { this.ctx = new (window.AudioContext || window.webkitAudioContext)() } catch(e) {} },
+            playTone(freq, dur, type, vol) {
+                if(!this.ctx || this.isMuted) return;
+                const o = this.ctx.createOscillator(), g = this.ctx.createGain();
+                o.type = type || 'sine'; o.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                g.gain.setValueAtTime(vol || 0.12, this.ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                o.connect(g); g.connect(this.ctx.destination); o.start(); o.stop(this.ctx.currentTime + dur);
+            },
+            playCollect() { this.playTone(523, 0.08, 'sine', 0.15); setTimeout(()=>this.playTone(659, 0.08, 'sine', 0.15), 60); setTimeout(()=>this.playTone(784, 0.15, 'sine', 0.15), 120); },
+            playStar() { this.playTone(880, 0.1, 'sine', 0.2); setTimeout(()=>this.playTone(1046, 0.15, 'sine', 0.2), 100); },
+            play1UP() { this.playTone(523, 0.1, 'square', 0.15); setTimeout(()=>this.playTone(659, 0.1, 'square', 0.15), 100); setTimeout(()=>this.playTone(784, 0.1, 'square', 0.15), 200); setTimeout(()=>this.playTone(1046, 0.3, 'square', 0.15), 300); },
+            playWrong() { this.playTone(180, 0.25, 'sawtooth', 0.1); this.playTone(120, 0.25, 'square', 0.08); },
+            playRockHit() { this.playTone(80, 0.3, 'sawtooth', 0.15); this.playTone(60, 0.3, 'square', 0.12); },
+            playGameOver() { [350, 300, 250, 180].forEach((f, i)=>setTimeout(()=>this.playTone(f, 0.4, 'sine', 0.15), i * 180)); },
+            playJump(jumps) {
+                const baseFreq = 350 + (jumps * 100);
+                this.playTone(baseFreq, 0.1, 'sine', 0.08); 
+                setTimeout(()=>this.playTone(baseFreq+100, 0.1, 'sine', 0.08), 50);
+            },
+            startBGM() {
+                if(!this.ctx || this.isMuted) return; 
+                this.stopBGM(); 
+                const n = [262, 330, 392, 523, 392, 330]; let i = 0;
+                this.bgmInterval = setInterval(()=>{
+                    if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return;
+                    this.playTone(n[i], 0.35, 'triangle', 0.025); 
+                    i = (i+1) % n.length;
+                }, 380);
+            },
+            stopBGM() { if(this.bgmInterval) clearInterval(this.bgmInterval); }
+        };
+
+        const arGameData = {
+            english: {
+                letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+                words: {
+                    A:['Apple','Ant','Arm','Axe','Airplane'], B:['Bag','Book','Bear','Banana','Boy','Ball','Bat','Bed','Bus'], C:['Cat','Cow','Car','Cup','Cap','Chair','Chalk','Class'], D:['Dog','Duck','Desk','Door','Doll'],
+                    E:['Egg','Eye','Ear','Elephant','Eraser'], F:['Fish','Frog','Fan','Flag','Fox','Fruit'], G:['Goat','Girl','Grapes','Glass','Green'], H:['Hat','Hen','Hand','House','Horse','Help'], I:['Ice','Ink','Iron','Igloo'],
+                    J:['Jug','Jam','Juice','Jump'], K:['Kite','Key','King','Kangaroo'], L:['Lion','Leg','Lamp','Lock','Lemon'], M:['Moon','Man','Mat','Milk','Monkey','Mango'], N:['Nest','Net','Nose','Nut','Nail'],
+                    O:['Owl','Orange','Ox','Oil'], P:['Pen','Pencil','Pot','Pan','Pig','Parrot','Pea','Potato'], Q:['Queen','Quilt','Quiet'], R:['Rat','Rose','Ring','Rabbit','Ruler','Radish'], S:['Sun','Star','Soap','Socks','Ship','Shoe','Smile','Share'],
+                    T:['Tree','Tap','Tiger','Toy','Table','Tomato','Toothbrush'], U:['Umbrella','Uniform'], V:['Van','Vase','Violin'], W:['Water','Watch','Wall','Wolf','Wash'], X:['X-ray','Xylophone'], Y:['Yak','Yoyo','Yellow'], Z:['Zebra','Zoo','Zip']
+                }
+            },
+            urdu: {
+                letters: ['ا','ب','پ','ت','ٹ','ج','چ','د','ڈ','ر','س','ش','ط','ع','غ','ف','ق','ک','گ','ل','م','ن','ہ'],
+                words: {
+                    'ا':['انار','انگور','استاد','انڈا','اونٹ'], 'ب':['بستہ','بلی','بطخ','بکری','بستر','بس'], 'پ':['پانی','پینسل','پنکھا','پیاز','پودا'], 'ت':['تتلی','تربوز','تالا','تولیہ'], 'ٹ':['ٹماٹر','ٹوپی','ٹوکری'],
+                    'ج':['جوتا','جگ','جہاز','جرابیں'], 'چ':['چڑیا','چاند','چمچ','چابی'], 'د':['درخت','دروازہ','دانت','دودھ'], 'ڈ':['ڈیسک','ڈبہ','ڈول'], 'ر':['ریچھ','ریل','روٹی','رسی'], 'س':['سیب','سورج','سکول','سچ'],
+                    'ش':['شیر','شترمرغ','شلجم'], 'ط':['طوطا','طالب علم'], 'ع':['عینک','عورت'], 'غ':['غبارہ'], 'ف':['فٹ بال','فاختہ'], 'ق':['قلم','قینچی'], 'ک':['کتاب','کتا','کرسی','کیلا','کبوتر'], 'گ':['گائے','گاجر','گلاس','گڑیا'],
+                    'ل':['لومڑی','لیموں','لڑکا'], 'م':['میز','مچھلی','مور','مرغی','مولی'], 'ن':['ناک','ناشپاتی','نل'], 'ہ':['ہاتھی','ہاتھ','ہار']
+                }
+            },
+            picture: {
+                letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+                pictures: {
+                    A:['🍎','🐜','✈️'], B:['🎒','🐻','🍌','⚽','📚','🚌','🛏️'], C:['🐱','🚗','🐄','🪑','🥕'], D:['🐕','🦆','🚪','👗'], E:['🥚','🐘','👁️','👂'], F:['🐟','🐸','🦊','🚩'], G:['🐐','🍇','👧','👓'],
+                    H:['🐔','🏠','✋','🐴','🎩'], I:['🧊','🍦'], J:['🧃','👖'], K:['🔑','🪁','👑'], L:['🦁','🍋','🦵','💡'], M:['🌙','🥛','🥭','🐒','🍈'], N:['👃','🥜','📰'], O:['🦉','🍊','🧅'], P:['🖊️','🐷','🥔','🦜','🍕'],
+                    Q:['👑'], R:['🐀','🌹','💍','📏','🐇'], S:['☀️','🧼','🧦','🚢','👟','🍓'], T:['🌳','🐅','🧸','🍅','🪥','⛺'], U:['☂️','🏫'], V:['🚐','🎻'], W:['💧','⌚','🐺','🍉'], X:['❌','✖️'], Y:['🪀','🟡'], Z:['🦓','🤐']
+                }
+            }
+        };
+
+        const arCanvas = document.getElementById('ar-gameCanvas');
+        const arCtx = arCanvas.getContext('2d');
+
+        let arGameState = {
+            screen: 'ar-mainMenu', mode: 'english', level: 'easy', isPlaying: false, isPaused: false,
+            score: 0, scoreForStar: 0, stars: 0, lives: 3, highScore: parseInt(localStorage.getItem('alphaRunnerHigh') || '0'),
+            targetLetter: '', 
+            player: {x: 120, y: 0, groundY: 0, vy: 0, isJumping: false, jumps: 0}, 
+            objects: [], particles: [],
+            bgOffset: 0, spawnTimer: 0, gameSpeed: 6, difficultyMultiplier: 1, shake: 0
+        };
+
+        const arLevels = {
+            easy: {speed: 5, spawnRate: 130, wrongRatio: 0.3, rockRatio: 0.25},
+            medium: {speed: 7, spawnRate: 95, wrongRatio: 0.45, rockRatio: 0.32},
+            hard: {speed: 9, spawnRate: 75, wrongRatio: 0.6, rockRatio: 0.38}
+        };
+
+        function arResize() {
+            const c = document.getElementById('ar-gameContainer');
+            arCanvas.width = c.clientWidth; arCanvas.height = c.clientHeight;
+            arGameState.player.groundY = arCanvas.height - 120;
+            if(!arGameState.player.isJumping) arGameState.player.y = arGameState.player.groundY;
+        }
+        window.addEventListener('resize', arResize);
+        setTimeout(arResize, 100);
+
+        function arShowScreen(id) {
+            document.querySelectorAll('.ar-overlay').forEach(el=>el.classList.remove('active'));
+            if(id) document.getElementById(id).classList.add('active');
+            arGameState.screen = id;
+            if(id === 'ar-mainMenu') document.getElementById('ar-menuHighScore').textContent = '🏆 High Score: ' + arGameState.highScore;
+        }
+        
+        function arShowModeSelect() { arAudioEngine.init(); arShowScreen('ar-modeSelect'); }
+        function arShowHowToPlay() { arShowScreen('ar-howToPlay'); }
+        
+        function arSelectMode(mode) {
+            arGameState.mode = mode;
+            const titles = {english: 'English Words', urdu: 'Urdu الفاظ', picture: 'Picture Match'};
+            document.getElementById('ar-levelModeTitle').textContent = titles[mode];
+            arShowScreen('ar-levelSelect');
+        }
+
+        function arStartGame(level) {
+            arGameState.level = level; arGameState.score = 0; arGameState.scoreForStar = 0; arGameState.stars = 0; arGameState.lives = 3;
+            arGameState.objects = []; arGameState.particles = []; arGameState.isPlaying = true; arGameState.isPaused = false;
+            arGameState.gameSpeed = arLevels[level].speed; arGameState.difficultyMultiplier = 1; arGameState.shake = 0;
+            arGameState.player.y = arGameState.player.groundY;
+            arGameState.player.vy = 0; arGameState.player.isJumping = false; arGameState.player.jumps = 0;
+
+            arPickNewTarget(); arUpdateHUD();
+            arShowScreen(''); document.getElementById('ar-hud').classList.add('active');
+            document.getElementById('ar-pauseBtn').classList.add('active');
+            document.getElementById('ar-touchZones').classList.add('active');
+            arAudioEngine.startBGM();
+        }
+
+        function arPickNewTarget() {
+            const data = arGameData[arGameState.mode];
+            arGameState.targetLetter = data.letters[Math.floor(Math.random() * data.letters.length)];
+            arUpdateHUD();
+        }
+
+        function arUpdateHUD() {
+            document.getElementById('ar-targetDisplay').textContent = 'Find: ' + arGameState.targetLetter;
+            document.getElementById('ar-scoreDisplay').textContent = 'Score: ' + arGameState.score;
+            document.getElementById('ar-starDisplay').textContent = '⭐: ' + arGameState.stars + '/5';
+            document.getElementById('ar-livesDisplay').textContent = '❤️'.repeat(arGameState.lives) + '🖤'.repeat(Math.max(0, 3-arGameState.lives));
+        }
+
+        function arTogglePause(e) {
+            if(e) e.stopPropagation(); 
+            if(!arGameState.isPlaying) return;
+            arGameState.isPaused = !arGameState.isPaused;
+            if(arGameState.isPaused) {
+                arShowScreen('ar-pauseMenu'); document.getElementById('ar-hud').classList.remove('active');
+                document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active');
+            } else {
+                arShowScreen(''); document.getElementById('ar-hud').classList.add('active');
+                document.getElementById('ar-pauseBtn').classList.add('active'); document.getElementById('ar-touchZones').classList.add('active');
+            }
+        }
+
+        function arRestartGame() { arStartGame(arGameState.level); }
+        function arResetGame() {
+            arGameState.isPlaying = false; arGameState.isPaused = false;
+            document.getElementById('ar-hud').classList.remove('active');
+            document.getElementById('ar-pauseBtn').classList.remove('active');
+            document.getElementById('ar-touchZones').classList.remove('active');
+            arAudioEngine.stopBGM();
+        }
+
+        function arGameOver() {
+            arGameState.isPlaying = false; arAudioEngine.stopBGM(); arAudioEngine.playGameOver();
+            if(arGameState.score > arGameState.highScore) {
+                arGameState.highScore = arGameState.score; localStorage.setItem('alphaRunnerHigh', arGameState.highScore);
+            }
+            document.getElementById('ar-finalScore').textContent = 'Score: ' + arGameState.score;
+            document.getElementById('ar-gameOverHigh').textContent = '🏆 High Score: ' + arGameState.highScore;
+            document.getElementById('ar-hud').classList.remove('active');
+            document.getElementById('ar-pauseBtn').classList.remove('active');
+            document.getElementById('ar-touchZones').classList.remove('active');
+            arShowScreen('ar-gameOver');
+        }
+
+        function arLoseLife() {
+            arGameState.lives--; arAudioEngine.playWrong(); arUpdateHUD(); arGameState.shake = 10;
+            if(arGameState.lives <= 0) arGameOver();
+        }
+
+        function arHitRock() {
+            arGameState.lives--; arAudioEngine.playRockHit(); arUpdateHUD(); arGameState.shake = 15;
+            if(arGameState.lives <= 0) arGameOver();
+        }
+
+        function arHitHole() {
+            arLoseLife();
+            arGameState.player.vy = -16; 
+            arGameState.player.isJumping = true;
+            arGameState.player.jumps = 1;
+        }
+
+        function arJump(e) {
+            if(e) e.preventDefault();
+            if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return;
+            if(arGameState.player.jumps < 3) {
+                arGameState.player.vy = -18.5 + (arGameState.player.jumps * 2.5); 
+                arGameState.player.isJumping = true;
+                arGameState.player.jumps++;
+                arAudioEngine.playJump(arGameState.player.jumps);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(!arGameActive) return;
+            if(e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') arJump();
+            if(e.key === 'Escape' || e.key === 'p' || e.key === 'P') arTogglePause();
+        });
+
+        function arSpawnObject() {
+            const data = arGameData[arGameState.mode];
+            const lvl = arLevels[arGameState.level];
+            const isObstacle = Math.random() < lvl.rockRatio;
+            const startX = arCanvas.width + 100;
+            const groundY = arGameState.player.groundY;
+
+            if(isObstacle) {
+                const obsType = Math.random();
+                if(obsType < 0.35) {
+                    arGameState.objects.push({type:'rock', x:startX, y:groundY + 10, width:40, height:60, hit:false});
+                } else if (obsType < 0.70) {
+                    const animals = ['🐍', '🐊', '🦂', '🐺'];
+                    const animal = animals[Math.floor(Math.random()*animals.length)];
+                    arGameState.objects.push({type:'animal', animalType: animal, x:startX, y:groundY + 5, width:60, height:50, hit:false});
+                } else {
+                    arGameState.objects.push({type:'hole', x:startX, y:groundY, width:130, height:20, hit:false});
+                }
+                return;
+            }
+
+            const isCorrect = Math.random() > lvl.wrongRatio;
+            let text, isRight;
+
+            if(arGameState.mode === 'picture') {
+                if(isCorrect) { const p = data.pictures[arGameState.targetLetter]; text = p[Math.floor(Math.random()*p.length)]; isRight = true; }
+                else { let wl; do { wl = data.letters[Math.floor(Math.random()*data.letters.length)]; } while(wl === arGameState.targetLetter); const p = data.pictures[wl]; text = p[Math.floor(Math.random()*p.length)]; isRight = false; }
+            } else {
+                if(isCorrect) { const w = data.words[arGameState.targetLetter]; text = w[Math.floor(Math.random()*w.length)]; isRight = true; }
+                else { let wl; do { wl = data.letters[Math.floor(Math.random()*data.letters.length)]; } while(wl === arGameState.targetLetter); const w = data.words[wl]; text = w[Math.floor(Math.random()*w.length)]; isRight = false; }
+            }
+
+            const randHeight = Math.random();
+            let itemY = groundY - 30; 
+            if(randHeight > 0.6) itemY = groundY - 180; 
+            if(randHeight > 0.85) itemY = groundY - 320; 
+
+            arGameState.objects.push({type:'item', x:startX, y:itemY, text:text, isCorrect:isRight, hit:false, width: 80, height: 80});
+        }
+
+        function arSpawnParticles(x, y, color) {
+            for(let i=0; i<10; i++) {
+                arGameState.particles.push({ x: x, y: y, vx: (Math.random()-0.5)*6, vy: (Math.random()-0.5)*6-2, life: 1, color: color, size: Math.random()*5+2 });
+            }
+        }
+
+        function arCheckStarSpawn() {
+            if (arGameState.scoreForStar >= 50) {
+                arGameState.scoreForStar -= 50;
+                arGameState.objects.push({ type:'star', x: arCanvas.width + 100, y: arGameState.player.groundY - 260, width: 60, height: 60, hit: false });
+            }
+        }
+
+        function arUpdate() {
+            if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return;
+
+            arGameState.bgOffset += arGameState.gameSpeed * 0.5;
+            arGameState.player.vy += 0.9; 
+            arGameState.player.y += arGameState.player.vy;
+
+            if(arGameState.player.y >= arGameState.player.groundY && arGameState.player.vy >= 0) {
+                arGameState.player.y = arGameState.player.groundY;
+                arGameState.player.isJumping = false;
+                arGameState.player.jumps = 0; 
+                arGameState.player.vy = 0;
+            }
+
+            arGameState.spawnTimer++;
+            const sr = Math.max(40, arLevels[arGameState.level].spawnRate - Math.floor(arGameState.score/30));
+            if(arGameState.spawnTimer >= sr) { arSpawnObject(); arGameState.spawnTimer = 0; }
+
+            const px = arGameState.player.x; const py = arGameState.player.y; const pRadius = 35;
+
+            arGameState.objects = arGameState.objects.filter(obj => {
+                obj.x -= arGameState.gameSpeed;
+                if(!obj.hit) {
+                    let dx = obj.x - px;
+                    let dy = (obj.y - (obj.type === 'hole' ? 0 : obj.height/2)) - (py - pRadius); 
+
+                    if (obj.type === 'hole') {
+                        if (Math.abs(dx) < (obj.width/2 - 10) && py >= arGameState.player.groundY - 15) {
+                            obj.hit = true; arHitHole(); arUpdateHUD();
+                        }
+                    } else {
+                        let dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < pRadius + (obj.type === 'star' ? 20 : 30)) {
+                            obj.hit = true;
+                            if(obj.type === 'rock' || obj.type === 'animal') {
+                                arHitRock(); arSpawnParticles(px, py, '#888');
+                            } else if (obj.type === 'star') {
+                                arGameState.stars++; arAudioEngine.playStar(); arSpawnParticles(px, py, '#ffd700');
+                                if (arGameState.stars >= 5) { arGameState.stars = 0; arGameState.lives++; arAudioEngine.play1UP(); }
+                            } else {
+                                if(obj.isCorrect) {
+                                    arGameState.score += 10; arGameState.scoreForStar += 10; arAudioEngine.playCollect(); arSpawnParticles(px, py, '#4caf50');
+                                    if(arGameState.score % 30 === 0) arPickNewTarget();
+                                    arCheckStarSpawn(); 
+                                    arGameState.gameSpeed = Math.min(18, arLevels[arGameState.level].speed + arGameState.score * 0.015);
+                                } else {
+                                    arLoseLife(); arSpawnParticles(px, py, '#f44336');
+                                }
+                            }
+                            arUpdateHUD();
+                        }
+                    }
+                }
+                return obj.x > -250; 
+            });
+
+            arGameState.particles = arGameState.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.025; return p.life > 0; });
+            if(arGameState.shake > 0) arGameState.shake--;
+        }
+
+        function arDrawBackgroundAndGround() {
+            const grad = arCtx.createLinearGradient(0, 0, 0, arCanvas.height);
+            grad.addColorStop(0, '#87CEEB'); grad.addColorStop(1, '#E0F6FF');
+            arCtx.fillStyle = grad; arCtx.fillRect(0, 0, arCanvas.width, arCanvas.height);
+
+            arCtx.fillStyle = '#D2B48C'; 
+            for(let i=0; i<5; i++) {
+                let mx = (i * 400 - (arGameState.bgOffset * 0.2)) % (arCanvas.width + 400);
+                if(mx < -400) mx += arCanvas.width + 800;
+                arCtx.beginPath(); arCtx.moveTo(mx, arCanvas.height);
+                arCtx.lineTo(mx + 200, arCanvas.height - 300 + (i%2)*50);
+                arCtx.lineTo(mx + 400, arCanvas.height); arCtx.fill();
+            }
+
+            const groundY = arGameState.player.groundY + 15;
+            arCtx.fillStyle = '#C2B280'; arCtx.fillRect(0, groundY, arCanvas.width, arCanvas.height - groundY);
+            arCtx.fillStyle = '#A69050'; arCtx.fillRect(0, groundY+10, arCanvas.width, arCanvas.height - groundY - 10);
+
+            arCtx.fillStyle = 'rgba(0,0,0,0.1)';
+            for(let i=0; i<20; i++) {
+                let dx = (i * 80 - arGameState.bgOffset) % arCanvas.width;
+                if(dx < 0) dx += arCanvas.width;
+                arCtx.fillRect(dx, groundY + 15 + (i%3)*10, 15, 4);
+            }
+        }
+
+        function arDrawPlayer() {
+            const x = arGameState.player.x; const y = arGameState.player.y;
+
+            arCtx.fillStyle = 'rgba(0,0,0,0.2)';
+            arCtx.beginPath(); arCtx.ellipse(x, arGameState.player.groundY + 15, 20, 6, 0, 0, Math.PI*2); arCtx.fill();
+
+            let bob = 0, legSwing = 0, armSwing = 0;
+            if(!arGameState.player.isJumping) {
+                bob = Math.sin(Date.now()/70)*4; armSwing = Math.sin(Date.now()/70)*12; legSwing = Math.sin(Date.now()/70)*15;
+            } else {
+                legSwing = 15 + (arGameState.player.jumps * 5); armSwing = -10 - (arGameState.player.jumps * 5);
+            }
+
+            arCtx.fillStyle = '#ff9800'; arCtx.beginPath(); arCtx.arc(x, y-45+bob, 14, 0, Math.PI*2); arCtx.fill();
+            arCtx.fillStyle = '#333'; arCtx.beginPath(); arCtx.arc(x+5, y-48+bob, 3, 0, Math.PI*2); arCtx.fill();
+            arCtx.fillStyle = '#2196f3'; arCtx.fillRect(x-10, y-30+bob, 20, 24);
+
+            arCtx.strokeStyle = '#ff9800'; arCtx.lineWidth = 5; arCtx.lineCap = 'round';
+            arCtx.beginPath(); arCtx.moveTo(x, y-25+bob); arCtx.lineTo(x-armSwing, y-5+bob); arCtx.stroke();
+            arCtx.strokeStyle = '#1565c0'; arCtx.lineWidth = 6; arCtx.lineCap = 'round';
+            arCtx.beginPath(); arCtx.moveTo(x, y-2+bob); arCtx.lineTo(x-legSwing, y+18+bob); arCtx.stroke();
+            arCtx.beginPath(); arCtx.moveTo(x, y-2+bob); arCtx.lineTo(x+legSwing, y+18+bob); arCtx.stroke();
+            arCtx.strokeStyle = '#ff9800'; arCtx.lineWidth = 5;
+            arCtx.beginPath(); arCtx.moveTo(x, y-25+bob); arCtx.lineTo(x+armSwing, y-5+bob); arCtx.stroke();
+        }
+
+        function arDrawObjects() {
+            arGameState.objects.forEach(obj => {
+                if(obj.hit && obj.type !== 'hole') return; 
+                const x = obj.x, y = obj.y;
+
+                if(obj.type === 'hole') {
+                    arCtx.fillStyle = '#0a0a1a'; arCtx.beginPath(); arCtx.ellipse(x, y + 15, obj.width/2, 10, 0, 0, Math.PI * 2); arCtx.fill(); return;
+                }
+                if(obj.type === 'star') {
+                    arCtx.font = '60px Arial'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle';
+                    const pulse = Math.sin(Date.now()/150) * 5; 
+                    arCtx.fillText('⭐', x, y + pulse); return;
+                }
+                if(obj.type === 'animal') {
+                    arCtx.font = '70px Arial'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle';
+                    arCtx.fillText(obj.animalType, x, y - 20); return;
+                }
+                if(obj.type === 'rock') {
+                    arCtx.fillStyle = '#2E7D32'; 
+                    arCtx.fillRect(x-15, y-70, 30, 70); arCtx.fillRect(x-30, y-45, 15, 30); arCtx.fillRect(x+15, y-55, 15, 30);
+                    arCtx.fillStyle = '#FFF';
+                    arCtx.fillRect(x-17, y-60, 3, 3); arCtx.fillRect(x+15, y-30, 3, 3); arCtx.fillRect(x-5, y-15, 3, 3); return;
+                }
+
+                const isEmoji = arGameState.mode === 'picture';
+                const fontSize = isEmoji ? 85 : 45; 
+                const boxW = isEmoji ? fontSize * 1.3 : Math.min(260, obj.text.length * fontSize * 0.6) + 30;
+                const boxH = fontSize + (isEmoji ? 10 : 25);
+
+                arCtx.fillStyle = 'rgba(255,255,255,0.95)';
+                arCtx.strokeStyle = obj.isCorrect ? '#4caf50' : '#2196F3';
+                arCtx.lineWidth = 4; arCtx.beginPath(); arCtx.roundRect(x-boxW/2, y-boxH, boxW, boxH, 12); arCtx.fill(); arCtx.stroke();
+
+                arCtx.fillStyle = '#000'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle';
+                if(arGameState.mode === 'urdu') {
+                    arCtx.font = fontSize + 'px "Jameel Noori Nastaleeq","Noto Nastaliq Urdu","Urdu Typesetting",serif';
+                } else {
+                    arCtx.font = (isEmoji?'':'bold ') + fontSize + 'px "Segoe UI",sans-serif';
+                }
+                arCtx.fillText(obj.text, x, y-boxH/2 + (isEmoji ? 5 : 2));
+            });
+        }
+
+        function arDrawParticles() {
+            arGameState.particles.forEach(p => {
+                arCtx.globalAlpha = p.life; arCtx.fillStyle = p.color;
+                arCtx.beginPath(); arCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); arCtx.fill();
+                arCtx.globalAlpha = 1;
+            });
+        }
+
+        function arRender() {
+            if (!arGameActive) {
+                requestAnimationFrame(arRender);
+                return;
+            }
+            arCtx.save();
+            if(arGameState.shake > 0) { arCtx.translate((Math.random()-0.5)*arGameState.shake, (Math.random()-0.5)*arGameState.shake); }
+
+            arDrawBackgroundAndGround();
+            arDrawObjects();
+            arDrawPlayer();
+            arDrawParticles();
+
+            arCtx.restore();
+            requestAnimationFrame(arRender);
+        }
+
+        setInterval(arUpdate, 1000/60);
+        arRender();
+        document.getElementById('ar-menuHighScore').textContent = '🏆 High Score: ' + arGameState.highScore;
     </script>
 </body>
 </html>
