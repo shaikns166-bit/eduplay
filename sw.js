@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eduplay-pwa-games-v10';
+const CACHE_NAME = 'eduplay-pwa-games-v11';
 
 self.addEventListener('install', event => { 
     event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ './', './index.html' ])) ); 
