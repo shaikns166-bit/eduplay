@@ -54,7 +54,7 @@
         .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
         .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
 
-        .huge-text { font-size: calc(clamp(3rem, 18vw, 10rem) + var(--font-modifier)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
+        .huge-text { font-size: calc(clamp(4rem, 20vw, 10rem) + var(--font-modifier)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
         .sub-text { font-size: clamp(1.8rem, 8vw, 5rem); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; }
 
         .colorful-letter { font-family: 'Fredoka', Impact, Arial, sans-serif; font-weight: 700; display: inline-block; transform: translateZ(30px); text-shadow: 2px 2px 0 #2B2D42, -2px -2px 0 #2B2D42, 0 15px 20px rgba(0,0,0,0.4); }
@@ -92,7 +92,7 @@
         .game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
         .game-question-text { font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); margin-bottom: 20px; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
         
-        .game-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 95%; max-width: 500px; margin-bottom: 40px; } /* Increased margin to prevent cutoff */
+        .game-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 95%; max-width: 500px; margin-bottom: 40px; } 
         .game-option { background: rgba(255, 255, 255, 0.5); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 15px; font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .game-option:active { transform: scale(0.9); }
         .game-option.correct { background: var(--success); color: white; border-color: white; box-shadow: 0 0 30px var(--success); }
@@ -117,7 +117,6 @@
         #ar-wrapper #ar-gameContainer { position: relative; width: 100vw; height: 100vh; max-width: 1920px; max-height: 1080px; background: #f0e6d2; overflow: hidden; }
         #ar-wrapper canvas { display: block; width: 100%; height: 100%; }
         
-        /* Fixed clipping in menus */
         #ar-wrapper .ar-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(10,10,30,0.95); z-index: 10; padding: 15px; overflow-y: auto; }
         #ar-wrapper .ar-overlay.active { display: flex; }
         #ar-wrapper h1 { font-size: clamp(26px, 6vw, 60px); color: #fff; margin-bottom: 10px; margin-top: 15px; text-align: center; font-weight: 900; letter-spacing: 2px; }
@@ -126,15 +125,10 @@
         #ar-wrapper .ar-btn:hover { background: #283593; border-color: #5c6bc0; transform: translateY(-2px); }
         #ar-wrapper .ar-btn:active { transform: translateY(0) scale(0.97); }
         #ar-wrapper .ar-btn-green { background: #1b5e20; border-color: #2e7d32; }
-        #ar-wrapper .ar-btn-green:hover { background: #2e7d32; }
         #ar-wrapper .ar-btn-red { background: #b71c1c; border-color: #c62828; }
-        #ar-wrapper .ar-btn-red:hover { background: #c62828; }
         #ar-wrapper .ar-btn-yellow { background: #f57f17; border-color: #f9a825; }
-        #ar-wrapper .ar-btn-yellow:hover { background: #f9a825; }
         #ar-wrapper .ar-btn-blue { background: #0d47a1; border-color: #1565c0; }
-        #ar-wrapper .ar-btn-blue:hover { background: #1565c0; }
         
-        /* Fixed Black Bar in Alpha Runner HUD */
         #ar-wrapper .stats-bar { position: absolute; top: 0; left: 0; width: 100%; display: none; justify-content: space-between; align-items: center; padding: 10px 20px; background: transparent; border-bottom: none; z-index: 5; text-shadow: 2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8); }
         #ar-wrapper .stats-bar.active { display: flex; }
         #ar-wrapper .stat { color: #fff; font-size: clamp(14px,2.2vw,24px); font-weight: 700; }
@@ -151,18 +145,76 @@
         #ar-wrapper .pause-btn.active { display: block; }
         #ar-wrapper .touch-zones { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 4; cursor: pointer; }
         #ar-wrapper .touch-zones.active { display: block; }
-
-        /* Rotate Prompt */
-        #ar-rotate-prompt { 
-            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(10,10,30,0.98); z-index: 5000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; 
-        }
+        #ar-rotate-prompt { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.98); z-index: 5000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         #ar-rotate-prompt h1 { font-size: 2.5rem; color: #ffcc00; margin-bottom: 20px; }
         #ar-rotate-prompt p { font-size: 1.5rem; color: white; margin-bottom: 30px; }
-        
-        @media screen and (orientation: portrait) {
-            #ar-wrapper:not(.hidden) #ar-rotate-prompt { display: flex; }
+        @media screen and (orientation: portrait) { #ar-wrapper:not(.hidden) #ar-rotate-prompt { display: flex; } }
+
+        /* ==================================================
+           FUN PLAY (BALLOON POP) STYLES
+           ================================================== */
+        #bp-wrapper {
+            --bp-primary: #FF9800; --bp-primary-dark: #E65100;
+            --bp-secondary: #03A9F4; --bp-secondary-dark: #01579B;
+            --bp-success: #4CAF50; --bp-success-dark: #1B5E20;
+            --bp-danger: #F44336; --bp-danger-dark: #b71c1c;
+            --bp-text-color: #333;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 3000;
+            background: radial-gradient(circle at 50% 100%, #B3E5FC, #4FC3F7, #0288D1);
+            font-family: 'Fredoka', sans-serif;
+            overflow: hidden; display: flex; justify-content: center; align-items: center;
         }
+        #bp-wrapper::before {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, transparent 10%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 20%);
+            z-index: 1; pointer-events: none;
+        }
+        #bp-game-container { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        #bp-wrapper .bp-screen { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        #bp-wrapper .bp-screen.active { display: flex; }
+        #bp-wrapper .bp-menu-panel { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.5); padding: 40px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 5px 15px rgba(255,255,255,0.3); text-align: center; }
+        #bp-wrapper .logo h1 { font-size: 3.5rem; color: #FFeb3b; text-shadow: 0 4px 0 #F57F17, 0 10px 15px rgba(0,0,0,0.4); margin-bottom: 5px; animation: bpFloatLogo 3s ease-in-out infinite; }
+        @keyframes bpFloatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        #bp-wrapper .logo p { font-size: 1.5rem; color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.4); margin-bottom: 30px; }
+        #bp-wrapper .settings-grid { background: rgba(255,255,255,0.8); padding: 20px 30px; border-radius: 20px; box-shadow: inset 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        #bp-wrapper .setting-group { margin-bottom: 15px; }
+        #bp-wrapper .setting-group label { display: block; font-size: 1.2rem; color: #444; margin-bottom: 5px; }
+        #bp-wrapper .setting-group select { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; padding: 12px; border-radius: 12px; border: 2px solid #ccc; outline: none; width: 220px; background: #fff; box-shadow: 0 4px 0 #ccc; transition: transform 0.1s, box-shadow 0.1s; }
+        #bp-wrapper .setting-group select:active { transform: translateY(4px); box-shadow: 0 0px 0 #ccc; }
+        #bp-wrapper .bp-btn { font-family: 'Fredoka', sans-serif; padding: 15px 40px; font-size: 1.8rem; border: none; border-radius: 40px; cursor: pointer; color: white; text-transform: uppercase; text-shadow: 0 2px 2px rgba(0,0,0,0.3); transition: all 0.1s; margin: 10px; position: relative; display: inline-block; }
+        #bp-wrapper .primary-btn { background: linear-gradient(to bottom, var(--bp-primary), var(--bp-primary-dark)); box-shadow: 0 8px 0 #BF360C, 0 15px 20px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .primary-btn:active { transform: translateY(8px); box-shadow: 0 0px 0 #BF360C, 0 5px 10px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .secondary-btn { background: linear-gradient(to bottom, var(--bp-secondary), var(--bp-secondary-dark)); box-shadow: 0 8px 0 #01579B, 0 15px 20px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .secondary-btn:active { transform: translateY(8px); box-shadow: 0 0px 0 #01579B, 0 5px 10px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .danger-btn { background: linear-gradient(to bottom, var(--bp-danger), var(--bp-danger-dark)); box-shadow: 0 8px 0 #b71c1c, 0 15px 20px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .danger-btn:active { transform: translateY(8px); box-shadow: 0 0px 0 #b71c1c, 0 5px 10px rgba(0,0,0,0.3), inset 0 4px 5px rgba(255,255,255,0.4); }
+        #bp-wrapper .stats { margin-top: 20px; font-size: 1.4rem; color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.6); }
+        #bp-wrapper #bp-hud { position: absolute; top: 0; left: 0; right: 0; padding: 15px 20px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 100; pointer-events: none; }
+        #bp-wrapper .hud-left, #bp-wrapper .hud-right { display: flex; flex-direction: column; gap: 10px; font-size: 1.5rem; color: white; text-shadow: 0 3px 5px rgba(0,0,0,0.5); }
+        #bp-wrapper .hud-right { align-items: flex-end; }
+        #bp-wrapper .hud-right-top { display: flex; gap: 15px; align-items: center; }
+        #bp-wrapper #bp-question-card { background: linear-gradient(to bottom, #ffffff, #f0f0f0); padding: 10px 30px; border-radius: 40px; border: 4px solid #FFeb3b; box-shadow: 0 10px 0 #FBC02D, 0 15px 25px rgba(0,0,0,0.3); font-size: 2rem; color: var(--bp-text-color); display: flex; align-items: center; gap: 15px; pointer-events: auto; }
+        #bp-wrapper #bp-speak-btn { background: #E1F5FE; border: 2px solid #81D4FA; border-radius: 50%; width: 45px; height: 45px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 0 #0288D1; transition: all 0.1s; display: flex; justify-content: center; align-items: center;}
+        #bp-wrapper #bp-speak-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #0288D1; }
+        #bp-wrapper .circle-btn { border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; color: white; cursor: pointer; transition: all 0.1s; pointer-events: auto; display: flex; justify-content: center; align-items: center;}
+        #bp-wrapper #bp-pause-btn { background: #FF9800; box-shadow: 0 5px 0 #E65100, 0 10px 15px rgba(0,0,0,0.3); }
+        #bp-wrapper #bp-pause-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #E65100; }
+        #bp-wrapper #bp-music-btn { background: #9C27B0; box-shadow: 0 5px 0 #7B1FA2, 0 10px 15px rgba(0,0,0,0.3); }
+        #bp-wrapper #bp-music-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #7B1FA2; }
+        #bp-wrapper .combo-text { color: #FFeb3b; font-size: 1.3rem; font-weight: bold; min-height: 25px; text-shadow: 0 2px 4px #000;}
+        #bp-wrapper #bp-game-area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; }
+        #bp-wrapper .balloon { position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; cursor: pointer; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 30%), radial-gradient(circle at 70% 80%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%), var(--b-color); box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), inset 10px 10px 20px rgba(255,255,255,0.4), 0 15px 25px rgba(0,0,0,0.3); font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.6); transform-origin: center bottom; will-change: transform; pointer-events: auto; }
+        #bp-wrapper .balloon::after { content: ''; position: absolute; bottom: -8%; left: 50%; transform: translateX(-50%); width: 20%; height: 15%; background: inherit; border-radius: 40%; box-shadow: inset -2px -2px 5px rgba(0,0,0,0.4); z-index: -1; }
+        #bp-wrapper .balloon::before { content: ''; position: absolute; bottom: -70%; left: 50%; width: 2px; height: 70%; background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0)); z-index: -2; }
+        #bp-wrapper .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; font-size: 130%; margin-bottom: 15%; line-height: 1; }
+        #bp-wrapper .particle { position: absolute; pointer-events: none; border-radius: 50%; z-index: 50; will-change: transform, opacity; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        #bp-wrapper .floating-text { position: absolute; font-size: 2.5rem; font-weight: bold; pointer-events: none; animation: bpFloatUp 1s ease-out forwards; z-index: 105; text-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        @keyframes bpFloatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-70px) scale(1.5); } }
+        @media (max-width: 768px) { #bp-wrapper .logo h1 { font-size: 2.5rem; } #bp-wrapper #bp-question-card { font-size: 1.4rem; padding: 10px 20px; } #bp-wrapper .hud-left, #bp-wrapper .hud-right { font-size: 1.2rem; } #bp-wrapper .bp-btn { font-size: 1.4rem; padding: 12px 30px; } #bp-wrapper .bp-menu-panel { padding: 25px; width: 90%; } }
+        #bp-rotate-prompt { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,30,0.98); z-index: 5000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        #bp-rotate-prompt h1 { font-size: 2.5rem; color: #ffcc00; margin-bottom: 20px; }
+        #bp-rotate-prompt p { font-size: 1.5rem; color: white; margin-bottom: 30px; }
+        @media screen and (orientation: portrait) { #bp-wrapper:not(.hidden) #bp-rotate-prompt { display: flex; } }
     </style>
 </head>
 <body>
@@ -180,11 +232,10 @@
         </div>
     </div>
 
-    <!-- SETTINGS MODAL: Text Size Buttons Moved Here! -->
+    <!-- SETTINGS MODAL -->
     <div id="settings-modal" class="overlay hidden">
         <div class="modal scale-in">
             <h2>⚙️ Settings</h2>
-            
             <div class="setting-row">
                 <label>Text Size</label>
                 <div style="display:flex; gap:10px;">
@@ -192,7 +243,6 @@
                     <button class="btn-large" style="padding: 0.5rem 1rem; background: var(--danger);" onclick="changeFontSize(-2)">A-</button>
                 </div>
             </div>
-
             <div class="setting-row">
                 <label>Sound & Voice</label>
                 <button id="toggle-mute" class="btn-large" style="padding: 0.5rem 1rem;">🔊 ON</button>
@@ -232,16 +282,25 @@
             </div>
         </section>
 
+        <!-- NEW: FUN PLAY SUB-MENU -->
+        <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
+            <div onclick="enterAlphaRunner()" class="menu-btn scale-in" style="background: rgba(138, 201, 38, 0.8); color: white;">
+                <span class="icon">🏃</span>
+                <span>Alpha Runner</span>
+            </div>
+            <div onclick="enterBalloonPop()" class="menu-btn scale-in" style="background: rgba(239, 71, 111, 0.8); color: white;">
+                <span class="icon">🎈</span>
+                <span>Balloon Pop 3D</span>
+            </div>
+        </section>
+
         <!-- 2. THE SQUARE GRID -->
         <section id="home-screen" class="grid-container hidden"></section>
 
         <!-- 3. THE FLASHCARD VIEWER -->
         <section id="module-screen" class="hidden">
             <div class="flashcard-container" style="position: relative;">
-                
-                <!-- NEW SETTINGS BUTTON FOR FLASHCARD SCREEN IN TOP RIGHT CORNER -->
                 <button id="btn-fc-settings" class="btn-icon" style="position: absolute; top: 0px; right: 10px; z-index: 20; width: 45px; height: 45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">⚙️</button>
-
                 <div style="width: 100%; text-align: center; padding: 0 60px;">
                     <div class="card-counter"><span id="current-card-num">1</span> / <span id="total-card-num">26</span></div>
                     <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
@@ -274,7 +333,6 @@
 
         <!-- 4. THE GAME VIEWER -->
         <section id="game-screen" class="hidden">
-            <!-- NEW MINIMAL EXIT BUTTON -->
             <div style="width: 100%; max-width: 600px; margin: 5px auto; padding: 5px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10;">
                 <button id="btn-exit-game" class="btn-icon" style="background: var(--danger); color: white; border: none; width: 45px; height: 45px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">✖</button>
                 <div class="card-counter" style="background: rgba(255,255,255,0.8); padding: 5px 15px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Score: <span id="game-score">0</span></div>
@@ -298,7 +356,7 @@
         <div id="ar-rotate-prompt">
             <h1>📱 Please Rotate Your Phone</h1>
             <p>This game is best played in Landscape mode!</p>
-            <button class="ar-btn ar-btn-red" onclick="exitAlphaRunner()">🔙 Back to EduPlay</button>
+            <button class="ar-btn ar-btn-red" onclick="exitAlphaRunner()">🔙 Back to Fun Play</button>
         </div>
 
         <div id="ar-gameContainer">
@@ -324,7 +382,7 @@
                     <button class="ar-btn ar-btn-green" onclick="arShowModeSelect()">▶ Play Game</button>
                     <button class="ar-btn ar-btn-blue" onclick="arShowHowToPlay()">❓ How to Play</button>
                 </div>
-                <button class="ar-btn ar-btn-red" style="margin-top: 15px;" onclick="exitAlphaRunner()">🔙 Back to EduPlay</button>
+                <button class="ar-btn ar-btn-red" style="margin-top: 15px;" onclick="exitAlphaRunner()">🔙 Back to Fun Play</button>
             </div>
             
             <div class="ar-overlay" id="ar-modeSelect">
@@ -375,6 +433,114 @@
                 <div class="grid-btns">
                     <button class="ar-btn ar-btn-green" onclick="arRestartGame()">🔄 Play Again</button>
                     <button class="ar-btn ar-btn-blue" onclick="arShowScreen('ar-mainMenu'); arResetGame()">🏠 Game Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. NEW: FUN PLAY (BALLOON POP 3D) EMBEDDED WRAPPER -->
+    <div id="bp-wrapper" class="hidden">
+        <div id="bp-rotate-prompt">
+            <h1>📱 Please Rotate Your Phone</h1>
+            <p>This game is best played in Landscape mode!</p>
+            <button class="bp-btn danger-btn" onclick="exitBalloonPop()">🔙 Back to Fun Play</button>
+        </div>
+
+        <div id="bp-game-container">
+            <!-- Balloon Pop Main Menu -->
+            <div id="bp-main-menu" class="bp-screen active">
+                <div class="bp-menu-panel">
+                    <div class="logo">
+                        <h1>🎈 Balloon Pop 3D 🎈</h1>
+                        <p>Edu Play Learning Game</p>
+                    </div>
+                    
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label>Game Mode</label>
+                            <select id="bp-mode-select">
+                                <option value="alphabet">A-Z (Uppercase)</option>
+                                <option value="lowercase">a-z (Lowercase)</option>
+                                <option value="numbers">0-100 (Numbers)</option>
+                                <option value="shapes">Shapes</option>
+                                <option value="colors">Colors</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="animals">Animals</option>
+                                <option value="urdu">Urdu (حروف تہجی)</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label>Difficulty</label>
+                            <select id="bp-diff-select">
+                                <option value="easy">Easy</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label>Timer</label>
+                            <select id="bp-time-select">
+                                <option value="60">1 Minute</option>
+                                <option value="180">3 Minutes</option>
+                                <option value="300">5 Minutes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="bp-start-btn" class="bp-btn primary-btn">PLAY NOW</button>
+                    <br>
+                    <button class="bp-btn danger-btn" style="margin-top: 15px; font-size: 1.2rem;" onclick="exitBalloonPop()">🔙 Back to Fun Play</button>
+                    
+                    <div class="stats">
+                        <p>High Score: <span id="bp-menu-high-score">0</span> 🏆</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balloon Pop Game Interface -->
+            <div id="bp-game-ui" class="bp-screen">
+                <div id="bp-hud">
+                    <div class="hud-left">
+                        <div id="bp-hearts-container">❤️❤️❤️</div>
+                        <div class="combo-text" id="bp-combo-display"></div>
+                    </div>
+                    
+                    <div id="bp-question-card">
+                        <span id="bp-question-text">🎯 Find A</span>
+                        <button id="bp-speak-btn" title="Read Aloud">🔊</button>
+                    </div>
+
+                    <div class="hud-right">
+                        <div class="hud-right-top">
+                            <div id="bp-score-display">⭐ 0</div>
+                            <button id="bp-music-btn" class="circle-btn" title="Toggle Music">🎵</button>
+                            <button id="bp-pause-btn" class="circle-btn" title="Pause Game">⏸️</button>
+                        </div>
+                        <div id="bp-timer-display">⏱️ 1:00</div>
+                    </div>
+                </div>
+                <div id="bp-game-area"></div>
+            </div>
+
+            <!-- Balloon Pop Pause Menu -->
+            <div id="bp-pause-menu" class="bp-screen">
+                <div class="bp-menu-panel">
+                    <h2 style="font-size: 3rem; color: white; text-shadow: 0 4px 8px rgba(0,0,0,0.5); margin-bottom: 20px;">Game Paused</h2>
+                    <button id="bp-resume-btn" class="bp-btn" style="background: linear-gradient(to bottom, var(--bp-success), var(--bp-success-dark)); box-shadow: 0 8px 0 var(--bp-success-dark), 0 15px 20px rgba(0,0,0,0.3);">RESUME</button>
+                    <button id="bp-quit-btn" class="bp-btn danger-btn">QUIT GAME</button>
+                </div>
+            </div>
+
+            <!-- Balloon Pop Game Over Screen -->
+            <div id="bp-game-over" class="bp-screen">
+                <div class="bp-menu-panel">
+                    <h2 style="font-size: 3.5rem; color: #FFeb3b; text-shadow: 0 4px 8px rgba(0,0,0,0.5); margin-bottom: 10px;">Game Over!</h2>
+                    <div class="stats" style="margin-bottom: 25px; color: #333; text-shadow: none; font-weight: bold;">
+                        <p style="font-size: 2rem;">Score: <span id="bp-final-score" style="color: var(--bp-primary);">0</span></p>
+                        <p>Time Survived: <span id="bp-final-time">0</span>s</p>
+                    </div>
+                    <button id="bp-replay-btn" class="bp-btn primary-btn">PLAY AGAIN</button>
+                    <button id="bp-home-btn" class="bp-btn secondary-btn">GAME MENU</button>
                 </div>
             </div>
         </div>
@@ -494,6 +660,7 @@
             const startOverlay = document.getElementById("start-overlay");
             const appContainer = document.getElementById("app-container");
             const mainMenuScreen = document.getElementById("main-menu-screen");
+            const funplayMenuScreen = document.getElementById("funplay-menu-screen");
             const homeScreen = document.getElementById("home-screen");
             const moduleScreen = document.getElementById("module-screen");
             const gameScreen = document.getElementById("game-screen");
@@ -530,7 +697,6 @@
             document.getElementById("toggle-mute").addEventListener("click", () => { userSettings.mute = !userSettings.mute; if(userSettings.mute) window.speechSynthesis.cancel(); applySettings(); });
             document.getElementById("volume-slider").addEventListener("input", (e) => { userSettings.volume = parseFloat(e.target.value); applySettings(); });
             
-            // BOTH SETTINGS BUTTONS OPEN THE MODAL NOW!
             document.getElementById("btn-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             
@@ -558,8 +724,12 @@
                 loadGamesMenu();
             });
             
+            // NEW: Open Fun Play Sub-Menu
             document.getElementById("btn-menu-funplay").addEventListener("click", () => {
-                enterAlphaRunner();
+                mainMenuScreen.classList.replace("active-flex", "hidden");
+                funplayMenuScreen.classList.replace("hidden", "active-flex");
+                appTitle.innerText = "Fun Play";
+                btnHome.classList.remove("hidden");
             });
 
             function renderHome() {
@@ -583,12 +753,13 @@
                 stopAutoPlay(); showCard(currentIndex, 'scale-in');
             }
 
-            function makeColorful3D(text, isUrdu) {
+            function makeColorful3D(text, isUrdu, index = 0) {
                 if (!text) return ""; if (isUrdu || /[؀-ۿ]/.test(text)) return text; 
-                let html = "", colorCounter = 1;
+                let colorClass = `c-${(index % 6) + 1}`; 
+                let html = "";
                 for (let char of text) {
                     if (char === ' ') html += '&nbsp;';
-                    else { html += `<span class="colorful-letter c-${(colorCounter % 6) + 1}">${char}</span>`; colorCounter++; }
+                    else { html += `<span class="colorful-letter ${colorClass}">${char}</span>`; }
                 } return html;
             }
 
@@ -609,16 +780,18 @@
                 else { cardFrontContent.style.justifyContent = "space-between"; }
 
                 if (data.main) {
-                    cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain); 
+                    cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain, currentIndex); 
                     cardMainText.className = isUrduMain ? "urdu-text" : "huge-text"; 
                     let mainLen = data.main.length;
-                    if (mainLen > 8) { cardMainText.style.fontSize = "calc(clamp(2rem, 8vw, 4rem) + var(--font-modifier))"; } 
-                    else if (mainLen > 4) { cardMainText.style.fontSize = "calc(clamp(2.5rem, 10vw, 6rem) + var(--font-modifier))"; } 
-                    else { cardMainText.style.fontSize = ""; }
+                    
+                    if (mainLen > 8) { cardMainText.style.fontSize = "calc(clamp(3rem, 12vw, 5.5rem) + var(--font-modifier))"; } 
+                    else if (mainLen > 4) { cardMainText.style.fontSize = "calc(clamp(4rem, 16vw, 7.5rem) + var(--font-modifier))"; } 
+                    else { cardMainText.style.fontSize = "calc(clamp(5rem, 20vw, 9.5rem) + var(--font-modifier))"; }
+                    
                     cardMainText.classList.remove("hidden"); 
                 } else { cardMainText.classList.add("hidden"); }
                 
-                if(data.sub) { cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub); cardSubText.className = isUrduSub ? "urdu-text" : "sub-text"; cardSubText.classList.remove("hidden"); } else cardSubText.classList.add("hidden");
+                if(data.sub) { cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub, currentIndex); cardSubText.className = isUrduSub ? "urdu-text" : "sub-text"; cardSubText.classList.remove("hidden"); } else cardSubText.classList.add("hidden");
                 
                 cardRealImg.classList.add("hidden"); cardEmojiImg.classList.add("hidden");
                 if (data.img && data.img !== "") {
@@ -656,8 +829,17 @@
             
             btnHome.addEventListener("click", () => {
                 window.speechSynthesis.cancel(); stopAutoPlay();
+                
                 if (homeScreen.classList.contains("active-grid")) {
                     homeScreen.classList.replace("active-grid", "hidden");
+                    mainMenuScreen.classList.replace("hidden", "active-flex");
+                    appTitle.innerText = "Main Menu";
+                    btnHome.classList.add("hidden"); 
+                    return;
+                }
+
+                if (funplayMenuScreen.classList.contains("active-flex")) {
+                    funplayMenuScreen.classList.replace("active-flex", "hidden");
                     mainMenuScreen.classList.replace("hidden", "active-flex");
                     appTitle.innerText = "Main Menu";
                     btnHome.classList.add("hidden"); 
@@ -865,8 +1047,8 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // BUMPED TO V14 FOR FLASHCARD SETTINGS BUTTON!
-                    const CACHE_NAME = 'eduplay-pwa-games-v14';
+                    // BUMPED TO V15 TO LOAD FUN PLAY GAMES MENU!
+                    const CACHE_NAME = 'eduplay-pwa-games-v15';
                     self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
                     self.addEventListener('fetch', event => {
                         event.respondWith(
@@ -888,14 +1070,6 @@
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
         });
-    </script>
-
-    <script>
-        let currentFontModifier = 0; 
-        function changeFontSize(change) {
-            currentFontModifier = currentFontModifier + (change * 4); 
-            document.documentElement.style.setProperty('--font-modifier', currentFontModifier + 'px');
-        }
     </script>
 
     <!-- ==================================================
@@ -928,6 +1102,14 @@
             arResetGame();
             document.getElementById("ar-wrapper").classList.add("hidden");
             document.getElementById("app-container").classList.replace("hidden", "active-flex");
+            
+            // RETURN TO FUN PLAY MENU
+            document.getElementById("main-header").classList.remove("hidden");
+            document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden");
+            document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
+            document.getElementById("app-title").innerText = "Fun Play";
+            document.getElementById("btn-home").classList.remove("hidden");
+
             arGameActive = false;
             
             try {
@@ -1179,7 +1361,6 @@
 
             const randHeight = Math.random();
             let itemY = groundY - 30; 
-            
             if(randHeight > 0.6) itemY = groundY - 120; 
             if(randHeight > 0.85) itemY = Math.max(60, groundY - 220); 
 
@@ -1382,6 +1563,491 @@
         setInterval(arUpdate, 1000/60);
         arRender();
         document.getElementById('ar-menuHighScore').textContent = '🏆 High Score: ' + arGameState.highScore;
+    </script>
+
+    <!-- ==================================================
+         FUN PLAY (BALLOON POP 3D) ENGINE
+         ================================================== -->
+    <script>
+        let bpGameActive = false;
+        let bpReqAnimId = null;
+
+        function enterBalloonPop() {
+            document.getElementById("app-container").classList.replace("active-flex", "hidden");
+            document.getElementById("bp-wrapper").classList.remove("hidden");
+            bpGameActive = true;
+            
+            try {
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().then(() => {
+                        if (screen.orientation && screen.orientation.lock) {
+                            screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported."));
+                        }
+                    }).catch(e => console.log("Fullscreen blocked."));
+                }
+            } catch(err) { console.log(err); }
+
+            bpShowMenu();
+        }
+
+        function exitBalloonPop() {
+            bpIsPlaying = false;
+            bpIsPaused = false;
+            bpStopBGM();
+            if(bpReqAnimId) cancelAnimationFrame(bpReqAnimId);
+            
+            document.getElementById("bp-wrapper").classList.add("hidden");
+            document.getElementById("app-container").classList.replace("hidden", "active-flex");
+            
+            // RETURN TO FUN PLAY MENU
+            document.getElementById("main-header").classList.remove("hidden");
+            document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden");
+            document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
+            document.getElementById("app-title").innerText = "Fun Play";
+            document.getElementById("btn-home").classList.remove("hidden");
+
+            bpGameActive = false;
+            
+            try {
+                if (document.exitFullscreen && document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            } catch(err) { console.log(err); }
+        }
+
+        const BP_DICTIONARIES = {
+            alphabet: [
+                {id: 'A', text: 'A', say: 'A'}, {id: 'B', text: 'B', say: 'B'}, {id: 'C', text: 'C', say: 'C'}, {id: 'D', text: 'D', say: 'D'},
+                {id: 'E', text: 'E', say: 'E'}, {id: 'F', text: 'F', say: 'F'}, {id: 'G', text: 'G', say: 'G'}, {id: 'H', text: 'H', say: 'H'},
+                {id: 'I', text: 'I', say: 'I'}, {id: 'J', text: 'J', say: 'J'}, {id: 'K', text: 'K', say: 'K'}, {id: 'L', text: 'L', say: 'L'},
+                {id: 'M', text: 'M', say: 'M'}, {id: 'N', text: 'N', say: 'N'}, {id: 'O', text: 'O', say: 'O'}, {id: 'P', text: 'P', say: 'P'},
+                {id: 'Q', text: 'Q', say: 'Q'}, {id: 'R', text: 'R', say: 'R'}, {id: 'S', text: 'S', say: 'S'}, {id: 'T', text: 'T', say: 'T'},
+                {id: 'U', text: 'U', say: 'U'}, {id: 'V', text: 'V', say: 'V'}, {id: 'W', text: 'W', say: 'W'}, {id: 'X', text: 'X', say: 'X'},
+                {id: 'Y', text: 'Y', say: 'Y'}, {id: 'Z', text: 'Z', say: 'Z'}
+            ],
+            lowercase: [
+                {id: 'a', text: 'a', say: 'a'}, {id: 'b', text: 'b', say: 'b'}, {id: 'c', text: 'c', say: 'c'}, {id: 'd', text: 'd', say: 'd'}
+            ], 
+            numbers: [], 
+            shapes: [
+                {id: 'circle', text: '🔴', say: 'Circle'}, {id: 'square', text: '🟦', say: 'Square'},
+                {id: 'triangle', text: '🔺', say: 'Triangle'}, {id: 'star', text: '⭐', say: 'Star'},
+                {id: 'heart', text: '❤️', say: 'Heart'}
+            ],
+            colors: [
+                {id: 'red', text: 'Red', say: 'Red', hex: '#E53935'}, {id: 'blue', text: 'Blue', say: 'Blue', hex: '#1E88E5'},
+                {id: 'green', text: 'Green', say: 'Green', hex: '#43A047'}, {id: 'yellow', text: 'Yellow', say: 'Yellow', hex: '#FDD835'},
+                {id: 'purple', text: 'Purple', say: 'Purple', hex: '#8E24AA'}, {id: 'orange', text: 'Orange', say: 'Orange', hex: '#FB8C00'}
+            ],
+            fruits: [
+                {id: 'apple', text: '🍎', say: 'Apple'}, {id: 'banana', text: '🍌', say: 'Banana'},
+                {id: 'orange_fruit', text: '🍊', say: 'Orange'}, {id: 'mango', text: '🥭', say: 'Mango'},
+                {id: 'grapes', text: '🍇', say: 'Grapes'}, {id: 'watermelon', text: '🍉', say: 'Watermelon'}
+            ],
+            animals: [
+                {id: 'lion', text: '🦁', say: 'Lion'}, {id: 'tiger', text: '🐯', say: 'Tiger'},
+                {id: 'elephant', text: '🐘', say: 'Elephant'}, {id: 'monkey', text: '🐵', say: 'Monkey'},
+                {id: 'rabbit', text: '🐰', say: 'Rabbit'}, {id: 'dog', text: '🐶', say: 'Dog'}, {id: 'cat', text: '🐱', say: 'Cat'}
+            ],
+            urdu: [
+                {id: 'alif', text: 'ا', say: 'Alif'}, {id: 'ba', text: 'ب', say: 'Baa'}, {id: 'pa', text: 'پ', say: 'Paa'},
+                {id: 'ta', text: 'ت', say: 'Taa'}, {id: 'ta_heavy', text: 'ٹ', say: 'Ttaa'}, {id: 'sa', text: 'ث', say: 'Saa'},
+                {id: 'jeem', text: 'ج', say: 'Jeem'}, {id: 'cha', text: 'چ', say: 'Chaa'}, {id: 'ha', text: 'ح', say: 'Haa'}
+            ]
+        };
+
+        for(let i=101; i<=122; i++) { BP_DICTIONARIES.lowercase.push({id: String.fromCharCode(i), text: String.fromCharCode(i), say: String.fromCharCode(i)}); }
+        for(let i=0; i<=100; i++) BP_DICTIONARIES.numbers.push({id: i.toString(), text: i.toString(), say: i.toString()});
+
+        const BP_COLORS = ['#F44336', '#2196F3', '#4CAF50', '#FFEB3B', '#9C27B0', '#FF9800', '#E91E63', '#00BCD4'];
+
+        let bpCurrentMode = [];
+        let bpCurrentTarget = null;
+        let bpDifficultySettings = {
+            easy: { speedMult: 1, spawnRate: 1500, size: 100 },
+            medium: { speedMult: 1.5, spawnRate: 1000, size: 85 },
+            hard: { speedMult: 2.2, spawnRate: 600, size: 70 }
+        };
+        let bpDiff = 'medium';
+        let bpIsPlaying = false;
+        let bpIsPaused = false;
+
+        let bpScore = 0, bpHearts = 3, bpCombo = 0, bpTimeRemaining = 0;
+        let bpBalloons = [], bpParticles = [];
+        let bpLastTime = 0, bpLastSpawn = 0;
+
+        const bpElGameArea = document.getElementById('bp-game-area');
+        const bpElMainMenu = document.getElementById('bp-main-menu');
+        const bpElGameUI = document.getElementById('bp-game-ui');
+        const bpElGameOver = document.getElementById('bp-game-over');
+        const bpElPauseMenu = document.getElementById('bp-pause-menu');
+        
+        const bpElScore = document.getElementById('bp-score-display');
+        const bpElHearts = document.getElementById('bp-hearts-container');
+        const bpElTimer = document.getElementById('bp-timer-display');
+        const bpElQuestion = document.getElementById('bp-question-text');
+        const bpElCombo = document.getElementById('bp-combo-display');
+        const bpElHighScore = document.getElementById('bp-menu-high-score');
+        const bpElMusicBtn = document.getElementById('bp-music-btn');
+
+        let bpAudioCtx = null;
+        let bpIsMusicMuted = false;
+        let bpIsMusicPlaying = false;
+        let bpNextNoteTime = 0;
+        let bpCurrentNoteIndex = 0;
+        let bpMusicScheduleId = null;
+        const bpMelody = [261.63, 329.63, 392.00, 440.00, 392.00, 329.63, 261.63, 392.00];
+
+        function initBpAudio() {
+            if(!bpAudioCtx) {
+                bpAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if(bpAudioCtx.state === 'suspended') bpAudioCtx.resume();
+        }
+
+        function bpScheduleMusic() {
+            if (!bpIsMusicPlaying || bpIsMusicMuted || bpIsPaused || !bpGameActive) return;
+            
+            while (bpNextNoteTime < bpAudioCtx.currentTime + 0.1) {
+                const osc = bpAudioCtx.createOscillator();
+                const gain = bpAudioCtx.createGain();
+                osc.connect(gain); gain.connect(bpAudioCtx.destination);
+                
+                osc.type = 'sine';
+                osc.frequency.value = bpMelody[bpCurrentNoteIndex];
+                
+                gain.gain.setValueAtTime(0, bpNextNoteTime);
+                gain.gain.linearRampToValueAtTime(0.05, bpNextNoteTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, bpNextNoteTime + 0.4);
+                
+                osc.start(bpNextNoteTime);
+                osc.stop(bpNextNoteTime + 0.4);
+                
+                bpNextNoteTime += 0.35; 
+                bpCurrentNoteIndex = (bpCurrentNoteIndex + 1) % bpMelody.length;
+            }
+            bpMusicScheduleId = requestAnimationFrame(bpScheduleMusic);
+        }
+
+        function bpStartBGM() {
+            initBpAudio();
+            if (bpIsMusicMuted) return;
+            bpIsMusicPlaying = true;
+            bpNextNoteTime = bpAudioCtx.currentTime + 0.1;
+            bpScheduleMusic();
+        }
+
+        function bpStopBGM() {
+            bpIsMusicPlaying = false;
+            cancelAnimationFrame(bpMusicScheduleId);
+        }
+
+        function bpToggleMusic() {
+            bpIsMusicMuted = !bpIsMusicMuted;
+            bpElMusicBtn.innerText = bpIsMusicMuted ? '🔇' : '🎵';
+            if (bpIsMusicMuted) {
+                bpStopBGM();
+            } else if (bpIsPlaying && !bpIsPaused) {
+                bpStartBGM();
+            }
+        }
+
+        function bpPlaySound(type) {
+            initBpAudio();
+            const osc = bpAudioCtx.createOscillator();
+            const gain = bpAudioCtx.createGain();
+            osc.connect(gain); gain.connect(bpAudioCtx.destination);
+            const now = bpAudioCtx.currentTime;
+
+            if (type === 'pop') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, now); osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+                gain.gain.setValueAtTime(0.4, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now); osc.stop(now + 0.1);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, now); osc.frequency.linearRampToValueAtTime(100, now + 0.2);
+                gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now); osc.stop(now + 0.2);
+            } else if (type === 'correct') {
+                osc.type = 'square'; osc.frequency.setValueAtTime(400, now); osc.frequency.setValueAtTime(600, now + 0.1);
+                gain.gain.setValueAtTime(0.2, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now); osc.stop(now + 0.3);
+            }
+        }
+
+        function bpSpeak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.rate = 0.9; msg.pitch = 1.2;
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        document.getElementById('bp-start-btn').addEventListener('click', bpStartGame);
+        document.getElementById('bp-replay-btn').addEventListener('click', bpStartGame);
+        document.getElementById('bp-home-btn').addEventListener('click', bpShowMenu);
+        document.getElementById('bp-speak-btn').addEventListener('click', () => bpSpeak(`Find ${bpCurrentTarget.say}`));
+        document.getElementById('bp-pause-btn').addEventListener('click', bpTogglePause);
+        document.getElementById('bp-resume-btn').addEventListener('click', bpTogglePause);
+        document.getElementById('bp-quit-btn').addEventListener('click', bpShowMenu);
+        bpElMusicBtn.addEventListener('click', bpToggleMusic);
+
+        const bpSavedHigh = localStorage.getItem('balloonPopHighScore3D');
+        if(bpSavedHigh) bpElHighScore.innerText = bpSavedHigh;
+
+        function bpShowMenu() {
+            bpIsPlaying = false; bpIsPaused = false;
+            bpStopBGM();
+            bpElGameUI.classList.remove('active');
+            bpElGameOver.classList.remove('active');
+            bpElPauseMenu.classList.remove('active');
+            bpElMainMenu.classList.add('active');
+            bpElGameArea.innerHTML = '';
+            bpBalloons = [];
+        }
+
+        function bpTogglePause() {
+            if (!bpIsPlaying) return;
+            bpIsPaused = !bpIsPaused;
+            if (bpIsPaused) {
+                bpStopBGM();
+                bpElPauseMenu.classList.add('active');
+            } else {
+                bpElPauseMenu.classList.remove('active');
+                bpLastTime = performance.now(); 
+                bpStartBGM();
+                bpReqAnimId = requestAnimationFrame(bpGameLoop);
+            }
+        }
+
+        function bpStartGame() {
+            initBpAudio();
+            const modeKey = document.getElementById('bp-mode-select').value;
+            bpCurrentMode = BP_DICTIONARIES[modeKey];
+            bpDiff = document.getElementById('bp-diff-select').value;
+            bpTimeRemaining = parseInt(document.getElementById('bp-time-select').value);
+            
+            bpScore = 0; bpHearts = 3; bpCombo = 0; bpBalloons = [];
+            bpElGameArea.innerHTML = '';
+            bpIsPaused = false;
+            
+            bpUpdateHUD();
+            bpPickNewTarget();
+            
+            bpElMainMenu.classList.remove('active');
+            bpElGameOver.classList.remove('active');
+            bpElPauseMenu.classList.remove('active');
+            bpElGameUI.classList.add('active');
+            
+            bpIsPlaying = true;
+            bpLastTime = performance.now();
+            bpLastSpawn = bpLastTime;
+            
+            bpStartBGM();
+            bpReqAnimId = requestAnimationFrame(bpGameLoop);
+        }
+
+        function bpPickNewTarget() {
+            bpCurrentTarget = bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)];
+            const isUrdu = document.getElementById('bp-mode-select').value === 'urdu';
+            bpElQuestion.innerHTML = `🎯 Find <b class="${isUrdu ? 'urdu-text' : ''}">${bpCurrentTarget.text}</b>`;
+            bpSpeak(`Find ${bpCurrentTarget.say}`);
+        }
+
+        function bpGameLoop(timestamp) {
+            if (!bpIsPlaying || bpIsPaused || !bpGameActive) return; 
+            
+            const dt = timestamp - bpLastTime;
+            bpLastTime = timestamp;
+
+            if (timestamp - bpLastSpawn > 1000) { 
+                bpTimeRemaining--;
+                bpUpdateHUD();
+                if (bpTimeRemaining <= 0) { bpEndGame(); return; }
+            }
+
+            const { spawnRate } = bpDifficultySettings[bpDiff];
+            if (timestamp - bpLastSpawn > spawnRate) {
+                bpSpawnBalloon();
+                bpLastSpawn = timestamp;
+            }
+
+            for (let i = bpBalloons.length - 1; i >= 0; i--) {
+                const b = bpBalloons[i];
+                b.y -= b.speed * (dt / 16);
+                b.xOffset = Math.sin(timestamp / 500 + b.swaySeed) * 20;
+                b.element.style.transform = `translate3d(${b.x + b.xOffset}px, ${b.y}px, 0)`;
+
+                if (b.y < -200) {
+                    b.element.remove();
+                    bpBalloons.splice(i, 1);
+                }
+            }
+
+            for (let i = bpParticles.length - 1; i >= 0; i--) {
+                const p = bpParticles[i];
+                p.life -= dt;
+                if (p.life <= 0) {
+                    p.element.remove(); bpParticles.splice(i, 1);
+                } else {
+                    p.y += p.vy; p.x += p.vx; p.vy += 0.2;
+                    p.element.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${p.life/1000})`;
+                    p.element.style.opacity = p.life / 1000;
+                }
+            }
+
+            bpReqAnimId = requestAnimationFrame(bpGameLoop);
+        }
+
+        function bpSpawnBalloon() {
+            const { size, speedMult } = bpDifficultySettings[bpDiff];
+            const isTarget = Math.random() < 0.35;
+            const data = isTarget ? bpCurrentTarget : bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)];
+            
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.width = size + 'px';
+            balloon.style.height = (size * 1.3) + 'px';
+            balloon.style.fontSize = (size * 0.45) + 'px';
+            
+            const bgColor = data.hex || BP_COLORS[Math.floor(Math.random() * BP_COLORS.length)];
+            balloon.style.setProperty('--b-color', bgColor);
+            
+            if (document.getElementById('bp-mode-select').value === 'urdu') {
+                balloon.classList.add('urdu-text');
+            }
+            
+            balloon.innerText = data.text;
+            
+            const startX = Math.random() * (window.innerWidth - size - 20) + 10;
+            const startY = window.innerHeight + 50; 
+            
+            const bObj = {
+                element: balloon, data: data, x: startX, y: startY,
+                xOffset: 0, swaySeed: Math.random() * 100,
+                speed: (Math.random() * 2 + 1.5) * speedMult,
+                color: bgColor
+            };
+            
+            balloon.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                if(bpIsPaused) return; 
+                bpHandlePop(bObj);
+            });
+
+            bpElGameArea.appendChild(balloon);
+            bpBalloons.push(bObj);
+        }
+
+        function bpHandlePop(bObj) {
+            if(!bpIsPlaying || bpIsPaused) return;
+            const isCorrect = (bObj.data.id === bpCurrentTarget.id);
+            
+            bObj.element.remove();
+            const index = bpBalloons.indexOf(bObj);
+            if(index > -1) bpBalloons.splice(index, 1);
+            
+            bpCreateExplosion(bObj.x + bObj.element.offsetWidth/2, bObj.y + bObj.element.offsetHeight/2, bObj.color);
+            bpPlaySound('pop');
+
+            if (isCorrect) {
+                bpPlaySound('correct');
+                bpScore += 10; bpCombo++;
+                if (bpCombo > 0 && bpCombo % 5 === 0) {
+                    bpScore += 20;
+                    bpShowFloatingText('Combo +20!', bObj.x, bObj.y, '#FFeb3b');
+                    bpCreateConfetti();
+                } else {
+                    bpShowFloatingText('+10', bObj.x, bObj.y, '#4CAF50');
+                }
+                bpPickNewTarget();
+            } else {
+                bpPlaySound('wrong');
+                bpScore = Math.max(0, bpScore - 5);
+                bpHearts--; bpCombo = 0;
+                bpShowFloatingText('-5', bObj.x, bObj.y, '#F44336');
+                
+                bpElGameUI.style.transform = 'translate(5px, 5px)';
+                setTimeout(() => bpElGameUI.style.transform = 'translate(-5px, -5px)', 50);
+                setTimeout(() => bpElGameUI.style.transform = 'translate(5px, 5px)', 100);
+                setTimeout(() => bpElGameUI.style.transform = 'none', 150);
+
+                if (bpHearts <= 0) bpEndGame();
+            }
+            bpUpdateHUD();
+        }
+
+        function bpUpdateHUD() {
+            bpElScore.innerText = `⭐ ${bpScore}`;
+            bpElHearts.innerText = '❤️'.repeat(bpHearts) + '🖤'.repeat(3 - bpHearts);
+            const m = Math.floor(bpTimeRemaining / 60);
+            const s = bpTimeRemaining % 60;
+            bpElTimer.innerText = `⏱️ ${m}:${s.toString().padStart(2, '0')}`;
+            bpElCombo.innerText = bpCombo >= 3 ? `${bpCombo}x Combo🔥` : '';
+        }
+
+        function bpCreateExplosion(x, y, color) {
+            for (let i = 0; i < 10; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle'; p.style.backgroundColor = color;
+                p.style.width = '12px'; p.style.height = '12px';
+                bpElGameArea.appendChild(p);
+                
+                bpParticles.push({
+                    element: p, x: x, y: y,
+                    vx: (Math.random() - 0.5) * 18, vy: (Math.random() - 0.5) * 18 - 5,
+                    life: 800 + Math.random() * 400
+                });
+            }
+        }
+
+        function bpCreateConfetti() {
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.backgroundColor = BP_COLORS[Math.floor(Math.random() * BP_COLORS.length)];
+                p.style.width = '8px'; p.style.height = '18px'; p.style.borderRadius = '2px';
+                bpElGameArea.appendChild(p);
+                
+                bpParticles.push({
+                    element: p,
+                    x: window.innerWidth / 2 + (Math.random() - 0.5) * 100, y: window.innerHeight / 2,
+                    vx: (Math.random() - 0.5) * 25, vy: (Math.random() - 1) * 25,
+                    life: 1500 + Math.random() * 1000
+                });
+            }
+        }
+
+        function bpShowFloatingText(text, x, y, color) {
+            const el = document.createElement('div');
+            el.className = 'floating-text'; el.innerText = text;
+            el.style.color = color; el.style.left = x + 'px'; el.style.top = y + 'px';
+            bpElGameArea.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function bpEndGame() {
+            bpIsPlaying = false;
+            bpStopBGM();
+            
+            document.getElementById('bp-final-score').innerText = bpScore;
+            const totalTime = parseInt(document.getElementById('bp-time-select').value) - bpTimeRemaining;
+            document.getElementById('bp-final-time').innerText = totalTime;
+            
+            const prevHigh = parseInt(localStorage.getItem('balloonPopHighScore3D') || '0');
+            if (bpScore > prevHigh) {
+                localStorage.setItem('balloonPopHighScore3D', bpScore);
+                bpElHighScore.innerText = bpScore;
+                document.getElementById('bp-final-score').innerHTML += ' <span style="color:#4CAF50; font-size:1.2rem; display:block;">(New Best!)</span>';
+            }
+            
+            bpElGameUI.classList.remove('active');
+            bpElGameOver.classList.add('active');
+        }
     </script>
 </body>
 </html>
