@@ -55,7 +55,9 @@
         .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
 
         .huge-text { font-size: calc(clamp(4rem, 20vw, 10rem) + var(--font-modifier)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.3s ease; word-break: keep-all; }
-        .sub-text { font-size: clamp(1.8rem, 8vw, 5rem); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; }
+        
+        /* NEW: Names size dramatically increased and linked to the font-modifier! */
+        .sub-text { font-size: calc(clamp(3.5rem, 14vw, 7rem) + var(--font-modifier)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.3s ease; }
 
         .colorful-letter { font-family: 'Fredoka', Impact, Arial, sans-serif; font-weight: 700; display: inline-block; transform: translateZ(30px); text-shadow: 2px 2px 0 #2B2D42, -2px -2px 0 #2B2D42, 0 15px 20px rgba(0,0,0,0.4); }
         .c-1 { color: #FF595E; } .c-2 { color: #FFCA3A; } .c-3 { color: #8AC926; } .c-4 { color: #1982C4; } .c-5 { color: #6A4C93; } .c-6 { color: #FF924C; }
@@ -99,6 +101,8 @@
         .game-option.wrong { background: var(--danger); color: white; border-color: white; }
 
         .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
+        
+        /* BOTTOM CONTROLS PANEL */
         .controls-container { display: flex; gap: 0.8rem; padding: 0.8rem; border-radius: 50px; margin: 0 1rem 1rem 1rem; align-items: center; justify-content: center; flex-wrap: wrap; width: 95%; max-width: 600px; flex-shrink: 0;}
 
         .scale-in { animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -232,17 +236,10 @@
         </div>
     </div>
 
-    <!-- SETTINGS MODAL -->
+    <!-- SETTINGS MODAL ONLY FOR VOLUME NOW -->
     <div id="settings-modal" class="overlay hidden">
         <div class="modal scale-in">
             <h2>⚙️ Settings</h2>
-            <div class="setting-row">
-                <label>Text Size</label>
-                <div style="display:flex; gap:10px;">
-                    <button class="btn-large success" style="padding: 0.5rem 1rem;" onclick="changeFontSize(2)">A+</button>
-                    <button class="btn-large" style="padding: 0.5rem 1rem; background: var(--danger);" onclick="changeFontSize(-2)">A-</button>
-                </div>
-            </div>
             <div class="setting-row">
                 <label>Sound & Voice</label>
                 <button id="toggle-mute" class="btn-large" style="padding: 0.5rem 1rem;">🔊 ON</button>
@@ -320,9 +317,14 @@
                 </div>
             </div>
 
-            <!-- BACK BUTTON MOVED TO BOTTOM CONTROLS -->
+            <!-- BACK BUTTON AND TEXT SIZE A+/A- BUTTONS MOVED TO BOTTOM CONTROLS -->
             <div class="controls-container glass-panel">
                 <button id="btn-fc-back" class="btn-large" style="background: var(--danger); padding: 0.5rem 1rem;" title="Back to Grid">⬅️</button>
+                
+                <!-- NEW: FONT SIZE BUTTONS PLACED DIRECTLY IN BOTTOM PANEL -->
+                <button onclick="changeFontSize(2)" class="btn-large success" style="padding: 0.5rem 1rem;" title="Bigger Text">A+</button>
+                <button onclick="changeFontSize(-2)" class="btn-large" style="background: var(--danger); padding: 0.5rem 1rem;" title="Smaller Text">A-</button>
+                
                 <button id="btn-prev" class="btn-large secondary" title="Previous Card">◀</button>
                 <button id="btn-auto" class="btn-large success" title="Auto Play">▶ Auto</button>
                 <button id="btn-random" class="btn-large secondary" title="Random Card">🔀</button>
@@ -597,10 +599,10 @@
         const vegetables = [['Carrot','🥕','carrot.png'],['Potato','🥔','potato.png'],['Tomato','🍅','tomato.png'],['Onion','🧅','onion.png'],['Corn','🌽','corn.png'],['Broccoli','🥦','broccoli.png'],['Cabbage','🥬','cabbage.png'],['Peas','🫛','peas.png'],['Spinach','🥬','spinach.png'],['Mushroom','🍄','mushroom.png'],['Brinjal','🍆','brinjal.png'],['Cucumber','🥒','cucumber.png'],['capsicum','🫑','capsicum.png'],['Garlic','🧄','garlic.png'],['Ginger','🫚','ginger.png'],['Chili','🌶️','chili.png'],['Pumpkin','🎃','pumpkin.png'],['Radish','🥗','radish.png'],['Sweet Potato','🍠','sweet potato.png'],['Cauliflower','🥦','cauliflower.png']];
         const animals = [['Lion','🦁','lion.png'],['Tiger','🐅','tiger.png'],['Elephant','🐘','elephant.png'],['Monkey','🐒','monkey.png'],['Dog','🐶','dog.png'],['Cat','🐱','cat.png'],['Cow','🐄','cow.png'],['Buffalo','🐃','buffalo.png'],['Horse','🐎','horse.png'],['Goat','🐐','goat.png'],['Sheep','🐑','sheep.png'],['Camel','🐫','camel.png'],['Rabbit','🐰','rabbit.png'],['Bear','🐻','bear.png'],['Fox','🦊','fox.png'],['Wolf','🐺','wolf.png'],['Deer','🦌','deer.png'],['Zebra','🦓','zebra.png'],['Giraffe','🦒','giraffe.png'],['Kangaroo','🦘','kangaroo.png'],['Panda','🐼','panda.png'],['Cheetah','🐆','cheetah.png']];
         const birds = [['Parrot','🦜','parrot.png'],['Peacock','🦚','peacock.png'],['Eagle','🦅','eagle.png'],['Duck','🦆','duck.png'],['Owl','🦉','owl.png'],['Chicken','🐔','chicken.png'],['Pigeon','🕊️','pigeon.png'],['Crow','🐦‍⬛','crow.png'],['Sparrow','🐦','sparrow.png'],['Penguin','🐧','penguin.png'],['Swan','🦢','swan.png'],['Flamingo','🦩','flamingo.png'],['Ostrich','🴩','ostrich.png'],['Turkey','🦃','turkey.png']];
-        const transport = [['Car','🚗','car.png'],['Bus','🚌','bus.png'],['Train','🚂','train.png'],['Aeroplane','✈️','aeroplane.png'],['Bicycle','🚲','bicycle.png'],['Ship','🚢','ship.png'],['Motorcycle','🏍️','motorcycle.png'],['Helicopter','🚁','helicopter.png'],['Truck','🚚','truck.png'],['Tractor','🚜','tractor.png'],['Boat','⛵','boat.png'],['Ambulance','🚑','ambulance.png'],['Fire engine','🚒','fire engine.png'],['Police Car','🚓','policecar.png'],['Rocket','🚀','rocket.png']];
+        const transport = [['Car','🚗','car.png'],['Bus','🚌','bus.png'],['Train','🚂','train.png'],['Airplane','✈️','airplane.png'],['Bicycle','🚲','bicycle.png'],['Ship','🚢','ship.png'],['Motorcycle','🏍️','motorcycle.png'],['Helicopter','🚁','helicopter.png'],['Truck','🚚','truck.png'],['Tractor','🚜','tractor.png'],['Boat','⛵','boat.png'],['Ambulance','🚑','ambulance.png'],['Fire Truck','🚒','firetruck.png'],['Police Car','🚓','policecar.png'],['Rocket','🚀','rocket.png']];
         const colors = [['Red','🟥','red.png'],['Blue','🟦','blue.png'],['Green','🟩','green.png'],['Yellow','🟨','yellow.png'],['Orange','🟧','orange color.png'],['Purple','🟪','purple.png'],['Pink','🌸','pink.png'],['Brown','🟫','brown.png'],['Black','⬛','black.png'],['White','⬜','white.png'],['Grey','🔲','grey.png'],['Gold','🥇','gold.png']];
         const shapes = [['Circle','🔴','circle.png'],['Square','🟥','square.png'],['Triangle','🔺','triangle.png'],['Rectangle','🟩','rectangle.png'],['Oval','🥚','oval.png'],['Diamond','♦️','diamond.png'],['Heart','❤️','heart.png'],['Star','⭐','star.png'],['Pentagon','⬟','pentagon.png'],['Hexagon','⬢','hexagon.png'],['Octagon','🛑','octagon.png'],['Cube','🧊','cube.png'],['Cone','🛕','cone.png'],['Cylinder','🥫','cylinder.png'],['Sphere','🔮','sphere.png'],['Semi Circle','🌗','semicircle.png'],['Crescent','🌙','crescent.png'],['Arrow','➡️','arrow.png'],['Cross','➕','cross.png']];
-        const body_parts = [['Eye','👁️','eye.png'],['Ear','👂','ear.png'],['Nose','👃','nose.png'],['Mouth','👄','mouth.png'],['Hand','✋','hand.png'],['Foot','🦶','foot.png'],['Leg','🦵','leg.png'],['Arm','💪','arm.png'],['Teeth','🦷','teeth.png'],['Tongue','👅','tongue.png'],['Hair','💇','hair.png'],['Face','👱','face.png'],['Fingers','🖐️','fingers.png'],['Toes','🦶','toes.png'],['Brain','🧠','brain.png']];
+        const body_parts = [['Eye','👁️','eye.png'],['Ear','👂','ear.png'],['Nose','👃','nose.png'],['Mouth','👄','mouth.png'],['Hand','✋','hand.png'],['Foot','🦶','foot.png'],['Leg','🦵','leg.png'],['Arm','💪','arm.png'],['Teeth','🦷','teeth.png'],['Tongue','👅','tongue.png'],['Hair','💇','hair.png'],['Head','👱','head.png'],['Fingers','🖐️','fingers.png'],['Toes','🦶','toes.png']];
         const school = [['Book','📚','book.png'],['Bag','🎒','bag.png'],['Pencil','✏️','pencil.png'],['Pen','🖊️','pen.png'],['Ruler','📏','ruler.png'],['Eraser','🧽','eraser.png'],['Scissors','✂️','scissors.png'],['Crayons','🖍️','crayons.png'],['Desk','🪑','desk.png'],['Chair','🪑','chair.png'],['Blackboard','🏫','blackboard.png'],['Globe','🌍','globe.png'],['Calculator','🖩','calculator.png'],['Microscope','🔬','microscope.png'],['Bell','🔔','bell.png']];
         
         const urduLetters = ['ا','ب','پ','ت','ٹ','ث','ج','چ','ح','خ','د','ڈ','ذ','ر','ڑ','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ہ','ء','ی','ے'];
@@ -697,6 +699,7 @@
             document.getElementById("toggle-mute").addEventListener("click", () => { userSettings.mute = !userSettings.mute; if(userSettings.mute) window.speechSynthesis.cancel(); applySettings(); });
             document.getElementById("volume-slider").addEventListener("input", (e) => { userSettings.volume = parseFloat(e.target.value); applySettings(); });
             
+            // BOTH SETTINGS BUTTONS OPEN THE MODAL NOW!
             document.getElementById("btn-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             
@@ -1047,8 +1050,8 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // BUMPED TO V15 TO LOAD FUN PLAY GAMES MENU!
-                    const CACHE_NAME = 'eduplay-pwa-games-v15';
+                    // BUMPED TO V16 FOR A+/A- BOTTOM PANEL FIX
+                    const CACHE_NAME = 'eduplay-pwa-games-v16';
                     self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
                     self.addEventListener('fetch', event => {
                         event.respondWith(
@@ -1070,6 +1073,15 @@
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
         });
+    </script>
+
+    <script>
+        let currentFontModifier = 0; 
+        function changeFontSize(change) {
+            // Increased multiplier from 4 to 6 so tapping the button makes a larger, more obvious difference
+            currentFontModifier = currentFontModifier + (change * 6); 
+            document.documentElement.style.setProperty('--font-modifier', currentFontModifier + 'px');
+        }
     </script>
 
     <!-- ==================================================
@@ -1361,6 +1373,7 @@
 
             const randHeight = Math.random();
             let itemY = groundY - 30; 
+            
             if(randHeight > 0.6) itemY = groundY - 120; 
             if(randHeight > 0.85) itemY = Math.max(60, groundY - 220); 
 
