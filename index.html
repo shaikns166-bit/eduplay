@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&display=swap" rel="stylesheet">
     
     <link rel="manifest" href='data:application/manifest+json,{"name":"Kids EduPlay Offline","short_name":"EduPlay","description":"Interactive offline educational flashcards.","start_url":".","display":"standalone","background_color":"#f0f4f8","theme_color":"#4EA8DE","icons":[{"src":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=","sizes":"192x192","type":"image/png"}]}'>
     <meta name="theme-color" content="#4EA8DE">
@@ -21,7 +21,7 @@
             --primary: #EF476F;
             --success: #06D6A0;
             --danger: #EF476F;
-            --font-scale: 1; /* FIXED: Now uses a multiplier scale for perfect resizing */
+            --font-scale: 1; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
@@ -54,10 +54,12 @@
         .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
         .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
 
-        /* FIXED FONT SIZING ENGINE */
         .huge-text { font-size: calc(clamp(4rem, 20vw, 10rem) * var(--font-scale)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.2s ease; word-break: keep-all; }
         .sub-text { font-size: calc(clamp(3.5rem, 14vw, 7rem) * var(--font-scale)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.2s ease; }
+        
+        /* Language Specific Font Styling */
         .urdu-text { font-family: 'Noto Nastaliq Urdu', sans-serif; font-size: calc(clamp(4rem, 16vw, 8rem) * var(--font-scale)); color: #FFCA3A; text-shadow: 2px 2px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); transform: translateZ(30px); transition: font-size 0.2s ease;}
+        .telugu-text { font-family: 'Noto Sans Telugu', sans-serif; font-size: calc(clamp(4rem, 20vw, 10rem) * var(--font-scale)); font-weight: 700; color: #4EA8DE; text-shadow: 2px 2px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); transform: translateZ(30px); transition: font-size 0.2s ease;}
 
         .colorful-letter { font-family: 'Fredoka', Impact, Arial, sans-serif; font-weight: 700; display: inline-block; transform: translateZ(30px); text-shadow: 2px 2px 0 #2B2D42, -2px -2px 0 #2B2D42, 0 15px 20px rgba(0,0,0,0.4); }
         .c-1 { color: #FF595E; } .c-2 { color: #FFCA3A; } .c-3 { color: #8AC926; } .c-4 { color: #1982C4; } .c-5 { color: #6A4C93; } .c-6 { color: #FF924C; }
@@ -223,6 +225,7 @@
         #bp-wrapper .balloon::after { content: ''; position: absolute; bottom: -8%; left: 50%; transform: translateX(-50%); width: 20%; height: 15%; background: inherit; border-radius: 40%; box-shadow: inset -2px -2px 5px rgba(0,0,0,0.4); z-index: -1; }
         #bp-wrapper .balloon::before { content: ''; position: absolute; bottom: -70%; left: 50%; width: 2px; height: 70%; background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0)); z-index: -2; }
         #bp-wrapper .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; font-size: 130%; margin-bottom: 15%; line-height: 1; }
+        #bp-wrapper .telugu-text { font-family: 'Noto Sans Telugu', sans-serif; font-size: 130%; margin-bottom: 10%; line-height: 1; }
         #bp-wrapper .particle { position: absolute; pointer-events: none; border-radius: 50%; z-index: 50; will-change: transform, opacity; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         #bp-wrapper .floating-text { position: absolute; font-size: 2.5rem; font-weight: bold; pointer-events: none; animation: bpFloatUp 1s ease-out forwards; z-index: 105; text-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         @keyframes bpFloatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-70px) scale(1.5); } }
@@ -302,7 +305,7 @@
             </div>
         </section>
 
-        <!-- NEW: FUN PLAY SUB-MENU -->
+        <!-- FUN PLAY SUB-MENU -->
         <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
             <div onclick="enterAlphaRunner()" class="menu-btn scale-in" style="background: rgba(138, 201, 38, 0.8); color: white;">
                 <span class="icon">🏃</span>
@@ -340,7 +343,6 @@
                 </div>
             </div>
 
-            <!-- BACK BUTTON MOVED TO BOTTOM CONTROLS -->
             <div class="controls-container glass-panel">
                 <button id="btn-fc-back" class="btn-large" style="background: var(--danger); padding: 0.5rem 1rem;" title="Back to Grid">⬅️</button>
                 
@@ -491,6 +493,8 @@
                                 <option value="fruits">Fruits</option>
                                 <option value="animals">Animals</option>
                                 <option value="urdu">Urdu (حروف تہجی)</option>
+                                <option value="telugu_vowels">Telugu Vowels (అచ్చులు)</option>
+                                <option value="telugu_consonants">Telugu Consonants (హల్లులు)</option>
                             </select>
                         </div>
                         <div class="setting-group">
@@ -633,6 +637,67 @@
         const urduWordsMap = {'ا':['انار','🍎'],'ب':['بکری','🐐'],'پ':['پتنگ','🪁'],'ت':['تتلی','🦋'],'ٹ':['ٹماٹر','🍅'],'ث':['ثمر','🍎'],'ج':['جوتا','👞'],'چ':['چاند','🌙'],'ح':['حلوہ','🍮'],'خ':['خرگوش','🐰'],'د':['درخت','🌳'],'ڈ':['ڈھول','🥁'],'ذ':['ذخیرہ','📦'],'ر':['ریل','🚂'],'ڑ':['پہاڑ','⛰️'],'ز':['زیبرا','🦓'],'ژ':['ژالہ باری','🌨️'],'س':['سیب','🍎'],'ش':['شیر','🦁'],'ص':['صابن','🧼'],'ض':['ضعیف','👴'],'ط':['طوطا','🦜'],'ظ':['ظروف','🏺'],'ع':['عینک','👓'],'غ':['غبارہ','🎈'],'ف':['فوارہ','⛲'],'ق':['قینچی','✂️'],'ک':['کتاب','📚'],'گ':['گائے','🐄'],'ل':['لومڑی','🦊'],'م':['مچھلی','🐟'],'ن':['ناریل','🥥'],'و':['ورق','📄'],'ہ':['ہاتھی','🐘'],'ی':['یاک','🐂'],'ے':['یقین','🙏']};
         const genUrduWords = () => urduLetters.filter(l => urduWordsMap[l]).map(l => ({ main: l, sub: `${l} سے ${urduWordsMap[l][0]}`, emoji: urduWordsMap[l][1], img: "", speak: "" }));
 
+        const teluguVowels = ['అ', 'ఆ', 'ఇ', 'ఈ', 'ఉ', 'ఊ', 'ఋ', 'ౠ', 'ఌ', 'ౡ', 'ఎ', 'ఏ', 'ఐ', 'ఒ', 'ఓ', 'ఔ', 'అం', 'అః'];
+        const genTelugu = () => teluguVowels.map(l => ({ main: l, sub: "", emoji: "", img: "", speak: l }));
+        const teluguConsonants = ['క','ఖ','గ','ఘ','ఙ','చ','ఛ','జ','ఝ','ఞ','ట','ఠ','డ','ఢ','ణ','త','థ','ద','ధ','న','ప','ఫ','బ','భ','మ','య','ర','ల','వ','శ','ష','స','హ','ళ','క్ష','ఱ'];
+        const genTeluguConsonants = () => teluguConsonants.map(l => ({ main: l, sub: "", emoji: "", img: "", speak: l }));
+
+        // NEW: Telugu Achulu (Vowel) Words
+        const teluguAchuluWordsData = [
+            { main: "అ", sub: "అ - అమ్మ", emoji: "👩", img: "mother.png", speak: "అ, అమ్మ" },
+            { main: "ఆ", sub: "ఆ - ఆవు", emoji: "🐄", img: "cow.png", speak: "ఆ, ఆవు" },
+            { main: "ఇ", sub: "ఇ - ఇల్లు", emoji: "🏠", img: "house.png", speak: "ఇ, ఇల్లు" },
+            { main: "ఈ", sub: "ఈ - ఈగ", emoji: "🪰", img: "fly.png", speak: "ఈ, ఈగ" },
+            { main: "ఉ", sub: "ఉ - ఉడుత", emoji: "🐿️", img: "squirrel.png", speak: "ఉ, ఉడుత" },
+            { main: "ఊ", sub: "ఊ - ఊయల", emoji: "🛝", img: "swing.png", speak: "ఊ, ఊయల" },
+            { main: "ఋ", sub: "ఋ - ఋషి", emoji: "🧘", img: "sage.png", speak: "ఋ, ఋషి" },
+            { main: "ఎ", sub: "ఎ - ఎలుక", emoji: "🐀", img: "mouse.png", speak: "ఎ, ఎలుక" },
+            { main: "ఏ", sub: "ఏ - ఏనుగు", emoji: "🐘", img: "elephant.png", speak: "ఏ, ఏనుగు" },
+            { main: "ఐ", sub: "ఐ - ఐదు", emoji: "5️⃣", img: "five.png", speak: "ఐ, ఐదు" },
+            { main: "ఒ", sub: "ఒ - ఒంటె", emoji: "🐪", img: "camel.png", speak: "ఒ, ఒంటె" },
+            { main: "ఓ", sub: "ఓ - ఓడ", emoji: "🚢", img: "ship.png", speak: "ఓ, ఓడ" },
+            { main: "ఔ", sub: "ఔ - ఔషధం", emoji: "💊", img: "medicine.png", speak: "ఔ, ఔషధం" },
+            { main: "అం", sub: "అం - అంకెలు", emoji: "🔢", img: "numbers.png", speak: "అం, అంకెలు" },
+            { main: "అః", sub: "అః - అంతఃపురం", emoji: "🏰", img: "palace.png", speak: "అః, అంతఃపురం" }
+        ];
+
+        // NEW: Telugu Hallulu (Consonant) Words
+        const teluguHalluluWordsData = [
+            { main: "క", sub: "క - కమలం", emoji: "🪷", img: "lotus.png", speak: "క, కమలం" },
+            { main: "ఖ", sub: "ఖ - ఖడ్గం", emoji: "🗡️", img: "sword.png", speak: "ఖ, ఖడ్గం" },
+            { main: "గ", sub: "గ - గడియారం", emoji: "⏰", img: "clock.png", speak: "గ, గడియారం" },
+            { main: "ఘ", sub: "ఘ - ఘటం", emoji: "🏺", img: "pot.png", speak: "ఘ, ఘటం" },
+            { main: "చ", sub: "చ - చక్రం", emoji: "🎡", img: "wheel.png", speak: "చ, చక్రం" },
+            { main: "ఛ", sub: "ఛ - ఛత్రం", emoji: "☂️", img: "umbrella.png", speak: "ఛ, ఛత్రం" },
+            { main: "జ", sub: "జ - జడ", emoji: "👧", img: "braid.png", speak: "జ, జడ" },
+            { main: "ఝ", sub: "ఝ - ఝషం", emoji: "🐟", img: "fish.png", speak: "ఝ, ఝషం" },
+            { main: "ట", sub: "ట - టమాటా", emoji: "🍅", img: "tomato.png", speak: "ట, టమాటా" },
+            { main: "ఠ", sub: "ఠ - కంఠం", emoji: "🗣️", img: "neck.png", speak: "ఠ, కంఠం" },
+            { main: "డ", sub: "డ - డబ్బా", emoji: "📦", img: "box.png", speak: "డ, డబ్బా" },
+            { main: "ఢ", sub: "ఢ - ఢంకా", emoji: "🥁", img: "drum.png", speak: "ఢ, ఢంకా" },
+            { main: "త", sub: "త - తలుపు", emoji: "🚪", img: "door.png", speak: "త, తలుపు" },
+            { main: "థ", sub: "థ - రథం", emoji: "🛕", img: "chariot.png", speak: "థ, రథం" },
+            { main: "ద", sub: "ద - దండ", emoji: "📿", img: "garland.png", speak: "ద, దండ" },
+            { main: "ధ", sub: "ధ - ధనుస్సు", emoji: "🏹", img: "bow.png", speak: "ధ, ధనుస్సు" },
+            { main: "న", sub: "న - నత్త", emoji: "🐌", img: "snail.png", speak: "న, నత్త" },
+            { main: "ప", sub: "ప - పలక", emoji: "⬛", img: "slate.png", speak: "ప, పలక" },
+            { main: "ఫ", sub: "ఫ - ఫలం", emoji: "🍎", img: "fruit.png", speak: "ఫ, ఫలం" },
+            { main: "బ", sub: "బ - బంతి", emoji: "⚽", img: "ball.png", speak: "బ, బంతి" },
+            { main: "భ", sub: "భ - భల్లుకం", emoji: "🐻", img: "bear.png", speak: "భ, భల్లుకం" },
+            { main: "మ", sub: "మ - మంచం", emoji: "🛏️", img: "bed.png", speak: "మ, మంచం" },
+            { main: "య", sub: "య - యంత్రం", emoji: "⚙️", img: "machine.png", speak: "య, యంత్రం" },
+            { main: "ర", sub: "ర - రవి", emoji: "☀️", img: "sun.png", speak: "ర, రవి" },
+            { main: "ల", sub: "ల - లత", emoji: "🌿", img: "vine.png", speak: "ల, లత" },
+            { main: "వ", sub: "వ - వల", emoji: "🥅", img: "net.png", speak: "వ, వల" },
+            { main: "శ", sub: "శ - శంఖం", emoji: "🐚", img: "conch.png", speak: "శ, శంఖం" },
+            { main: "ష", sub: "ష - మేషం", emoji: "🐏", img: "goat.png", speak: "ష, మేషం" },
+            { main: "స", sub: "స - సబ్బు", emoji: "🧼", img: "soap.png", speak: "స, సబ్బు" },
+            { main: "హ", sub: "హ - హంస", emoji: "🦢", img: "swan.png", speak: "హ, హంస" },
+            { main: "ళ", sub: "ళ - తాళం", emoji: "🔒", img: "lock.png", speak: "ళ, తాళం" },
+            { main: "క్ష", sub: "క్ష - వృక్షం", emoji: "🌳", img: "tree.png", speak: "క్ష, వృక్షం" },
+            { main: "ఱ", sub: "ఱ - రంపం", emoji: "🪚", img: "saw.png", speak: "ఱ, రంపం" }
+        ];
+
         const appData = {
             categories: [
                 { id: "alphabets", name: "Uppercase A-Z", icon: "🅰️", color: "#FF9F1C" },
@@ -651,7 +716,11 @@
                 { id: "body_parts", name: "Body Parts", icon: "👁️", color: "#E07A5F" },
                 { id: "school", name: "School Objects", icon: "🎒", color: "#3D5A80" },
                 { id: "urdu", name: "Urdu Hurf-e-Tehji", icon: "ا", color: "#2A9D8F" },
-                { id: "urdu_pics", name: "Urdu Pictures", icon: "🕌", color: "#E76F51" }
+                { id: "urdu_pics", name: "Urdu Pictures", icon: "🕌", color: "#E76F51" },
+                { id: "telugu_vowels", name: "Telugu అచ్చులు", icon: "అ", color: "#E91E63" },
+                { id: "telugu_consonants", name: "Telugu హల్లులు", icon: "క", color: "#9C27B0" },
+                { id: "telugu_achulu_words", name: "Telugu Achulu Words", icon: "👩", color: "#FF595E" }, // NEW
+                { id: "telugu_hallulu_words", name: "Telugu Hallulu Words", icon: "🪷", color: "#8AC926" } // NEW
             ],
             modules: {
                 alphabets: genAlpha(false), lowercase: genAlpha(true), alphabet_words: alphabetWordsData,
@@ -659,7 +728,11 @@
                 colors: listToObj(colors), shapes: listToObj(shapes), fruits: listToObj(fruits),
                 vegetables: listToObj(vegetables), animals: listToObj(animals), birds: listToObj(birds),
                 transport: listToObj(transport), body_parts: listToObj(body_parts), school: listToObj(school),
-                urdu: genUrdu(), urdu_pics: genUrduWords()
+                urdu: genUrdu(), urdu_pics: genUrduWords(),
+                telugu_vowels: genTelugu(),
+                telugu_consonants: genTeluguConsonants(),
+                telugu_achulu_words: teluguAchuluWordsData, // NEW
+                telugu_hallulu_words: teluguHalluluWordsData // NEW
             }
         };
 
@@ -722,6 +795,7 @@
             document.getElementById("toggle-mute").addEventListener("click", () => { userSettings.mute = !userSettings.mute; if(userSettings.mute) window.speechSynthesis.cancel(); applySettings(); });
             document.getElementById("volume-slider").addEventListener("input", (e) => { userSettings.volume = parseFloat(e.target.value); applySettings(); });
             
+            // BOTH SETTINGS BUTTONS OPEN THE MODAL NOW!
             document.getElementById("btn-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             
@@ -749,6 +823,7 @@
                 loadGamesMenu();
             });
             
+            // NEW: Open Fun Play Sub-Menu
             document.getElementById("btn-menu-funplay").addEventListener("click", () => {
                 mainMenuScreen.classList.replace("active-flex", "hidden");
                 funplayMenuScreen.classList.replace("hidden", "active-flex");
@@ -795,7 +870,9 @@
                 document.getElementById("progress-bar").style.width = `${((currentIndex + 1) / currentModule.length) * 100}%`;
                 flashcard.className = `card ${animation}`; setTimeout(() => flashcard.classList.remove(animation), 600);
 
-                let isUrduMain = /[؀-ۿ]/.test(data.main); let isUrduSub = /[؀-ۿ]/.test(data.sub);
+                let isUrduMain = /[\u0600-\u06FF]/.test(data.main); let isUrduSub = /[\u0600-\u06FF]/.test(data.sub);
+                let isTeluguMain = /[\u0C00-\u0C7F]/.test(data.main); let isTeluguSub = /[\u0C00-\u0C7F]/.test(data.sub);
+
                 let hasImage = (data.img && data.img !== "") || (data.emoji && data.emoji !== "");
                 let hasSub = (data.sub && data.sub !== "");
 
@@ -804,12 +881,16 @@
                 else { cardFrontContent.style.justifyContent = "space-between"; }
 
                 if (data.main) {
-                    cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain, currentIndex); 
-                    cardMainText.className = isUrduMain ? "urdu-text" : "huge-text"; 
+                    cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain || isTeluguMain, currentIndex); 
+                    cardMainText.className = isUrduMain ? "urdu-text" : (isTeluguMain ? "telugu-text" : "huge-text"); 
                     cardMainText.classList.remove("hidden"); 
                 } else { cardMainText.classList.add("hidden"); }
                 
-                if(data.sub) { cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub, currentIndex); cardSubText.className = isUrduSub ? "urdu-text" : "sub-text"; cardSubText.classList.remove("hidden"); } else cardSubText.classList.add("hidden");
+                if(data.sub) { 
+                    cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub || isTeluguSub, currentIndex); 
+                    cardSubText.className = isUrduSub ? "urdu-text" : (isTeluguSub ? "telugu-text" : "sub-text"); 
+                    cardSubText.classList.remove("hidden"); 
+                } else cardSubText.classList.add("hidden");
                 
                 cardRealImg.classList.add("hidden"); cardEmojiImg.classList.add("hidden");
                 if (data.img && data.img !== "") {
@@ -825,7 +906,10 @@
             function speak(text) {
                 if(userSettings.mute || !text) return; window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = 0.85; utterance.pitch = 1.1; utterance.volume = userSettings.volume; utterance.lang = 'en-US'; 
+                utterance.rate = 0.85; utterance.pitch = 1.1; utterance.volume = userSettings.volume; 
+                if (/[\u0600-\u06FF]/.test(text)) utterance.lang = 'ur-PK';
+                else if (/[\u0C00-\u0C7F]/.test(text)) utterance.lang = 'te-IN'; 
+                else utterance.lang = 'en-US'; 
                 window.speechSynthesis.speak(utterance);
             }
 
@@ -1065,8 +1149,8 @@
 
             if ('serviceWorker' in navigator) {
                 const swCode = `
-                    // BUMPED TO V18 FOR PURE MULTIPLIER SCALING ENGINE
-                    const CACHE_NAME = 'eduplay-pwa-games-v18';
+                    // BUMPED TO V21 FOR TELUGU ACHULU/HALLULU WORDS!
+                    const CACHE_NAME = 'eduplay-pwa-games-v21';
                     self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); });
                     self.addEventListener('fetch', event => {
                         event.respondWith(
@@ -1094,14 +1178,9 @@
     <script>
         let currentFontScale = 1.0; 
         function changeFontSize(change) {
-            // This is pure percentage multiplier math, GUARANTEED to work!
             currentFontScale += change; 
-            
-            // Set some safety limits so it doesn't get too tiny or massive
             if(currentFontScale < 0.4) currentFontScale = 0.4;
             if(currentFontScale > 2.5) currentFontScale = 2.5;
-
-            // Update the CSS variable!
             document.documentElement.style.setProperty('--font-scale', currentFontScale);
         }
     </script>
@@ -1137,7 +1216,6 @@
             document.getElementById("ar-wrapper").classList.add("hidden");
             document.getElementById("app-container").classList.replace("hidden", "active-flex");
             
-            // RETURN TO FUN PLAY MENU
             document.getElementById("main-header").classList.remove("hidden");
             document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden");
             document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
@@ -1310,7 +1388,7 @@
             arGameState.isPlaying = false; arGameState.isPaused = false;
             document.getElementById('ar-hud').classList.remove('active');
             document.getElementById('ar-pauseBtn').classList.remove('active');
-            document.getElementById('ar-touchZones').classList.remove('active');
+            document.getElementById('ar-touchZones').remove('active');
             arAudioEngine.stopBGM();
         }
 
@@ -1692,6 +1770,24 @@
                 {id: 'alif', text: 'ا', say: 'Alif'}, {id: 'ba', text: 'ب', say: 'Baa'}, {id: 'pa', text: 'پ', say: 'Paa'},
                 {id: 'ta', text: 'ت', say: 'Taa'}, {id: 'ta_heavy', text: 'ٹ', say: 'Ttaa'}, {id: 'sa', text: 'ث', say: 'Saa'},
                 {id: 'jeem', text: 'ج', say: 'Jeem'}, {id: 'cha', text: 'چ', say: 'Chaa'}, {id: 'ha', text: 'ح', say: 'Haa'}
+            ],
+            telugu_vowels: [
+                {id: 'అ', text: 'అ', say: 'అ'}, {id: 'ఆ', text: 'ఆ', say: 'ఆ'}, {id: 'ఇ', text: 'ఇ', say: 'ఇ'},
+                {id: 'ఈ', text: 'ఈ', say: 'ఈ'}, {id: 'ఉ', text: 'ఉ', say: 'ఉ'}, {id: 'ఊ', text: 'ఊ', say: 'ఊ'},
+                {id: 'ఋ', text: 'ఋ', say: 'ఋ'}, {id: 'ౠ', text: 'ౠ', say: 'ౠ'}, {id: 'ఌ', text: 'ఌ', say: 'ఌ'},
+                {id: 'ౡ', text: 'ౡ', say: 'ౡ'}, {id: 'ఎ', text: 'ఎ', say: 'ఎ'}, {id: 'ఏ', text: 'ఏ', say: 'ఏ'},
+                {id: 'ఐ', text: 'ఐ', say: 'ఐ'}, {id: 'ఒ', text: 'ఒ', say: 'ఒ'}, {id: 'ఓ', text: 'ఓ', say: 'ఓ'},
+                {id: 'ఔ', text: 'ఔ', say: 'ఔ'}, {id: 'అం', text: 'అం', say: 'అం'}, {id: 'అః', text: 'అః', say: 'అః'}
+            ],
+            telugu_consonants: [
+                {id: 'క', text: 'క', say: 'క'}, {id: 'ఖ', text: 'ఖ', say: 'ఖ'}, {id: 'గ', text: 'గ', say: 'గ'}, {id: 'ఘ', text: 'ఘ', say: 'ఘ'}, {id: 'ఙ', text: 'ఙ', say: 'ఙ'},
+                {id: 'చ', text: 'చ', say: 'చ'}, {id: 'ఛ', text: 'ఛ', say: 'ఛ'}, {id: 'జ', text: 'జ', say: 'జ'}, {id: 'ఝ', text: 'ఝ', say: 'ఝ'}, {id: 'ఞ', text: 'ఞ', say: 'ఞ'},
+                {id: 'ట', text: 'ట', say: 'ట'}, {id: 'ఠ', text: 'ఠ', say: 'ఠ'}, {id: 'డ', text: 'డ', say: 'డ'}, {id: 'ఢ', text: 'ఢ', say: 'ఢ'}, {id: 'ణ', text: 'ణ', say: 'ణ'},
+                {id: 'త', text: 'త', say: 'త'}, {id: 'థ', text: 'థ', say: 'థ'}, {id: 'ద', text: 'ద', say: 'ద'}, {id: 'ధ', text: 'ధ', say: 'ధ'}, {id: 'న', text: 'న', say: 'న'},
+                {id: 'ప', text: 'ప', say: 'ప'}, {id: 'ఫ', text: 'ఫ', say: 'ఫ'}, {id: 'బ', text: 'బ', say: 'బ'}, {id: 'భ', text: 'భ', say: 'భ'}, {id: 'మ', text: 'మ', say: 'మ'},
+                {id: 'య', text: 'య', say: 'య'}, {id: 'ర', text: 'ర', say: 'ర'}, {id: 'ల', text: 'ల', say: 'ల'}, {id: 'వ', text: 'వ', say: 'వ'},
+                {id: 'శ', text: 'శ', say: 'శ'}, {id: 'ష', text: 'ష', say: 'ష'}, {id: 'స', text: 'స', say: 'స'}, {id: 'హ', text: 'హ', say: 'హ'},
+                {id: 'ళ', text: 'ళ', say: 'ళ'}, {id: 'క్ష', text: 'క్ష', say: 'క్ష'}, {id: 'ఱ', text: 'ఱ', say: 'ఱ'}
             ]
         };
 
@@ -1818,6 +1914,11 @@
                 window.speechSynthesis.cancel();
                 const msg = new SpeechSynthesisUtterance(text);
                 msg.rate = 0.9; msg.pitch = 1.2;
+                
+                if (/[\u0600-\u06FF]/.test(text)) msg.lang = 'ur-PK';
+                else if (/[\u0C00-\u0C7F]/.test(text)) msg.lang = 'te-IN'; 
+                else msg.lang = 'en-US'; 
+                
                 window.speechSynthesis.speak(msg);
             }
         }
@@ -1889,7 +1990,8 @@
         function bpPickNewTarget() {
             bpCurrentTarget = bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)];
             const isUrdu = document.getElementById('bp-mode-select').value === 'urdu';
-            bpElQuestion.innerHTML = `🎯 Find <b class="${isUrdu ? 'urdu-text' : ''}">${bpCurrentTarget.text}</b>`;
+            const isTelugu = document.getElementById('bp-mode-select').value.includes('telugu');
+            bpElQuestion.innerHTML = `🎯 Find <b class="${isUrdu ? 'urdu-text' : (isTelugu ? 'telugu-text' : '')}">${bpCurrentTarget.text}</b>`;
             bpSpeak(`Find ${bpCurrentTarget.say}`);
         }
 
@@ -1952,9 +2054,9 @@
             const bgColor = data.hex || BP_COLORS[Math.floor(Math.random() * BP_COLORS.length)];
             balloon.style.setProperty('--b-color', bgColor);
             
-            if (document.getElementById('bp-mode-select').value === 'urdu') {
-                balloon.classList.add('urdu-text');
-            }
+            const selectedMode = document.getElementById('bp-mode-select').value;
+            if (selectedMode === 'urdu') balloon.classList.add('urdu-text');
+            if (selectedMode.includes('telugu')) balloon.classList.add('telugu-text');
             
             balloon.innerText = data.text;
             
