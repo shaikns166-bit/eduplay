@@ -207,9 +207,6 @@
             border-color: var(--sky);
             transform: scale(1.05);
         }
-        #sm-wrapper .shadow-slot .silhouette { width:80%; height:80%; object-fit:contain; filter:drop-shadow(0 10px 15px rgba(0,0,0,0.5)); transition: opacity 0.5s; }
-        #sm-wrapper .shadow-slot .reveal { width:80%; height:80%; object-fit:contain; opacity:0; position:absolute; transition: opacity 0.5s; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
-
         #sm-wrapper .flash-card {
             background: rgba(255,255,255,0.9);
             border-radius: 16px; padding: 15px;
@@ -420,7 +417,7 @@
         </div>
     </div>
 
-    <!-- SM HTML (ENDLESS 1v4 DRAG AND DROP WITH TIMER) -->
+    <!-- SM HTML -->
     <div id="sm-wrapper" class="hidden">
         <div id="sm-splash" class="splash"><div class="splash-lamp"><div class="lamp-glow"></div><div class="lamp-body">💡</div></div><h1 class="splash-title">Shadow Match</h1><p class="splash-sub" id="sm-splashStatus">Loading flashcards…</p><div class="splash-bar"><div class="splash-bar-fill" id="sm-splashFill"></div></div></div>
         
@@ -483,7 +480,6 @@
         const body_parts = [['Eye','👁️','eye.png'],['Ear','👂','ear.png'],['Nose','👃','nose.png'],['Mouth','👄','mouth.png'],['Hand','✋','hand.png'],['Foot','🦶','foot.png'],['Leg','🦵','leg.png'],['Arm','💪','arm.png'],['Teeth','🦷','teeth.png'],['Tongue','👅','tongue.png'],['Hair','💇','hair.png'],['Head','👱','head.png'],['Fingers','🖐️','fingers.png'],['Toes','🦶','toes.png']];
         const school = [['Book','📚','book.png'],['Bag','🎒','bag.png'],['Pencil','✏️','pencil.png'],['Pen','🖊️','pen.png'],['Ruler','📏','ruler.png'],['Eraser','🧽','eraser.png'],['Scissors','✂️','scissors.png'],['Crayons','🖍️','crayons.png'],['Desk','🪑','desk.png'],['Chair','🪑','chair.png'],['Blackboard','🏫','blackboard.png'],['Globe','🌍','globe.png'],['Calculator','🖩','calculator.png'],['Microscope','🔬','microscope.png'],['Bell','🔔','bell.png']];
         
-        // FULLY UPDATED URDU PNG MAP!
         const urduLetters = ['ا','ب','پ','ت','ٹ','ث','ج','چ','ح','خ','د','ڈ','ذ','ر','ڑ','ز','ژ','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ک','گ','ل','م','ن','و','ہ','ء','ی','ے'];
         const genUrdu = () => urduLetters.map(l => ({ main: l, sub: "", emoji: "", img: "", speak: "" }));
         const urduWordsMap = {
@@ -526,7 +522,6 @@
             const gameQuestionText = document.getElementById("game-question-text"); const gameRealImg = document.getElementById("game-real-img"); const gameEmojiImg = document.getElementById("game-emoji-img"); const gameOptionsContainer = document.getElementById("game-options"); const gameScoreElement = document.getElementById("game-score"); const btnExitGame = document.getElementById("btn-exit-game");
             let currentModule = []; let currentIndex = 0; let isAutoPlaying = false; let autoPlayInterval;
             
-            // PRELOADER FOR IMAGES TO FIX SLOW PNG RENDERING
             const allImagesToPreload = appData.categories.flatMap(cat => appData.modules[cat.id] || []).map(item => item && item.img).filter(Boolean);
             allImagesToPreload.forEach(src => { const img = new Image(); img.src = src; });
             
@@ -544,8 +539,32 @@
             document.getElementById("btn-menu-games").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
             document.getElementById("btn-menu-funplay").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); funplayMenuScreen.classList.replace("hidden", "active-flex"); appTitle.innerText = "Fun Play"; btnHome.classList.remove("hidden"); });
 
+            // SMART MEMORY: Change Font Size function 
+            window.currentModuleId = "";
+            window.changeFontSize = function(change) {
+                if (!window.currentModuleId) return;
+                let scales = JSON.parse(localStorage.getItem('eduplayFontScales')) || {};
+                let currentScale = scales[window.currentModuleId] || 1.0;
+                currentScale += change;
+                if(currentScale < 0.4) currentScale = 0.4;
+                if(currentScale > 2.5) currentScale = 2.5;
+                document.documentElement.style.setProperty('--font-scale', currentScale);
+                
+                scales[window.currentModuleId] = currentScale;
+                localStorage.setItem('eduplayFontScales', JSON.stringify(scales));
+            };
+
             function renderHome() { homeScreen.innerHTML = ""; appTitle.innerText = "Flashcards"; btnHome.classList.remove("hidden"); appData.categories.forEach(cat => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${cat.color}`; card.innerHTML = `<span class="icon">${cat.icon}</span><span style="color:#2B2D42;">${cat.name}</span>`; card.addEventListener("click", () => { loadModule(cat.id, cat.name); }); homeScreen.appendChild(card); }); }
-            function loadModule(moduleId, moduleName) { currentModule = appData.modules[moduleId]; currentIndex = 0; document.getElementById("total-card-num").innerText = currentModule.length; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.replace("hidden", "active-flex"); stopAutoPlay(); showCard(currentIndex, 'scale-in'); }
+            
+            // SMART MEMORY: Loads the unique size for the specific category
+            function loadModule(moduleId, moduleName) { 
+                window.currentModuleId = moduleId;
+                let scales = JSON.parse(localStorage.getItem('eduplayFontScales')) || {};
+                let savedScale = scales[moduleId] || 1.0;
+                document.documentElement.style.setProperty('--font-scale', savedScale);
+
+                currentModule = appData.modules[moduleId]; currentIndex = 0; document.getElementById("total-card-num").innerText = currentModule.length; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.replace("hidden", "active-flex"); stopAutoPlay(); showCard(currentIndex, 'scale-in'); 
+            }
 
             function makeColorful3D(text, isUrdu, index = 0) { if (!text) return ""; if (isUrdu || /[؀-ۿ]/.test(text)) return text; let colorClass = `c-${(index % 6) + 1}`; let html = ""; for (let char of text) { if (char === ' ') html += '&nbsp;'; else { html += `<span class="colorful-letter ${colorClass}">${char}</span>`; } } return html; }
             function showCard(index, animation) { if(index < 0) index = currentModule.length - 1; if(index >= currentModule.length) index = 0; currentIndex = index; const data = currentModule[currentIndex]; document.getElementById("current-card-num").innerText = currentIndex + 1; document.getElementById("progress-bar").style.width = `${((currentIndex + 1) / currentModule.length) * 100}%`; flashcard.className = `card ${animation}`; setTimeout(() => flashcard.classList.remove(animation), 600); let isUrduMain = /[\u0600-\u06FF]/.test(data.main); let isUrduSub = /[\u0600-\u06FF]/.test(data.sub); let isTeluguMain = /[\u0C00-\u0C7F]/.test(data.main); let isTeluguSub = /[\u0C00-\u0C7F]/.test(data.sub); let hasImage = (data.img && data.img !== "") || (data.emoji && data.emoji !== ""); let hasSub = (data.sub && data.sub !== ""); if (hasImage) cardImageWrapper.classList.remove("hidden"); else cardImageWrapper.classList.add("hidden"); if (!hasImage && !hasSub) { cardFrontContent.style.justifyContent = "center"; cardMainText.style.minHeight = "auto"; } else { cardFrontContent.style.justifyContent = "space-between"; } if (data.main) { cardMainText.innerHTML = makeColorful3D(data.main, isUrduMain || isTeluguMain, currentIndex); cardMainText.className = isUrduMain ? "urdu-text" : (isTeluguMain ? "telugu-text" : "huge-text"); cardMainText.classList.remove("hidden"); } else { cardMainText.classList.add("hidden"); } if(data.sub) { cardSubText.innerHTML = makeColorful3D(data.sub, isUrduSub || isTeluguSub, currentIndex); cardSubText.className = isUrduSub ? "urdu-text" : (isTeluguSub ? "telugu-text" : "sub-text"); cardSubText.classList.remove("hidden"); } else cardSubText.classList.add("hidden"); cardRealImg.classList.add("hidden"); cardEmojiImg.classList.add("hidden"); if (data.img && data.img !== "") { cardRealImg.style.display = "block"; cardRealImg.src = data.img; cardRealImg.classList.remove("hidden"); } else if (data.emoji) { cardEmojiImg.innerText = data.emoji; cardEmojiImg.classList.remove("hidden"); let emojiCount = [...data.emoji.replace(/ /g, '')].length; if (emojiCount >= 10) cardEmojiImg.style.fontSize = "clamp(1.5rem, 5vh, 3rem)"; else if (emojiCount > 1) cardEmojiImg.style.fontSize = "clamp(2.5rem, 8vh, 5rem)"; else cardEmojiImg.style.fontSize = ""; } speak(data.speak); }
@@ -571,13 +590,12 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v33'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v35'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
         });
     </script>
-    <script> let currentFontScale = 1.0; function changeFontSize(change) { currentFontScale += change; if(currentFontScale < 0.4) currentFontScale = 0.4; if(currentFontScale > 2.5) currentFontScale = 2.5; document.documentElement.style.setProperty('--font-scale', currentFontScale); } </script>
 
     <!-- AR ENGINE -->
     <script>
@@ -599,14 +617,13 @@
         function arTogglePause(e) { if(e) e.stopPropagation(); if(!arGameState.isPlaying) return; arGameState.isPaused = !arGameState.isPaused; if(arGameState.isPaused) { arShowScreen('ar-pauseMenu'); document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); } else { arShowScreen(''); document.getElementById('ar-hud').classList.add('active'); document.getElementById('ar-pauseBtn').classList.add('active'); document.getElementById('ar-touchZones').classList.add('active'); } }
         function arRestartGame() { arStartGame(arGameState.level); } 
         function arResetGame() { arGameState.isPlaying = false; arGameState.isPaused = false; arGameState.shake = 0; document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); arAudioEngine.stopBGM(); }
-        function arGameOver() { arGameState.isPlaying = false; arAudioEngine.stopBGM(); arAudioEngine.playGameOver(); if(arGameState.score > arGameState.highScore) { arGameState.highScore = arGameState.score; localStorage.setItem('alphaRunnerHigh', arGameState.highScore); } document.getElementById('ar-finalScore').textContent = 'Score: ' + arGameState.score; document.getElementById('ar-gameOverHigh').textContent = '🏆 High Score: ' + arGameState.highScore; document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); arShowScreen('ar-gameOver'); }
+        function arGameOver() { arGameState.isPlaying = false; arAudioEngine.stopBGM(); arAudioEngine.playGameOver(); arGameState.shake = 0; if(arGameState.score > arGameState.highScore) { arGameState.highScore = arGameState.score; localStorage.setItem('alphaRunnerHigh', arGameState.highScore); } document.getElementById('ar-finalScore').textContent = 'Score: ' + arGameState.score; document.getElementById('ar-gameOverHigh').textContent = '🏆 High Score: ' + arGameState.highScore; document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); arShowScreen('ar-gameOver'); }
         function arLoseLife() { arGameState.lives--; arAudioEngine.playWrong(); arUpdateHUD(); arGameState.shake = 10; if(arGameState.lives <= 0) arGameOver(); } 
         function arHitRock() { arGameState.lives--; arAudioEngine.playRockHit(); arUpdateHUD(); arGameState.shake = 15; if(arGameState.lives <= 0) arGameOver(); } 
         function arHitHole() { arLoseLife(); if(arGameState.lives > 0) { arGameState.player.vy = -16; arGameState.player.isJumping = true; arGameState.player.jumps = 1; } }
         function arJump(e) { if(e) e.preventDefault(); if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return; if(arGameState.player.jumps < 3) { arGameState.player.vy = -18.5 + (arGameState.player.jumps * 2.5); arGameState.player.isJumping = true; arGameState.player.jumps++; arAudioEngine.playJump(arGameState.player.jumps); } }
         document.addEventListener('keydown', (e) => { if(!arGameActive) return; if(e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') arJump(); if(e.key === 'Escape' || e.key === 'p' || e.key === 'P') arTogglePause(); });
         
-        // BUG FIX: Dedicated touch zone prevents overlapping click misfires
         const arTouchZones = document.getElementById('ar-touchZones');
         arTouchZones.addEventListener('touchstart', (e) => { e.preventDefault(); arJump(); }, {passive: false});
         arTouchZones.addEventListener('mousedown', (e) => { e.preventDefault(); if(e.button === 0) arJump(); }, {passive: false});
@@ -623,7 +640,6 @@
         function arRender() { 
             if (!arGameActive) { requestAnimationFrame(arRender); return; } 
             arCtx.save(); 
-            // BUG FIX: Ensure shake dampens even if game is paused/over
             if(arGameState.shake > 0) { 
                 arCtx.translate((Math.random()-0.5)*arGameState.shake, (Math.random()-0.5)*arGameState.shake); 
                 arGameState.shake--;
@@ -657,7 +673,6 @@
             if (!bpIsPlaying || bpIsPaused || !bpGameActive) return; 
             const dt = timestamp - bpLastTime; bpLastTime = timestamp;
             
-            // FIXED TIMER BUG: Independent clock prevents hard mode acceleration
             if (timestamp - bpLastTimerTick >= 1000) { 
                 bpTimeRemaining--; 
                 bpLastTimerTick = timestamp;
@@ -724,10 +739,9 @@
             };
         })();
 
-        const smAssetStore = { categories: [], allCards: [], silhouettes: new Map() };
+        const smAssetStore = { categories: [], allCards: [] };
 
         async function smLoadManifest() {
-            // BUG FIX: Filter out stacked emojis to prevent tall black pillars!
             smAssetStore.categories = appData.categories
                 .filter(cat => cat.id !== "counting" && cat.id !== "number_dots")
                 .map(cat => {
@@ -739,29 +753,6 @@
                 }).filter(cat => cat.cards.length >= 4); 
             smAssetStore.allCards = smAssetStore.categories.flatMap(c => c.cards);
             return true;
-        }
-
-        function smMakeSilhouette(item) {
-            if (smAssetStore.silhouettes.has(item.id)) return smAssetStore.silhouettes.get(item.id);
-            const promise = new Promise((resolve) => {
-                if (!item.src) return resolve(null); 
-                const canvas = document.createElement("canvas"); canvas.width = 300; canvas.height = 300;
-                const ctx = canvas.getContext("2d");
-                const img = new Image(); img.crossOrigin = "anonymous";
-                img.onload = () => {
-                    const scale = Math.min(300 / img.width, 300 / img.height);
-                    const x = (300 / 2) - (img.width / 2) * scale; const y = (300 / 2) - (img.height / 2) * scale;
-                    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-                    try {
-                        const frame = ctx.getImageData(0, 0, 300, 300); const d = frame.data;
-                        for (let i = 0; i < d.length; i += 4) { if (d[i + 3] > 10) { d[i] = 20; d[i + 1] = 20; d[i + 2] = 40; } }
-                        ctx.putImageData(frame, 0, 0); resolve(canvas.toDataURL("image/png"));
-                    } catch (e) { resolve(null); } 
-                };
-                img.onerror = () => resolve(null); img.src = item.src;
-            });
-            smAssetStore.silhouettes.set(item.id, promise);
-            return promise;
         }
 
         let smScore = 0;
@@ -807,14 +798,11 @@
             smCurrentTarget = smAssetStore.allCards[Math.floor(Math.random() * smAssetStore.allCards.length)];
             
             smEl.shadowContainer.innerHTML = ''; 
-            let shadowSrc = await smMakeSilhouette(smCurrentTarget);
             
-            if (shadowSrc) {
-                smEl.shadowContainer.innerHTML = `<img class="silhouette" src="${shadowSrc}" style="width:80%; height:80%; object-fit:contain; filter:drop-shadow(0 10px 15px rgba(0,0,0,0.5)); transition: opacity 0.5s;" alt="" /> <img class="reveal" src="${smCurrentTarget.src}" style="width:80%; height:80%; object-fit:contain; opacity:0; position:absolute; inset:0; margin:auto; transition: opacity 0.5s;" alt="" onerror="this.style.display='none'" />`;
-            } else if (smCurrentTarget.src) {
-                smEl.shadowContainer.innerHTML = `<img class="silhouette" src="${smCurrentTarget.src}" style="width:80%; height:80%; object-fit:contain; filter:brightness(0) saturate(100%) drop-shadow(0 10px 15px rgba(0,0,0,0.5)); transition: opacity 0.5s;" alt="" onerror="this.style.display='none'" /> <img class="reveal" src="${smCurrentTarget.src}" style="width:80%; height:80%; object-fit:contain; opacity:0; position:absolute; inset:0; margin:auto; transition: opacity 0.5s;" alt="" onerror="this.style.display='none'" />`;
+            if (smCurrentTarget.src) {
+                smEl.shadowContainer.innerHTML = `<img class="silhouette" src="${smCurrentTarget.src}" style="width:80%; height:80%; object-fit:contain; filter: brightness(0) drop-shadow(0 10px 20px rgba(0,0,0,0.8)); opacity: 0.85; transition: opacity 0.5s;" alt="" onerror="this.style.display='none'" /> <img class="reveal" src="${smCurrentTarget.src}" style="width:80%; height:80%; object-fit:contain; opacity:0; position:absolute; inset:0; margin:auto; transition: opacity 0.5s;" alt="" onerror="this.style.display='none'" />`;
             } else if (smCurrentTarget.emoji) {
-                smEl.shadowContainer.innerHTML = `<span class="silhouette" style="font-size:8rem; filter:brightness(0) saturate(100%); color:#1B1B3A; text-shadow:0 10px 15px rgba(0,0,0,0.5); pointer-events:none; transition: opacity 0.5s;">${smCurrentTarget.emoji}</span> <span class="reveal" style="font-size:8rem; position:absolute; opacity:0; pointer-events:none; transition: opacity 0.5s;">${smCurrentTarget.emoji}</span>`;
+                smEl.shadowContainer.innerHTML = `<span class="silhouette" style="font-size:8rem; filter: brightness(0) drop-shadow(0 10px 20px rgba(0,0,0,0.8)); opacity: 0.85; pointer-events:none; transition: opacity 0.5s;">${smCurrentTarget.emoji}</span> <span class="reveal" style="font-size:8rem; position:absolute; opacity:0; pointer-events:none; transition: opacity 0.5s;">${smCurrentTarget.emoji}</span>`;
             }
 
             let options = [smCurrentTarget];
