@@ -234,7 +234,43 @@
         #sm-wrapper .btn-primary { display: block; width: 100%; text-align: center; background: linear-gradient(180deg, var(--lamplight), #f0a91e); color: var(--ink-navy); font-weight: 800; font-size: 17px; padding: 16px; border-radius: var(--radius-md); box-shadow: 0 8px 0 #c98410, var(--shadow-drop); transition: transform .1s ease, box-shadow .1s ease; border:none; cursor: pointer; font-family: var(--font-body); }
         #sm-wrapper .btn-primary:active { transform: translateY(6px); box-shadow: 0 2px 0 #c98410; }
         #sm-wrapper .btn-secondary { display: block; width: 100%; text-align: center; background: transparent; color: var(--ink-soft); font-weight: 700; padding: 12px; border-radius: var(--radius-md); border: 2px solid rgba(255,255,255,.15); margin-top: 10px; cursor: pointer; font-family: var(--font-body); }
-
+/* =========================================================
+           BALLOON MATCHING GAME STYLES
+           ========================================================= */
+        #mg-wrapper { position: fixed; inset: 0; background: linear-gradient(to bottom, #87CEEB, #E0F6FF); z-index: 3000; overflow: hidden; display: flex; flex-direction: column; font-family: 'Fredoka', sans-serif; }
+        #mg-wrapper .mg-stars { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(white 1px, transparent 2px), radial-gradient(white 1.5px, transparent 3px); background-size: 100px 100px, 150px 150px; background-position: 0 0, 50px 50px; opacity: 0.3; z-index: 0; pointer-events: none; }
+        #mg-wrapper .mg-clouds-bottom { position: absolute; bottom: 0; width: 100%; height: 15vh; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.8" d="M0,224L48,229.3C96,235,192,245,288,245.3C384,245,480,235,576,213.3C672,192,768,160,864,165.3C960,171,1056,213,1152,229.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom; background-size: cover; z-index: 1; pointer-events: none; }
+        #mg-wrapper .mg-title { text-align: center; font-size: clamp(1.8rem, 4vh, 3.5rem); color: #d32f2f; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); margin-top: 2vh; z-index: 2; padding: 0 10px; }
+        #mg-wrapper .font-urdu { font-family: 'Noto Nastaliq Urdu', sans-serif; }
+        #mg-wrapper .font-telugu { font-family: 'Noto Sans Telugu', sans-serif; font-weight: 700; }
+        #mg-wrapper .font-english { font-family: 'Fredoka', sans-serif; }
+        #mg-wrapper #mg-game-area { flex: 1; display: none; flex-direction: column; justify-content: space-between; padding: 5vh 2vw 15vh 2vw; z-index: 2; }
+        #mg-wrapper .mg-row { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 1000px; margin: 0 auto; }
+        #mg-wrapper .mg-balloon-container { display: flex; flex-direction: column; align-items: center; position: relative; }
+        #mg-wrapper .mg-balloon { width: clamp(60px, 15vw, 100px); height: clamp(60px, 15vw, 100px); border-radius: 50%; background: white; border: 6px solid; display: flex; justify-content: center; align-items: center; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1), 0 10px 15px rgba(0,0,0,0.2); position: relative; z-index: 5; }
+        #mg-wrapper .mg-balloon::after { content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 12px solid; border-bottom-color: inherit; }
+        #mg-wrapper .mg-balloon img { width: 70%; height: 70%; object-fit: contain; pointer-events: none; }
+        #mg-wrapper .mg-balloon-anchor { width: 15px; height: 15px; background: rgba(0,0,0,0.2); border-radius: 50%; margin-top: 15px; z-index: 5; }
+        #mg-wrapper .mg-basket-container { display: flex; flex-direction: column; align-items: center; position: relative; }
+        #mg-wrapper .mg-basket { width: clamp(70px, 16vw, 110px); height: clamp(50px, 12vw, 80px); background: linear-gradient(135deg, #e6b981 0%, #c48b4b 100%); border-radius: 10px 10px 40px 40px; border: 3px solid #8d5524; box-shadow: 0 10px 15px rgba(0,0,0,0.3), inset 0 5px 10px rgba(0,0,0,0.2); position: relative; z-index: 5; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; }
+        #mg-wrapper .mg-basket::before { content: ''; position: absolute; top: -15px; left: -3px; right: -3px; height: 30px; background: transparent; border: 4px solid #8d5524; border-radius: 50%; z-index: -1; }
+        #mg-wrapper .mg-huruf { text-shadow: 2px 2px 0px white, -1px -1px 0px white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; font-weight: bold; width: 95%; }
+        #mg-wrapper .mg-basket-anchor { width: 15px; height: 15px; background: rgba(0,0,0,0.2); border-radius: 50%; position: absolute; top: -25px; z-index: 5; }
+        #mg-wrapper #mg-line-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; touch-action: none; display: none; }
+        #mg-wrapper #mg-toolbar { position: absolute; bottom: 2vh; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; gap: 20px; z-index: 20; }
+        #mg-wrapper .mg-tool-btn { background: transparent; border: none; font-size: 2rem; cursor: pointer; padding: 10px; border-radius: 50%; transition: transform 0.2s, background 0.2s; }
+        #mg-wrapper .mg-tool-btn.active { background: #E0F6FF; transform: scale(1.1); box-shadow: inset 0 3px 5px rgba(0,0,0,0.1); }
+        #mg-wrapper .mg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+        #mg-wrapper .mg-menu-panel { background: rgba(255, 255, 255, 0.9); padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3); max-width: 95%; width: 600px; max-height: 90vh; overflow-y: auto; }
+        #mg-wrapper .mg-menu-title { font-size: 2.5rem; color: #2B2D42; margin-bottom: 20px; }
+        #mg-wrapper .mg-menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 500px) { #mg-wrapper .mg-menu-grid { grid-template-columns: 1fr; } }
+        #mg-wrapper .mg-btn-large { font-size: 1.3rem; padding: 15px 10px; border: none; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 8px 0 rgba(0,0,0,0.2); transition: transform 0.1s, box-shadow 0.1s; }
+        #mg-wrapper .mg-btn-large:active { transform: translateY(8px); box-shadow: 0 0 0 rgba(0,0,0,0.2); }
+        #mg-wrapper .mg-pop-anim { animation: mgPop 0.4s ease; }
+        #mg-wrapper .mg-shake-anim { animation: mgShake 0.4s ease; }
+        @keyframes mgPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes mgShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px) rotate(-5deg); } 50% { transform: translateX(10px) rotate(5deg); } 75% { transform: translateX(-10px) rotate(-5deg); } }
     </style>
 </head>
 <body>
@@ -458,7 +494,43 @@
             </div>
         </div>
     </div>
+<!-- BALLOON MATCHING HTML (NEW) -->
+    <div id="mg-wrapper" class="hidden">
+        <div class="mg-stars"></div>
+        <div class="mg-clouds-bottom"></div>
+        <div class="mg-title" id="mg-game-title"></div>
 
+        <div id="mg-game-area">
+            <div class="mg-row" id="mg-top-row"></div>
+            <div class="mg-row" id="mg-bottom-row"></div>
+        </div>
+
+        <canvas id="mg-line-canvas"></canvas>
+
+        <div id="mg-toolbar">
+            <button class="mg-tool-btn" id="mg-btn-back" title="Menu" style="background: #ffcccc;">⬅️</button>
+            <button class="mg-tool-btn active" id="mg-btn-pen" title="Draw">✏️</button>
+            <button class="mg-tool-btn" id="mg-btn-eraser" title="Eraser">🧽</button>
+        </div>
+
+        <!-- Start / Menu Screen -->
+        <div class="mg-overlay" id="mg-menu-screen">
+            <div class="mg-menu-panel">
+                <h1 class="mg-menu-title">🎈 Balloon Match 🎈</h1>
+                <div class="mg-menu-grid">
+                    <button class="mg-btn-large" style="background: #FF9F1C;" onclick="mgStartGameMode('english')">ABC to Pictures</button>
+                    <button class="mg-btn-large" style="background: #FF9F1C;" onclick="mgStartGameMode('upper_lower')">A to a</button>
+                    <button class="mg-btn-large" style="background: #4EA8DE;" onclick="mgStartGameMode('numbers')">123 to Dots</button>
+                    <button class="mg-btn-large" style="background: #FF595E;" onclick="mgStartGameMode('colors')">Colors Matching</button>
+                    <button class="mg-btn-large" style="background: #2A9D8F; font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.6rem;" onclick="mgStartGameMode('urdu')">Urdu to Pictures</button>
+                    <button class="mg-btn-large" style="background: #2A9D8F; font-family: 'Noto Nastaliq Urdu', serif; font-size: 1.6rem;" onclick="mgStartGameMode('urdu_half')">Urdu Half Shapes</button>
+                    <button class="mg-btn-large" style="background: #E91E63; font-family: 'Noto Sans Telugu', sans-serif;" onclick="mgStartGameMode('telugu_achulu')">Telugu అచ్చులు</button>
+                    <button class="mg-btn-large" style="background: #9C27B0; font-family: 'Noto Sans Telugu', sans-serif;" onclick="mgStartGameMode('telugu_hallulu')">Telugu హల్లులు</button>
+                </div>
+                <button class="btn-large secondary" style="margin-top: 20px; width: 100%;" onclick="exitMatchingGame()">Exit to Main Menu</button>
+            </div>
+        </div>
+    </div>
     <!-- ==================================================
          EDUPLAY LOGIC SCRIPT
          ================================================== -->
@@ -486,7 +558,7 @@
             'ا':['انار','🍎','pomegranate.png'], 'ب':['بکری','🐐','goat.png'], 'پ':['پتنگ','🪁','kite.png'], 'ت':['تتلی','🦋','butterfly.png'],
             'ٹ':['ٹماٹر','🍅','tomato.png'], 'ث':['ثمر','🍎','fruit.png'], 'ج':['جوتا','👞','shoe.png'], 'چ':['چاند','🌙','moon.png'],
             'ح':['حلوہ','🍮','sweets.png'], 'خ':['خرگوش','🐰','rabbit.png'], 'د':['درخت','🌳','tree.png'], 'ڈ':['ڈھول','🥁','drum.png'],
-            'ذ':['ذخیرہ','📦','box.png'], 'ر':['ریل','🚂','train.png'], 'ڑ':['پہاڑ','⛰️','mountain.png'], 'ز':['زیبرا','🦓','zebra.png'],
+            'ذ':['ذخیرہ','📦','storage bags.png'], 'ر':['ریل','🚂','train.png'], 'ڑ':['پہاڑ','⛰️','mountain.png'], 'ز':['زیبرا','🦓','zebra.png'],
             'ژ':['ژالہ باری','🌨️','hail.png'], 'س':['سیب','🍎','apple.png'], 'ش':['شیر','🦁','lion.png'], 'ص':['صابن','🧼','soap.png'],
             'ض':['ضعیف','👴','oldman.png'], 'ط':['طوطا','🦜','parrot.png'], 'ظ':['ظروف','🏺','pottery.png'], 'ع':['عینک','👓','glasses.png'],
             'غ':['غبارہ','🎈','balloon.png'], 'ف':['فوارہ','⛲','fountain.png'], 'ق':['قینچی','✂️','scissors.png'], 'ک':['کتاب','📚','book.png'],
@@ -582,8 +654,8 @@
             flashcard.addEventListener('touchend', e => { let touchEndX = e.changedTouches[0].screenX; if (window.touchStartX - touchEndX > 50) { stopAutoPlay(); showCard(currentIndex + 1, 'flip-next'); } if (touchEndX - window.touchStartX > 50) { stopAutoPlay(); showCard(currentIndex - 1, 'flip-prev'); } }, {passive: true});
 
             let gameScore = 0; let currentGameType = ""; let correctAnswer = "";
-            function loadGamesMenu() { homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden"); const gamesList = [ { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" }, { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" }, { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" }, { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" }, { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" }, { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }, { id: "shadowMatch", name: "Shadow Match", icon: "🔦", color: "#6A4C93" } ]; gamesList.forEach(game => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${game.color}`; card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`; card.addEventListener("click", () => startGame(game.id)); homeScreen.appendChild(card); }); }
-            function startGame(gameId) { if (gameId === "shadowMatch") { enterShadowMatch(); return; } currentGameType = gameId; gameScore = 0; gameScoreElement.innerText = gameScore; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.add("hidden"); gameScreen.classList.replace("hidden", "active-flex"); generateGameRound(); }
+            function loadGamesMenu() { homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden"); const gamesList = [ { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" }, { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" }, { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" }, { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" }, { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" }, { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }, { id: "shadowMatch", name: "Shadow Match", icon: "🔦", color: "#6A4C93" },{ id: "matchingGame", name: "Balloon Match", icon: "🎈", color: "#F72585" }]; gamesList.forEach(game => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${game.color}`; card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`; card.addEventListener("click", () => startGame(game.id)); homeScreen.appendChild(card); }); }
+           function startGame(gameId) { if (gameId === "shadowMatch") { enterShadowMatch(); return; } if (gameId === "matchingGame") { enterMatchingGame(); return; } currentGameType = gameId; gameScore = 0; gameScoreElement.innerText = gameScore; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.add("hidden"); gameScreen.classList.replace("hidden", "active-flex"); generateGameRound(); }
             btnExitGame.addEventListener("click", () => { window.speechSynthesis.cancel(); gameScreen.classList.replace("active-flex", "hidden"); mainHeader.classList.remove("hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
             function setGameImage(item) { gameRealImg.classList.add("hidden"); gameEmojiImg.classList.add("hidden"); if (item.img && item.img !== "") { gameRealImg.src = item.img; gameRealImg.style.display = "block"; gameRealImg.classList.remove("hidden"); } else if (item.emoji) { gameEmojiImg.innerText = item.emoji; gameEmojiImg.classList.remove("hidden"); } }
             function generateGameRound() { gameOptionsContainer.innerHTML = ""; gameRealImg.className = "real-img scale-in"; gameEmojiImg.className = "emoji-text scale-in"; gameEmojiImg.style.fontSize = "8rem"; if (currentGameType === "findLetter") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.main; gameQuestionText.innerText = `Find the letter for ${randomItem.sub.split(" for ")[1]}!`; setGameImage(randomItem); speak(gameQuestionText.innerText); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "missingLetter") { let idx = Math.floor(Math.random() * 23); let l1 = String.fromCharCode(65 + idx); let l2 = String.fromCharCode(65 + idx + 1); let l3 = String.fromCharCode(65 + idx + 2); let hideIdx = Math.floor(Math.random() * 3); correctAnswer = String.fromCharCode(65 + idx + hideIdx); let displayString = ""; if(hideIdx === 0) displayString = `_  ${l2}  ${l3}`; if(hideIdx === 1) displayString = `${l1}  _  ${l3}`; if(hideIdx === 2) displayString = `${l1}  ${l2}  _`; gameQuestionText.innerText = "What is the missing letter?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = displayString; gameEmojiImg.style.fontSize = "clamp(3rem, 10vh, 5rem)"; speak("What is the missing letter?"); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "countObjects") { let num = Math.floor(Math.random() * 8) + 2; let randomEmoji = ['🍎','🐶','🚗','⭐','🏀'][Math.floor(Math.random() * 5)]; correctAnswer = num.toString(); gameQuestionText.innerText = "How many are there?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = Array(num).fill(randomEmoji).join(" "); gameEmojiImg.style.fontSize = "clamp(2rem, 8vh, 4rem)"; speak("How many are there?"); let options = [num]; while(options.length < 4) { let wrongNum = Math.floor(Math.random() * 9) + 1; if(!options.includes(wrongNum)) options.push(wrongNum); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt.toString() === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "matchPicture") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.emoji; let targetWord = randomItem.sub.split(" for ")[1]; gameQuestionText.innerText = `Where is the ${targetWord}?`; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = "❓"; speak(`Where is the ${targetWord}?`); let options = [randomItem]; while(options.length < 4) { let wrongItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; if(!options.some(opt => opt.emoji === wrongItem.emoji)) options.push(wrongItem); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; if (opt.img && opt.img !== "") { btn.innerHTML = `<img src="${opt.img}" style="max-height:80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none;">${opt.emoji}</span>`; } else { btn.innerText = opt.emoji; } btn.addEventListener("click", () => handleAnswer(btn, opt.emoji === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessColor") { let randomItem = colors[Math.floor(Math.random() * colors.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What color is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What color is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongColor = colors[Math.floor(Math.random() * colors.length)][0]; if(!options.includes(wrongColor)) options.push(wrongColor); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessShape") { let randomItem = shapes[Math.floor(Math.random() * shapes.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What shape is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What shape is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongShape = shapes[Math.floor(Math.random() * shapes.length)][0]; if(!options.includes(wrongShape)) options.push(wrongShape); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } }
@@ -930,6 +1002,496 @@
                 smStartLevel();
             }, 350);
         }
+    </script>
+<!-- BALLOON MATCHING ENGINE (NEW) -->
+    <script>
+        // --- COMPACT DICTIONARIES FOR BALLOON MATCH ---
+        const mgColorsData = [
+            {main: 'Red', emoji: '🟥', img: 'red.png'}, {main: 'Blue', emoji: '🟦', img: 'blue.png'}, 
+            {main: 'Green', emoji: '🟩', img: 'green.png'}, {main: 'Yellow', emoji: '🟨', img: 'yellow.png'}, 
+            {main: 'Orange', emoji: '🟧', img: 'orange color.png'}, {main: 'Purple', emoji: '🟪', img: 'purple.png'}, 
+            {main: 'Pink', emoji: '🌸', img: 'pink.png'}, {main: 'Brown', emoji: '🟫', img: 'brown.png'}, 
+            {main: 'Black', emoji: '⬛', img: 'black.png'}, {main: 'White', emoji: '⬜', img: 'white.png'}
+        ];
+        
+        // EXACT HALF SHAPES FROM YOUR REFERENCE FILE
+        const mgUrduHalfData = [
+            {main: 'ب', emoji: 'بـ'}, {main: 'پ', emoji: 'پـ'}, {main: 'ت', emoji: 'تـ'}, {main: 'ٹ', emoji: 'ٹـ'}, {main: 'ث', emoji: 'ثـ'}, 
+            {main: 'ج', emoji: 'جـ'}, {main: 'چ', emoji: 'چـ'}, {main: 'ح', emoji: 'حـ'}, {main: 'خ', emoji: 'خـ'}, 
+            {main: 'س', emoji: 'سـ'}, {main: 'ش', emoji: 'شـ'}, {main: 'ص', emoji: 'صـ'}, {main: 'ض', emoji: 'ضـ'}, 
+            {main: 'ع', emoji: 'عـ'}, {main: 'غ', emoji: 'غـ'}, {main: 'ف', emoji: 'فـ'}, {main: 'ق', emoji: 'قـ'}, 
+            {main: 'ک', emoji: 'کـ'}, {main: 'گ', emoji: 'گـ'}, {main: 'ل', emoji: 'لـ'}, {main: 'م', emoji: 'مـ'}, 
+            {main: 'ن', emoji: 'نـ'}, {main: 'ہ', emoji: 'ہـ'}, {main: 'ی', emoji: 'یـ'}
+        ];
+
+        const mgBalloonColors = ['#FF9F1C', '#8AC926', '#FF595E', '#1982C4', '#FFCA3A', '#6A4C93', '#4EA8DE'];
+
+        let mgGameActive = false;
+        let mgCurrentModeId = 'english';
+        
+        let mgActiveList = [];
+        let mgCurrentRoundItems = [];
+        let mgConnections = []; 
+        let mgCurrentLine = null; 
+        let mgActiveTool = 'pen'; 
+        let mgPendingClickId = null;
+        let mgIsDragging = false;
+        
+        let mgAudioCtx = null;
+        let mgDrawOsc = null;
+        let mgDrawGain = null;
+
+        function mgInitAudio() {
+            if (!mgAudioCtx) {
+                mgAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (mgAudioCtx.state === 'suspended') mgAudioCtx.resume();
+        }
+
+        const mgSoundEngine = {
+            startDrawing() {
+                if (!mgAudioCtx) return;
+                mgDrawOsc = mgAudioCtx.createOscillator();
+                mgDrawGain = mgAudioCtx.createGain();
+                mgDrawOsc.type = 'sine';
+                mgDrawOsc.frequency.setValueAtTime(300, mgAudioCtx.currentTime);
+                mgDrawGain.gain.setValueAtTime(0, mgAudioCtx.currentTime);
+                mgDrawGain.gain.linearRampToValueAtTime(0.1, mgAudioCtx.currentTime + 0.1);
+                mgDrawOsc.connect(mgDrawGain);
+                mgDrawGain.connect(mgAudioCtx.destination);
+                mgDrawOsc.start();
+            },
+            updateDrawing(dist) {
+                if (mgDrawOsc && mgAudioCtx) {
+                    let freq = 300 + (dist * 0.5);
+                    mgDrawOsc.frequency.setTargetAtTime(Math.min(freq, 800), mgAudioCtx.currentTime + 0.1);
+                }
+            },
+            stopDrawing() {
+                if (mgDrawOsc && mgDrawGain && mgAudioCtx) {
+                    mgDrawGain.gain.linearRampToValueAtTime(0, mgAudioCtx.currentTime + 0.1);
+                    mgDrawOsc.stop(mgAudioCtx.currentTime + 0.1);
+                    mgDrawOsc = null;
+                }
+            },
+            playCling() {
+                if (!mgAudioCtx) return;
+                const osc = mgAudioCtx.createOscillator();
+                const gain = mgAudioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(800, mgAudioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, mgAudioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.3, mgAudioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, mgAudioCtx.currentTime + 0.5);
+                osc.connect(gain);
+                gain.connect(mgAudioCtx.destination);
+                osc.start();
+                osc.stop(mgAudioCtx.currentTime + 0.5);
+            },
+            playWrong() {
+                if (!mgAudioCtx) return;
+                const osc = mgAudioCtx.createOscillator();
+                const gain = mgAudioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, mgAudioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, mgAudioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.2, mgAudioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, mgAudioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(mgAudioCtx.destination);
+                osc.start();
+                osc.stop(mgAudioCtx.currentTime + 0.3);
+            },
+            playCheer() {
+                if (!mgAudioCtx) return;
+                const notes = [440, 554.37, 659.25, 880]; 
+                notes.forEach((freq, index) => {
+                    const osc = mgAudioCtx.createOscillator();
+                    const gain = mgAudioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, mgAudioCtx.currentTime + (index * 0.1));
+                    gain.gain.linearRampToValueAtTime(0.2, mgAudioCtx.currentTime + (index * 0.1) + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.01, mgAudioCtx.currentTime + (index * 0.1) + 0.5);
+                    osc.connect(gain);
+                    gain.connect(mgAudioCtx.destination);
+                    osc.start(mgAudioCtx.currentTime + (index * 0.1));
+                    osc.stop(mgAudioCtx.currentTime + (index * 0.1) + 0.5);
+                });
+            }
+        };
+
+        function mgShuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function enterMatchingGame() {
+            document.getElementById("app-container").classList.replace("active-flex", "hidden");
+            document.getElementById("mg-wrapper").classList.remove("hidden");
+            mgGameActive = true;
+            try { 
+                let elem = document.documentElement; 
+                if (elem.requestFullscreen) { 
+                    elem.requestFullscreen().then(() => { 
+                        if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported.")); } 
+                    }).catch(e => console.log("Fullscreen blocked.")); 
+                } 
+            } catch(err) { console.log(err); }
+            document.getElementById('mg-menu-screen').style.display = 'flex';
+            document.getElementById('mg-game-area').style.display = 'none';
+            document.getElementById('mg-line-canvas').style.display = 'none';
+            document.getElementById('mg-toolbar').style.display = 'none';
+        }
+
+        function exitMatchingGame() {
+            document.getElementById("mg-wrapper").classList.add("hidden");
+            document.getElementById("app-container").classList.replace("hidden", "active-flex");
+            document.getElementById("main-header").classList.remove("hidden");
+            document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden");
+            document.getElementById("home-screen").classList.replace("hidden", "active-grid");
+            document.getElementById("app-title").innerText = "🎮 Games Menu";
+            document.getElementById("btn-home").classList.remove("hidden");
+            mgGameActive = false;
+            try { 
+                if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
+                if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+            } catch(err) { console.log(err); }
+        }
+
+        function mgStartGameMode(mode) {
+            mgInitAudio();
+            mgCurrentModeId = mode;
+            
+            const titleEl = document.getElementById('mg-game-title');
+            
+            if (mode === 'english') {
+                mgActiveList = appData.modules.alphabet_words; titleEl.innerText = "Match Letters to Pictures"; titleEl.className = "mg-title font-english";
+            } else if (mode === 'upper_lower') {
+                mgActiveList = Array.from({length:26}, (_,i)=>({main: String.fromCharCode(65+i), emoji: String.fromCharCode(97+i)})); titleEl.innerText = "Match Uppercase to Lowercase"; titleEl.className = "mg-title font-english";
+            } else if (mode === 'numbers') {
+                mgActiveList = appData.modules.number_dots.slice(0, 10); titleEl.innerText = "Match Numbers to Dots"; titleEl.className = "mg-title font-english";
+            } else if (mode === 'colors') {
+                mgActiveList = mgColorsData; titleEl.innerText = "Match Colors"; titleEl.className = "mg-title font-english";
+            } else if (mode === 'urdu') {
+                mgActiveList = appData.modules.urdu_pics; titleEl.innerText = "حروف کو ان کی متعلقہ تصاویر سے ملائیں"; titleEl.className = "mg-title font-urdu";
+            } else if (mode === 'urdu_half') {
+                mgActiveList = mgUrduHalfData; titleEl.innerText = "حروف کو ان کی آدھی اشکال سے ملائیں"; titleEl.className = "mg-title font-urdu";
+            } else if (mode === 'telugu_achulu') {
+                mgActiveList = appData.modules.telugu_achulu_words; titleEl.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; titleEl.className = "mg-title font-telugu";
+            } else if (mode === 'telugu_hallulu') {
+                mgActiveList = appData.modules.telugu_hallulu_words; titleEl.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; titleEl.className = "mg-title font-telugu";
+            }
+
+            document.getElementById('mg-menu-screen').style.display = 'none';
+            document.getElementById('mg-game-area').style.display = 'flex';
+            document.getElementById('mg-line-canvas').style.display = 'block';
+            document.getElementById('mg-toolbar').style.display = 'flex';
+            
+            mgLoadRound();
+        }
+
+        document.getElementById('mg-btn-back').addEventListener('click', () => {
+            document.getElementById('mg-menu-screen').style.display = 'flex';
+            document.getElementById('mg-game-area').style.display = 'none';
+            document.getElementById('mg-line-canvas').style.display = 'none';
+            document.getElementById('mg-toolbar').style.display = 'none';
+            mgConnections = [];
+            mgCurrentLine = null;
+            mgPendingClickId = null;
+            mgRenderCanvas();
+        });
+
+        const mgCanvas = document.getElementById('mg-line-canvas');
+        const mgCtx = mgCanvas.getContext('2d');
+        function mgResizeCanvas() {
+            if(!mgGameActive) return;
+            mgCanvas.width = window.innerWidth;
+            mgCanvas.height = window.innerHeight;
+            mgRenderCanvas();
+        }
+        window.addEventListener('resize', mgResizeCanvas);
+
+        function mgLoadRound() {
+            mgConnections = [];
+            mgCurrentLine = null;
+            mgPendingClickId = null;
+            const topRow = document.getElementById('mg-top-row');
+            const bottomRow = document.getElementById('mg-bottom-row');
+            topRow.innerHTML = '';
+            bottomRow.innerHTML = '';
+
+            let shuffledItems = mgShuffle([...mgActiveList]).slice(0, 5);
+            mgCurrentRoundItems = shuffledItems;
+
+            let fontClass = '';
+            if (mgCurrentModeId.includes('urdu')) fontClass = "font-family: 'Noto Nastaliq Urdu', sans-serif;";
+            else if (mgCurrentModeId.includes('telugu')) fontClass = "font-family: 'Noto Sans Telugu', sans-serif; font-weight: 700;";
+            else fontClass = "font-family: 'Fredoka', sans-serif;";
+
+            mgCurrentRoundItems.forEach((item, index) => {
+                const color = mgBalloonColors[index % mgBalloonColors.length];
+                const container = document.createElement('div');
+                container.className = 'mg-balloon-container';
+                container.dataset.id = `balloon_${item.main}`;
+                
+                let emojiStr = item.emoji || "";
+                let fSize = '3rem';
+                
+                if(emojiStr.includes('🔴')) {
+                    if (emojiStr.length > 8) fSize = '1.2rem';
+                    else if (emojiStr.length > 5) fSize = '1.8rem';
+                    else fSize = '2.5rem';
+                } else if (mgCurrentModeId.includes('urdu')) {
+                    // FIX: Reduced font size so the letters fit perfectly inside the balloon circles!
+                    fSize = 'clamp(1.8rem, 4vw, 2.5rem)'; 
+                }
+
+                // FIX: line-height set to 1 and small padding added to center the Nastaliq text
+                const imgHTML = item.img ? `<img src="${item.img}" alt="${item.main}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none; font-size:${fSize}; text-align:center; line-height:1; padding-top: 5px; ${fontClass}">${emojiStr}</span>` : `<span style="font-size:${fSize}; text-align:center; line-height:1; padding-top: 5px; display:inline-block; max-width:90%; word-wrap:break-word; ${fontClass}">${emojiStr}</span>`;
+
+                container.innerHTML = `
+                    <div class="mg-balloon" style="border-color: ${color};">
+                        ${imgHTML}
+                    </div>
+                    <div class="mg-balloon-anchor" id="anchor_balloon_${item.main}"></div>
+                `;
+                topRow.appendChild(container);
+            });
+
+            let shuffledBaskets = mgShuffle([...mgCurrentRoundItems]);
+            
+            shuffledBaskets.forEach((item, index) => {
+                const color = mgBalloonColors[index % mgBalloonColors.length];
+                const container = document.createElement('div');
+                container.className = 'mg-basket-container';
+                container.dataset.id = `basket_${item.main}`;
+                
+                let basketText = item.main;
+                let basketFontSize = 'clamp(3.5rem, 8vw, 6rem)';
+                if (basketText.length > 2) basketFontSize = 'clamp(1.5rem, 4vw, 2.5rem)';
+                
+                if (mgCurrentModeId.includes('urdu')) {
+                    // FIX: Reduced basket font size to stop overflow
+                    basketFontSize = 'clamp(1.8rem, 4vw, 2.5rem)';
+                }
+
+                let fontColor = (mgCurrentModeId === 'colors') ? '#000000' : color;
+
+                container.innerHTML = `
+                    <div class="mg-basket-anchor" id="anchor_basket_${item.main}"></div>
+                    <div class="mg-basket">
+                        <div class="mg-huruf" style="color: ${fontColor}; font-size: ${basketFontSize}; line-height:1; margin-bottom: 5px; ${fontClass}">${basketText}</div>
+                    </div>
+                `;
+                bottomRow.appendChild(container);
+            });
+
+            setTimeout(mgResizeCanvas, 100); 
+        }
+
+        function mgGetAnchorCoords(id) {
+            const el = document.getElementById(id);
+            if (!el) return null;
+            const rect = el.getBoundingClientRect();
+            return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        }
+
+        function mgGetHitContainer(x, y) {
+            const containers = document.querySelectorAll('.mg-balloon-container, .mg-basket-container');
+            for (let i = 0; i < containers.length; i++) {
+                const rect = containers[i].getBoundingClientRect();
+                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                    return containers[i].dataset.id;
+                }
+            }
+            return null;
+        }
+
+        function mgAttemptMatch(startId, targetId, lineColor) {
+            const isStartBalloon = startId.startsWith('balloon');
+            const isTargetBalloon = targetId.startsWith('balloon');
+            
+            if (isStartBalloon !== isTargetBalloon) {
+                const startLetter = startId.split('_')[1];
+                const targetLetter = targetId.split('_')[1];
+
+                if (startLetter === targetLetter) {
+                    mgConnections.push({ fromId: startId, toId: targetId, color: lineColor });
+                    mgSoundEngine.playCling();
+                    const targetEl = document.querySelector(`[data-id="${targetId}"]`);
+                    const startEl = document.querySelector(`[data-id="${startId}"]`);
+                    if(targetEl) { targetEl.classList.add('mg-pop-anim'); setTimeout(() => targetEl.classList.remove('mg-pop-anim'), 400); }
+                    if(startEl) { startEl.classList.add('mg-pop-anim'); setTimeout(() => startEl.classList.remove('mg-pop-anim'), 400); }
+                    mgCheckWinCondition();
+                } else {
+                    mgSoundEngine.playWrong();
+                    if (navigator.vibrate) navigator.vibrate([200]);
+                    const targetEl = document.querySelector(`[data-id="${targetId}"]`);
+                    if(targetEl) { targetEl.classList.add('mg-shake-anim'); setTimeout(() => targetEl.classList.remove('mg-shake-anim'), 400); }
+                }
+            }
+        }
+
+        function mgRenderCanvas() {
+            mgCtx.clearRect(0, 0, mgCanvas.width, mgCanvas.height);
+            mgCtx.lineCap = 'round';
+            mgCtx.lineJoin = 'round';
+
+            if (mgPendingClickId && !mgIsDragging) {
+                const coords = mgGetAnchorCoords(`anchor_${mgPendingClickId}`);
+                if (coords) {
+                    mgCtx.beginPath();
+                    mgCtx.arc(coords.x, coords.y, 35, 0, Math.PI * 2);
+                    mgCtx.lineWidth = 4;
+                    mgCtx.strokeStyle = 'rgba(255, 200, 0, 0.9)';
+                    mgCtx.stroke();
+                    mgCtx.fillStyle = 'rgba(255, 200, 0, 0.4)';
+                    mgCtx.fill();
+                }
+            }
+
+            mgConnections.forEach(conn => {
+                const start = mgGetAnchorCoords(`anchor_${conn.fromId}`);
+                const end = mgGetAnchorCoords(`anchor_${conn.toId}`);
+                if (start && end) {
+                    mgCtx.beginPath();
+                    mgCtx.moveTo(start.x, start.y);
+                    mgCtx.lineTo(end.x, end.y);
+                    mgCtx.lineWidth = 6;
+                    mgCtx.strokeStyle = conn.color;
+                    mgCtx.stroke();
+                }
+            });
+
+            if (mgCurrentLine && mgIsDragging) {
+                mgCtx.beginPath();
+                mgCtx.moveTo(mgCurrentLine.startX, mgCurrentLine.startY);
+                mgCtx.lineTo(mgCurrentLine.endX, mgCurrentLine.endY);
+                mgCtx.lineWidth = 6;
+                mgCtx.strokeStyle = mgCurrentLine.color;
+                mgCtx.stroke();
+            }
+        }
+
+        function mgHandlePointerDown(e) {
+            if(!mgGameActive || document.getElementById('mg-menu-screen').style.display !== 'none') return;
+            mgInitAudio(); 
+            
+            const touchX = e.touches ? e.touches[0].clientX : e.clientX;
+            const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            let clickedId = mgGetHitContainer(touchX, touchY);
+
+            if (clickedId) {
+                let startColor = '#333';
+                if (clickedId.startsWith('balloon')) {
+                    const balloonEl = document.querySelector(`[data-id="${clickedId}"] .mg-balloon`);
+                    startColor = balloonEl.style.borderColor;
+                } else {
+                    const hurufEl = document.querySelector(`[data-id="${clickedId}"] .mg-huruf`);
+                    startColor = (hurufEl.style.color === 'rgb(0, 0, 0)' || hurufEl.style.color === '#000000') ? '#333' : hurufEl.style.color;
+                }
+
+                if (mgActiveTool === 'pen') {
+                    if (mgConnections.find(c => c.fromId === clickedId || c.toId === clickedId)) return; 
+                    
+                    if (mgPendingClickId && mgPendingClickId !== clickedId) {
+                        mgAttemptMatch(mgPendingClickId, clickedId, startColor);
+                        mgPendingClickId = null;
+                        mgCurrentLine = null;
+                        mgRenderCanvas();
+                        return;
+                    }
+
+                    mgPendingClickId = clickedId;
+                    mgIsDragging = false;
+                    const coords = mgGetAnchorCoords(`anchor_${clickedId}`);
+                    mgCurrentLine = { startX: coords.x, startY: coords.y, endX: touchX, endY: touchY, startId: clickedId, color: startColor };
+                    mgSoundEngine.startDrawing();
+                } else if (mgActiveTool === 'eraser') {
+                    const initialLen = mgConnections.length;
+                    mgConnections = mgConnections.filter(c => c.fromId !== clickedId && c.toId !== clickedId);
+                    if (mgConnections.length < initialLen) {
+                        mgSoundEngine.playWrong(); 
+                        mgRenderCanvas();
+                    }
+                }
+            } else {
+                mgPendingClickId = null;
+                mgCurrentLine = null;
+                mgRenderCanvas();
+            }
+        }
+
+        function mgHandlePointerMove(e) {
+            if (!mgCurrentLine || !mgGameActive) return;
+            e.preventDefault(); 
+            const touchX = e.touches ? e.touches[0].clientX : e.clientX;
+            const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const dx = touchX - mgCurrentLine.startX;
+            const dy = touchY - mgCurrentLine.startY;
+            if (Math.sqrt(dx*dx + dy*dy) > 10) {
+                mgIsDragging = true;
+            }
+
+            mgCurrentLine.endX = touchX; 
+            mgCurrentLine.endY = touchY;
+            
+            mgSoundEngine.updateDrawing(Math.sqrt(dx*dx + dy*dy));
+            mgRenderCanvas();
+        }
+
+        function mgHandlePointerUp(e) {
+            if (!mgCurrentLine || !mgGameActive) return;
+            mgSoundEngine.stopDrawing();
+
+            const endX = mgCurrentLine.endX;
+            const endY = mgCurrentLine.endY;
+            let targetId = mgGetHitContainer(endX, endY);
+
+            if (targetId && targetId !== mgCurrentLine.startId) {
+                mgAttemptMatch(mgCurrentLine.startId, targetId, mgCurrentLine.color);
+                mgPendingClickId = null;
+                mgCurrentLine = null;
+            } else if (mgIsDragging) {
+                mgPendingClickId = null;
+                mgCurrentLine = null;
+            } else {
+                mgCurrentLine.endX = mgCurrentLine.startX;
+                mgCurrentLine.endY = mgCurrentLine.startY;
+            }
+            
+            mgIsDragging = false;
+            mgRenderCanvas();
+        }
+
+        function mgCheckWinCondition() {
+            if (mgConnections.length === 5) {
+                mgSoundEngine.playCheer();
+                setTimeout(() => { mgLoadRound(); }, 2000);
+            }
+        }
+
+        mgCanvas.addEventListener('mousedown', mgHandlePointerDown);
+        mgCanvas.addEventListener('mousemove', mgHandlePointerMove);
+        window.addEventListener('mouseup', mgHandlePointerUp);
+
+        mgCanvas.addEventListener('touchstart', mgHandlePointerDown, {passive: false});
+        mgCanvas.addEventListener('touchmove', mgHandlePointerMove, {passive: false});
+        window.addEventListener('touchend', mgHandlePointerUp);
+
+        const mgBtnPen = document.getElementById('mg-btn-pen');
+        const mgBtnEraser = document.getElementById('mg-btn-eraser');
+        
+        mgBtnPen.addEventListener('click', () => { mgActiveTool = 'pen'; mgBtnPen.classList.add('active'); mgBtnEraser.classList.remove('active'); });
+        mgBtnEraser.addEventListener('click', () => { mgActiveTool = 'eraser'; mgBtnEraser.classList.add('active'); mgBtnPen.classList.remove('active'); });
     </script>
 </body>
 </html>
