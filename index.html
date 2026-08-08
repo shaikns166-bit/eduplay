@@ -665,7 +665,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v37'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v38'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -1041,10 +1041,9 @@
         let mgDrawOsc = null;
         let mgDrawGain = null;
         
-        // --- NEW: Background Music Variables ---
         let mgBgmInterval = null;
         let mgBgmIndex = 0;
-        const mgBgmNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63]; // Playful C-Major Pentatonic melody
+        const mgBgmNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
 
         function mgInitAudio() {
             if (!mgAudioCtx) {
@@ -1053,7 +1052,6 @@
             if (mgAudioCtx.state === 'suspended') mgAudioCtx.resume();
         }
 
-        // --- NEW: Start BGM Function ---
         function mgStartBGM() {
             if (mgBgmInterval) clearInterval(mgBgmInterval);
             let settings = JSON.parse(localStorage.getItem('eduplaySettings')) || { mute: false };
@@ -1069,8 +1067,11 @@
                 const gain = mgAudioCtx.createGain();
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(mgBgmNotes[mgBgmIndex], mgAudioCtx.currentTime);
-                gain.gain.setValueAtTime(0.02, mgAudioCtx.currentTime); 
+                
+                // FIXED: Increased volume from 0.02 (2%) to 0.15 (15%) for better background music!
+                gain.gain.setValueAtTime(0.15, mgAudioCtx.currentTime); 
                 gain.gain.exponentialRampToValueAtTime(0.001, mgAudioCtx.currentTime + 0.4);
+                
                 osc.connect(gain);
                 gain.connect(mgAudioCtx.destination);
                 osc.start();
@@ -1079,7 +1080,6 @@
             }, 350); 
         }
 
-        // --- NEW: Stop BGM Function ---
         function mgStopBGM() {
             if (mgBgmInterval) clearInterval(mgBgmInterval);
             mgBgmInterval = null;
@@ -1088,6 +1088,10 @@
         const mgSoundEngine = {
             startDrawing() {
                 if (!mgAudioCtx) return;
+                
+                // FIXED: Automatically kill any stuck humming sound before starting a new one!
+                this.stopDrawing(); 
+                
                 mgDrawOsc = mgAudioCtx.createOscillator();
                 mgDrawGain = mgAudioCtx.createGain();
                 mgDrawOsc.type = 'sine';
@@ -1109,6 +1113,7 @@
                     mgDrawGain.gain.linearRampToValueAtTime(0, mgAudioCtx.currentTime + 0.1);
                     mgDrawOsc.stop(mgAudioCtx.currentTime + 0.1);
                     mgDrawOsc = null;
+                    mgDrawGain = null;
                 }
             },
             playCling() {
@@ -1158,6 +1163,16 @@
             }
         };
 
+        // FIXED: Failsafe to immediately kill sounds if the user minimizes or closes the app
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                mgSoundEngine.stopDrawing();
+                mgStopBGM();
+            } else if (mgGameActive) {
+                mgStartBGM();
+            }
+        });
+
         function mgShuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -1189,6 +1204,7 @@
 
         function exitMatchingGame() {
             mgStopBGM();
+            mgSoundEngine.stopDrawing();
             document.getElementById("mg-wrapper").classList.add("hidden");
             document.getElementById("app-container").classList.replace("hidden", "active-flex");
             document.getElementById("main-header").classList.remove("hidden");
@@ -1219,9 +1235,9 @@
             } else if (mode === 'colors') {
                 mgActiveList = mgColorsData; splashTitle.innerText = "Colors Matching"; splashTitle.style.fontFamily = "'Fredoka', sans-serif";
             } else if (mode === 'urdu') {
-                mgActiveList = appData.modules.urdu_pics; splashTitle.innerText = "حروف کو ان کی متعلقہ تصاویر سے ملائیں"; splashTitle.style.fontFamily = "'Noto Nastaliq Urdu', serif";
+                mgActiveList = appData.modules.urdu_pics; splashTitle.innerText = "حروف کو ان کی متعلقہ تصاویر سے ملائیں"; splashTitle.style.fontFamily = "'Jameel Noori Nastaleeq', 'Iran Nastaliq', 'Noto Nastaliq Urdu', serif";
             } else if (mode === 'urdu_half') {
-                mgActiveList = mgUrduHalfData; splashTitle.innerText = "حروف کو ان کی آدھی اشکال سے ملائیں"; splashTitle.style.fontFamily = "'Noto Nastaliq Urdu', serif";
+                mgActiveList = mgUrduHalfData; splashTitle.innerText = "حروف کو ان کی آدھی اشکال سے ملائیں"; splashTitle.style.fontFamily = "'Jameel Noori Nastaleeq', 'Iran Nastaliq', 'Noto Nastaliq Urdu', serif";
             } else if (mode === 'telugu_achulu') {
                 mgActiveList = appData.modules.telugu_achulu_words; splashTitle.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; splashTitle.style.fontFamily = "'Noto Sans Telugu', sans-serif";
             } else if (mode === 'telugu_hallulu') {
@@ -1240,11 +1256,10 @@
                 document.getElementById('mg-line-canvas').style.display = 'block';
                 document.getElementById('mg-exit-btn').style.display = 'flex';
                 mgLoadRound();
-                mgStartBGM(); // Start music when the game actually begins!
+                mgStartBGM(); 
             }, 2000);
         }
 
-        // NEW: Clean Exit button listener
         document.getElementById('mg-exit-btn').addEventListener('click', () => {
             mgStopBGM();
             mgSoundEngine.stopDrawing();
@@ -1285,7 +1300,7 @@
             mgCurrentRoundItems = shuffledItems;
 
             let fontClass = '';
-            if (mgCurrentModeId.includes('urdu')) fontClass = "font-family: 'Noto Nastaliq Urdu', sans-serif;";
+            if (mgCurrentModeId.includes('urdu')) fontClass = "font-family: 'Jameel Noori Nastaleeq', 'Iran Nastaliq', 'Noto Nastaliq Urdu', sans-serif;";
             else if (mgCurrentModeId.includes('telugu')) fontClass = "font-family: 'Noto Sans Telugu', sans-serif; font-weight: 700;";
             else fontClass = "font-family: 'Fredoka', sans-serif;";
 
@@ -1430,7 +1445,8 @@
                 mgCtx.stroke();
             }
         }
-function getPointerPos(e) {
+
+        function getPointerPos(e) {
             if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
             if (e.changedTouches && e.changedTouches.length > 0) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
             return { x: e.clientX, y: e.clientY };
@@ -1439,7 +1455,6 @@ function getPointerPos(e) {
         function mgHandlePointerDown(e) {
             if(!mgGameActive || document.getElementById('mg-splash-screen').style.display === 'flex' || document.getElementById('mg-menu-screen').style.display !== 'none') return;
             
-            // THE MAGIC FIX FOR MOBILE: Stops the screen from scrolling when you touch it!
             if (e.cancelable) e.preventDefault(); 
             
             mgInitAudio(); 
@@ -1489,7 +1504,6 @@ function getPointerPos(e) {
         function mgHandlePointerMove(e) {
             if (!mgCurrentLine || !mgGameActive) return;
             
-            // Keeps mobile perfectly smooth during the drag
             if (e.cancelable) e.preventDefault(); 
             
             const pos = getPointerPos(e);
@@ -1541,7 +1555,6 @@ function getPointerPos(e) {
         mgCanvas.addEventListener('mousemove', mgHandlePointerMove);
         window.addEventListener('mouseup', mgHandlePointerUp);
 
-        // ADDED "touchcancel" so the phone can't randomly kill the line drawing!
         mgCanvas.addEventListener('touchstart', mgHandlePointerDown, {passive: false});
         mgCanvas.addEventListener('touchmove', mgHandlePointerMove, {passive: false});
         window.addEventListener('touchend', mgHandlePointerUp);
