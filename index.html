@@ -244,7 +244,8 @@
         #mg-wrapper .font-urdu { font-family: 'Noto Nastaliq Urdu', sans-serif; }
         #mg-wrapper .font-telugu { font-family: 'Noto Sans Telugu', sans-serif; font-weight: 700; }
         #mg-wrapper .font-english { font-family: 'Fredoka', sans-serif; }
-        #mg-wrapper #mg-game-area { flex: 1; display: none; flex-direction: column; justify-content: space-between; padding: 5vh 2vw 15vh 2vw; z-index: 2; }
+        #mg-wrapper #mg-game-area { flex: 1; display: none; flex-direction: column; justify-content: space-between; padding: 3vh 2vw 10vh 2vw; z-index: 2; height: 100%; }
+        #mg-wrapper { touch-action: none; } /* This completely stops screen scrolling so lines drag smoothly! */
         #mg-wrapper .mg-row { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 1000px; margin: 0 auto; }
         #mg-wrapper .mg-balloon-container { display: flex; flex-direction: column; align-items: center; position: relative; }
         #mg-wrapper .mg-balloon { width: clamp(60px, 15vw, 100px); height: clamp(60px, 15vw, 100px); border-radius: 50%; background: white; border: 6px solid; display: flex; justify-content: center; align-items: center; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1), 0 10px 15px rgba(0,0,0,0.2); position: relative; z-index: 5; }
@@ -507,10 +508,12 @@
 
         <canvas id="mg-line-canvas"></canvas>
 
-        <div id="mg-toolbar">
-            <button class="mg-tool-btn" id="mg-btn-back" title="Menu" style="background: #ffcccc;">⬅️</button>
-            <button class="mg-tool-btn active" id="mg-btn-pen" title="Draw">✏️</button>
-            <button class="mg-tool-btn" id="mg-btn-eraser" title="Eraser">🧽</button>
+        <!-- NEW: Clean Exit Button instead of the Toolbar -->
+        <button id="mg-exit-btn" style="position: absolute; top: 15px; left: 15px; background: #EF476F; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 50; display: none; align-items: center; justify-content: center;">✖</button>
+
+        <!-- Splash Screen for Game Title -->
+        <div id="mg-splash-screen" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 4000; backdrop-filter: blur(10px);">
+            <div id="mg-splash-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); color: #d32f2f; text-shadow: 2px 2px 0 white, -2px -2px 0 white, 0 10px 20px rgba(0,0,0,0.3); text-align: center; padding: 20px; animation: scaleIn 0.5s ease-out;"></div>
         </div>
 
         <!-- Start / Menu Screen -->
@@ -1005,7 +1008,6 @@
     </script>
 <!-- BALLOON MATCHING ENGINE (NEW) -->
     <script>
-        // --- COMPACT DICTIONARIES FOR BALLOON MATCH ---
         const mgColorsData = [
             {main: 'Red', emoji: '🟥', img: 'red.png'}, {main: 'Blue', emoji: '🟦', img: 'blue.png'}, 
             {main: 'Green', emoji: '🟩', img: 'green.png'}, {main: 'Yellow', emoji: '🟨', img: 'yellow.png'}, 
@@ -1014,7 +1016,6 @@
             {main: 'Black', emoji: '⬛', img: 'black.png'}, {main: 'White', emoji: '⬜', img: 'white.png'}
         ];
         
-        // EXACT HALF SHAPES FROM YOUR REFERENCE FILE
         const mgUrduHalfData = [
             {main: 'ب', emoji: 'بـ'}, {main: 'پ', emoji: 'پـ'}, {main: 'ت', emoji: 'تـ'}, {main: 'ٹ', emoji: 'ٹـ'}, {main: 'ث', emoji: 'ثـ'}, 
             {main: 'ج', emoji: 'جـ'}, {main: 'چ', emoji: 'چـ'}, {main: 'ح', emoji: 'حـ'}, {main: 'خ', emoji: 'خـ'}, 
@@ -1033,19 +1034,55 @@
         let mgCurrentRoundItems = [];
         let mgConnections = []; 
         let mgCurrentLine = null; 
-        let mgActiveTool = 'pen'; 
         let mgPendingClickId = null;
         let mgIsDragging = false;
         
         let mgAudioCtx = null;
         let mgDrawOsc = null;
         let mgDrawGain = null;
+        
+        // --- NEW: Background Music Variables ---
+        let mgBgmInterval = null;
+        let mgBgmIndex = 0;
+        const mgBgmNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63]; // Playful C-Major Pentatonic melody
 
         function mgInitAudio() {
             if (!mgAudioCtx) {
                 mgAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
             if (mgAudioCtx.state === 'suspended') mgAudioCtx.resume();
+        }
+
+        // --- NEW: Start BGM Function ---
+        function mgStartBGM() {
+            if (mgBgmInterval) clearInterval(mgBgmInterval);
+            let settings = JSON.parse(localStorage.getItem('eduplaySettings')) || { mute: false };
+            if (settings.mute) return;
+            
+            mgBgmIndex = 0;
+            mgBgmInterval = setInterval(() => {
+                if (!mgGameActive || !mgAudioCtx) return;
+                settings = JSON.parse(localStorage.getItem('eduplaySettings')) || { mute: false };
+                if(settings.mute) return;
+
+                const osc = mgAudioCtx.createOscillator();
+                const gain = mgAudioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(mgBgmNotes[mgBgmIndex], mgAudioCtx.currentTime);
+                gain.gain.setValueAtTime(0.02, mgAudioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, mgAudioCtx.currentTime + 0.4);
+                osc.connect(gain);
+                gain.connect(mgAudioCtx.destination);
+                osc.start();
+                osc.stop(mgAudioCtx.currentTime + 0.4);
+                mgBgmIndex = (mgBgmIndex + 1) % mgBgmNotes.length;
+            }, 350); 
+        }
+
+        // --- NEW: Stop BGM Function ---
+        function mgStopBGM() {
+            if (mgBgmInterval) clearInterval(mgBgmInterval);
+            mgBgmInterval = null;
         }
 
         const mgSoundEngine = {
@@ -1146,10 +1183,12 @@
             document.getElementById('mg-menu-screen').style.display = 'flex';
             document.getElementById('mg-game-area').style.display = 'none';
             document.getElementById('mg-line-canvas').style.display = 'none';
-            document.getElementById('mg-toolbar').style.display = 'none';
+            document.getElementById('mg-exit-btn').style.display = 'none';
+            document.getElementById('mg-splash-screen').style.display = 'none';
         }
 
         function exitMatchingGame() {
+            mgStopBGM();
             document.getElementById("mg-wrapper").classList.add("hidden");
             document.getElementById("app-container").classList.replace("hidden", "active-flex");
             document.getElementById("main-header").classList.remove("hidden");
@@ -1168,42 +1207,58 @@
             mgInitAudio();
             mgCurrentModeId = mode;
             
-            const titleEl = document.getElementById('mg-game-title');
+            const splashEl = document.getElementById('mg-splash-screen');
+            const splashTitle = document.getElementById('mg-splash-title');
             
             if (mode === 'english') {
-                mgActiveList = appData.modules.alphabet_words; titleEl.innerText = "Match Letters to Pictures"; titleEl.className = "mg-title font-english";
+                mgActiveList = appData.modules.alphabet_words; splashTitle.innerText = "Match Letters to Pictures"; splashTitle.style.fontFamily = "'Fredoka', sans-serif";
             } else if (mode === 'upper_lower') {
-                mgActiveList = Array.from({length:26}, (_,i)=>({main: String.fromCharCode(65+i), emoji: String.fromCharCode(97+i)})); titleEl.innerText = "Match Uppercase to Lowercase"; titleEl.className = "mg-title font-english";
+                mgActiveList = Array.from({length:26}, (_,i)=>({main: String.fromCharCode(65+i), emoji: String.fromCharCode(97+i)})); splashTitle.innerText = "Match Uppercase to Lowercase"; splashTitle.style.fontFamily = "'Fredoka', sans-serif";
             } else if (mode === 'numbers') {
-                mgActiveList = appData.modules.number_dots.slice(0, 10); titleEl.innerText = "Match Numbers to Dots"; titleEl.className = "mg-title font-english";
+                mgActiveList = appData.modules.number_dots.slice(0, 10); splashTitle.innerText = "Match Numbers to Dots"; splashTitle.style.fontFamily = "'Fredoka', sans-serif";
             } else if (mode === 'colors') {
-                mgActiveList = mgColorsData; titleEl.innerText = "Match Colors"; titleEl.className = "mg-title font-english";
+                mgActiveList = mgColorsData; splashTitle.innerText = "Colors Matching"; splashTitle.style.fontFamily = "'Fredoka', sans-serif";
             } else if (mode === 'urdu') {
-                mgActiveList = appData.modules.urdu_pics; titleEl.innerText = "حروف کو ان کی متعلقہ تصاویر سے ملائیں"; titleEl.className = "mg-title font-urdu";
+                mgActiveList = appData.modules.urdu_pics; splashTitle.innerText = "حروف کو ان کی متعلقہ تصاویر سے ملائیں"; splashTitle.style.fontFamily = "'Noto Nastaliq Urdu', serif";
             } else if (mode === 'urdu_half') {
-                mgActiveList = mgUrduHalfData; titleEl.innerText = "حروف کو ان کی آدھی اشکال سے ملائیں"; titleEl.className = "mg-title font-urdu";
+                mgActiveList = mgUrduHalfData; splashTitle.innerText = "حروف کو ان کی آدھی اشکال سے ملائیں"; splashTitle.style.fontFamily = "'Noto Nastaliq Urdu', serif";
             } else if (mode === 'telugu_achulu') {
-                mgActiveList = appData.modules.telugu_achulu_words; titleEl.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; titleEl.className = "mg-title font-telugu";
+                mgActiveList = appData.modules.telugu_achulu_words; splashTitle.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; splashTitle.style.fontFamily = "'Noto Sans Telugu', sans-serif";
             } else if (mode === 'telugu_hallulu') {
-                mgActiveList = appData.modules.telugu_hallulu_words; titleEl.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; titleEl.className = "mg-title font-telugu";
+                mgActiveList = appData.modules.telugu_hallulu_words; splashTitle.innerText = "అక్షరాలను చిత్రాలతో జత చేయండి"; splashTitle.style.fontFamily = "'Noto Sans Telugu', sans-serif";
             }
 
             document.getElementById('mg-menu-screen').style.display = 'none';
-            document.getElementById('mg-game-area').style.display = 'flex';
-            document.getElementById('mg-line-canvas').style.display = 'block';
-            document.getElementById('mg-toolbar').style.display = 'flex';
+            document.getElementById('mg-game-area').style.display = 'none';
+            document.getElementById('mg-line-canvas').style.display = 'none';
             
-            mgLoadRound();
+            splashEl.style.display = 'flex';
+
+            setTimeout(() => {
+                splashEl.style.display = 'none';
+                document.getElementById('mg-game-area').style.display = 'flex';
+                document.getElementById('mg-line-canvas').style.display = 'block';
+                document.getElementById('mg-exit-btn').style.display = 'flex';
+                mgLoadRound();
+                mgStartBGM(); // Start music when the game actually begins!
+            }, 2000);
         }
 
-        document.getElementById('mg-btn-back').addEventListener('click', () => {
+        // NEW: Clean Exit button listener
+        document.getElementById('mg-exit-btn').addEventListener('click', () => {
+            mgStopBGM();
+            mgSoundEngine.stopDrawing();
+            if (navigator.vibrate) navigator.vibrate(0);
+            
             document.getElementById('mg-menu-screen').style.display = 'flex';
             document.getElementById('mg-game-area').style.display = 'none';
             document.getElementById('mg-line-canvas').style.display = 'none';
-            document.getElementById('mg-toolbar').style.display = 'none';
+            document.getElementById('mg-exit-btn').style.display = 'none';
+            document.getElementById('mg-splash-screen').style.display = 'none';
             mgConnections = [];
             mgCurrentLine = null;
             mgPendingClickId = null;
+            mgIsDragging = false;
             mgRenderCanvas();
         });
 
@@ -1243,16 +1298,14 @@
                 let emojiStr = item.emoji || "";
                 let fSize = '3rem';
                 
-                if(emojiStr.includes('🔴')) {
+                if(emojiStr.includes('🔴') || mgCurrentModeId === 'colors') {
                     if (emojiStr.length > 8) fSize = '1.2rem';
                     else if (emojiStr.length > 5) fSize = '1.8rem';
                     else fSize = '2.5rem';
                 } else if (mgCurrentModeId.includes('urdu')) {
-                    // FIX: Reduced font size so the letters fit perfectly inside the balloon circles!
                     fSize = 'clamp(1.8rem, 4vw, 2.5rem)'; 
                 }
 
-                // FIX: line-height set to 1 and small padding added to center the Nastaliq text
                 const imgHTML = item.img ? `<img src="${item.img}" alt="${item.main}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none; font-size:${fSize}; text-align:center; line-height:1; padding-top: 5px; ${fontClass}">${emojiStr}</span>` : `<span style="font-size:${fSize}; text-align:center; line-height:1; padding-top: 5px; display:inline-block; max-width:90%; word-wrap:break-word; ${fontClass}">${emojiStr}</span>`;
 
                 container.innerHTML = `
@@ -1277,7 +1330,6 @@
                 if (basketText.length > 2) basketFontSize = 'clamp(1.5rem, 4vw, 2.5rem)';
                 
                 if (mgCurrentModeId.includes('urdu')) {
-                    // FIX: Reduced basket font size to stop overflow
                     basketFontSize = 'clamp(1.8rem, 4vw, 2.5rem)';
                 }
 
@@ -1379,16 +1431,29 @@
             }
         }
 
+        function getPointerPos(e) {
+            if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            if (e.changedTouches && e.changedTouches.length > 0) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+            return { x: e.clientX, y: e.clientY };
+        }
+
         function mgHandlePointerDown(e) {
-            if(!mgGameActive || document.getElementById('mg-menu-screen').style.display !== 'none') return;
+            if(!mgGameActive || document.getElementById('mg-splash-screen').style.display === 'flex' || document.getElementById('mg-menu-screen').style.display !== 'none') return;
             mgInitAudio(); 
             
-            const touchX = e.touches ? e.touches[0].clientX : e.clientX;
-            const touchY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            let clickedId = mgGetHitContainer(touchX, touchY);
+            const pos = getPointerPos(e);
+            let clickedId = mgGetHitContainer(pos.x, pos.y);
 
             if (clickedId) {
+                
+                // NEW TAP-TO-ERASE LOGIC (replaces the Eraser Button)
+                const initialLen = mgConnections.length;
+                mgConnections = mgConnections.filter(c => c.fromId !== clickedId && c.toId !== clickedId);
+                if (mgConnections.length < initialLen) {
+                    mgSoundEngine.playWrong(); // Play a little sound to show it was erased
+                    mgRenderCanvas();
+                }
+
                 let startColor = '#333';
                 if (clickedId.startsWith('balloon')) {
                     const balloonEl = document.querySelector(`[data-id="${clickedId}"] .mg-balloon`);
@@ -1398,30 +1463,20 @@
                     startColor = (hurufEl.style.color === 'rgb(0, 0, 0)' || hurufEl.style.color === '#000000') ? '#333' : hurufEl.style.color;
                 }
 
-                if (mgActiveTool === 'pen') {
-                    if (mgConnections.find(c => c.fromId === clickedId || c.toId === clickedId)) return; 
-                    
-                    if (mgPendingClickId && mgPendingClickId !== clickedId) {
-                        mgAttemptMatch(mgPendingClickId, clickedId, startColor);
-                        mgPendingClickId = null;
-                        mgCurrentLine = null;
-                        mgRenderCanvas();
-                        return;
-                    }
-
-                    mgPendingClickId = clickedId;
-                    mgIsDragging = false;
-                    const coords = mgGetAnchorCoords(`anchor_${clickedId}`);
-                    mgCurrentLine = { startX: coords.x, startY: coords.y, endX: touchX, endY: touchY, startId: clickedId, color: startColor };
-                    mgSoundEngine.startDrawing();
-                } else if (mgActiveTool === 'eraser') {
-                    const initialLen = mgConnections.length;
-                    mgConnections = mgConnections.filter(c => c.fromId !== clickedId && c.toId !== clickedId);
-                    if (mgConnections.length < initialLen) {
-                        mgSoundEngine.playWrong(); 
-                        mgRenderCanvas();
-                    }
+                if (mgPendingClickId && mgPendingClickId !== clickedId) {
+                    mgAttemptMatch(mgPendingClickId, clickedId, startColor);
+                    mgPendingClickId = null;
+                    mgCurrentLine = null;
+                    mgRenderCanvas();
+                    return;
                 }
+
+                mgPendingClickId = clickedId;
+                mgIsDragging = false;
+                const coords = mgGetAnchorCoords(`anchor_${clickedId}`);
+                mgCurrentLine = { startX: coords.x, startY: coords.y, endX: pos.x, endY: pos.y, startId: clickedId, color: startColor };
+                mgSoundEngine.startDrawing();
+                
             } else {
                 mgPendingClickId = null;
                 mgCurrentLine = null;
@@ -1432,17 +1487,16 @@
         function mgHandlePointerMove(e) {
             if (!mgCurrentLine || !mgGameActive) return;
             e.preventDefault(); 
-            const touchX = e.touches ? e.touches[0].clientX : e.clientX;
-            const touchY = e.touches ? e.touches[0].clientY : e.clientY;
+            const pos = getPointerPos(e);
             
-            const dx = touchX - mgCurrentLine.startX;
-            const dy = touchY - mgCurrentLine.startY;
+            const dx = pos.x - mgCurrentLine.startX;
+            const dy = pos.y - mgCurrentLine.startY;
             if (Math.sqrt(dx*dx + dy*dy) > 10) {
                 mgIsDragging = true;
             }
 
-            mgCurrentLine.endX = touchX; 
-            mgCurrentLine.endY = touchY;
+            mgCurrentLine.endX = pos.x; 
+            mgCurrentLine.endY = pos.y;
             
             mgSoundEngine.updateDrawing(Math.sqrt(dx*dx + dy*dy));
             mgRenderCanvas();
@@ -1452,9 +1506,8 @@
             if (!mgCurrentLine || !mgGameActive) return;
             mgSoundEngine.stopDrawing();
 
-            const endX = mgCurrentLine.endX;
-            const endY = mgCurrentLine.endY;
-            let targetId = mgGetHitContainer(endX, endY);
+            const pos = getPointerPos(e);
+            let targetId = mgGetHitContainer(pos.x, pos.y);
 
             if (targetId && targetId !== mgCurrentLine.startId) {
                 mgAttemptMatch(mgCurrentLine.startId, targetId, mgCurrentLine.color);
@@ -1486,12 +1539,6 @@
         mgCanvas.addEventListener('touchstart', mgHandlePointerDown, {passive: false});
         mgCanvas.addEventListener('touchmove', mgHandlePointerMove, {passive: false});
         window.addEventListener('touchend', mgHandlePointerUp);
-
-        const mgBtnPen = document.getElementById('mg-btn-pen');
-        const mgBtnEraser = document.getElementById('mg-btn-eraser');
-        
-        mgBtnPen.addEventListener('click', () => { mgActiveTool = 'pen'; mgBtnPen.classList.add('active'); mgBtnEraser.classList.remove('active'); });
-        mgBtnEraser.addEventListener('click', () => { mgActiveTool = 'eraser'; mgBtnEraser.classList.add('active'); mgBtnPen.classList.remove('active'); });
     </script>
 </body>
 </html>
