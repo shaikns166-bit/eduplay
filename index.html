@@ -272,6 +272,32 @@
         #mg-wrapper .mg-shake-anim { animation: mgShake 0.4s ease; }
         @keyframes mgPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
         @keyframes mgShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px) rotate(-5deg); } 50% { transform: translateX(10px) rotate(5deg); } 75% { transform: translateX(-10px) rotate(-5deg); } }
+
+     /* ================= MAZE GAME SPECIFIC CSS ================= */
+        .maze-pill { background:#f8fafc; border-radius:999px; padding:6px 14px; font-weight:700; font-size:13px; box-shadow:0 2px 0 rgba(0,0,0,.05); display:flex; align-items:center; gap:5px; border:2px solid #e2e8f0; color: #0f172a;}
+        .maze-score { color:#7a5b00; background:#ffc93c; border:none; box-shadow:0 2px 0 #d69e16; }
+        .maze-ctrl { font-family:'Quicksand',sans-serif; font-size:13px; font-weight:700; border:none; border-radius:999px; padding:8px 14px; cursor:pointer; background:#f1f5f9; color:#475569; box-shadow:0 2px 0 #cbd5e1; display:flex; align-items:center; gap:5px; transition:all .1s; }
+        .maze-ctrl:active { transform:translateY(2px); box-shadow:0 0px 0 #cbd5e1; }
+        .maze-ctrl.maze-on { background:#e0f2fe; color:#0284c7; box-shadow:0 2px 0 #bae6fd; }
+        .maze-ctrl.maze-primary { background:linear-gradient(135deg,#ff8b3d,#ff5f7e); color:#fff; box-shadow:0 2px 0 #d93858; }
+        .maze-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; background:rgba(255,255,255,0.95); backdrop-filter:blur(5px); z-index:50; }
+        .maze-big-btn { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; border:none; border-radius:999px; padding:12px 36px; cursor:pointer; background:linear-gradient(180deg,#38bdf8,#0284c7); color:#fff; box-shadow:0 6px 0 #0369a1, 0 10px 20px rgba(2, 132, 199, 0.3); transition:transform .1s ease; margin-top:10px; }
+        .maze-big-btn:active { transform:translateY(4px); box-shadow:0 2px 0 #0369a1; }
+        .maze-panel-box { background:#fff; border-radius:24px; max-width:700px; width:94%; max-height:85vh; overflow-y:auto; padding:30px; box-shadow:0 20px 60px rgba(0,0,0,.3); text-align:left; position:relative; }
+        .maze-close-x { position:absolute; top:15px; right:15px; background:#f1f5f9; border:none; border-radius:50%; width:36px; height:36px; font-size:18px; cursor:pointer; font-weight:bold; color:#475569; display: flex; align-items: center; justify-content: center; }
+        .maze-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+        .maze-mode-btn { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 15px; font-family: 'Quicksand', sans-serif; font-size: 16px; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s; display:flex; flex-direction:column; align-items:center; gap:8px; }
+        .maze-mode-btn.active { background: #e0f2fe; border-color: #38bdf8; color: #0284c7; }
+        .maze-mode-btn span { font-size: 32px; }
+        .maze-decade-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-bottom:14px;}
+        .maze-lvl-btn { aspect-ratio:1; border-radius:10px; border:none; cursor:pointer; font-family:'Baloo 2',cursive; font-weight:700; font-size:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#e0f2fe; color:#0284c7; box-shadow:0 2px 0 #bae6fd; }
+        .maze-lvl-btn.current { background:#ffc93c; color:#7a5b00; box-shadow:0 2px 0 #d69e16; }
+        .maze-lvl-btn.locked { background:#f1f5f9; color:#94a3b8; box-shadow:0 2px 0 #e2e8f0; }
+        .maze-star-anim { display: inline-block; animation: mazeStarPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0); margin: 0 4px; }
+        @keyframes mazeStarPop { 0% { opacity: 0; transform: scale(0) rotate(-45deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+        .maze-pop-anim { animation: mazeBtnPop 0.5s ease forwards; opacity: 0; }
+        @keyframes mazeBtnPop { 0% { transform: scale(0.8); opacity:0;} 100% { transform: scale(1); opacity:1;} }   
+    </style>
     </style>
 </head>
 <body>
@@ -534,6 +560,91 @@
             </div>
         </div>
     </div>
+<!-- ================= MAZE GAME WRAPPER ================= -->
+<div id="maze-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e0f2fe; z-index: 5000; overflow-y: auto;">
+  <div style="max-width:1024px; margin:0 auto; padding:10px 10px 30px; display:flex; flex-direction:column; align-items:center; min-height:100%;">
+    
+    <div style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-bottom:15px; background:#fff; padding:10px 20px; border-radius:100px; box-shadow:0 4px 15px rgba(0,0,0,0.05); position:relative; z-index:100;">
+      <h1 style="font-family:'Baloo 2', cursive; font-size:clamp(18px,3vw,26px); margin:0; color:#0284c7; display:flex; align-items:center; gap:8px;">🏠 Draw the Path</h1>
+      <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content: center;">
+        <button class="maze-ctrl maze-primary" onclick="window.mazeOpenCategories()">🗂️ Categories</button>
+        <div class="maze-pill">⭐ Lvl <span id="mazeLevelNum">1</span></div>
+        <div class="maze-pill maze-score">🏆 <span id="mazeScoreTotal">0</span></div>
+        <button class="maze-ctrl maze-on" id="mazeMusicBtn" onclick="window.mazeToggleMusic()">🎵 Music</button>
+        <button class="maze-ctrl maze-on" id="mazeSfxBtn" onclick="window.mazeToggleSfx()">🔊 SFX</button>
+        <button class="maze-ctrl" id="mazeHintBtn" onclick="window.mazeUseHint()">💡 Hint</button>
+        <button class="maze-ctrl" onclick="window.mazeOpenHelp()">❔ Help</button>
+        <button class="maze-ctrl" onclick="window.mazeOpenLevels()">📚 Levels</button>
+        <button class="maze-ctrl" onclick="window.mazeResetCurrentLevel()">↺ Retry</button>
+        <button class="maze-ctrl" style="background: #ef4444; color: white;" onclick="window.exitMazeGame()">✖ Exit</button>
+      </div>
+    </div>
+
+    <div style="width:100%; display:flex; justify-content:center; margin-bottom:15px; position:relative;">
+      <div style="position:relative; width:100%; max-width:980px; aspect-ratio:1000/580; border-radius:24px; overflow:hidden; box-shadow:0 15px 35px rgba(2, 132, 199, 0.15), 0 0 0 8px #ffffff; background:#7dd3fc; touch-action:none;">
+        <canvas id="mazeGameCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; display:block; touch-action:none;"></canvas>
+
+        <!-- Overlays -->
+        <div class="maze-overlay" id="mazeMainMenuOverlay">
+          <div class="maze-panel-box" style="max-width: 800px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position: relative;">
+            <button class="maze-close-x" id="mazeCloseMainMenu" onclick="window.mazeHideAllOverlays()" style="display:none;">✕</button>
+            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px;">🏠 Draw the Path Home</h2>
+            <p style="margin: 0 auto 20px auto; color:#475569; font-weight:600;">Choose a category to start playing!</p>
+            <div class="maze-mode-grid" id="mazeMainMenuGrid"></div>
+          </div>
+        </div>
+
+        <div class="maze-overlay hidden" id="mazeWinOverlay">
+          <h2 style="font-family:'Baloo 2',cursive; font-size:clamp(26px,5vw,38px); margin:0; color:#0284c7;">🎉 Home Sweet Home! 🎉</h2>
+          <div style="font-size:55px; letter-spacing:4px; filter:drop-shadow(0 4px 6px rgba(0,0,0,.15)); height: 80px; display:flex; justify-content:center; align-items:center;" id="mazeWinStars"></div>
+          <p style="margin:10px 0 0 0; font-weight:600; font-size:16px; color:#475569;">Level Complete!</p>
+          <button class="maze-big-btn" id="mazeNextBtn" style="display:none;" onclick="window.mazeNextLevelAction()">Next Level →</button>
+        </div>
+
+        <div class="maze-overlay hidden" id="mazeLockOverlay">
+          <div class="maze-panel-box" style="text-align: center; max-width: 500px;">
+            <button class="maze-close-x" onclick="document.getElementById('mazeLockOverlay').classList.add('hidden')">✕</button>
+            <h2 style="font-size: 30px; color:#ef4444;">🔒 Area Locked!</h2>
+            <div style="font-size: 60px; margin: 10px 0; filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));">⭐</div>
+            <p id="mazeLockMessage" style="font-size: 18px; color: #475569; font-weight: bold; line-height:1.6;"></p>
+            <button class="maze-big-btn" style="background:linear-gradient(180deg,#ef4444,#b91c1c); box-shadow:0 6px 0 #7f1d1d;" onclick="document.getElementById('mazeLockOverlay').classList.add('hidden')">Okay</button>
+          </div>
+        </div>
+
+        <div class="maze-overlay hidden" id="mazeHelpOverlay">
+          <div class="maze-panel-box">
+            <button class="maze-close-x" onclick="window.mazeHideAllOverlays()">✕</button>
+            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px; text-align:center;">How To Play</h2>
+            <div style="text-align:center; background:#ffc93c; padding:10px; border-radius:12px; color:#7a5b00; font-weight:800; font-size:18px; margin-bottom:20px; font-family:'Baloo 2', cursive;" id="mazeHelpSequence">Current Sequence: A ➔ B ➔ C</div>
+            <div style="display:flex; justify-content:space-around; align-items:center; text-align:center; margin-bottom:20px; background:#e0f2fe; padding:15px; border-radius:16px;">
+              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">1</div><b>Start</b><div style="font-size:32px; margin-top:5px;">👦</div></div>
+              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">2</div><b>Draw Path</b><div style="font-size:24px; color:#0ea5e9; font-weight:900; margin-top:10px; font-family:'Baloo 2', cursive;">A-B-C</div></div>
+              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">3</div><b>Reach Home</b><div style="font-size:32px; margin-top:5px;">🏠</div></div>
+            </div>
+            <ul style="list-style:none; padding:0; margin:0; font-size:16px; font-weight:600; color:#334155;">
+              <li style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:24px;">✅</span> <div><b>Follow the sequence:</b> You MUST collect the items in the exact order shown above.</div></li>
+              <li style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:24px;">❌</span> <div><b>Avoid Traps:</b> If you touch a wrong item, your line breaks!</div></li>
+              <li style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:24px;">🧱</span> <div><b>Stay on the path:</b> Do not cross through the solid green hedge walls.</div></li>
+            </ul>
+            <div style="text-align:center; margin-top:20px;">
+              <button class="maze-big-btn" onclick="window.mazeHideAllOverlays()" style="padding:10px 40px; font-size:18px;">Got It! 👍</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="maze-overlay hidden" id="mazeLevelsOverlay">
+          <div class="maze-panel-box">
+            <button class="maze-close-x" onclick="window.mazeHideAllOverlays()">✕</button>
+            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px; text-align:center;">📚 Choose a Level</h2>
+            <div id="mazeDecadeContainer"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================= END MAZE GAME WRAPPER ================= -->
     <!-- ==================================================
          EDUPLAY LOGIC SCRIPT
          ================================================== -->
@@ -657,15 +768,15 @@
             flashcard.addEventListener('touchend', e => { let touchEndX = e.changedTouches[0].screenX; if (window.touchStartX - touchEndX > 50) { stopAutoPlay(); showCard(currentIndex + 1, 'flip-next'); } if (touchEndX - window.touchStartX > 50) { stopAutoPlay(); showCard(currentIndex - 1, 'flip-prev'); } }, {passive: true});
 
             let gameScore = 0; let currentGameType = ""; let correctAnswer = "";
-            function loadGamesMenu() { homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden"); const gamesList = [ { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" }, { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" }, { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" }, { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" }, { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" }, { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }, { id: "shadowMatch", name: "Shadow Match", icon: "🔦", color: "#6A4C93" },{ id: "matchingGame", name: "Balloon Match", icon: "🎈", color: "#F72585" }]; gamesList.forEach(game => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${game.color}`; card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`; card.addEventListener("click", () => startGame(game.id)); homeScreen.appendChild(card); }); }
-           function startGame(gameId) { if (gameId === "shadowMatch") { enterShadowMatch(); return; } if (gameId === "matchingGame") { enterMatchingGame(); return; } currentGameType = gameId; gameScore = 0; gameScoreElement.innerText = gameScore; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.add("hidden"); gameScreen.classList.replace("hidden", "active-flex"); generateGameRound(); }
+            function loadGamesMenu() { homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden"); const gamesList = [ { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" }, { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" }, { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" }, { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" }, { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" }, { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }, { id: "shadowMatch", name: "Shadow Match", icon: "🔦", color: "#6A4C93" },{ id: "matchingGame", name: "Balloon Match", icon: "🎈", color: "#F72585" }, { id: "mazeGame", name: "Draw Path Home", icon: "🧭", color: "#22c55e" }]; gamesList.forEach(game => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${game.color}`; card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`; card.addEventListener("click", () => startGame(game.id)); homeScreen.appendChild(card); }); }
+           function startGame(gameId) { if (gameId === "shadowMatch") { enterShadowMatch(); return; } if (gameId === "matchingGame") { enterMatchingGame(); return; } if (gameId === "mazeGame") { window.enterMazeGame(); return; } currentGameType = gameId; gameScore = 0; gameScoreElement.innerText = gameScore; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.add("hidden"); gameScreen.classList.replace("hidden", "active-flex"); generateGameRound(); }
             btnExitGame.addEventListener("click", () => { window.speechSynthesis.cancel(); gameScreen.classList.replace("active-flex", "hidden"); mainHeader.classList.remove("hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
             function setGameImage(item) { gameRealImg.classList.add("hidden"); gameEmojiImg.classList.add("hidden"); if (item.img && item.img !== "") { gameRealImg.src = item.img; gameRealImg.style.display = "block"; gameRealImg.classList.remove("hidden"); } else if (item.emoji) { gameEmojiImg.innerText = item.emoji; gameEmojiImg.classList.remove("hidden"); } }
             function generateGameRound() { gameOptionsContainer.innerHTML = ""; gameRealImg.className = "real-img scale-in"; gameEmojiImg.className = "emoji-text scale-in"; gameEmojiImg.style.fontSize = "8rem"; if (currentGameType === "findLetter") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.main; gameQuestionText.innerText = `Find the letter for ${randomItem.sub.split(" for ")[1]}!`; setGameImage(randomItem); speak(gameQuestionText.innerText); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "missingLetter") { let idx = Math.floor(Math.random() * 23); let l1 = String.fromCharCode(65 + idx); let l2 = String.fromCharCode(65 + idx + 1); let l3 = String.fromCharCode(65 + idx + 2); let hideIdx = Math.floor(Math.random() * 3); correctAnswer = String.fromCharCode(65 + idx + hideIdx); let displayString = ""; if(hideIdx === 0) displayString = `_  ${l2}  ${l3}`; if(hideIdx === 1) displayString = `${l1}  _  ${l3}`; if(hideIdx === 2) displayString = `${l1}  ${l2}  _`; gameQuestionText.innerText = "What is the missing letter?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = displayString; gameEmojiImg.style.fontSize = "clamp(3rem, 10vh, 5rem)"; speak("What is the missing letter?"); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "countObjects") { let num = Math.floor(Math.random() * 8) + 2; let randomEmoji = ['🍎','🐶','🚗','⭐','🏀'][Math.floor(Math.random() * 5)]; correctAnswer = num.toString(); gameQuestionText.innerText = "How many are there?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = Array(num).fill(randomEmoji).join(" "); gameEmojiImg.style.fontSize = "clamp(2rem, 8vh, 4rem)"; speak("How many are there?"); let options = [num]; while(options.length < 4) { let wrongNum = Math.floor(Math.random() * 9) + 1; if(!options.includes(wrongNum)) options.push(wrongNum); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt.toString() === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "matchPicture") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.emoji; let targetWord = randomItem.sub.split(" for ")[1]; gameQuestionText.innerText = `Where is the ${targetWord}?`; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = "❓"; speak(`Where is the ${targetWord}?`); let options = [randomItem]; while(options.length < 4) { let wrongItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; if(!options.some(opt => opt.emoji === wrongItem.emoji)) options.push(wrongItem); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; if (opt.img && opt.img !== "") { btn.innerHTML = `<img src="${opt.img}" style="max-height:80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none;">${opt.emoji}</span>`; } else { btn.innerText = opt.emoji; } btn.addEventListener("click", () => handleAnswer(btn, opt.emoji === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessColor") { let randomItem = colors[Math.floor(Math.random() * colors.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What color is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What color is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongColor = colors[Math.floor(Math.random() * colors.length)][0]; if(!options.includes(wrongColor)) options.push(wrongColor); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessShape") { let randomItem = shapes[Math.floor(Math.random() * shapes.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What shape is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What shape is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongShape = shapes[Math.floor(Math.random() * shapes.length)][0]; if(!options.includes(wrongShape)) options.push(wrongShape); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } }
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v38'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v42'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -1555,10 +1666,440 @@
         mgCanvas.addEventListener('mousemove', mgHandlePointerMove);
         window.addEventListener('mouseup', mgHandlePointerUp);
 
-        mgCanvas.addEventListener('touchstart', mgHandlePointerDown, {passive: false});
+       mgCanvas.addEventListener('touchstart', mgHandlePointerDown, {passive: false});
         mgCanvas.addEventListener('touchmove', mgHandlePointerMove, {passive: false});
         window.addEventListener('touchend', mgHandlePointerUp);
         window.addEventListener('touchcancel', mgHandlePointerUp);
     </script>
+<!-- ================= MAZE GAME ENGINE ================= -->
+<script>
+(function(){
+"use strict";
+
+window.enterMazeGame = function() {
+    var appContainer = document.getElementById("app-container");
+    if(appContainer) appContainer.classList.replace("active-flex", "hidden");
+    document.getElementById("maze-wrapper").classList.remove("hidden");
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    window.mazeBootGame();
+};
+
+window.exitMazeGame = function() {
+    if(window.mazeGame && window.mazeGame.stopMusic) window.mazeGame.stopMusic();
+    if(window.mazeGame && window.mazeGame.stopDragSound) window.mazeGame.stopDragSound();
+    document.getElementById("maze-wrapper").classList.add("hidden");
+    var appContainer = document.getElementById("app-container");
+    if(appContainer) appContainer.classList.replace("hidden", "active-flex");
+    document.getElementById("main-header").classList.remove("hidden");
+    document.getElementById("home-screen").classList.replace("hidden", "active-grid");
+    document.getElementById("app-title").innerText = "🎮 Games Menu";
+    document.getElementById("btn-home").classList.remove("hidden");
+};
+
+window.mazeHideAllOverlays = function() {
+    try {
+        var menus = ['mazeMainMenuOverlay', 'mazeWinOverlay', 'mazeHelpOverlay', 'mazeLevelsOverlay', 'mazeLockOverlay'];
+        for(var i=0; i<menus.length; i++) {
+            var el = document.getElementById(menus[i]);
+            if(el) el.classList.add('hidden');
+        }
+    } catch(e){}
+};
+
+window.mazeOpenCategories = function() {
+    window.mazeHideAllOverlays(); window.mazeBuildMainMenu();
+    var closeBtn = document.getElementById('mazeCloseMainMenu'); if(closeBtn) closeBtn.style.display = 'flex';
+    var menuOverlay = document.getElementById('mazeMainMenuOverlay'); if(menuOverlay) menuOverlay.classList.remove('hidden');
+};
+
+window.mazeOpenLevels = function() {
+    window.mazeHideAllOverlays(); window.mazeBuildLevelGrid();
+    var levelsOverlay = document.getElementById('mazeLevelsOverlay'); if(levelsOverlay) levelsOverlay.classList.remove('hidden');
+};
+
+window.mazeOpenHelp = function() {
+    window.mazeHideAllOverlays();
+    var helpOverlay = document.getElementById('mazeHelpOverlay'); if(helpOverlay) helpOverlay.classList.remove('hidden');
+};
+
+window.mazeResetCurrentLevel = function() { window.mazeHideAllOverlays(); window.mazeNewLevel(window.mazeGameData.level, true); };
+window.mazeNextLevelAction = function() { window.mazeTryStartLevel(Math.min(100, window.mazeGameData.level + 1)); };
+
+window.mazeGetTotalStars = function() {
+    var st = window.MazeStorageMgr.get();
+    var total = 0;
+    if(st.results) { for(var key in st.results) { total += st.results[key].stars || 0; } }
+    return total;
+};
+
+// --- STAR LOCK LOGIC ---
+window.mazeTryStartLevel = function(n) {
+    var decade = Math.floor((n - 1) / 10); // 0 for 1-10, 1 for 11-20
+    var requiredStars = decade * 30; // 30 stars per decade
+    var currentStars = window.mazeGetTotalStars();
+    
+    if (currentStars < requiredStars) {
+        var msg = "You need " + requiredStars + " stars to unlock levels " + (decade*10 + 1) + " to " + (decade*10 + 10) + ".\n\nYou currently have " + currentStars + " / " + requiredStars + " stars.\nReplay previous levels to earn more stars!";
+        document.getElementById('mazeLockMessage').innerText = msg;
+        window.mazeHideAllOverlays();
+        document.getElementById('mazeLockOverlay').classList.remove('hidden');
+        return;
+    }
+    window.mazeHideAllOverlays();
+    window.mazeNewLevel(n, true);
+};
+
+var GAME_MODES = {
+  'en_upper': { name: 'A B C (Uppercase)', icon: '🔠', data: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('') },
+  'en_lower': { name: 'a b c (Lowercase)', icon: '🔡', data: "abcdefghijklmnopqrstuvwxyz".split('') },
+  'urdu': { name: 'Urdu (حروف)', icon: '🕌', data: "ا ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ہ ء ی ے".split(' ') },
+  'telugu': { name: 'Telugu', icon: '🕉️', data: "అ ఆ ఇ ఈ ఉ ఊ ఋ ఎ ఏ ఐ ఒ ఓ ఔ క ఖ గ ఘ ఙ చ ఛ జ ఝ ఞ ట ఠ డ ఢ ణ త థ ద ధ న ప ఫ బ భ మ య ర ల వ శ ష స హ ళ క్ష ఱ".split(' ') },
+  'animals': { name: 'Animals', icon: '🐶', data: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐒','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜'] },
+  'vehicles': { name: 'Vehicles', icon: '🚗', data: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🚚','🚛','🚜','🛴','🚲','🛵','🏍️','🚨','🚔','🚍','🚘','🚖','🚡','🚠','🚟','🚃','🚋','🚁','🛩️','✈️'] },
+  'colors': { name: 'Colors', icon: '🔴', data: ['🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪','🟥','🟧','🟨','🟩','🟦','🟪','🟫','⬛','⬜'] }
+};
+
+var TRAP_POOL = ['1','2','3','4','5','6','7','8','9','🍎','🍌','🍉','🍇','🍓','🥕','🍆','❓','❌','⛔'];
+var ITEM_COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#eab308'];
+
+window.MazeStorageMgr = (function(){
+  var hasStorage = false; try { hasStorage = (typeof window!=='undefined' && window.localStorage); } catch(e){}
+  var cache = { mode: 'en_upper', unlocked: 100, results: {}, settings: { music:true, sfx:true } };
+  function load(){ if(!hasStorage){ return cache; } try{ var r = localStorage.getItem('eduplay_ulti_maze_v9'); if(r){ cache = Object.assign(cache, JSON.parse(r)); } }catch(e){} cache.unlocked = 100; if(!GAME_MODES[cache.mode]) cache.mode = 'en_upper'; return cache; }
+  function save(){ if(!hasStorage) return; try{ localStorage.setItem('eduplay_ulti_maze_v9', JSON.stringify(cache)); } catch(e){} }
+  return { load: load, get: function(){ return cache; }, setMode: function(m){ cache.mode = m; save(); }, setLevelResult: function(n, data){ cache.results[n] = data; save(); }, setSettings: function(s){ cache.settings = s; save(); } };
+})();
+
+var mCanvas = document.getElementById('mazeGameCanvas');
+var mCtx = mCanvas.getContext('2d');
+var W = 1000, H = 580;
+mCanvas.width = W; mCanvas.height = H;
+
+function mDrawRoundedRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
+
+var mAudioCtx = null; var mMusicOn = true, mSfxOn = true; var mMusicTimer = null; var mDragOsc = null, mDragGain = null;
+function mEnsureAudio(){ try { var AudioContextClass = window.AudioContext || window.webkitAudioContext; if(AudioContextClass && !mAudioCtx) mAudioCtx = new AudioContextClass(); if(mAudioCtx && mAudioCtx.state === 'suspended') mAudioCtx.resume(); } catch(e) {} }
+function mPluck(freq, t0, dur, vol, type){ try { if(!mAudioCtx || mAudioCtx.state !== 'running') return; var o = mAudioCtx.createOscillator(); var g = mAudioCtx.createGain(); o.type = type || 'triangle'; o.frequency.value = freq; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0+0.02); g.gain.exponentialRampToValueAtTime(0.001, t0+dur); o.connect(g); g.connect(mAudioCtx.destination); o.start(t0); o.stop(t0+dur+0.05); } catch(e) {} }
+var mSCALE = [261.63, 329.63, 392.00, 523.25, 659.25];
+function mMusicTick(){ try { if(!mAudioCtx || !mMusicOn) return; var now = mAudioCtx.currentTime; var notes = 2 + Math.floor(Math.random()*2); for(var i=0;i<notes;i++){ var n = mSCALE[Math.floor(Math.random()*mSCALE.length)] / (Math.random()<0.4?2:1); mPluck(n, now + i*0.4, 1.2, 0.05, 'sine'); } } catch(e){} }
+window.mazeGame = { stopMusic: function(){ if(mMusicTimer){ clearInterval(mMusicTimer); mMusicTimer=null; } }, stopDragSound: function(){ try { if(mDragOsc && mAudioCtx && mDragGain){ mDragGain.gain.cancelScheduledValues(mAudioCtx.currentTime); mDragGain.gain.setTargetAtTime(0.0001, mAudioCtx.currentTime, 0.03); mDragOsc.stop(mAudioCtx.currentTime+0.1); } } catch(e){} mDragOsc=null; mDragGain=null; } };
+function mStartMusic(){ if(mMusicTimer || !mMusicOn) return; mMusicTick(); mMusicTimer = setInterval(mMusicTick, 2000); }
+function mStartDragSound(){ try { if(!mAudioCtx || !mSfxOn) return; window.mazeGame.stopDragSound(); mDragOsc = mAudioCtx.createOscillator(); mDragGain = mAudioCtx.createGain(); mDragOsc.type = 'sine'; mDragOsc.frequency.value = 400; mDragGain.gain.value = 0.0001; mDragGain.gain.linearRampToValueAtTime(0.06, mAudioCtx.currentTime+0.05); mDragOsc.connect(mDragGain); mDragGain.connect(mAudioCtx.destination); mDragOsc.start(); } catch(e){} }
+function mUpdateDragSound(distTraveled){ try{ if(mDragOsc && mAudioCtx) mDragOsc.frequency.setTargetAtTime(350 + (distTraveled%150), mAudioCtx.currentTime, 0.05); }catch(e){} }
+function mErrorSound(){ try { if(!mAudioCtx || !mSfxOn) return; var now = mAudioCtx.currentTime; var o = mAudioCtx.createOscillator(); var g = mAudioCtx.createGain(); o.type='sawtooth'; o.frequency.value = 140; g.gain.setValueAtTime(0.001,now); g.gain.linearRampToValueAtTime(0.08, now+0.03); g.gain.exponentialRampToValueAtTime(0.001, now+0.3); o.connect(g); g.connect(mAudioCtx.destination); o.start(now); o.stop(now+0.35); } catch(e){} }
+function mSuccessFanfare(){ try { if(!mAudioCtx || !mSfxOn) return; var now = mAudioCtx.currentTime; var freqs = [523.25,659.25,783.99,1046.5]; for(var i=0; i<freqs.length; i++) { mPluck(freqs[i], now+i*0.14, 0.5, 0.1, 'triangle'); } mPluck(1318.5, now+0.6, 0.8, 0.08, 'sine'); } catch(e){} }
+function mItemSound(){ try{ if(mAudioCtx && mSfxOn) mPluck(880, mAudioCtx.currentTime, 0.2, 0.05, 'sine'); }catch(e){} }
+function mPlayStarSound(index) { try { if(!mAudioCtx || !mSfxOn) return; var freqs = [659.25, 783.99, 1046.5]; mPluck(freqs[index], mAudioCtx.currentTime, 0.3, 0.1, 'sine'); } catch(e){} }
+
+window.mazeToggleMusic = function() { mMusicOn = !mMusicOn; var mBtn = document.getElementById('mazeMusicBtn'); if(mBtn) { mBtn.classList.toggle('maze-on', mMusicOn); mBtn.textContent = mMusicOn ? '🎵 Music' : '🔇 Music'; } try { if(mMusicOn){ mEnsureAudio(); mStartMusic(); } else { window.mazeGame.stopMusic(); } } catch(e){} window.MazeStorageMgr.setSettings({ music:mMusicOn, sfx:mSfxOn }); };
+window.mazeToggleSfx = function() { mSfxOn = !mSfxOn; var sBtn = document.getElementById('mazeSfxBtn'); if(sBtn) { sBtn.classList.toggle('maze-on', mSfxOn); sBtn.textContent = mSfxOn ? '🔊 SFX' : '🔈 SFX'; } window.MazeStorageMgr.setSettings({ music:mMusicOn, sfx:mSfxOn }); };
+window.mazeUseHint = function() { if(window.mazeGameData.hintUsed || window.mazeGameData.state==='walking' || window.mazeGameData.state==='complete' || !window.mazeGameData.data) return; try { mEnsureAudio(); } catch(e){} window.mazeGameData.hintUsed = true; window.mazeGameData.hintUntil = performance.now()+3000; var hBtn = document.getElementById('mazeHintBtn'); if(hBtn){ hBtn.disabled = true; hBtn.classList.add('maze-on'); } };
+
+function mMulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function mDist(a,b){ return Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y)); }
+function mDistToSegment(p, v, w) { var l2 = (v.x - w.x)*(v.x - w.x) + (v.y - w.y)*(v.y - w.y); if (l2 === 0) return Math.sqrt((p.x - v.x)*(p.x - v.x) + (p.y - v.y)*(p.y - v.y)); var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2; t = Math.max(0, Math.min(1, t)); return Math.sqrt((p.x - (v.x + t * (w.x - v.x)))*(p.x - (v.x + t * (w.x - v.x))) + (p.y - (v.y + t * (w.y - v.y)))*(p.y - (v.y + t * (w.y - v.y)))); }
+function mCatmullRom(pts, samples){ if(pts.length<2) return pts.slice(); var res=[]; function get(i){ return pts[Math.max(0,Math.min(pts.length-1,i))]; } for(var i=0;i<pts.length-1;i++){ var p0=get(i-1), p1=get(i), p2=get(i+1), p3=get(i+2); for(var s=0;s<samples;s++){ var t=s/samples, t2=t*t, t3=t2*t; res.push({ x:0.5*((2*p1.x)+(-p0.x+p2.x)*t+(2*p0.x-5*p1.x+4*p2.x-p3.x)*t2+(-p0.x+3*p1.x-3*p2.x+p3.x)*t3), y:0.5*((2*p1.y)+(-p0.y+p2.y)*t+(2*p0.y-5*p1.y+4*p2.y-p3.y)*t2+(-p0.y+3*p1.y-3*p2.y+p3.y)*t3) }); } } res.push(pts[pts.length-1]); return res; }
+function mBuildArcLen(cl){ var cum=[0]; for(var i=1;i<cl.length;i++) cum.push(cum[i-1] + mDist(cl[i], cl[i-1])); return cum; }
+function mPointAtFraction(cl, cum, frac){ var target = Math.max(0,Math.min(1,frac)) * cum[cum.length-1]; var lo=0, hi=cum.length-1; while(lo<hi){ var mid=(lo+hi)>>1; if(cum[mid]<target) lo=mid+1; else hi=mid; } var i=lo; if(i===0) return {x:cl[0].x,y:cl[0].y}; var p0=cl[i-1], p1=cl[i], segLen=(cum[i]-cum[i-1])||1, t=(target-cum[i-1])/segLen; return {x:p0.x+(p1.x-p0.x)*t, y:p0.y+(p1.y-p0.y)*t}; }
+function mSimplifyRDP(points, epsilon){ if(points.length<3) return points.slice(); function rdp(pts){ if(pts.length<3) return pts; var maxD=0, idx=0; for(var i=1;i<pts.length-1;i++){ var d = mDistToSegment(pts[i], pts[0], pts[pts.length-1]); if(d>maxD){ maxD=d; idx=i; } } if(maxD>epsilon){ var left = rdp(pts.slice(0,idx+1)); var right = rdp(pts.slice(idx)); return left.slice(0,-1).concat(right); } return [pts[0], pts[pts.length-1]]; } return rdp(points); }
+
+window.mazeGameData = { level: 1, data: null, state: 'ready', strokePoints: [], lastRawPoint: null, flashUntil: 0, hintUntil: 0, hintUsed: false, attempts: 0, levelStartTime: 0, totalDistance: 0, walkPath: null, walkCumLen: null, walkStartTime: 0, walkDuration: 0, confetti: [], totalScore: 0, floatingTexts: [] };
+
+function mAddFloatingText(text, x, y, color) {
+    window.mazeGameData.floatingTexts.push({ text: text, x: x, y: y, color: color, life: 1.0 });
+}
+
+function mGenerateLevel(level, modeId){
+  var modeHash = 0; for(var i=0; i<modeId.length; i++) modeHash += modeId.charCodeAt(i);
+  var rng = mMulberry32(8000 + level*999 + modeHash*123);
+  var cols = Math.min(13, 6 + Math.floor(level/10)); var rows = Math.min(8, 4 + Math.floor(level/12));  
+  var mazeW = W - 160; var mazeH = H - 80; var cw = mazeW / cols; var ch = mazeH / rows; var ox = 80; var oy = 40;
+  var cells = []; var nodes = [];
+  for(var c=0; c<cols; c++){ cells[c] = []; for(var r=0; r<rows; r++){ var node = { c:c, r:r, x: ox + c*cw + cw/2, y: oy + r*ch + ch/2, walls: [true, true, true, true], visited: false, edges: [] }; cells[c][r] = node; nodes.push(node); } }
+
+  var stack = [cells[0][0]]; cells[0][0].visited = true;
+  while(stack.length > 0){
+    var curr = stack[stack.length-1]; var dirs = [[0,-1,0,2], [1,0,1,3], [0,1,2,0], [-1,0,3,1]];
+    for(var i=dirs.length-1; i>0; i--){ var j = Math.floor(rng() * (i + 1)); var temp = dirs[i]; dirs[i] = dirs[j]; dirs[j] = temp; }
+    var found = false;
+    for(var i=0; i<dirs.length; i++){
+      var d = dirs[i]; var nc = curr.c + d[0], nr = curr.r + d[1];
+      if(nc>=0 && nc<cols && nr>=0 && nr<rows && !cells[nc][nr].visited){
+        var next = cells[nc][nr]; curr.walls[d[2]] = false; next.walls[d[3]] = false;
+        curr.edges.push(next); next.edges.push(curr); next.visited = true; stack.push(next); found = true; break;
+      }
+    }
+    if(!found) stack.pop();
+  }
+
+  var startR = Math.floor(rows/2); var endR = Math.floor(rows/2);
+  cells[0][startR].walls[3] = false; cells[cols-1][endR].walls[1] = false;
+  var boyX = ox - 35; var boyY = oy + startR*ch + ch/2; var houseX = ox + mazeW + 45; var houseY = oy + endR*ch + ch/2 - 10;
+  var solidWalls = [];
+  for(var c=0; c<cols; c++){ for(var r=0; r<rows; r++){ var cx = ox + c*cw, cy = oy + r*ch;
+      if(cells[c][r].walls[0]) solidWalls.push({ p1:{x:cx, y:cy}, p2:{x:cx+cw, y:cy} }); 
+      if(cells[c][r].walls[1]) solidWalls.push({ p1:{x:cx+cw, y:cy}, p2:{x:cx+cw, y:cy+ch} }); 
+      if(cells[c][r].walls[2]) solidWalls.push({ p1:{x:cx+cw, y:cy+ch}, p2:{x:cx, y:cy+ch} }); 
+      if(cells[c][r].walls[3]) solidWalls.push({ p1:{x:cx, y:cy+ch}, p2:{x:cx, y:cy} }); 
+  } }
+
+  var q = [[cells[0][startR]]]; var sol = []; var visitedPath = []; visitedPath.push(cells[0][startR]);
+  while(q.length > 0){
+    var p = q.shift(); var curr = p[p.length-1];
+    if(curr === cells[cols-1][endR]){ sol = p; break; }
+    for(var i=0; i<curr.edges.length; i++){ var next = curr.edges[i]; if(visitedPath.indexOf(next) === -1){ visitedPath.push(next); q.push(p.concat([next])); } }
+  }
+  var solutionNodes = [{x: boyX, y: boyY}].concat(sol).concat([{x: houseX-10, y: houseY + 10}]);
+  
+  var modeObj = GAME_MODES[modeId] || GAME_MODES['en_upper']; var modeData = modeObj.data; var seqLen = Math.min(modeData.length, 4 + level); var targetSeq = modeData.slice(0, seqLen);
+  var items = []; var pathInternal = sol.slice(1); 
+  if(pathInternal.length < seqLen) { pathInternal = sol.slice(); seqLen = Math.min(seqLen, pathInternal.length); targetSeq = modeData.slice(0, seqLen); }
+  var step = Math.max(1, Math.floor((pathInternal.length - 1) / Math.max(1, seqLen - 1))); var placedIndexes = [];
+  
+  for(var i=0; i<seqLen; i++){
+      var n; if (i === seqLen - 1) { n = pathInternal[pathInternal.length - 1]; } else { var idx = Math.min(pathInternal.length - 2, i * step); n = pathInternal[idx]; }
+      placedIndexes.push(n); items.push({ x: n.x, y: n.y, type: 'correct', text: targetSeq[i] || '', color: ITEM_COLORS[i % ITEM_COLORS.length], collected: false });
+  }
+  var safeTraps = []; for(var i=0; i<TRAP_POOL.length; i++) { if(targetSeq.indexOf(TRAP_POOL[i]) === -1) safeTraps.push(TRAP_POOL[i]); }
+  for(var i=0; i<nodes.length; i++){ var n = nodes[i]; if(sol.indexOf(n) === -1){ if(rng() < 0.40){ items.push({ x: n.x, y: n.y, type: 'trap', text: safeTraps[Math.floor(rng() * safeTraps.length)] || '❌', color: '#ef4444' }); } } }
+
+  var decor = []; var tries=0, placed=0;
+  while(placed < 20 && tries < 400){ tries++; var px = rng()*W; var py = rng()*H; if(px > ox-60 && px < ox+mazeW+60 && py > oy-40 && py < oy+mazeH+40) continue; decor.push({x:px, y:py, scale: 0.6 + rng()*0.6}); placed++; }
+
+  return { cells: cells, cols: cols, rows: rows, cw: cw, ch: ch, ox: ox, oy: oy, solidWalls: solidWalls, solutionNodes: solutionNodes, startX: boyX, startY: boyY, houseX: houseX, houseY: houseY, decor: decor, items: items, targetSeq: targetSeq, modeId: modeId };
+}
+
+window.mazeNewLevel = function(level, skipOverlayReset){
+  try {
+      var modeId = window.MazeStorageMgr.get().mode; level = Math.max(1, Math.min(100, level));
+      window.mazeGameData.level = level; window.mazeGameData.data = mGenerateLevel(level, modeId); window.mazeGameData.state = 'ready'; window.mazeGameData.strokePoints = []; window.mazeGameData.lastRawPoint = null; window.mazeGameData.flashUntil = 0; window.mazeGameData.hintUntil = 0; window.mazeGameData.hintUsed = false; window.mazeGameData.attempts = 0; window.mazeGameData.totalDistance = 0; window.mazeGameData.levelStartTime = performance.now(); window.mazeGameData.confetti = []; window.mazeGameData.floatingTexts = [];
+      var levelNumEl = document.getElementById('mazeLevelNum'); if(levelNumEl) levelNumEl.textContent = level;
+      var modeObj = GAME_MODES[modeId] || GAME_MODES['en_upper']; var modeName = modeObj.name; var startLetter = window.mazeGameData.data.targetSeq[0] || ''; var endLetter = window.mazeGameData.data.targetSeq[window.mazeGameData.data.targetSeq.length-1] || '';
+      var formattedSeq = window.mazeGameData.data.targetSeq.join(' ➔ '); if(window.mazeGameData.data.targetSeq.length > 5) { var secondLetter = window.mazeGameData.data.targetSeq[1] || ''; formattedSeq = startLetter + ' ➔ ' + secondLetter + ' ➔ ... ➔ ' + endLetter; }
+      var helpSequence = document.getElementById('mazeHelpSequence'); if(helpSequence) helpSequence.innerHTML = 'Category: <b>' + modeName + '</b><br>Follow: ' + formattedSeq;
+      var hintBtn = document.getElementById('mazeHintBtn'); if(hintBtn) { hintBtn.disabled = false; hintBtn.classList.remove('maze-on'); }
+      if(!skipOverlayReset) { window.mazeHideAllOverlays(); }
+  } catch(e) { }
+};
+
+function mDrawScenery(){
+  var g = mCtx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#bae6fd'); g.addColorStop(0.4,'#e0f2fe'); g.addColorStop(1,'#dcfce7'); mCtx.fillStyle = g; mCtx.fillRect(0,0,W,H); mCtx.fillStyle='#bbf7d0'; mCtx.fillRect(0,H*0.4,W,H*0.6);
+  if(!window.mazeGameData.data || !window.mazeGameData.data.decor) return;
+  for(var i=0; i<window.mazeGameData.data.decor.length; i++){ var d = window.mazeGameData.data.decor[i]; mCtx.save(); mCtx.translate(d.x, d.y); mCtx.scale(d.scale, d.scale); mCtx.fillStyle = '#8b4513'; mCtx.fillRect(-4, 0, 8, 15); mCtx.fillStyle = '#166534'; mCtx.beginPath(); mCtx.moveTo(0,-30); mCtx.lineTo(-15,5); mCtx.lineTo(15,5); mCtx.fill(); mCtx.fillStyle = '#22c55e'; mCtx.beginPath(); mCtx.moveTo(0,-45); mCtx.lineTo(-12,-10); mCtx.lineTo(12,-10); mCtx.fill(); mCtx.restore(); }
+}
+function mDrawHouse(x,y){ mCtx.save(); mCtx.translate(x,y); mCtx.fillStyle = 'rgba(253, 224, 71, 0.4)'; mCtx.save(); mCtx.translate(0, 20); mCtx.scale(3, 1); mCtx.beginPath(); mCtx.arc(0, 0, 20, 0, Math.PI*2); mCtx.fill(); mCtx.restore(); mCtx.fillStyle='#d8c9a3'; mCtx.fillRect(-35, -20, 70, 40); mCtx.fillStyle='#c2410c'; mCtx.beginPath(); mCtx.moveTo(-45,-20); mCtx.lineTo(0,-50); mCtx.lineTo(45,-20); mCtx.fill(); mCtx.fillStyle='#5c3a22'; mCtx.fillRect(-10, -5, 20, 25); mCtx.fillStyle='#7dd3fc'; mCtx.fillRect(-25, -10, 10, 10); mCtx.fillRect(15, -10, 10, 10); mCtx.restore(); }
+function mDrawBoy(x,y,walking,bob){ mCtx.save(); mCtx.translate(x,y); if(window.mazeGameData.state === 'ready') { mCtx.fillStyle = 'rgba(74, 222, 128, 0.4)'; mCtx.save(); mCtx.translate(0, 15); mCtx.scale(2.5, 1); mCtx.beginPath(); mCtx.arc(0, 0, 10, 0, Math.PI*2); mCtx.fill(); mCtx.restore(); mCtx.strokeStyle = '#22c55e'; mCtx.lineWidth=2; mCtx.save(); mCtx.translate(0, 15); mCtx.scale(2.5, 1); mCtx.beginPath(); mCtx.arc(0, 0, 10, 0, Math.PI*2); mCtx.stroke(); mCtx.restore(); } var leg = walking ? Math.sin(bob*10)*6 : 0; mCtx.translate(0,walking?Math.abs(Math.sin(bob*10))*-2:0); mCtx.strokeStyle='#1e3a8a'; mCtx.lineWidth=5; mCtx.lineCap='round'; mCtx.beginPath(); mCtx.moveTo(-4,5); mCtx.lineTo(-4+leg*0.5,18); mCtx.stroke(); mCtx.beginPath(); mCtx.moveTo(4,5); mCtx.lineTo(4-leg*0.5,18); mCtx.stroke(); mCtx.fillStyle='#ef4444'; mDrawRoundedRect(mCtx, -8, -10, 16, 16, 4); mCtx.fill(); mCtx.fillStyle='#fcd34d'; mCtx.beginPath(); mCtx.arc(0,-18,10,0,Math.PI*2); mCtx.fill(); mCtx.fillStyle='#1c1917'; mCtx.beginPath(); mCtx.arc(0,-20,10,Math.PI,Math.PI*2); mCtx.fill(); mCtx.strokeStyle='#475569'; mCtx.lineWidth=2; mCtx.beginPath(); mCtx.moveTo(-5,-8); mCtx.lineTo(-5,5); mCtx.stroke(); mCtx.beginPath(); mCtx.moveTo(5,-8); mCtx.lineTo(5,5); mCtx.stroke(); mCtx.restore(); }
+function mDrawHedgeMaze(d, now){
+  mCtx.fillStyle = '#fef08a'; mDrawRoundedRect(mCtx, d.ox, d.oy, d.cols*d.cw, d.rows*d.ch, 12); mCtx.fill(); var fontBase = Math.min(28, d.ch * 0.4);
+  for(var i=0; i<d.items.length; i++){
+      var item = d.items[i]; mCtx.save(); mCtx.translate(item.x, item.y);
+      if(item.type === 'correct' && !item.collected) mCtx.translate(0, Math.sin(now/200 + item.x) * 3);
+      if(item.collected){ mCtx.globalAlpha = 0.3; mCtx.fillStyle = '#22c55e'; mCtx.beginPath(); mCtx.arc(0,0,15,0,Math.PI*2); mCtx.fill(); } else {
+          var fontStr = "bold " + fontBase + "px 'Quicksand', sans-serif";
+          if(d.modeId === 'urdu') fontStr = "bold " + (fontBase+4) + "px 'Noto Nastaliq Urdu', serif";
+          else if(d.modeId === 'telugu') fontStr = "bold " + (fontBase-2) + "px 'Noto Sans Telugu', sans-serif";
+          else if(/[\uD800-\uDBFF][\uDC00-\uDFFF]/.test(item.text)) fontStr = (fontBase-2) + "px Arial"; 
+          mCtx.font = fontStr; mCtx.textAlign = "center"; mCtx.textBaseline = "middle";
+          if(item.type === 'correct') { mCtx.fillStyle = item.color; mCtx.shadowColor = 'rgba(255,255,255,0.8)'; mCtx.shadowBlur = 10; } else { mCtx.fillStyle = item.color || '#0f172a'; }
+          if(item.text) mCtx.fillText(item.text, 0, 0);
+      }
+      mCtx.restore();
+  }
+  var wt = Math.min(26, (d.cw+d.ch)*0.15); mCtx.lineCap = 'round'; mCtx.lineJoin = 'round'; mCtx.beginPath();
+  for(var i=0; i<d.solidWalls.length; i++){ var wall = d.solidWalls[i]; mCtx.moveTo(wall.p1.x, wall.p1.y); mCtx.lineTo(wall.p2.x, wall.p2.y); }
+  mCtx.strokeStyle = 'rgba(0,0,0,0.15)'; mCtx.lineWidth = wt; mCtx.stroke(); mCtx.strokeStyle = '#14532d'; mCtx.lineWidth = wt - 4; mCtx.stroke(); mCtx.strokeStyle = '#166534'; mCtx.lineWidth = Math.max(4, wt - 12); mCtx.stroke(); mCtx.strokeStyle = '#22c55e'; mCtx.lineWidth = Math.max(2, wt - 20); mCtx.stroke(); mCtx.strokeStyle = '#fef08a'; mCtx.lineWidth = Math.max(4, wt - 14); mCtx.beginPath(); mCtx.moveTo(d.ox, d.oy + 4); mCtx.lineTo(d.ox, d.oy + d.ch - 4); mCtx.moveTo(d.ox + d.cols*d.cw, d.oy + (d.rows-1)*d.ch + 4); mCtx.lineTo(d.ox + d.cols*d.cw, d.oy + (d.rows-1)*d.ch + d.ch - 4); mCtx.stroke();
+}
+function mDrawUserStroke(now){ var pts = window.mazeGameData.strokePoints; if(pts.length<2) return; mCtx.save(); var flashing = now < window.mazeGameData.flashUntil; var d = window.mazeGameData.data; var st = Math.min(18, (d.cw+d.ch)*0.1); mCtx.strokeStyle = flashing ? 'rgba(239,68,68,0.5)' : 'rgba(14,165,233,0.3)'; mCtx.lineWidth = st; mCtx.lineJoin='round'; mCtx.lineCap='round'; mCtx.beginPath(); mCtx.moveTo(pts[0].x,pts[0].y); for(var i=1;i<pts.length;i++) mCtx.lineTo(pts[i].x,pts[i].y); mCtx.stroke(); mCtx.strokeStyle = flashing ? '#ef4444' : '#0ea5e9'; mCtx.lineWidth = Math.max(3, st - 10); mCtx.stroke(); if(window.mazeGameData.state==='paused'){ var head = pts[pts.length-1]; mCtx.globalAlpha = 0.6+0.4*Math.sin(now/200); mCtx.fillStyle='#38bdf8'; mCtx.beginPath(); mCtx.arc(head.x, head.y, Math.max(6, st-2), 0, Math.PI*2); mCtx.fill(); } mCtx.restore(); }
+function mDrawHint(now){ if(now >= window.mazeGameData.hintUntil || !window.mazeGameData.data) return; var sol = window.mazeGameData.data.solutionNodes; var d = window.mazeGameData.data; mCtx.save(); mCtx.globalAlpha = 0.4+0.3*Math.sin(now/150); mCtx.strokeStyle = '#fde047'; mCtx.lineWidth = Math.min(15, (d.cw+d.ch)*0.08); mCtx.lineCap='round'; mCtx.lineJoin='round'; mCtx.beginPath(); mCtx.moveTo(sol[0].x, sol[0].y); for(var i=1; i<sol.length; i++) mCtx.lineTo(sol[i].x, sol[i].y); mCtx.stroke(); mCtx.restore(); }
+function mDrawFloatingTexts(){ if(window.mazeGameData.floatingTexts && window.mazeGameData.floatingTexts.length > 0) { mCtx.save(); mCtx.textAlign = 'center'; mCtx.textBaseline = 'middle'; mCtx.font = "bold 22px 'Quicksand', sans-serif"; for(var i=window.mazeGameData.floatingTexts.length-1; i>=0; i--){ var ft = window.mazeGameData.floatingTexts[i]; ft.y -= 1; ft.life -= 0.02; mCtx.fillStyle = ft.color; mCtx.globalAlpha = Math.max(0, ft.life); mCtx.strokeStyle = 'white'; mCtx.lineWidth = 4; mCtx.strokeText(ft.text, ft.x, ft.y); mCtx.fillText(ft.text, ft.x, ft.y); if(ft.life <= 0) window.mazeGameData.floatingTexts.splice(i, 1); } mCtx.restore(); } }
+function mDrawConfettiParticles(dt){ mCtx.save(); for(var i=0; i<window.mazeGameData.confetti.length; i++){ var p = window.mazeGameData.confetti[i]; p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 260*dt; p.rot += p.vr*dt; p.life -= dt; mCtx.save(); mCtx.globalAlpha = Math.max(0,Math.min(1,p.life)); mCtx.translate(p.x,p.y); mCtx.rotate(p.rot); mCtx.fillStyle = p.color; mCtx.fillRect(-4,-3,8,6); mCtx.restore(); } var activeConfetti = []; for(var i=0; i<window.mazeGameData.confetti.length; i++){ if(window.mazeGameData.confetti[i].life > 0 && window.mazeGameData.confetti[i].y < H+30) activeConfetti.push(window.mazeGameData.confetti[i]); } window.mazeGameData.confetti = activeConfetti; mCtx.restore(); }
+function mSpawnConfetti(x,y){ var colors=['#ef4444','#fde047','#0ea5e9','#22c55e','#a855f7','#f97316']; for(var i=0;i<40;i++){ window.mazeGameData.confetti.push({ x: x, y: y, vx:(Math.random()-0.5)*300, vy:-150-Math.random()*250, rot:Math.random()*Math.PI, vr:(Math.random()-0.5)*10, life:1.3+Math.random()*0.8, color:colors[Math.floor(Math.random()*colors.length)] }); } }
+
+var mLastT = performance.now();
+function mFrame(now){ try { var dt = Math.min(0.05,(now-mLastT)/1000); mLastT = now; mRender(now, dt); } catch(err) { } requestAnimationFrame(mFrame); }
+
+function mRender(now, dt){
+  var d = window.mazeGameData.data; if(!d) return; mCtx.clearRect(0,0,W,H);
+  mDrawScenery(); mDrawHedgeMaze(d, now); mDrawHint(now); mDrawHouse(d.houseX, d.houseY);
+  if(window.mazeGameData.state==='drawing' || window.mazeGameData.state==='paused') mDrawUserStroke(now);
+  if(window.mazeGameData.state==='walking'){ var elapsed = (now - window.mazeGameData.walkStartTime)/1000; var t = elapsed / window.mazeGameData.walkDuration; if(t>=1){ t=1; mFinishWalk(); } var p = mPointAtFraction(window.mazeGameData.walkPath, window.mazeGameData.walkCumLen, t); mDrawBoy(p.x, p.y, true, elapsed);
+  } else if(window.mazeGameData.state==='complete'){ mDrawBoy(d.houseX, d.houseY+5, false, 0); } else { mDrawBoy(d.startX, d.startY, false, 0); }
+  if(window.mazeGameData.confetti.length > 0) mDrawConfettiParticles(dt);
+  mDrawFloatingTexts();
+}
+
+function mCanvasPoint(evt){ var rect = mCanvas.getBoundingClientRect(); var scaleX = W/rect.width, scaleY = H/rect.height; var clientX = evt.clientX; var clientY = evt.clientY; if(evt.touches && evt.touches.length > 0) { clientX = evt.touches[0].clientX; clientY = evt.touches[0].clientY; } return { x:(clientX-rect.left)*scaleX, y:(clientY-rect.top)*scaleY }; }
+function mOnPointerDown(evt){
+  var mOverlay = document.getElementById('mazeMainMenuOverlay'); if(!window.mazeGameData.data || (mOverlay && !mOverlay.classList.contains('hidden'))) return; 
+  evt.preventDefault(); try { mEnsureAudio(); if(mMusicOn) mStartMusic(); } catch(e){}
+  var p = mCanvasPoint(evt); var d = window.mazeGameData.data;
+  if(window.mazeGameData.state==='ready'){ if(mDist(p,{x:d.startX,y:d.startY}) <= 50){ window.mazeGameData.state='drawing'; window.mazeGameData.strokePoints=[{x:d.startX,y:d.startY}, p]; window.mazeGameData.lastRawPoint = p; mStartDragSound(); }
+  } else if(window.mazeGameData.state==='paused'){ var head = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; if(mDist(p, head) <= 40){ window.mazeGameData.state='drawing'; window.mazeGameData.lastRawPoint = p; mStartDragSound(); } }
+}
+function mOnPointerMove(evt){
+  if(window.mazeGameData.state!=='drawing' || !window.mazeGameData.data) return; evt.preventDefault();
+  var p = mCanvasPoint(evt); var d = window.mazeGameData.data;
+  var moveDist = window.mazeGameData.lastRawPoint ? mDist(p, window.mazeGameData.lastRawPoint) : 0; window.mazeGameData.lastRawPoint = p; window.mazeGameData.totalDistance += moveDist;
+  var hitWall = false; var tolerance = Math.min(8, (d.cw+d.ch)*0.05); 
+  for(var i=0; i<d.solidWalls.length; i++){ var wall = d.solidWalls[i]; if(mDistToSegment(p, wall.p1, wall.p2) < tolerance){ hitWall = true; break; }
+    if(window.mazeGameData.strokePoints.length > 0){ var lastP = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; var minX = Math.min(lastP.x, p.x), maxX = Math.max(lastP.x, p.x); var minY = Math.min(lastP.y, p.y), maxY = Math.max(lastP.y, p.y); var wMinX = Math.min(wall.p1.x, wall.p2.x), wMaxX = Math.max(wall.p1.x, wall.p2.x); var wMinY = Math.min(wall.p1.y, wall.p2.y), wMaxY = Math.max(wall.p1.y, wall.p2.y); if(maxX >= wMinX && minX <= wMaxX && maxY >= wMinY && minY <= wMaxY){ if(mDistToSegment(lastP, wall.p1, wall.p2) < tolerance) { hitWall = true; break; } } }
+  }
+  if(p.x < d.ox - 60 || p.x > d.ox + d.cols*d.cw + 60 || p.y < d.oy - 20 || p.y > d.oy + d.rows*d.ch + 20) hitWall = true;
+  var hitTrap = false;
+  for(var i=0; i<d.items.length; i++){ var item = d.items[i]; if(!hitWall && mDist(p, item) < Math.min(20, d.cw*0.35)){ if(item.type === 'trap') { hitTrap = true; break; } } if(!hitWall && mDist(p, item) < Math.min(35, d.cw*0.5)){ if (item.type === 'correct' && !item.collected) { item.collected = true; mItemSound(); } } }
+  if(!hitWall && !hitTrap){
+    var lastPt = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; if(!lastPt || mDist(p, lastPt) >= 4){ window.mazeGameData.strokePoints.push(p); if(window.mazeGameData.strokePoints.length>2500) window.mazeGameData.strokePoints.shift(); } mUpdateDragSound(window.mazeGameData.totalDistance); 
+    
+    // --- WIN CONDITION CHECK ---
+    if(mDist(p, {x: d.houseX, y: d.houseY}) < 50){ 
+        var allCollected = true;
+        for(var k=0; k<d.items.length; k++){ if(d.items[k].type === 'correct' && !d.items[k].collected) allCollected = false; }
+        if(allCollected) {
+            mBeginWalk(); 
+        } else {
+            mTriggerError(false);
+            mAddFloatingText("Follow sequence first!", d.houseX, d.houseY - 50, "#ef4444");
+        }
+    } 
+  } else { mTriggerError(hitTrap); }
+}
+function mOnPointerUp(evt){ if(window.mazeGameData.state==='drawing'){ window.mazeGameData.state='paused'; window.mazeGame.stopDragSound(); } }
+function mTriggerError(hitTrap){ window.mazeGameData.flashUntil = performance.now()+400; window.mazeGame.stopDragSound(); mErrorSound(); window.mazeGameData.attempts++; window.mazeGameData.state='ready'; window.mazeGameData.strokePoints=[]; window.mazeGameData.lastRawPoint=null; window.mazeGameData.totalDistance=0; for(var i=0; i<window.mazeGameData.data.items.length; i++){ if(window.mazeGameData.data.items[i].type === 'correct') window.mazeGameData.data.items[i].collected = false; } }
+
+mCanvas.addEventListener('pointerdown', mOnPointerDown); mCanvas.addEventListener('pointermove', mOnPointerMove); mCanvas.addEventListener('pointerup', mOnPointerUp); mCanvas.addEventListener('pointercancel', mOnPointerUp);
+mCanvas.addEventListener('touchstart', mOnPointerDown, {passive: false}); mCanvas.addEventListener('touchmove', mOnPointerMove, {passive: false}); mCanvas.addEventListener('touchend', mOnPointerUp);
+
+// --- WIN AND STAR ANIMATION LOGIC ---
+function mBeginWalk(){ window.mazeGame.stopDragSound(); window.mazeGameData.state='walking'; var d = window.mazeGameData.data; var simplified = mSimplifyRDP(window.mazeGameData.strokePoints, 3); if(simplified.length<2) simplified = [{x:d.startX,y:d.startY},{x:d.houseX,y:d.houseY}]; simplified[0] = {x:d.startX, y:d.startY}; simplified[simplified.length-1] = {x:d.houseX, y:d.houseY}; window.mazeGameData.walkPath = mCatmullRom(simplified, 8); window.mazeGameData.walkCumLen = mBuildArcLen(window.mazeGameData.walkPath); var total = window.mazeGameData.walkCumLen[window.mazeGameData.walkCumLen.length-1]; window.mazeGameData.walkDuration = Math.min(6.5, Math.max(2.0, total/260)); window.mazeGameData.walkStartTime = performance.now(); }
+
+function mFinishWalk(){
+  if(window.mazeGameData.state !== 'walking') return;
+  window.mazeGameData.state = 'complete';
+
+  try { mSuccessFanfare(); } catch(e){}
+  try { var d = window.mazeGameData.data; mSpawnConfetti(d.houseX, d.houseY-30); } catch(e){}
+
+  var stars = 3;
+  if(window.mazeGameData.attempts >= 1) stars = 2;
+  if(window.mazeGameData.attempts >= 3) stars = 1;
+  var timeSec = (performance.now()-window.mazeGameData.levelStartTime)/1000;
+  if(timeSec > 40 && stars > 1) stars--;
+  
+  var score = 50 + stars*20;
+  if(timeSec<20) score += 10; if(window.mazeGameData.hintUsed) score -= 10;
+  score = Math.max(20, Math.round(score));
+  
+  window.mazeGameData.totalScore += score; 
+  
+  try { var scoreTotalEl = document.getElementById('mazeScoreTotal'); if(scoreTotalEl) scoreTotalEl.textContent = window.mazeGameData.totalScore; } catch(e){}
+  try { window.MazeStorageMgr.setLevelResult(window.mazeGameData.level, { stars: stars, score: score, attempts: window.mazeGameData.attempts }); } catch (e) {}
+
+  var winStars = document.getElementById('mazeWinStars');
+  var nextBtn = document.getElementById('mazeNextBtn');
+  if(winStars) winStars.innerHTML = '';
+  if(nextBtn) { nextBtn.style.display = 'none'; nextBtn.classList.remove('maze-pop-anim'); }
+  
+  try { window.mazeHideAllOverlays(); var winOverlay = document.getElementById('mazeWinOverlay'); if(winOverlay) { winOverlay.classList.remove('hidden'); winOverlay.style.display = ''; } } catch(e){}
+
+  // Animate stars popping in one by one
+  var starDelays = [600, 1200, 1800];
+  for(var i=0; i<3; i++) {
+      (function(idx) {
+          setTimeout(function() {
+              if(window.mazeGameData.state !== 'complete') return; 
+              var starSpan = document.createElement('span');
+              starSpan.className = 'maze-star-anim';
+              if(idx < stars) {
+                  starSpan.textContent = '⭐';
+                  mPlayStarSound(idx);
+              } else {
+                  starSpan.textContent = '☆';
+              }
+              if(winStars) winStars.appendChild(starSpan);
+              
+              if(idx === 2) {
+                  if(nextBtn) {
+                      nextBtn.style.display = 'inline-block';
+                      nextBtn.classList.add('maze-pop-anim');
+                  }
+                  setTimeout(function(){
+                      if (window.mazeGameData.state === 'complete') {
+                          try { window.mazeNextLevelAction(); } catch(e){}
+                      }
+                  }, 3500);
+              }
+          }, starDelays[idx]);
+      })(i);
+  }
+}
+
+window.mazeBuildMainMenu = function(){
+  var mainMenuGrid = document.getElementById('mazeMainMenuGrid'); if(!mainMenuGrid) return; mainMenuGrid.innerHTML = ''; var currentMode = window.MazeStorageMgr.get().mode;
+  for(var m in GAME_MODES){
+    (function(m){
+        var btn = document.createElement('button'); btn.className = 'maze-mode-btn' + (m === currentMode ? ' active' : ''); btn.innerHTML = '<span>' + GAME_MODES[m].icon + '</span><div>' + GAME_MODES[m].name + '</div>';
+        btn.onclick = function() { window.MazeStorageMgr.setMode(m); window.mazeHideAllOverlays(); try { mEnsureAudio(); mStartMusic(); } catch(e){} window.mazeNewLevel(1, true); };
+        mainMenuGrid.appendChild(btn);
+    })(m);
+  }
+};
+window.mazeBuildLevelGrid = function(){
+  var decadeContainer = document.getElementById('mazeDecadeContainer'); if(!decadeContainer) return; decadeContainer.innerHTML = '';
+  var currentStars = window.mazeGetTotalStars();
+  
+  for(var dBase=0; dBase<100; dBase+=10){
+    var requiredStarsForDecade = (dBase / 10) * 30;
+    var isDecadeLocked = currentStars < requiredStarsForDecade;
+    
+    var wrap = document.createElement('div'); wrap.className='decade'; 
+    var title = document.createElement('div'); title.className='decade-title'; 
+    title.textContent = (dBase+1)+'–'+(dBase+10) + (isDecadeLocked ? ' (Requires ' + requiredStarsForDecade + ' ⭐)' : ''); 
+    var grid = document.createElement('div'); grid.className='maze-decade-grid';
+    
+    for(var i=1;i<=10;i++){
+      (function(n, locked){
+          var btn = document.createElement('button'); 
+          var isCurrent = n===window.mazeGameData.level;
+          btn.className = 'maze-lvl-btn' + (locked ? ' locked' : '') + (isCurrent && !locked ? ' current':''); 
+          
+          var res = window.MazeStorageMgr.get().results[n];
+          var starHtml = '';
+          if (res && res.stars && !locked) { starHtml = '<div style="font-size:10px; margin-top:2px;">' + '⭐'.repeat(res.stars) + '</div>'; }
+          
+          btn.innerHTML = (locked ? '🔒 ' + n : n) + starHtml;
+          btn.onclick = function(){ 
+              if (locked) {
+                  window.mazeTryStartLevel(n);
+              } else {
+                  window.mazeHideAllOverlays(); window.mazeNewLevel(n, true); 
+              }
+          };
+          grid.appendChild(btn);
+      })(dBase+i, isDecadeLocked);
+    }
+    wrap.appendChild(title); wrap.appendChild(grid); decadeContainer.appendChild(wrap);
+  }
+};
+
+window.mazeBootGame = function(){
+  window.MazeStorageMgr.load(); var st = window.MazeStorageMgr.get();
+  mMusicOn = st.settings && st.settings.music !== false; mSfxOn = st.settings && st.settings.sfx !== false;
+  var musicBtn = document.getElementById('mazeMusicBtn'); var sfxBtn = document.getElementById('mazeSfxBtn');
+  if(musicBtn) { musicBtn.classList.toggle('maze-on', mMusicOn); musicBtn.textContent = mMusicOn ? '🎵 Music' : '🔇 Music'; }
+  if(sfxBtn) { sfxBtn.classList.toggle('maze-on', mSfxOn); sfxBtn.textContent = mSfxOn ? '🔊 SFX' : '🔈 SFX'; }
+  window.mazeGameData.totalScore = window.mazeGetTotalStars();
+  var scoreTotalEl = document.getElementById('mazeScoreTotal'); if(scoreTotalEl) scoreTotalEl.textContent = window.mazeGameData.totalScore;
+  
+  window.mazeHideAllOverlays(); window.mazeBuildMainMenu();
+  var closeMainMenu = document.getElementById('mazeCloseMainMenu'); if(closeMainMenu) closeMainMenu.style.display = 'none'; 
+  var mainMenuOverlay = document.getElementById('mazeMainMenuOverlay'); if(mainMenuOverlay) mainMenuOverlay.classList.remove('hidden');
+  
+  window.mazeNewLevel(1, true); 
+  requestAnimationFrame(mFrame);
+};
+
+})();
+</script>
+<!-- ================= END MAZE GAME ENGINE ================= -->
 </body>
 </html>
