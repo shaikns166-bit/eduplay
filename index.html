@@ -317,12 +317,36 @@
     <!-- ============================================================ -->
 
    <!-- === NEW FULLSCREEN IMAGE MENU === -->
-<div id="start-overlay" class="overlay active-flex" style="background-image: url('menu_bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 100;">
+<div id="start-overlay" class="overlay active-flex" style="background-image: url('menu_bg_2.png'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 100;">
     
-    <!-- Invisible button covering the entire screen for "Start Learning" -->
-    <button id="btn-start" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: transparent; border: none; outline: none; cursor: pointer; -webkit-tap-highlight-color: transparent; z-index: 10;"></button>
+    <!-- VISIBLE START BUTTON (Placed perfectly in the white panel) -->
+    <button id="btn-start" style="
+        position: absolute;
+        top: 60vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+        background: linear-gradient(90deg, #ff3b7c, #ff5e5e);
+        color: white;
+        border: none;
+        padding: 16px 45px;
+        border-radius: 50px;
+        font-size: 1.5rem;
+        font-family: 'Baloo 2', sans-serif;
+        font-weight: 800;
+        box-shadow: 0 10px 20px rgba(255, 59, 124, 0.4);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        -webkit-tap-highlight-color: transparent;
+    ">
+        Start Learning <span style="font-size: 0.9em;">▶</span>
+    </button>
 
-    <!-- Preserved Install Button (moved to the very bottom so it doesn't block your beautiful artwork) -->
+    <!-- Preserved Install Button (moved to the very bottom) -->
     <button id="btn-install" class="btn-large success hidden" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 20; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">💾 Install App</button>
 
 </div>
@@ -857,7 +881,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v54'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v69'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
