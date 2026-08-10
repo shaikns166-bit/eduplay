@@ -274,24 +274,24 @@
         @keyframes mgShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px) rotate(-5deg); } 50% { transform: translateX(10px) rotate(5deg); } 75% { transform:      translateX(-10px) rotate(-5deg); } }
 
         /* ================= MAZE GAME SPECIFIC CSS ================= */
-        .maze-pill { background:#f8fafc; border-radius:999px; padding:6px 14px; font-weight:700; font-size:13px; box-shadow:0 2px 0 rgba(0,0,0,.05); display:flex; align-items:center; gap:5px; border:2px solid #e2e8f0; color: #0f172a;}
-        .maze-score { color:#7a5b00; background:#ffc93c; border:none; box-shadow:0 2px 0 #d69e16; }
-        .maze-ctrl { font-family:'Quicksand',sans-serif; font-size:15px; font-weight:700; border:none; border-radius:12px; padding:12px 18px; cursor:pointer; background:#f1f5f9; color:#475569; display:flex; align-items:center; gap:10px; transition:all .1s; justify-content: flex-start; width: 100%; box-shadow: 0 2px 0 #cbd5e1;}
+        .maze-pill { background:rgba(255,255,255,0.9); border-radius:12px; padding:6px 12px; font-weight:800; font-size:14px; box-shadow:0 4px 10px rgba(0,0,0,0.15); display:flex; align-items:center; gap:5px; color: #0f172a;}
+        .maze-score { color:#7a5b00; background:#ffc93c; }
+        .maze-ctrl { font-family:'Quicksand',sans-serif; font-size:14px; font-weight:700; border:none; border-radius:10px; padding:10px 14px; cursor:pointer; background:#f1f5f9; color:#475569; display:flex; align-items:center; gap:10px; transition:all .1s; justify-content: flex-start; width: 100%; box-shadow: 0 2px 0 #cbd5e1;}
         .maze-ctrl:active { transform:translateY(2px); box-shadow: 0 0 0 #cbd5e1;}
         .maze-ctrl.maze-on { background:#e0f2fe; color:#0284c7; box-shadow: 0 2px 0 #bae6fd;}
         .maze-ctrl.maze-primary { background:linear-gradient(135deg,#ff8b3d,#ff5f7e); color:#fff; box-shadow: 0 2px 0 #d93858;}
         .maze-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; background:rgba(255,255,255,0.95); backdrop-filter:blur(5px); z-index:50; }
         .maze-big-btn { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; border:none; border-radius:999px; padding:12px 36px; cursor:pointer; background:linear-gradient(180deg,#38bdf8,#0284c7); color:#fff; box-shadow:0 6px 0 #0369a1, 0 10px 20px rgba(2, 132, 199, 0.3); transition:transform .1s ease; margin-top:10px; }
         .maze-big-btn:active { transform:translateY(4px); box-shadow:0 2px 0 #0369a1; }
-        .maze-panel-box { background:#fff; border-radius:24px; max-width:700px; width:94%; max-height:90vh; overflow-y:auto; padding:25px; box-shadow:0 20px 60px rgba(0,0,0,.3); text-align:left; position:relative; }
+        .maze-panel-box { background:#fff; border-radius:24px; max-width:700px; width:94%; max-height:85vh; overflow-y:auto; padding:30px; box-shadow:0 20px 60px rgba(0,0,0,.3); text-align:left; position:relative; }
         .maze-close-x { position:absolute; top:15px; right:15px; background:#f1f5f9; border:none; border-radius:50%; width:36px; height:36px; font-size:18px; cursor:pointer; font-weight:bold; color:#475569; display: flex; align-items: center; justify-content: center; z-index: 10;}
-        .maze-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+        .maze-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
         .maze-mode-btn { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 10px; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s; display:flex; flex-direction:column; align-items:center; gap:5px; text-align: center;}
         .maze-mode-btn.active { background: #e0f2fe; border-color: #38bdf8; color: #0284c7; }
-        .maze-mode-btn span { font-size: 36px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));}
+        .maze-mode-btn span { font-size: 32px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));}
         .maze-decade-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:14px;}
         @media(min-width:600px){ .maze-decade-grid { grid-template-columns:repeat(10,1fr); } }
-        .maze-lvl-btn { aspect-ratio:1; border-radius:10px; border:none; cursor:pointer; font-family:'Baloo 2',cursive; font-weight:700; font-size:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#e0f2fe; color:#0284c7; box-shadow:0 2px 0 #bae6fd; }
+        .maze-lvl-btn { aspect-ratio:1; border-radius:10px; border:none; cursor:pointer; font-family:'Baloo 2',cursive; font-weight:700; font-size:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#e0f2fe; color:#0284c7; box-shadow:0 2px 0 #bae6fd; }
         .maze-lvl-btn.current { background:#ffc93c; color:#7a5b00; box-shadow:0 2px 0 #d69e16; }
         .maze-lvl-btn.locked { background:#f1f5f9; color:#94a3b8; box-shadow:0 2px 0 #e2e8f0; }
         .maze-star-anim { display: inline-block; animation: mazeStarPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0); margin: 0 4px; }
@@ -563,36 +563,40 @@
 </div>
 
 <!-- ================= MAZE GAME WRAPPER ================= -->
-<div id="maze-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e0f2fe; z-index: 5000; overflow: hidden; display: flex; flex-direction: column;">
-  <div style="width:100%; max-width:1024px; margin:0 auto; padding:10px; display:flex; flex-direction:column; height: 100%;">
+<div id="maze-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e0f2fe; z-index: 5000; overflow: hidden;">
     
-    <!-- TOP BAR WITH HAMBURGER MENU -->
-    <div style="width:100%; display:flex; align-items:center; justify-content:space-between; background:#fff; padding:10px 15px; border-radius:20px; box-shadow:0 4px 15px rgba(0,0,0,0.05); position:relative; z-index:1000; margin-bottom:10px; flex-shrink: 0;">
-      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-        <h1 style="font-family:'Baloo 2', cursive; font-size:clamp(18px,4vw,24px); margin:0; color:#0284c7;">🏠 Draw Path</h1>
-        <div class="maze-pill" style="padding:4px 10px;">⭐ Lvl <span id="mazeLevelNum">1</span></div>
-        <div class="maze-pill maze-score" style="padding:4px 10px;">🏆 <span id="mazeScoreTotal">0</span></div>
-      </div>
-      <div style="position:relative;">
-        <button onclick="document.getElementById('mazeDropdown').classList.toggle('hidden')" style="background:transparent; border:none; font-size:32px; color:#0284c7; cursor:pointer; padding:0 5px; line-height:1;">☰</button>
-        <!-- DROPDOWN MENU -->
-        <div id="mazeDropdown" class="hidden" style="position:absolute; top:50px; right:0; background:#fff; padding:15px; border-radius:20px; box-shadow:0 10px 40px rgba(0,0,0,0.2); display:flex; flex-direction:column; gap:8px; z-index:1001; min-width:180px; border: 2px solid #e2e8f0; transform-origin: top right; animation: mazeBtnPop 0.2s ease forwards;">
-          <button class="maze-ctrl maze-primary" onclick="window.mazeOpenCategories(); document.getElementById('mazeDropdown').classList.add('hidden');">🗂️ Categories</button>
-          <button class="maze-ctrl maze-on" id="mazeMusicBtn" onclick="window.mazeToggleMusic()">🎵 Music</button>
-          <button class="maze-ctrl maze-on" id="mazeSfxBtn" onclick="window.mazeToggleSfx()">🔊 SFX</button>
-          <button class="maze-ctrl" id="mazeHintBtn" onclick="window.mazeUseHint(); document.getElementById('mazeDropdown').classList.add('hidden');">💡 Hint</button>
-          <button class="maze-ctrl" onclick="window.mazeOpenHelp(); document.getElementById('mazeDropdown').classList.add('hidden');">❔ Help</button>
-          <button class="maze-ctrl" onclick="window.mazeOpenLevels(); document.getElementById('mazeDropdown').classList.add('hidden');">📚 Levels</button>
-          <button class="maze-ctrl" onclick="window.mazeResetCurrentLevel(); document.getElementById('mazeDropdown').classList.add('hidden');">↺ Retry</button>
-          <button class="maze-ctrl" style="background: #ef4444; color: white;" onclick="window.exitMazeGame(); document.getElementById('mazeDropdown').classList.add('hidden');">✖ Exit</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="flex:1; width:100%; display:flex; justify-content:center; position:relative; min-height:0;">
-      <div id="stage" style="position:relative; width:100%; height:100%; border-radius:20px; overflow:hidden; box-shadow:0 10px 25px rgba(2, 132, 199, 0.15), 0 0 0 6px #ffffff; background:#7dd3fc; touch-action:none;">
+    <!-- FULL SCREEN STAGE -->
+    <div id="stage" style="position:absolute; top:0; left:0; width:100%; height:100%; background:#7dd3fc; touch-action:none; overflow:hidden;">
         <canvas id="mazeGameCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; display:block; touch-action:none;"></canvas>
 
+        <!-- FLOATING TOP BAR OVER THE MAZE -->
+        <div style="position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none; z-index:1000;">
+          
+          <div style="display:flex; gap:6px; flex-wrap:wrap; pointer-events:auto;">
+            <div class="maze-pill">🏠 Draw Path</div>
+            <div class="maze-pill">⭐ Lvl <span id="mazeLevelNum">1</span></div>
+            <div class="maze-pill maze-score">🏆 <span id="mazeScoreTotal">0</span></div>
+          </div>
+          
+          <div style="position:relative; pointer-events:auto;">
+            <!-- HAMBURGER CORNER BUTTON -->
+            <button onclick="document.getElementById('mazeDropdown').classList.toggle('hidden')" style="background:rgba(255,255,255,0.95); border:2px solid #cbd5e1; border-radius:12px; font-size:24px; color:#0284c7; cursor:pointer; padding:4px 12px; line-height:1; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.1s;">☰</button>
+            
+            <!-- SCROLLABLE DROPDOWN MENU -->
+            <div id="mazeDropdown" class="hidden" style="position:absolute; top:45px; right:0; background:#fff; padding:10px; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.3); display:flex; flex-direction:column; gap:6px; z-index:1001; min-width:160px; border: 2px solid #e2e8f0; transform-origin: top right; animation: mazeBtnPop 0.2s ease forwards; max-height: calc(100vh - 70px); overflow-y: auto;">
+              <button class="maze-ctrl maze-primary" onclick="window.mazeOpenCategories(); document.getElementById('mazeDropdown').classList.add('hidden');">🗂️ Categories</button>
+              <button class="maze-ctrl maze-on" id="mazeMusicBtn" onclick="window.mazeToggleMusic()">🎵 Music</button>
+              <button class="maze-ctrl maze-on" id="mazeSfxBtn" onclick="window.mazeToggleSfx()">🔊 SFX</button>
+              <button class="maze-ctrl" id="mazeHintBtn" onclick="window.mazeUseHint(); document.getElementById('mazeDropdown').classList.add('hidden');">💡 Hint</button>
+              <button class="maze-ctrl" onclick="window.mazeOpenHelp(); document.getElementById('mazeDropdown').classList.add('hidden');">❔ Help</button>
+              <button class="maze-ctrl" onclick="window.mazeOpenLevels(); document.getElementById('mazeDropdown').classList.add('hidden');">📚 Levels</button>
+              <button class="maze-ctrl" onclick="window.mazeResetCurrentLevel(); document.getElementById('mazeDropdown').classList.add('hidden');">↺ Retry</button>
+              <button class="maze-ctrl" style="background: #ef4444; color: white; box-shadow: 0 2px 0 #b91c1c;" onclick="window.exitMazeGame(); document.getElementById('mazeDropdown').classList.add('hidden');">✖ Exit</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- OVERLAYS -->
         <div class="maze-overlay" id="mazeMainMenuOverlay">
           <div class="maze-panel-box" style="text-align: center; max-width:800px; width:95%;">
             <button class="maze-close-x" id="mazeCloseMainMenu" onclick="window.mazeHideAllOverlays()" style="display:none;">✕</button>
@@ -647,7 +651,6 @@
           </div>
         </div>
 
-      </div>
     </div>
   </div>
 </div>
@@ -784,7 +787,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v43'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v44'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -1689,11 +1692,7 @@ window.enterMazeGame = function() {
     var appContainer = document.getElementById("app-container");
     if(appContainer) appContainer.classList.replace("active-flex", "hidden");
     document.getElementById("maze-wrapper").classList.remove("hidden");
-    
-    // Stop Main App audio/speech if playing
     if(window.speechSynthesis) window.speechSynthesis.cancel();
-
-    // FORCE LANDSCAPE MODE FOR MOBILE
     try { 
         let elem = document.documentElement; 
         if (elem.requestFullscreen) { 
@@ -1701,8 +1700,7 @@ window.enterMazeGame = function() {
                 if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported.")); } 
             }).catch(e => console.log("Fullscreen blocked.")); 
         } 
-    } catch(err) { console.log(err); }
-
+    } catch(err) {}
     window.mazeBootGame();
 };
 
@@ -1716,66 +1714,34 @@ window.exitMazeGame = function() {
     document.getElementById("home-screen").classList.replace("hidden", "active-grid");
     document.getElementById("app-title").innerText = "🎮 Games Menu";
     document.getElementById("btn-home").classList.remove("hidden");
-
-    // UNLOCK SCREEN ORIENTATION
     try { 
         if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
         if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
-    } catch(err) { console.log(err); }
+    } catch(err) {}
 };
 
 window.mazeHideAllOverlays = function() {
     try {
-        var menus = ['mazeMainMenuOverlay', 'mazeWinOverlay', 'mazeHelpOverlay', 'mazeLevelsOverlay', 'mazeLockOverlay'];
+        var menus = ['mazeMainMenuOverlay', 'mazeWinOverlay', 'mazeHelpOverlay', 'mazeLevelsOverlay', 'mazeLockOverlay', 'mazeDropdown'];
         for(var i=0; i<menus.length; i++) {
             var el = document.getElementById(menus[i]);
-            if(el) {
-                el.classList.add('hidden');
-                el.style.display = ''; // Reset inline display
-            }
+            if(el) el.classList.add('hidden');
         }
     } catch(e){}
 };
 
-window.mazeOpenCategories = function() {
-    window.mazeHideAllOverlays();
-    window.mazeBuildMainMenu();
-    var closeBtn = document.getElementById('mazeCloseMainMenu');
-    if(closeBtn) closeBtn.style.display = 'flex';
-    var menuOverlay = document.getElementById('mazeMainMenuOverlay');
-    if(menuOverlay) menuOverlay.classList.remove('hidden');
-};
-
-window.mazeOpenLevels = function() {
-    window.mazeHideAllOverlays();
-    window.mazeBuildLevelGrid();
-    var levelsOverlay = document.getElementById('mazeLevelsOverlay');
-    if(levelsOverlay) levelsOverlay.classList.remove('hidden');
-};
-
-window.mazeOpenHelp = function() {
-    window.mazeHideAllOverlays();
-    var helpOverlay = document.getElementById('mazeHelpOverlay');
-    if(helpOverlay) helpOverlay.classList.remove('hidden');
-};
-
-window.mazeResetCurrentLevel = function() {
-    window.mazeHideAllOverlays();
-    window.mazeNewLevel(window.mazeGameData.level, true);
-};
-
-window.mazeNextLevelAction = function() {
-    window.mazeTryStartLevel(Math.min(100, window.mazeGameData.level + 1));
-};
+window.mazeOpenCategories = function() { window.mazeHideAllOverlays(); window.mazeBuildMainMenu(); var closeBtn = document.getElementById('mazeCloseMainMenu'); if(closeBtn) closeBtn.style.display = 'flex'; var menuOverlay = document.getElementById('mazeMainMenuOverlay'); if(menuOverlay) menuOverlay.classList.remove('hidden'); };
+window.mazeOpenLevels = function() { window.mazeHideAllOverlays(); window.mazeBuildLevelGrid(); var levelsOverlay = document.getElementById('mazeLevelsOverlay'); if(levelsOverlay) levelsOverlay.classList.remove('hidden'); };
+window.mazeOpenHelp = function() { window.mazeHideAllOverlays(); var helpOverlay = document.getElementById('mazeHelpOverlay'); if(helpOverlay) helpOverlay.classList.remove('hidden'); };
+window.mazeResetCurrentLevel = function() { window.mazeHideAllOverlays(); window.mazeNewLevel(window.mazeGameData.level, true); };
+window.mazeNextLevelAction = function() { window.mazeTryStartLevel(Math.min(100, window.mazeGameData.level + 1)); };
 
 window.mazeGetTotalStars = function() {
-    var st = window.MazeStorageMgr.get();
-    var total = 0;
+    var st = window.MazeStorageMgr.get(); var total = 0;
     if(st.results) { for(var key in st.results) { total += st.results[key].stars || 0; } }
     return total;
 };
 
-// --- STAR LOCK LOGIC ---
 window.mazeTryStartLevel = function(n) {
     var decade = Math.floor((n - 1) / 10); 
     var requiredStars = decade * 30; 
@@ -1793,9 +1759,9 @@ window.mazeTryStartLevel = function(n) {
 };
 
 var GAME_MODES = {
-  'en_upper': { name: 'A B C (Uppercase)', icon: '🔠', data: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('') },
-  'en_lower': { name: 'a b c (Lowercase)', icon: '🔡', data: "abcdefghijklmnopqrstuvwxyz".split('') },
-  'urdu': { name: 'Urdu (حروف)', icon: '🕌', data: "ا ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ہ ء ی ے".split(' ') },
+  'en_upper': { name: 'A B C', icon: '🔠', data: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('') },
+  'en_lower': { name: 'a b c', icon: '🔡', data: "abcdefghijklmnopqrstuvwxyz".split('') },
+  'urdu': { name: 'Urdu', icon: '🕌', data: "ا ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ہ ء ی ے".split(' ') },
   'telugu': { name: 'Telugu', icon: '🕉️', data: "అ ఆ ఇ ఈ ఉ ఊ ఋ ఎ ఏ ఐ ఒ ఓ ఔ క ఖ గ ఘ ఙ చ ఛ జ ఝ ఞ ట ఠ డ ఢ ణ త థ ద ధ న ప ఫ బ భ మ య ర ల వ శ ష స హ ళ క్ష ఱ".split(' ') },
   'animals': { name: 'Animals', icon: '🐶', data: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐒','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜'] },
   'vehicles': { name: 'Vehicles', icon: '🚗', data: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🚚','🚛','🚜','🛴','🚲','🛵','🏍️','🚨','🚔','🚍','🚘','🚖','🚡','🚠','🚟','🚃','🚋','🚁','🛩️','✈️'] },
@@ -1847,35 +1813,32 @@ function mPointAtFraction(cl, cum, frac){ var target = Math.max(0,Math.min(1,fra
 function mSimplifyRDP(points, epsilon){ if(points.length<3) return points.slice(); function rdp(pts){ if(pts.length<3) return pts; var maxD=0, idx=0; for(var i=1;i<pts.length-1;i++){ var d = mDistToSegment(pts[i], pts[0], pts[pts.length-1]); if(d>maxD){ maxD=d; idx=i; } } if(maxD>epsilon){ var left = rdp(pts.slice(0,idx+1)); var right = rdp(pts.slice(idx)); return left.slice(0,-1).concat(right); } return [pts[0], pts[pts.length-1]]; } return rdp(points); }
 
 function mGenerateLevel(level, modeId){
-  // Calculate canvas dimensions dynamically for landscape orientation
   var stageEl = document.getElementById('stage');
   if(stageEl && stageEl.clientWidth > 0) {
-      W = stageEl.clientWidth;
-      H = stageEl.clientHeight;
-      mCanvas.width = W;
-      mCanvas.height = H;
+      W = stageEl.clientWidth; H = stageEl.clientHeight;
+      mCanvas.width = W; mCanvas.height = H;
   }
   
   var aspectRatio = W / H;
   var diff = 4 + level * 0.5; 
   var cols = Math.max(4, Math.floor(diff * Math.sqrt(aspectRatio)));
   var rows = Math.max(4, Math.floor(diff / Math.sqrt(aspectRatio)));
-  
-  cols = Math.min(16, cols);
-  rows = Math.min(12, rows);
+  cols = Math.min(16, cols); rows = Math.min(12, rows);
 
   var modeHash = 0; for(var i=0; i<modeId.length; i++) modeHash += modeId.charCodeAt(i);
   var rng = mMulberry32(8000 + level*999 + modeHash*123);
   
-  var ox = Math.min(60, W * 0.08); 
-  var oy = Math.min(40, H * 0.08);
+  // PUSHES THE MAZE DOWN SO IT DOESNT OVERLAP BUTTONS
+  var ox = Math.max(30, W * 0.05); 
+  var oyTop = 65; // Clear space for the floating buttons!
+  var oyBot = Math.max(15, H * 0.04); 
   var mazeW = W - (ox * 2); 
-  var mazeH = H - (oy * 2); 
+  var mazeH = H - oyTop - oyBot; 
   var cw = mazeW / cols; 
   var ch = mazeH / rows;
 
   var cells = []; var nodes = [];
-  for(var c=0; c<cols; c++){ cells[c] = []; for(var r=0; r<rows; r++){ var node = { c:c, r:r, x: ox + c*cw + cw/2, y: oy + r*ch + ch/2, walls: [true, true, true, true], visited: false, edges: [] }; cells[c][r] = node; nodes.push(node); } }
+  for(var c=0; c<cols; c++){ cells[c] = []; for(var r=0; r<rows; r++){ var node = { c:c, r:r, x: ox + c*cw + cw/2, y: oyTop + r*ch + ch/2, walls: [true, true, true, true], visited: false, edges: [] }; cells[c][r] = node; nodes.push(node); } }
 
   var stack = [cells[0][0]]; cells[0][0].visited = true;
 
@@ -1896,12 +1859,12 @@ function mGenerateLevel(level, modeId){
   var startR = Math.floor(rows/2); var endR = Math.floor(rows/2);
   cells[0][startR].walls[3] = false; cells[cols-1][endR].walls[1] = false;
   var boyX = ox - (ox*0.6); 
-  var boyY = oy + startR*ch + ch/2; 
+  var boyY = oyTop + startR*ch + ch/2; 
   var houseX = ox + mazeW + (ox*0.6); 
-  var houseY = oy + endR*ch + ch/2 - 10;
+  var houseY = oyTop + endR*ch + ch/2 - 10;
 
   var solidWalls = [];
-  for(var c=0; c<cols; c++){ for(var r=0; r<rows; r++){ var cx = ox + c*cw, cy = oy + r*ch;
+  for(var c=0; c<cols; c++){ for(var r=0; r<rows; r++){ var cx = ox + c*cw, cy = oyTop + r*ch;
       if(cells[c][r].walls[0]) solidWalls.push({ p1:{x:cx, y:cy}, p2:{x:cx+cw, y:cy} }); 
       if(cells[c][r].walls[1]) solidWalls.push({ p1:{x:cx+cw, y:cy}, p2:{x:cx+cw, y:cy+ch} }); 
       if(cells[c][r].walls[2]) solidWalls.push({ p1:{x:cx+cw, y:cy+ch}, p2:{x:cx, y:cy+ch} }); 
@@ -1934,9 +1897,9 @@ function mGenerateLevel(level, modeId){
   }
 
   var decor = []; var tries=0, placed=0;
-  while(placed < 20 && tries < 400){ tries++; var px = rng()*W; var py = rng()*H; if(px > ox-60 && px < ox+mazeW+60 && py > oy-40 && py < oy+mazeH+40) continue; decor.push({x:px, y:py, scale: 0.6 + rng()*0.6}); placed++; }
+  while(placed < 20 && tries < 400){ tries++; var px = rng()*W; var py = rng()*H; if(px > ox-60 && px < ox+mazeW+60 && py > oyTop-40 && py < oyTop+mazeH+40) continue; decor.push({x:px, y:py, scale: 0.6 + rng()*0.6}); placed++; }
 
-  return { cells: cells, cols: cols, rows: rows, cw: cw, ch: ch, ox: ox, oy: oy, solidWalls: solidWalls, solutionNodes: solutionNodes, startX: boyX, startY: boyY, houseX: houseX, houseY: houseY, decor: decor, items: items, targetSeq: targetSeq, modeId: modeId };
+  return { cells: cells, cols: cols, rows: rows, cw: cw, ch: ch, ox: ox, oy: oyTop, solidWalls: solidWalls, solutionNodes: solutionNodes, startX: boyX, startY: boyY, houseX: houseX, houseY: houseY, decor: decor, items: items, targetSeq: targetSeq, modeId: modeId };
 }
 
 window.mazeGameData = { level: 1, data: null, state: 'ready', strokePoints: [], lastRawPoint: null, flashUntil: 0, hintUntil: 0, hintUsed: false, attempts: 0, levelStartTime: 0, totalDistance: 0, walkPath: null, walkCumLen: null, walkStartTime: 0, walkDuration: 0, confetti: [], totalScore: 0, floatingTexts: [] };
@@ -1956,6 +1919,7 @@ window.mazeNewLevel = function(level, skipOverlayReset){
   } catch(e) { }
 };
 
+// --- Rendering ---
 function mDrawScenery(){
   var g = mCtx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#bae6fd'); g.addColorStop(0.4,'#e0f2fe'); g.addColorStop(1,'#dcfce7'); mCtx.fillStyle = g; mCtx.fillRect(0,0,W,H); mCtx.fillStyle='#bbf7d0'; mCtx.fillRect(0,H*0.4,W,H*0.6);
   if(!window.mazeGameData.data || !window.mazeGameData.data.decor) return;
@@ -2026,13 +1990,16 @@ function mOnPointerMove(evt){
   if(window.mazeGameData.state!=='drawing' || !window.mazeGameData.data) return; evt.preventDefault();
   var p = mCanvasPoint(evt); var d = window.mazeGameData.data;
   var moveDist = window.mazeGameData.lastRawPoint ? mDist(p, window.mazeGameData.lastRawPoint) : 0; window.mazeGameData.lastRawPoint = p; window.mazeGameData.totalDistance += moveDist;
-  var hitWall = false; var tolerance = Math.min(8, (d.cw+d.ch)*0.05); 
+  
+  var hitWall = false; var tolerance = Math.min(10, (d.cw+d.ch)*0.08); 
   for(var i=0; i<d.solidWalls.length; i++){ var wall = d.solidWalls[i]; if(mDistToSegment(p, wall.p1, wall.p2) < tolerance){ hitWall = true; break; }
     if(window.mazeGameData.strokePoints.length > 0){ var lastP = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; var minX = Math.min(lastP.x, p.x), maxX = Math.max(lastP.x, p.x); var minY = Math.min(lastP.y, p.y), maxY = Math.max(lastP.y, p.y); var wMinX = Math.min(wall.p1.x, wall.p2.x), wMaxX = Math.max(wall.p1.x, wall.p2.x); var wMinY = Math.min(wall.p1.y, wall.p2.y), wMaxY = Math.max(wall.p1.y, wall.p2.y); if(maxX >= wMinX && minX <= wMaxX && maxY >= wMinY && minY <= wMaxY){ if(mDistToSegment(lastP, wall.p1, wall.p2) < tolerance) { hitWall = true; break; } } }
   }
   if(p.x < d.ox - 60 || p.x > d.ox + d.cols*d.cw + 60 || p.y < d.oy - 20 || p.y > d.oy + d.rows*d.ch + 20) hitWall = true;
+  
   var hitTrap = false;
   for(var i=0; i<d.items.length; i++){ var item = d.items[i]; if(!hitWall && mDist(p, item) < Math.min(20, d.cw*0.35)){ if(item.type === 'trap') { hitTrap = true; break; } } if(!hitWall && mDist(p, item) < Math.min(35, d.cw*0.5)){ if (item.type === 'correct' && !item.collected) { item.collected = true; mItemSound(); } } }
+  
   if(!hitWall && !hitTrap){
     var lastPt = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; if(!lastPt || mDist(p, lastPt) >= 4){ window.mazeGameData.strokePoints.push(p); if(window.mazeGameData.strokePoints.length>2500) window.mazeGameData.strokePoints.shift(); } mUpdateDragSound(window.mazeGameData.totalDistance); 
     if(mDist(p, {x: d.houseX, y: d.houseY}) < 50){ 
@@ -2068,7 +2035,7 @@ function mFinishWalk(){
   
   window.mazeGameData.totalScore += score; 
   try { var scoreTotalEl = document.getElementById('mazeScoreTotal'); if(scoreTotalEl) scoreTotalEl.textContent = window.mazeGameData.totalScore; } catch(e){}
-  try { window.MazeStorageMgr.setLevelResult(window.mazeGameData.level, { stars: stars, score: score, attempts: window.mazeGameData.attempts }); } catch (e) {}
+  try { window.MazeStorageMgr.setLevelResult(window.mazeGameData.level, { stars: stars, score: score, attempts: window.mazeGameData.attempts }); window.MazeStorageMgr.setUnlocked(100); } catch (e) {}
 
   var winStars = document.getElementById('mazeWinStars');
   var nextBtn = document.getElementById('mazeNextBtn');
