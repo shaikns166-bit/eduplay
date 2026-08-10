@@ -302,11 +302,16 @@
     </style>
 </head>
 <body>
-    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+    <!-- ================= EDUPLAY SPARK INTRO SPLASH ================= -->
+    <div id="video-splash" style="position: fixed; inset: 0; background: #070b19; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;">
+        <video id="intro-video" src="intro.mp4" autoplay muted playsinline preload="auto" style="width: 100%; height: 100%; object-fit: contain; outline: none; border: none; pointer-events: none;"></video>
+    </div>
+    <!-- ============================================================ -->
 
+    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
     <div id="start-overlay" class="overlay active-flex">
         <div class="glass-panel scale-in">
-            <h1 style="font-size: 3.5rem; margin-bottom: 10px;">EduPlay! 🌟</h1>
+            <h1 style="font-size: 3.5rem; margin-bottom: 10px;">EduPlay Spark! 🌟</h1>
             <p style="margin-bottom: 2rem; font-size: 1.2rem; font-weight: bold; color: #333;">Universal Fonts Edition</p>
             <button id="btn-start" class="btn-large bounce-anim" style="margin: 0 auto; margin-bottom: 15px;">Start Learning ▶</button>
             <button id="btn-install" class="btn-large success hidden" style="margin: 0 auto;">💾 Install App</button>
@@ -714,6 +719,40 @@
         btnInstall.addEventListener('click', installApp); btnInstallHeader.addEventListener('click', installApp);
 
         document.addEventListener("DOMContentLoaded", () => {
+            
+            // === NEW: INTRO VIDEO LOGIC ===
+            const videoSplash = document.getElementById("video-splash");
+            const introVideo = document.getElementById("intro-video");
+
+            function endSplash() {
+                if (!videoSplash) return;
+                videoSplash.style.opacity = '0'; // Smooth fade out
+                setTimeout(() => {
+                    videoSplash.classList.add('hidden');
+                    videoSplash.remove(); // Completely delete from memory
+                }, 500); 
+            }
+
+            if (introVideo) {
+                // Handle strict browser autoplay policies gracefully
+                let playPromise = introVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Autoplay prevented by browser:", error);
+                        endSplash(); // Failsafe: if blocked, just show the app
+                    });
+                }
+                
+                // When video naturally ends, fade out
+                introVideo.addEventListener('ended', endSplash);
+                
+                // Failsafe timeout: Force close after 6 seconds in case the video hangs
+                setTimeout(endSplash, 6000);
+            } else {
+                endSplash();
+            }
+            // ==============================
+
             const startOverlay = document.getElementById("start-overlay"); const appContainer = document.getElementById("app-container"); const mainMenuScreen = document.getElementById("main-menu-screen"); const funplayMenuScreen = document.getElementById("funplay-menu-screen"); const homeScreen = document.getElementById("home-screen"); const moduleScreen = document.getElementById("module-screen"); const gameScreen = document.getElementById("game-screen"); const btnHome = document.getElementById("btn-home"); const btnFcBack = document.getElementById("btn-fc-back"); const mainHeader = document.getElementById("main-header"); const appTitle = document.getElementById("app-title");
             const cardFrontContent = document.getElementById("card-front-content"); const cardImageWrapper = document.getElementById("card-image-wrapper"); const cardMainText = document.getElementById("card-main-text"); const cardSubText = document.getElementById("card-sub-text"); const cardEmojiImg = document.getElementById("card-emoji-img"); const cardRealImg = document.getElementById("card-real-img"); const flashcard = document.getElementById("flashcard");
             const gameQuestionText = document.getElementById("game-question-text"); const gameRealImg = document.getElementById("game-real-img"); const gameEmojiImg = document.getElementById("game-emoji-img"); const gameOptionsContainer = document.getElementById("game-options"); const gameScoreElement = document.getElementById("game-score"); const btnExitGame = document.getElementById("btn-exit-game");
@@ -787,7 +826,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v44'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v46'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
