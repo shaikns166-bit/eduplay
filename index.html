@@ -720,38 +720,48 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             
-            // === NEW: INTRO VIDEO LOGIC ===
+            // === NEW: INTRO VIDEO LOGIC (MANDATORY PLAY) ===
             const videoSplash = document.getElementById("video-splash");
             const introVideo = document.getElementById("intro-video");
+            let splashEnded = false;
 
             function endSplash() {
-                if (!videoSplash) return;
-                videoSplash.style.opacity = '0'; // Smooth fade out
-                setTimeout(() => {
-                    videoSplash.classList.add('hidden');
-                    videoSplash.remove(); // Completely delete from memory
-                }, 500); 
+                if (splashEnded || !videoSplash) return;
+                splashEnded = true;
+                videoSplash.style.opacity = '0';
+                setTimeout(() => { videoSplash.remove(); }, 500); 
             }
 
             if (introVideo) {
-                // Handle strict browser autoplay policies gracefully
-                let playPromise = introVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Autoplay prevented by browser:", error);
-                        endSplash(); // Failsafe: if blocked, just show the app
-                    });
-                }
-                
-                // When video naturally ends, fade out
+                introVideo.muted = true;
+                introVideo.defaultMuted = true;
+                introVideo.playsInline = true;
+
+                const forcePlay = () => {
+                    if (!splashEnded && introVideo.paused) {
+                        let p = introVideo.play();
+                        if (p !== undefined) p.catch(() => {});
+                    }
+                };
+
+                // Patiently wait for the video to buffer, then play it smoothly
+                introVideo.addEventListener('canplay', forcePlay);
+                introVideo.addEventListener('loadeddata', forcePlay);
+                forcePlay();
+
+                // If mobile devices pause it, the first tap anywhere will start it
+                window.addEventListener('touchstart', forcePlay, { once: true });
+                window.addEventListener('click', forcePlay, { once: true });
+
+                // ONLY end the splash screen when the video officially finishes playing!
                 introVideo.addEventListener('ended', endSplash);
-                
-                // Failsafe timeout: Force close after 6 seconds in case the video hangs
-                setTimeout(endSplash, 6000);
+
+                // Ultimate Failsafe: Set to 15 seconds ONLY in case of complete internet failure
+                setTimeout(endSplash, 15000);
             } else {
                 endSplash();
             }
-            // ==============================
+            // =================================================
 
             const startOverlay = document.getElementById("start-overlay"); const appContainer = document.getElementById("app-container"); const mainMenuScreen = document.getElementById("main-menu-screen"); const funplayMenuScreen = document.getElementById("funplay-menu-screen"); const homeScreen = document.getElementById("home-screen"); const moduleScreen = document.getElementById("module-screen"); const gameScreen = document.getElementById("game-screen"); const btnHome = document.getElementById("btn-home"); const btnFcBack = document.getElementById("btn-fc-back"); const mainHeader = document.getElementById("main-header"); const appTitle = document.getElementById("app-title");
             const cardFrontContent = document.getElementById("card-front-content"); const cardImageWrapper = document.getElementById("card-image-wrapper"); const cardMainText = document.getElementById("card-main-text"); const cardSubText = document.getElementById("card-sub-text"); const cardEmojiImg = document.getElementById("card-emoji-img"); const cardRealImg = document.getElementById("card-real-img"); const flashcard = document.getElementById("flashcard");
@@ -826,7 +836,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v46'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v47'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
