@@ -303,8 +303,16 @@
 </head>
 <body>
     <!-- ================= EDUPLAY SPARK INTRO SPLASH ================= -->
-    <div id="video-splash" style="position: fixed; inset: 0; background: #070b19; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; touch-action: none;">
-        <video id="intro-video" autoplay muted playsinline defaultMuted preload="auto" style="width: 100%; height: 100%; object-fit: cover; outline: none; border: none; pointer-events: none;"></video>
+    <div id="video-splash" style="position: fixed; inset: 0; background: #070b19; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.5s ease; touch-action: none;">
+        
+        <!-- Video is hidden until they tap -->
+        <video id="intro-video" playsinline preload="auto" style="position: absolute; width: 100%; height: 100%; object-fit: cover; outline: none; border: none; pointer-events: none; opacity: 0; transition: opacity 0.2s;"></video>
+        
+        <!-- THE AUDIO UNLOCK BUTTON -->
+        <button id="tap-to-start-btn" style="position: relative; z-index: 10000; background: linear-gradient(135deg, #ff8b3d, #ff5f7e); color: white; border: none; padding: 18px 45px; font-size: 26px; font-family: 'Baloo 2', cursive; font-weight: 800; border-radius: 999px; box-shadow: 0 8px 25px rgba(255, 95, 126, 0.5); cursor: pointer; animation: mazeBtnPop 0.6s ease forwards;">
+            ▶ Tap to Play!
+        </button>
+
     </div>
     <!-- ============================================================ -->
 
@@ -720,9 +728,10 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             
-            // === NEW: INTRO VIDEO LOGIC (SMART DEVICE DETECTOR) ===
+            // === NEW: INTRO VIDEO LOGIC (GUARANTEED AUDIO) ===
             const videoSplash = document.getElementById("video-splash");
             const introVideo = document.getElementById("intro-video");
+            const tapBtn = document.getElementById("tap-to-start-btn");
             let splashEnded = false;
 
             function endSplash() {
@@ -732,44 +741,38 @@
                 setTimeout(() => { videoSplash.remove(); }, 500); 
             }
 
-            if (introVideo) {
-                // SMART DETECTOR: Choose video based on screen shape
+            if (introVideo && tapBtn) {
+                // Smart Device Detector
                 if (window.innerWidth < window.innerHeight) {
-                    introVideo.src = "intro_mobile.mp4"; // Portrait video for phones
+                    introVideo.src = "intro_mobile.mp4"; 
                 } else {
-                    introVideo.src = "intro.mp4"; // Landscape video for laptops
+                    introVideo.src = "intro.mp4"; 
                 }
 
-                // CRITICAL FIX: Force mobile browsers to download the new video source
                 introVideo.load();
-
-                introVideo.muted = true;
-                introVideo.defaultMuted = true;
                 introVideo.playsInline = true;
+                introVideo.muted = false; // Set to full volume
 
-                const forcePlay = () => {
-                    if (!splashEnded && introVideo.paused) {
-                        let p = introVideo.play();
-                        if (p !== undefined) p.catch(() => {});
+                // Wait for the user to tap the button to unlock audio
+                tapBtn.addEventListener("click", () => {
+                    tapBtn.style.display = "none"; // Hide button
+                    introVideo.style.opacity = "1"; // Reveal video
+                    
+                    let playPromise = introVideo.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((error) => {
+                            console.log("Video playback failed:", error);
+                            endSplash(); // Failsafe skip if error
+                        });
                     }
-                };
 
-                // Patiently wait for the video to buffer, then play it smoothly
-                introVideo.addEventListener('canplay', forcePlay);
-                introVideo.addEventListener('loadeddata', forcePlay);
-                
-                // Try to play immediately
-                forcePlay();
+                    // Start the failsafe timer ONLY AFTER they tap
+                    setTimeout(endSplash, 10000); 
+                });
 
-                // If mobile devices pause it, the first tap anywhere will start it
-                window.addEventListener('touchstart', forcePlay, { once: true });
-                window.addEventListener('click', forcePlay, { once: true });
-
-                // ONLY end the splash screen when the video officially finishes playing!
+                // End splash when video naturally finishes
                 introVideo.addEventListener('ended', endSplash);
 
-                // Ultimate Failsafe: Set to 10 seconds in case of bad internet
-                setTimeout(endSplash, 10000);
             } else {
                 endSplash();
             }
@@ -848,7 +851,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v51'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v52'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
