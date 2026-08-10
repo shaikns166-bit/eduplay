@@ -740,6 +740,9 @@
                     introVideo.src = "intro.mp4"; // Landscape video for laptops
                 }
 
+                // CRITICAL FIX: Force mobile browsers to download the new video source
+                introVideo.load();
+
                 introVideo.muted = true;
                 introVideo.defaultMuted = true;
                 introVideo.playsInline = true;
@@ -754,6 +757,8 @@
                 // Patiently wait for the video to buffer, then play it smoothly
                 introVideo.addEventListener('canplay', forcePlay);
                 introVideo.addEventListener('loadeddata', forcePlay);
+                
+                // Try to play immediately
                 forcePlay();
 
                 // If mobile devices pause it, the first tap anywhere will start it
@@ -763,8 +768,8 @@
                 // ONLY end the splash screen when the video officially finishes playing!
                 introVideo.addEventListener('ended', endSplash);
 
-                // Ultimate Failsafe: Set to 15 seconds ONLY in case of complete internet failure
-                setTimeout(endSplash, 15000);
+                // Ultimate Failsafe: Set to 10 seconds in case of bad internet
+                setTimeout(endSplash, 10000);
             } else {
                 endSplash();
             }
