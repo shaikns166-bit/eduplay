@@ -741,7 +741,7 @@
                 setTimeout(() => { videoSplash.remove(); }, 500); 
             }
 
-            if (introVideo && tapBtn) {
+            if (introVideo && tapBtn && videoSplash) {
                 // Smart Device Detector
                 if (window.innerWidth < window.innerHeight) {
                     introVideo.src = "intro_mobile.mp4"; 
@@ -753,9 +753,10 @@
                 introVideo.playsInline = true;
                 introVideo.muted = false; // Set to full volume
 
-                // Wait for the user to tap the button to unlock audio
-                tapBtn.addEventListener("click", () => {
-                    tapBtn.style.display = "none"; // Hide button
+                // SUPER SENSOR: Make the ENTIRE SCREEN tap-friendly, not just the button!
+                const startVideo = (e) => {
+                    e.preventDefault(); // Stop mobile double-tap bugs
+                    tapBtn.style.display = "none"; // Hide button instantly
                     introVideo.style.opacity = "1"; // Reveal video
                     
                     let playPromise = introVideo.play();
@@ -768,13 +769,17 @@
 
                     // Start the failsafe timer ONLY AFTER they tap
                     setTimeout(endSplash, 10000); 
-                });
+                };
+
+                // Listen for both clicks and mobile screen taps anywhere on the background!
+                videoSplash.addEventListener("click", startVideo, { once: true });
+                videoSplash.addEventListener("touchstart", startVideo, { once: true });
 
                 // End splash when video naturally finishes
                 introVideo.addEventListener('ended', endSplash);
 
             } else {
-                endSplash();
+                endSplash(); // Skip if HTML is missing
             }
             // =================================================
 
@@ -851,7 +856,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v52'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v53'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
