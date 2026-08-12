@@ -79,15 +79,20 @@
         .floating-logo { position: absolute; top: 6vh; left: 50%; transform: translateX(-50%); width: 85%; max-width: 320px; animation: floatLogo 3.5s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); z-index: 25; pointer-events: none; }
 
         /* Perfectly spaced grid for cards */
+        /* THE FIX FOR MOBILE SCROLLING */
         .grid-container { 
-            grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)) !important; 
-            gap: 18px !important; 
-            row-gap: 25px !important; /* Forces vertical spacing */
-            padding: 20px !important; 
-            padding-bottom: 100px !important; 
+            display: grid !important; 
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important; 
+            gap: 15px !important; 
+            padding: 15px !important; 
+            padding-bottom: 120px !important; /* Gives room at the very bottom */
+            
+            /* THESE ARE THE MAGIC LINES THAT FORCE SCROLLING: */
             overflow-y: auto !important; 
-            overflow-x: hidden !important; 
-            flex: 1 !important; 
+            height: calc(100vh - 80px) !important; /* Tells it exactly how tall the screen is! */
+            -webkit-overflow-scrolling: touch !important; /* Makes scrolling buttery smooth on phones */
+            
+            flex: 1 1 auto !important; 
             align-content: start !important; 
             width: 100% !important; 
         }
@@ -106,9 +111,10 @@
             align-items: center !important; 
             justify-content: flex-start !important; 
             aspect-ratio: 1 / 1.25 !important; 
+            min-height: 130px !important; /* STRICTLY FORBIDS SQUISHING! */
             overflow: hidden !important; 
             position: relative !important;
-            margin-bottom: 15px !important; /* COMPLETELY FIXES THE MOBILE MERGING BUG */
+            margin-bottom: 15px !important; 
         }
         
         /* THE FIX FOR TINY ICONS (NOW MASSIVE!) */
@@ -1181,7 +1187,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v79'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v80'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
