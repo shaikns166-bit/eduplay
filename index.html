@@ -79,25 +79,36 @@
         .floating-logo { position: absolute; top: 6vh; left: 50%; transform: translateX(-50%); width: 85%; max-width: 320px; animation: floatLogo 3.5s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); z-index: 25; pointer-events: none; }
 
         /* Perfectly spaced grid for cards */
-        .grid-container { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 18px; padding: 20px; padding-bottom: 30px; overflow-y: auto; overflow-x: hidden; flex: 1; align-content: start; width: 100%; }
+        .grid-container { 
+            grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)) !important; 
+            gap: 18px !important; 
+            row-gap: 25px !important; /* Forces vertical spacing */
+            padding: 20px !important; 
+            padding-bottom: 100px !important; 
+            overflow-y: auto !important; 
+            overflow-x: hidden !important; 
+            flex: 1 !important; 
+            align-content: start !important; 
+            width: 100% !important; 
+        }
         
         /* Vibrant Reference-Style Category Cards */
         .category-card { 
-            background: #ffffff; 
-            border-radius: 22px; 
-            padding: 15px 10px 8px 10px; 
-            text-align: center; 
-            border: none; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12); 
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            gap: 8px; 
-            aspect-ratio: 1 / 1.05; 
-            overflow: hidden; /* Ensures the bottom color border curves perfectly */
-            position: relative;
+            background: linear-gradient(to bottom, var(--card-color, #ffeb3b) 68%, #ffffff 68%) !important; 
+            border-radius: 22px !important; 
+            padding: 10px 5px 5px 5px !important; 
+            text-align: center !important; 
+            border: 3px solid white !important;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15) !important; 
+            cursor: pointer !important; 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            justify-content: flex-start !important; 
+            aspect-ratio: 1 / 1.25 !important; 
+            overflow: hidden !important; 
+            position: relative !important;
+            margin-bottom: 15px !important; /* COMPLETELY FIXES THE MOBILE MERGING BUG */
         }
         
         /* THE FIX FOR TINY ICONS (NOW MASSIVE!) */
@@ -543,13 +554,17 @@
     </div>
 
     <main id="app-container" class="hidden">
-        <header id="main-header" class="glass-header">
-            <button id="btn-home" class="btn-large secondary hidden" style="font-size: 1.2rem; padding: 0.5rem 1rem; border-radius: 15px;">⬅️ Back</button>
-            <h2 id="app-title" style="margin:0; font-size:1.6rem; color:#2B2D42; font-weight:bold; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Main Menu</h2>
-            <div class="header-controls">
-                <button id="btn-install-header" class="btn-icon hidden" title="Install App">💾</button>
-                <button id="btn-settings" class="btn-icon">⚙️</button>
+        <header id="main-header" style="background: transparent; border: none; box-shadow: none; backdrop-filter: none; padding: 15px 15px 0 15px; display: flex; justify-content: space-between; align-items: center; width: 100%; z-index: 50;">
+            
+            <button id="btn-home" class="btn-large secondary hidden" style="font-size: 1.2rem; padding: 0.5rem 1rem; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">⬅️ Back</button>
+            
+            <h2 id="app-title" style="margin:0; font-size:1.8rem; color:#2B2D42; font-weight:900; text-shadow: 0 2px 5px rgba(255,255,255,1), 0 0 15px rgba(255,255,255,0.8); text-align: center; flex: 1;">Main Menu</h2>
+            
+            <div class="header-controls" style="display: flex; gap: 15px;">
+                <button id="btn-install-header" class="btn-icon hidden" title="Install App" style="box-shadow: 0 4px 10px rgba(0,0,0,0.15);">💾</button>
+                <button id="btn-settings" class="btn-icon" style="box-shadow: 0 4px 10px rgba(0,0,0,0.15);">⚙️</button>
             </div>
+            
         </header>
 
         <!-- ================= MAIN MENU SCREEN ================= -->
@@ -1166,7 +1181,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v78'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v79'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
