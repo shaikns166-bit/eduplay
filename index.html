@@ -80,18 +80,16 @@
 
         /* Perfectly spaced grid for cards */
         /* THE FIX FOR MOBILE SCROLLING */
+        /* =========================================
+           ANDROID MOBILE SCROLLING (FIXED MENU)
+           ========================================= */
         .grid-container { 
-            display: grid !important; 
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)) !important; 
             gap: 15px !important; 
             padding: 15px !important; 
-            padding-bottom: 120px !important; /* Gives room at the very bottom */
+            padding-bottom: 120px !important; 
             
-            /* THESE ARE THE MAGIC LINES THAT FORCE SCROLLING: */
             overflow-y: auto !important; 
-            height: calc(100vh - 80px) !important; /* Tells it exactly how tall the screen is! */
-            -webkit-overflow-scrolling: touch !important; /* Makes scrolling buttery smooth on phones */
-            
             flex: 1 1 auto !important; 
             align-content: start !important; 
             width: 100% !important; 
@@ -1187,7 +1185,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v80'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v81'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
