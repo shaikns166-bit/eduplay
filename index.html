@@ -43,14 +43,101 @@
         .btn-large.success { background: var(--success); box-shadow: 0 10px 20px rgba(6, 214, 160, 0.4); }
         .btn-icon { background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.8); font-size: 1.5rem; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
         .btn-icon:active { transform: scale(0.85); }
-        .menu-btn { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.8); border-radius: 20px; width: 85%; max-width: 350px; padding: 25px 20px; font-size: 2rem; font-weight: bold; color: var(--text-dark); display: flex; align-items: center; justify-content: flex-start; gap: 20px; box-shadow: 0 15px 25px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
-        .menu-btn:active { transform: scale(0.95); }
-        .menu-btn .icon { font-size: 4rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
-        .grid-container { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; padding: 15px; padding-bottom: 80px; overflow-y: auto; overflow-x: hidden; flex: 1; align-content: start; width: 100%; }
-        .category-card { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); border-radius: 15px; padding: 10px; text-align: center; font-weight: bold; border: 1px solid rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.9); border-left: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.3); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; aspect-ratio: 1 / 1; }
-        .category-card:active { transform: scale(0.95); }
-        .category-card .icon { font-size: 3.5rem; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2)); }
-        .category-card span { font-size: 1rem; line-height: 1.1; }
+        /* =========================================
+           1. HARDWARE ACCELERATION (SMOOTH PERFORMANCE)
+           ========================================= */
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+        /* Juicy, Smooth Press Physics (GPU Accelerated) */
+        button, .category-card, .game-option, .main-menu-pill {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease, filter 0.15s ease !important;
+            will-change: transform, box-shadow;
+            transform: translateZ(0); /* Forces GPU rendering for zero lag */
+            backface-visibility: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        button:active, .category-card:active, .game-option:active, .main-menu-pill:active {
+            transform: scale(0.92) translateY(4px) translateZ(0) !important;
+            filter: brightness(0.95);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+        }
+
+        /* =========================================
+           2. EXACT BACKGROUND MAPPING
+           ========================================= */
+        #video-splash { background: #070b19; }
+        #start-overlay { background-image: url('interface.png') !important; background-size: cover !important; background-position: center !important; z-index: 100; }
+        #main-menu-screen { background-image: url('menu_bg.png') !important; background-size: cover !important; background-position: center !important; }
+        #home-screen { background-image: url('flashcards_bg.png') !important; background-size: cover !important; background-position: center !important; }
+        #games-menu-screen { background-image: url('interactive_bg.png') !important; background-size: cover !important; background-position: center !important; }
+        #funplay-menu-screen { background-image: url('funplay_bg.png') !important; background-size: cover !important; background-position: center !important; }
+
+        /* =========================================
+           3. UI ELEMENTS (LOGOS, CARDS, PILLS, NAV)
+           ========================================= */
+        @keyframes floatLogo { 0% { transform: translate(-50%, 0px) rotate(0deg); } 50% { transform: translate(-50%, -12px) rotate(1deg); } 100% { transform: translate(-50%, 0px) rotate(0deg); } }
+        .floating-logo { position: absolute; top: 6vh; left: 50%; transform: translateX(-50%); width: 85%; max-width: 320px; animation: floatLogo 3.5s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); z-index: 25; pointer-events: none; }
+
+        /* Perfectly spaced grid for cards */
+        .grid-container { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 18px; padding: 20px; padding-bottom: 30px; overflow-y: auto; overflow-x: hidden; flex: 1; align-content: start; width: 100%; }
+        
+        /* Vibrant Reference-Style Category Cards */
+        .category-card { 
+            background: #ffffff; 
+            border-radius: 22px; 
+            padding: 15px 10px 8px 10px; 
+            text-align: center; 
+            border: none; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12); 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            gap: 8px; 
+            aspect-ratio: 1 / 1.05; 
+            overflow: hidden; /* Ensures the bottom color border curves perfectly */
+            position: relative;
+        }
+        
+        /* THE FIX FOR TINY ICONS (NOW MASSIVE!) */
+        .category-card img { 
+            width: 110px !important;  /* Greatly increased base size */
+            height: 110px !important; /* Greatly increased base size */
+            flex-shrink: 0 !important; 
+            object-fit: contain !important; 
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)) !important; /* Stronger 3D shadow */
+            margin-top: 2px !important;
+            margin-bottom: 0px !important;
+            transform: scale(1.4) !important; /* Magically expands the image even further! */
+        }
+        
+        /* Crisp text matching reference */
+        .category-card span { 
+            font-family: 'Baloo 2', cursive; 
+            font-size: 1.05rem; 
+            line-height: 1.1; 
+            color: #2B2D42; 
+            font-weight: 800; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100%; 
+        }
+
+        .main-menu-pill { width: 90%; max-width: 450px; padding: 12px 20px 12px 15px; border-radius: 50px; border: 2px solid rgba(255, 255, 255, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 15px rgba(0,0,0,0.2), inset 0 6px 10px rgba(255,255,255,0.3), inset 0 -4px 8px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .pill-left-content { display: flex; align-items: center; gap: 15px; }
+        .pill-icon-box { width: 65px; height: 65px; background: rgba(255, 255, 255, 0.25); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 5px rgba(255,255,255,0.5), 0 4px 6px rgba(0,0,0,0.1); flex-shrink: 0; }
+        .pill-icon-box img { width: 100%; height: 100%; border-radius: 16px; object-fit: cover; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+        .pill-text-area { text-align: left; display: flex; flex-direction: column; justify-content: center; }
+        .pill-title { font-family: 'Baloo 2', cursive; font-size: 1.6rem; color: white; line-height: 1.1; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .pill-subtitle { font-family: 'Nunito', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.95); margin: 0; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .pill-arrow-circle { width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.15); flex-shrink: 0; }
+
+        #bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 68px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 24px; border-top-right-radius: 24px; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; background: none; border: none; cursor: pointer; font-family: 'Baloo 2', cursive; font-size: 0.75rem; font-weight: 700; color: #a0aec0; }
+        .nav-item span:first-child { font-size: 1.4rem; }
+        .nav-item.active { color: #3182ce; }
         #module-screen { flex: 1; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; margin-top: 10px; }
         .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; position: relative; }
         .card { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 100%); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.4); border-top: 1.5px solid rgba(255, 255, 255, 0.9); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15); display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; position: relative; transform-style: preserve-3d; }
@@ -298,10 +385,99 @@
         @keyframes mazeStarPop { 0% { opacity: 0; transform: scale(0) rotate(-45deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
         .maze-pop-anim { animation: mazeBtnPop 0.5s ease forwards; opacity: 0; }
         @keyframes mazeBtnPop { 0% { transform: scale(0.8); opacity:0;} 100% { transform: scale(1); opacity:1;} }
+/* =========================================
+           SPLIT-COLOR CATEGORY CARDS (LIKE REFERENCE)
+           ========================================= */
+        .category-card { 
+            /* Creates the perfect top-color / bottom-white split using a CSS Variable! */
+            background: linear-gradient(to bottom, var(--card-color, #ffeb3b) 68%, #ffffff 68%) !important; 
+            border-radius: 22px !important; 
+            padding: 10px 5px 5px 5px !important; 
+            text-align: center !important; 
+            
+            border: 3px solid white !important;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15) !important; 
+            
+            cursor: pointer !important; 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            justify-content: flex-start !important; 
+            
+            aspect-ratio: 1 / 1.25 !important; 
+            overflow: hidden !important; 
+            position: relative !important;
+        }
+        
+        .category-card img { 
+            width: 75px !important;  
+            height: 75px !important; 
+            flex-shrink: 0 !important; 
+            object-fit: contain !important; 
+            filter: drop-shadow(0 6px 8px rgba(0,0,0,0.2)) !important; 
+            margin-top: 8px !important;
+            margin-bottom: 5px !important;
+            transform: scale(1.2) !important; 
+        }
+        
+        .category-card span { 
+            font-family: 'Baloo 2', cursive !important; 
+            font-size: clamp(0.85rem, 3.5vw, 1.1rem) !important; 
+            line-height: 1.1 !important; 
+            color: #1e293b !important; 
+            font-weight: 800 !important; 
+            display: flex !important; 
+            align-items: center !important; 
+            justify-content: center !important; 
+            width: 100% !important;
+            flex-grow: 1 !important;
+            margin-bottom: 2px !important;
+        }
     </style>    
-    </style>
 </head>
 <body>
+<!-- AUDIO SOUND FX SYNTHESIZER -->
+    <script>
+        let globalAudioCtx = null;
+        let lastSoundTime = 0;
+        
+        const playClickSound = () => {
+            try {
+                if (!globalAudioCtx) {
+                    globalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (globalAudioCtx.state === 'suspended') {
+                    globalAudioCtx.resume();
+                }
+                const osc = globalAudioCtx.createOscillator();
+                const gain = globalAudioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(450, globalAudioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, globalAudioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.2, globalAudioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, globalAudioCtx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(globalAudioCtx.destination);
+                osc.start();
+                osc.stop(globalAudioCtx.currentTime + 0.1);
+            } catch(e) {}
+        };
+
+        const triggerClickSound = (e) => {
+            if(e.target.closest('button, .menu-btn, .category-card, .game-option, .main-menu-pill')) {
+                const now = Date.now();
+                // Stops double-firing on touch screens
+                if (now - lastSoundTime > 100) { 
+                    playClickSound();
+                    lastSoundTime = now;
+                }
+            }
+        };
+        
+        // Listen to BOTH touch and mouse events!
+        document.addEventListener('touchstart', triggerClickSound, {passive: true});
+        document.addEventListener('mousedown', triggerClickSound);
+    </script>
     <!-- ================= EDUPLAY SPARK INTRO SPLASH ================= -->
     <div id="video-splash" style="position: fixed; inset: 0; background: #070b19; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.5s ease; touch-action: none;">
         
@@ -376,16 +552,88 @@
             </div>
         </header>
 
-        <section id="main-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
-            <div id="btn-menu-flashcards" class="menu-btn scale-in" style="background: rgba(239, 71, 111, 0.8); color: white;"><span class="icon">🎴</span><span>Flashcards</span></div>
-            <div id="btn-menu-games" class="menu-btn scale-in" style="background: rgba(138, 201, 38, 0.8); color: white;"><span class="icon">🎮</span><span>Interactive Games</span></div>
-            <div id="btn-menu-funplay" class="menu-btn scale-in" style="background: rgba(255, 159, 28, 0.8); color: white;"><span class="icon">🏃</span><span>Fun Play</span></div>
+        <!-- ================= MAIN MENU SCREEN ================= -->
+        <section id="main-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: flex-start; width: 100%; position: relative; padding-top: 20px; padding-bottom: 90px; overflow-y: auto;">
+            
+            <!-- Floating Logo Image in Air -->
+            <img src="eduplay_logo.png" class="floating-logo" alt="EduPlay Logo" onerror="this.style.display='none';">
+
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 220px; gap: 5px;">
+                
+                <!-- Flashcards Button -->
+                <button id="btn-menu-flashcards" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #ff477e, #ff7a9f);">
+                    <div class="pill-left-content">
+                        <div class="pill-icon-box">
+                            <img src="icon_menu_flashcards.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div class="pill-text-area">
+                            <h3 class="pill-title">Flashcards</h3>
+                            <p class="pill-subtitle">Learn with colorful flashcards</p>
+                        </div>
+                    </div>
+                    <div class="pill-arrow-circle" style="color: #ff477e;">➔</div>
+                </button>
+
+                <!-- Interactive Games Button -->
+                <button id="btn-menu-games" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #38bdf8, #2563eb);">
+                    <div class="pill-left-content">
+                        <div class="pill-icon-box">
+                            <img src="icon_menu_games.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div class="pill-text-area">
+                            <h3 class="pill-title">Interactive Games</h3>
+                            <p class="pill-subtitle">Play and learn with fun games</p>
+                        </div>
+                    </div>
+                    <div class="pill-arrow-circle" style="color: #2563eb;">➔</div>
+                </button>
+
+                <!-- Fun Play Button -->
+                <button id="btn-menu-funplay" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">
+                    <div class="pill-left-content">
+                        <div class="pill-icon-box">
+                            <img src="icon_menu_funplay.png" alt="" onerror="this.style.display='none'">
+                        </div>
+                        <div class="pill-text-area">
+                            <h3 class="pill-title">Fun Play</h3>
+                            <p class="pill-subtitle">Fun games just for you</p>
+                        </div>
+                    </div>
+                    <div class="pill-arrow-circle" style="color: #f59e0b;">➔</div>
+                </button>
+            </div>
         </section>
 
-        <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 30px; width: 100%;">
-            <div onclick="enterAlphaRunner()" class="menu-btn scale-in" style="background: rgba(138, 201, 38, 0.8); color: white;"><span class="icon">🏃</span><span>Alpha Runner</span></div>
-            <div onclick="enterBalloonPop()" class="menu-btn scale-in" style="background: rgba(239, 71, 111, 0.8); color: white;"><span class="icon">🎈</span><span>Balloon Pop 3D</span></div>
+        <!-- ================= FUN PLAY MENU SCREEN ================= -->
+        <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding-bottom: 90px;">
+            <button onclick="enterAlphaRunner()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #38bdf8, #2563eb);">
+                <div class="pill-left-content">
+                    <div class="pill-icon-box">
+                        <img src="fun_alpha_runner.png" alt="" onerror="this.style.display='none'">
+                    </div>
+                    <div class="pill-text-area">
+                        <h3 class="pill-title">Alpha Runner</h3>
+                        <p class="pill-subtitle">Run and collect items!</p>
+                    </div>
+                </div>
+                <div class="pill-arrow-circle" style="color: #2563eb;">➔</div>
+            </button>
+
+            <button onclick="enterBalloonPop()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #ff477e, #ff7a9f);">
+                <div class="pill-left-content">
+                    <div class="pill-icon-box">
+                        <img src="fun_balloon_pop.png" alt="" onerror="this.style.display='none'">
+                    </div>
+                    <div class="pill-text-area">
+                        <h3 class="pill-title">Balloon Pop 3D</h3>
+                        <p class="pill-subtitle">Pop the right balloons!</p>
+                    </div>
+                </div>
+                <div class="pill-arrow-circle" style="color: #ff477e;">➔</div>
+            </button>
         </section>
+
+        
 
         <section id="home-screen" class="grid-container hidden"></section>
 
@@ -825,7 +1073,7 @@
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-close-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
 
-            document.getElementById("btn-start").addEventListener("click", () => { const unlockUtterance = new SpeechSynthesisUtterance(""); unlockUtterance.volume = 0; window.speechSynthesis.speak(unlockUtterance); startOverlay.classList.remove("active-flex"); startOverlay.classList.add("hidden"); appContainer.classList.remove("hidden"); appContainer.classList.add("active-flex"); document.getElementById("home-screen").classList.replace("active-grid", "hidden"); document.getElementById("main-menu-screen").classList.replace("hidden", "active-flex"); appTitle.innerText = "Main Menu"; });
+            document.getElementById("btn-start").addEventListener("click", () => { const unlockUtterance = new SpeechSynthesisUtterance(""); unlockUtterance.volume = 0; window.speechSynthesis.speak(unlockUtterance); startOverlay.classList.remove("active-flex"); startOverlay.classList.add("hidden"); appContainer.classList.remove("hidden"); appContainer.classList.add("active-flex"); document.getElementById("home-screen").classList.replace("active-grid", "hidden"); document.getElementById("main-menu-screen").classList.replace("hidden", "active-flex"); appTitle.innerText = "Main Menu"; document.getElementById("bottom-nav").classList.remove("hidden"); });
             document.getElementById("btn-menu-flashcards").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); homeScreen.classList.replace("hidden", "active-grid"); renderHome(); });
             document.getElementById("btn-menu-games").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
             document.getElementById("btn-menu-funplay").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); funplayMenuScreen.classList.replace("hidden", "active-flex"); appTitle.innerText = "Fun Play"; btnHome.classList.remove("hidden"); });
@@ -845,7 +1093,21 @@
                 localStorage.setItem('eduplayFontScales', JSON.stringify(scales));
             };
 
-            function renderHome() { homeScreen.innerHTML = ""; appTitle.innerText = "Flashcards"; btnHome.classList.remove("hidden"); appData.categories.forEach(cat => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${cat.color}`; card.innerHTML = `<span class="icon">${cat.icon}</span><span style="color:#2B2D42;">${cat.name}</span>`; card.addEventListener("click", () => { loadModule(cat.id, cat.name); }); homeScreen.appendChild(card); }); }
+            function renderHome() { 
+                homeScreen.innerHTML = ""; appTitle.innerText = "Flashcards"; btnHome.classList.remove("hidden"); 
+                appData.categories.forEach(cat => { 
+                    const card = document.createElement("div"); card.className = "category-card scale-in"; 
+                    
+                    /* This passes a slightly softened version of your color to the top half of the card! */
+                    card.style.setProperty('--card-color', cat.color + '55'); 
+                    
+                    let imgName = cat.iconImg || `cat_${cat.id}.png`;
+                    if(cat.id === 'alphabets') imgName = 'cat_uppercase.png';
+                    card.innerHTML = `<img src="${imgName}" onerror="this.style.display='none'"><span style="color:#2B2D42;">${cat.name}</span>`; 
+                    card.addEventListener("click", () => { loadModule(cat.id, cat.name); }); 
+                    homeScreen.appendChild(card); 
+                }); 
+            }
             
             // SMART MEMORY: Loads the unique size for the specific category
             function loadModule(moduleId, moduleName) { 
@@ -873,7 +1135,30 @@
             flashcard.addEventListener('touchend', e => { let touchEndX = e.changedTouches[0].screenX; if (window.touchStartX - touchEndX > 50) { stopAutoPlay(); showCard(currentIndex + 1, 'flip-next'); } if (touchEndX - window.touchStartX > 50) { stopAutoPlay(); showCard(currentIndex - 1, 'flip-prev'); } }, {passive: true});
 
             let gameScore = 0; let currentGameType = ""; let correctAnswer = "";
-            function loadGamesMenu() { homeScreen.innerHTML = ""; appTitle.innerText = "🎮 Games Menu"; btnHome.classList.remove("hidden"); const gamesList = [ { id: "findLetter", name: "Find the Letter", icon: "🅰️", color: "#FF9F1C" }, { id: "missingLetter", name: "Missing Letter", icon: "❓", color: "#1982C4" }, { id: "countObjects", name: "Count the Objects", icon: "🍎", color: "#4EA8DE" }, { id: "matchPicture", name: "Match the Picture", icon: "🖼️", color: "#9D4EDD" }, { id: "guessColor", name: "Guess the Color", icon: "🎨", color: "#FF595E" }, { id: "guessShape", name: "Guess the Shape", icon: "⭐", color: "#8AC926" }, { id: "shadowMatch", name: "Shadow Match", icon: "🔦", color: "#6A4C93" },{ id: "matchingGame", name: "Balloon Match", icon: "🎈", color: "#F72585" }, { id: "mazeGame", name: "Draw Path Home", icon: "🧭", color: "#22c55e" }]; gamesList.forEach(game => { const card = document.createElement("div"); card.className = "category-card scale-in"; card.style.borderBottom = `8px solid ${game.color}`; card.innerHTML = `<span class="icon">${game.icon}</span><span style="color:#2B2D42;">${game.name}</span>`; card.addEventListener("click", () => startGame(game.id)); homeScreen.appendChild(card); }); }
+            function loadGamesMenu() { 
+                homeScreen.innerHTML = ""; appTitle.innerText = "Interactive Games"; btnHome.classList.remove("hidden"); 
+                const gamesList = [ 
+                    { id: "findLetter", name: "Find the Letter", img: "game_find_letter.png", color: "#FF9F1C" }, 
+                    { id: "missingLetter", name: "Missing Letter", img: "game_missing_letter.png", color: "#1982C4" }, 
+                    { id: "countObjects", name: "Count the Objects", img: "game_count_objects.png", color: "#4EA8DE" }, 
+                    { id: "matchPicture", name: "Match the Picture", img: "game_match_picture.png", color: "#9D4EDD" }, 
+                    { id: "guessColor", name: "Guess the Color", img: "game_guess_color.png", color: "#FF595E" }, 
+                    { id: "guessShape", name: "Guess the Shape", img: "game_guess_shape.png", color: "#8AC926" }, 
+                    { id: "shadowMatch", name: "Shadow Match", img: "game_shadow_match.png", color: "#6A4C93" },
+                    { id: "matchingGame", name: "Balloon Match", img: "game_balloon_match.png", color: "#F72585" }, 
+                    { id: "mazeGame", name: "Draw Path Home", img: "game_draw_path.png", color: "#22c55e" }
+                ]; 
+                gamesList.forEach(game => { 
+                    const card = document.createElement("div"); card.className = "category-card scale-in"; 
+                    
+                    /* This passes the color to the top half of the card! */
+                    card.style.setProperty('--card-color', game.color + '55');
+                    
+                    card.innerHTML = `<img src="${game.img}" onerror="this.style.display='none'"><span style="color:#2B2D42;">${game.name}</span>`; 
+                    card.addEventListener("click", () => startGame(game.id)); 
+                    homeScreen.appendChild(card); 
+                }); 
+            }
             function startGame(gameId) { if (gameId === "shadowMatch") { enterShadowMatch(); return; } if (gameId === "matchingGame") { enterMatchingGame(); return; } if (gameId === "mazeGame") { window.enterMazeGame(); return; } currentGameType = gameId; gameScore = 0;gameScoreElement.innerText = gameScore; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.add("hidden"); gameScreen.classList.replace("hidden", "active-flex"); generateGameRound(); }
             btnExitGame.addEventListener("click", () => { window.speechSynthesis.cancel(); gameScreen.classList.replace("active-flex", "hidden"); mainHeader.classList.remove("hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
             function setGameImage(item) { gameRealImg.classList.add("hidden"); gameEmojiImg.classList.add("hidden"); if (item.img && item.img !== "") { gameRealImg.src = item.img; gameRealImg.style.display = "block"; gameRealImg.classList.remove("hidden"); } else if (item.emoji) { gameEmojiImg.innerText = item.emoji; gameEmojiImg.classList.remove("hidden"); } }
@@ -881,7 +1166,7 @@
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v69'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v78'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
