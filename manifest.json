@@ -1,6 +1,6 @@
 {
   "name": "Kids EduPlay Offline",
-  "short_name": "EduPlay",
+  "short_name": "EduPlay spark",
   "description": "Fun offline learning flashcards, alphabets, words, and 3D mini-games for kids!",
   "start_url": ".",
   "display": "standalone",
