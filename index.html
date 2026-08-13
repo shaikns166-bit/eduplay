@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#4EA8DE">
+    <link rel="manifest" href="./manifest.json">
     <style>
         :root { --bg-gradient: linear-gradient(135deg, #FFD166, #4EA8DE, #9D4EDD); --text-dark: #2B2D42; --primary: #EF476F; --success: #06D6A0; --danger: #EF476F; --font-scale: 1; --ink-navy: #1B1B3A; --violet-deep: #2E2360; --violet-panel: #342A6B; --lamplight: #FFC93C; --lamplight-soft: #FFE29A; --bubblegum: #FF5D8F; --mint: #3DDC97; --mint-deep: #1FA872; --sky: #57C7FF; --cloud: #FFFFFF; --ink-soft: #C9C6E8; --font-display: "Baloo 2", "Nunito", system-ui, sans-serif; --font-body: "Nunito", system-ui, sans-serif; --radius-lg: 28px; --radius-md: 18px; --radius-sm: 12px; --shadow-drop: 0 10px 30px rgba(10, 8, 40, 0.35); }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
@@ -2509,5 +2510,10 @@ window.mazeBuildLevelGrid = function(){
 })();
 </script>
 <!-- ================= END MAZE GAME ENGINE ================= -->
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
 </body>
 </html>
