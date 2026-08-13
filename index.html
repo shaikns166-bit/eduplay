@@ -28,13 +28,9 @@ body {
 
 /* This applies your custom image ONLY to the flashcard screen */
 #module-screen {
-    /* If you named your image differently, just change the name inside the quotes below! */
-    background-image: url('flashcard_bg.png') !important; 
+    background-image: url('flash-bg.png') !important; /* Put your exact png filename here */
     background-size: cover !important;
     background-position: center !important;
-    background-repeat: no-repeat !important;
-    width: 100%;
-    height: 100%;
 }
 
 #app-container {
@@ -80,8 +76,8 @@ body {
     border-radius: 20px !important;
     transition: width 0.3s ease !important; 
 }
-        .huge-text { font-size: calc(clamp(2.5rem, 12vw, 6rem) * var(--font-scale)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.2s ease; word-break: break-word; }
-        .sub-text { font-size: calc(clamp(1.8rem, 8vw, 4rem) * var(--font-scale)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.2s ease; }
+        .huge-text { font-size: calc(clamp(5rem, 25vw, 14rem) * var(--font-scale)); margin: 0; line-height: 1; z-index: 10; text-align: center; transition: font-size 0.2s ease; word-break: break-word; }
+.sub-text { font-size: calc(clamp(3rem, 15vw, 8rem) * var(--font-scale)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.2s ease; }
         
         /* Keeping your Urdu and Telugu styles safe! */
         .urdu-text { font-family: 'Noto Nastaliq Urdu', sans-serif; font-size: calc(clamp(4rem, 16vw, 8rem) * var(--font-scale)); color: #FFCA3A; text-shadow: 2px 2px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); transform: translateZ(30px); transition: font-size 0.2s ease;}
@@ -94,8 +90,12 @@ body {
     display: inline-block !important; 
     transform: none !important; 
     -webkit-text-stroke: 0px !important;
-    text-shadow: 3px 3px 0px #FF007F, 0px 8px 15px rgba(0,0,0,0.4) !important; 
-    color: #00FFFF !important;
+    opacity: 1 !important;
+    
+    /* Solid 3D Pop Effect using its own dynamic color class */
+    text-shadow: 
+        3px 3px 0px rgba(0, 0, 0, 0.25), 
+        0px 10px 20px rgba(0,0,0,0.3) !important; 
 }
         .c-1 { color: #FF595E; } .c-2 { color: #FFCA3A; } .c-3 { color: #8AC926; } .c-4 { color: #1982C4; } .c-5 { color: #6A4C93; } .c-6 { color: #FF924C; }
         .card-image-wrapper { flex: 1 1 auto; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 0; margin: 5px 0; transform: translateZ(40px); }
@@ -167,49 +167,37 @@ body {
         }
         
         /* Vibrant Reference-Style Category Cards */
-        .category-card { 
-            background: linear-gradient(to bottom, var(--card-color, #ffeb3b) 68%, #ffffff 68%) !important; 
-            border-radius: 22px !important; 
-            padding: 10px 5px 5px 5px !important; 
-            text-align: center !important; 
-            border: 3px solid white !important;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15) !important; 
-            cursor: pointer !important; 
-            display: flex !important; 
-            flex-direction: column !important; 
-            align-items: center !important; 
-            justify-content: flex-start !important; 
-            aspect-ratio: 1 / 1.25 !important; 
-            min-height: 130px !important; /* STRICTLY FORBIDS SQUISHING! */
-            overflow: hidden !important; 
-            position: relative !important;
-            margin-bottom: 15px !important; 
-        }
+        .category-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    height: 130px !important;
+}
         
         /* THE FIX FOR TINY ICONS (NOW MASSIVE!) */
-        .category-card img { 
-            width: 110px !important;  /* Greatly increased base size */
-            height: 110px !important; /* Greatly increased base size */
-            flex-shrink: 0 !important; 
-            object-fit: contain !important; 
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)) !important; /* Stronger 3D shadow */
-            margin-top: 2px !important;
-            margin-bottom: 0px !important;
-            transform: scale(1.4) !important; /* Magically expands the image even further! */
-        }
+        .category-card img {
+    width: 65px !important;
+    height: 65px !important;
+    object-fit: contain !important;
+    margin-top: 5px !important;
+}
         
         /* Crisp text matching reference */
-        .category-card span { 
-            font-family: 'Baloo 2', cursive; 
-            font-size: 1.05rem; 
-            line-height: 1.1; 
-            color: #2B2D42; 
-            font-weight: 800; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100%; 
-        }
+        .category-card span {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 5px !important;
+}
 
         .main-menu-pill { width: 90%; max-width: 450px; padding: 12px 20px 12px 15px; border-radius: 50px; border: 2px solid rgba(255, 255, 255, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 15px rgba(0,0,0,0.2), inset 0 6px 10px rgba(255,255,255,0.3), inset 0 -4px 8px rgba(0,0,0,0.1); margin-bottom: 15px; }
         .pill-left-content { display: flex; align-items: center; gap: 15px; }
@@ -220,39 +208,39 @@ body {
         .pill-subtitle { font-family: 'Nunito', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.95); margin: 0; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .pill-arrow-circle { width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.15); flex-shrink: 0; }
 
-        #bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 68px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 24px; border-top-right-radius: 24px; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); z-index: 1000; }
+        #bottom-nav { 
+    background: rgba(255, 255, 255, 0.2) !important; 
+    backdrop-filter: blur(20px) !important; 
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
         .nav-item { display: flex; flex-direction: column; align-items: center; background: none; border: none; cursor: pointer; font-family: 'Baloo 2', cursive; font-size: 0.75rem; font-weight: 700; color: #a0aec0; }
         .nav-item span:first-child { font-size: 1.4rem; }
         .nav-item.active { color: #3182ce; }
         #module-screen { flex: 1; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; margin-top: 10px; }
         .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; position: relative; }
         .card {
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px); 
-    border-radius: 25px;
-background-image: url('flash-bg.png');
-    background-size: cover;
-    background-position: center;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-radius: 30px !important;
     
-    /* The Thick Colorful Rainbow Border! */
-    border: 3px solid rgba(255,255,255,0.8);
+    /* Restoring the Gorgeous Rainbow Glow Border */
+    border: 3px solid rgba(255, 255, 255, 0.8) !important;
     box-shadow: 
-        0 0 0 5px #00FFFF, /* Cyan ring */
-        0 0 0 10px #FF00FF, /* Pink ring */
-        0 15px 35px rgba(0, 0, 0, 0.5), /* Deep shadow below the card */
-        inset 0 0 25px rgba(255, 255, 255, 0.4); /* Inner glass glow */
+        0 0 0 6px #00FFFF, 
+        0 0 0 12px #FF00FF, 
+        0 20px 40px rgba(0, 0, 0, 0.5), 
+        inset 0 0 25px rgba(255, 255, 255, 0.5) !important;
         
-    width: 100%; 
-    height: 100%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    padding: 20px; 
-    margin: 20px auto;
-    text-align: center; 
-    position: relative; 
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
 }
         #game-screen { flex: 1; flex-direction: column; align-items: center; width: 100%; padding: 10px; margin-top: 10px; }
         .game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
@@ -264,42 +252,36 @@ background-image: url('flash-bg.png');
         .game-option.wrong { background: var(--danger); color: white; border-color: white; }
         .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
         .controls-container { 
-    display: flex; gap: 12px; padding: 12px 18px; border-radius: 50px; margin: 0 auto 20px auto; 
+    display: flex; gap: 10px; padding: 10px 16px; border-radius: 50px; margin: 0 auto 15px auto; 
     align-items: center; justify-content: center; flex-wrap: nowrap; width: 95%; max-width: 420px; z-index: 10;
-    
-    /* Transparent / Milky Glass Pill Background */
-    background: rgba(255, 255, 255, 0.1) !important; 
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.25) !important; 
+    backdrop-filter: blur(15px); 
+    border: 2px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .glass-btn {
-    /* 100% Solid & Opaque Buttons */
-    background: #ffffff !important;
-    border: none !important;
+    background: linear-gradient(135deg, #ff70a6, #ff9770) !important;
+    border: 2px solid #ffffff !important;
     border-radius: 50% !important; 
-    width: 52px !important;
-    height: 52px !important;
-    color: #0284c7 !important; 
-    font-size: 20px !important;
+    width: 50px !important;
+    height: 50px !important;
+    color: #ffffff !important; 
+    font-size: 18px !important;
     cursor: pointer;
     display: flex !important;
     align-items: center;
     justify-content: center;
     padding: 0 !important;
-    
-    /* Solid 3D button edge */
-    box-shadow: 0 5px 0 #bae6fd, 0 10px 15px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 5px 0 #d946ef, 0 8px 15px rgba(0,0,0,0.3) !important;
     transition: all 0.08s ease-in-out !important;
     transform: translateY(0);
 }
 
 .glass-btn:active {
     transform: translateY(5px) !important; 
-    box-shadow: 0 0px 0 #bae6fd, 0 2px 5px rgba(0,0,0,0.3) !important; 
-    background: #f0f9ff !important;
+    box-shadow: 0 0px 0 #d946ef, 0 3px 6px rgba(0,0,0,0.3) !important; 
+    background: linear-gradient(135deg, #ff4d94, #ff7a4d) !important;
 }
 
 /* THIS makes it feel like it's being pressed down! */
@@ -1433,7 +1415,7 @@ background-image: url('flash-bg.png');
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v92'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v95'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
