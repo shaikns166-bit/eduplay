@@ -15,15 +15,31 @@
 
 body {
     font-family: 'Fredoka', sans-serif;
-    /* This creates the smooth transition from deep purple to bright blue */
-    background: linear-gradient(180deg, #1A0B2E 0%, #2B1B54 40%, #00A8E8 100%);
-    background-attachment: fixed;
+    background-color: #070b19; /* Dark color behind everything */
     color: white;
     height: 100dvh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
-    align-items: center;
     overflow: hidden; 
+    margin: 0;
+    padding: 0; /* This removes the blue borders squeezing your app! */
+}
+
+/* This applies your custom image ONLY to the flashcard screen */
+#module-screen {
+    /* If you named your image differently, just change the name inside the quotes below! */
+    background-image: url('flashcard_bg.png') !important; 
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    width: 100%;
+    height: 100%;
+}
+
+#app-container {
+    width: 100%;
+    height: 100%;
 }
         .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.8; animation: floatBlob 15s infinite alternate ease-in-out; pointer-events: none; }
         .blob-1 { width: 400px; height: 400px; background: #FFD166; top: -100px; left: -100px; }
@@ -37,20 +53,49 @@ body {
         .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: bold; }
         .glass-panel, .glass-header { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255, 255, 255, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.9); border-left: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 1.5rem; text-align: center; }
         .glass-header { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; margin: 0.8rem; border-radius: 50px; flex-shrink: 0; }
-        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.3); border-radius: 10px; margin-top: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
-        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
-        .card-counter { font-size: 1.2rem; font-weight: bold; color: #2B2D42; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
-        .huge-text { font-size: calc(clamp(4rem, 20vw, 10rem) * var(--font-scale)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.2s ease; word-break: keep-all; }
-        .sub-text { font-size: calc(clamp(3.5rem, 14vw, 7rem) * var(--font-scale)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.2s ease; }
+        .card-counter { 
+    font-size: 1.4rem !important; 
+    font-weight: 700 !important; 
+    color: #ffffff !important; 
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8) !important; 
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.progress-container { 
+    width: 90% !important; 
+    max-width: 350px !important;
+    height: 12px !important; 
+    background: rgba(255, 255, 255, 0.2) !important; 
+    border-radius: 20px !important; 
+    margin: 0 auto 15px auto !important; 
+    overflow: hidden !important; 
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-bar { 
+    height: 100% !important; 
+    background: linear-gradient(90deg, #00FFFF, #FF00FF) !important; 
+    border-radius: 20px !important;
+    transition: width 0.3s ease !important; 
+}
+        .huge-text { font-size: calc(clamp(2.5rem, 12vw, 6rem) * var(--font-scale)); margin: 0; line-height: 1.1; z-index: 10; text-align: center; transition: font-size 0.2s ease; word-break: break-word; }
+        .sub-text { font-size: calc(clamp(1.8rem, 8vw, 4rem) * var(--font-scale)); margin-top: auto; z-index: 10; text-align: center; word-wrap: break-word; transition: font-size 0.2s ease; }
+        
+        /* Keeping your Urdu and Telugu styles safe! */
         .urdu-text { font-family: 'Noto Nastaliq Urdu', sans-serif; font-size: calc(clamp(4rem, 16vw, 8rem) * var(--font-scale)); color: #FFCA3A; text-shadow: 2px 2px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); transform: translateZ(30px); transition: font-size 0.2s ease;}
         .telugu-text { font-family: 'Noto Sans Telugu', sans-serif; font-size: calc(clamp(4rem, 20vw, 10rem) * var(--font-scale)); font-weight: 700; color: #4EA8DE; text-shadow: 2px 2px 0 #2B2D42, 0 10px 15px rgba(0,0,0,0.4); transform: translateZ(30px); transition: font-size 0.2s ease;}
+        
+        /* Clean 3D Bubble Text (No blur!) */
         .colorful-letter { 
-    font-family: 'Fredoka', Impact, Arial, sans-serif; 
-    font-weight: 700; 
-    display: inline-block; 
-    transform: translateZ(30px); 
-    /* The Pink and Cyan 3D Pop Effect */
-    text-shadow: 2px 2px 0px #FF007F, -2px -2px 0px #00FFFF, 0px 5px 10px rgba(0,0,0,0.5); 
+    font-family: 'Fredoka', sans-serif !important; 
+    font-weight: 700 !important; 
+    display: inline-block !important; 
+    transform: none !important; 
+    -webkit-text-stroke: 0px !important;
+    text-shadow: 3px 3px 0px #FF007F, 0px 8px 15px rgba(0,0,0,0.4) !important; 
+    color: #00FFFF !important;
 }
         .c-1 { color: #FF595E; } .c-2 { color: #FFCA3A; } .c-3 { color: #8AC926; } .c-4 { color: #1982C4; } .c-5 { color: #6A4C93; } .c-6 { color: #FF924C; }
         .card-image-wrapper { flex: 1 1 auto; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 0; margin: 5px 0; transform: translateZ(40px); }
@@ -182,20 +227,22 @@ body {
         #module-screen { flex: 1; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; margin-top: 10px; }
         .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; position: relative; }
         .card {
-    /* Frosted Glass Effect */
     background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px); 
-    
-    /* Shape & Glowing Colorful Border */
     border-radius: 25px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+background-image: url('flash-bg.png');
+    background-size: cover;
+    background-position: center;
+    
+    /* The Thick Colorful Rainbow Border! */
+    border: 3px solid rgba(255,255,255,0.8);
     box-shadow: 
-        0 8px 32px 0 rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(0, 255, 255, 0.5),
-        0 0 30px rgba(255, 0, 255, 0.5);
+        0 0 0 5px #00FFFF, /* Cyan ring */
+        0 0 0 10px #FF00FF, /* Pink ring */
+        0 15px 35px rgba(0, 0, 0, 0.5), /* Deep shadow below the card */
+        inset 0 0 25px rgba(255, 255, 255, 0.4); /* Inner glass glow */
         
-    /* Original Layout Properties */
     width: 100%; 
     height: 100%; 
     display: flex; 
@@ -204,8 +251,6 @@ body {
     padding: 20px; 
     margin: 20px auto;
     text-align: center; 
-    
-    /* Required for floating bubbles */
     position: relative; 
     overflow: hidden;
 }
@@ -219,29 +264,42 @@ body {
         .game-option.wrong { background: var(--danger); color: white; border-color: white; }
         .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
         .controls-container { 
-    display: flex; gap: 10px; padding: 10px 15px; border-radius: 50px; margin: 0 auto 20px auto; 
-    align-items: center; justify-content: center; flex-wrap: nowrap; width: 95%; max-width: 400px; z-index: 10;
-    background: rgba(255, 255, 255, 0.15) !important; 
-    backdrop-filter: blur(15px); 
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex; gap: 12px; padding: 12px 18px; border-radius: 50px; margin: 0 auto 20px auto; 
+    align-items: center; justify-content: center; flex-wrap: nowrap; width: 95%; max-width: 420px; z-index: 10;
+    
+    /* Transparent / Milky Glass Pill Background */
+    background: rgba(255, 255, 255, 0.1) !important; 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .glass-btn {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    /* 100% Solid & Opaque Buttons */
+    background: #ffffff !important;
+    border: none !important;
     border-radius: 50% !important; 
-    width: 50px !important;
-    height: 50px !important;
-    color: white !important;
+    width: 52px !important;
+    height: 52px !important;
+    color: #0284c7 !important; 
     font-size: 20px !important;
     cursor: pointer;
     display: flex !important;
     align-items: center;
     justify-content: center;
     padding: 0 !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.5) !important;
-    transition: all 0.1s ease-in-out !important;
+    
+    /* Solid 3D button edge */
+    box-shadow: 0 5px 0 #bae6fd, 0 10px 15px rgba(0,0,0,0.3) !important;
+    transition: all 0.08s ease-in-out !important;
+    transform: translateY(0);
+}
+
+.glass-btn:active {
+    transform: translateY(5px) !important; 
+    box-shadow: 0 0px 0 #bae6fd, 0 2px 5px rgba(0,0,0,0.3) !important; 
+    background: #f0f9ff !important;
 }
 
 /* THIS makes it feel like it's being pressed down! */
@@ -566,6 +624,27 @@ body {
     80% { opacity: 1; }
     100% { transform: translateY(-400px) scale(1.2); opacity: 0; }
 }
+/* Makes the header float in the corners so it doesn't squish the screen */
+#main-header {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 15px 20px !important;
+    height: auto;
+}
+
+/* Allows you to click the buttons even though the header is floating */
+#main-header button, #main-header h2 {
+    pointer-events: auto;
+}
+
+/* Pushes the grid menus down slightly so they don't hide behind the floating header */
+.grid-container {
+    padding-top: 80px !important; 
+    height: 100% !important;
+}
     </style>    
 </head>
 <body>
@@ -671,6 +750,10 @@ body {
                 <label>Volume</label>
                 <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
             </div>
+<div class="setting-row">
+             <label>Font Size</label>
+             <input type="range" id="font-size-slider" min="0.5" max="2.0" step="0.1" value="1.0">
+         </div>
             <button id="btn-close-settings" class="btn-large secondary" style="width: 100%; margin-top: 1rem;">Close</button>
         </div>
     </div>
@@ -807,15 +890,17 @@ body {
             <!-- Moved the Back button to the top left so it stays out of your glass pill! -->
             <button id="btn-fc-back" class="btn-icon" style="position: absolute; top: 0px; left: 10px; z-index: 20; width: 45px; height: 45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.6); color: white;" title="Back to Grid">⬅️</button>
             
-            <!-- The New Glass Pill with exactly 5 buttons -->
+            <!-- The Glass Pill Buttons -->
             <div class="controls-container">
                 <button id="btn-random" class="glass-btn" title="Random Card">🔀</button>
                 <button id="btn-prev" class="glass-btn" title="Previous Card">◀</button>
                 
-                <!-- HIDDEN BUTTON FIX: This stops the Javascript from crashing! -->
-                <button id="btn-auto" class="hidden">▶ Auto</button>
+                <!-- Visible Auto Play Button -->
+                <button id="btn-auto" class="glass-btn" title="Auto Play">▶️</button>
                 
-                <button id="btn-repeat" class="glass-btn" title="Listen Again">↻</button>
+                <!-- HIDDEN Repeat Button (Must stay here so the app doesn't crash!) -->
+                <button id="btn-repeat" class="hidden">↻</button>
+                
                 <button id="btn-sound-toggle" class="glass-btn" title="Toggle Sound" onclick="document.getElementById('toggle-mute').click(); this.innerText = userSettings.mute ? '🔇' : '🔊';">🔊</button>
                 <button id="btn-next" class="glass-btn" title="Next Card">▶</button>
             </div>
@@ -1230,18 +1315,45 @@ body {
 
             // SMART MEMORY: Change Font Size function 
             window.currentModuleId = "";
+            window.currentModuleId = "";
+
             window.changeFontSize = function(change) {
                 if (!window.currentModuleId) return;
-                let scales = JSON.parse(localStorage.getItem('eduplayFontScales')) || {};
+                let scales = JSON.parse(localStorage.getItem('eduplayCategoryFontScales')) || {};
                 let currentScale = scales[window.currentModuleId] || 1.0;
                 currentScale += change;
-                if(currentScale < 0.4) currentScale = 0.4;
+                if(currentScale < 0.5) currentScale = 0.5;
                 if(currentScale > 2.5) currentScale = 2.5;
-                document.documentElement.style.setProperty('--font-scale', currentScale);
                 
+                document.documentElement.style.setProperty('--font-scale', currentScale);
                 scales[window.currentModuleId] = currentScale;
-                localStorage.setItem('eduplayFontScales', JSON.stringify(scales));
+                localStorage.setItem('eduplayCategoryFontScales', JSON.stringify(scales));
+                
+                const slider = document.getElementById("font-size-slider");
+                if(slider) slider.value = currentScale;
             };
+
+            window.applyModuleFontScale = function(moduleId) {
+                window.currentModuleId = moduleId;
+                let scales = JSON.parse(localStorage.getItem('eduplayCategoryFontScales')) || {};
+                let savedScale = scales[moduleId] || 1.0;
+                document.documentElement.style.setProperty('--font-scale', savedScale);
+                
+                const slider = document.getElementById("font-size-slider");
+                if(slider) slider.value = savedScale;
+            };
+
+            const fontSizeSlider = document.getElementById("font-size-slider");
+            if(fontSizeSlider) {
+                fontSizeSlider.addEventListener("input", (e) => {
+                    if (!window.currentModuleId) return;
+                    let newScale = parseFloat(e.target.value);
+                    document.documentElement.style.setProperty('--font-scale', newScale);
+                    let scales = JSON.parse(localStorage.getItem('eduplayCategoryFontScales')) || {};
+                    scales[window.currentModuleId] = newScale;
+                    localStorage.setItem('eduplayCategoryFontScales', JSON.stringify(scales));
+                });
+            }
 
             function renderHome() { 
                 homeScreen.innerHTML = ""; appTitle.innerText = "Flashcards"; btnHome.classList.remove("hidden"); 
@@ -1261,12 +1373,17 @@ body {
             
             // SMART MEMORY: Loads the unique size for the specific category
             function loadModule(moduleId, moduleName) { 
-                window.currentModuleId = moduleId;
-                let scales = JSON.parse(localStorage.getItem('eduplayFontScales')) || {};
-                let savedScale = scales[moduleId] || 1.0;
-                document.documentElement.style.setProperty('--font-scale', savedScale);
+                // Automatically loads the specific font size for this category!
+                window.applyModuleFontScale(moduleId);
 
-                currentModule = appData.modules[moduleId]; currentIndex = 0; document.getElementById("total-card-num").innerText = currentModule.length; mainHeader.classList.add("hidden"); homeScreen.classList.replace("active-grid", "hidden"); moduleScreen.classList.replace("hidden", "active-flex"); stopAutoPlay(); showCard(currentIndex, 'scale-in'); 
+                currentModule = appData.modules[moduleId]; 
+                currentIndex = 0; 
+                document.getElementById("total-card-num").innerText = currentModule.length; 
+                mainHeader.classList.add("hidden"); 
+                homeScreen.classList.replace("active-grid", "hidden"); 
+                moduleScreen.classList.replace("hidden", "active-flex"); 
+                stopAutoPlay(); 
+                showCard(currentIndex, 'scale-in'); 
             }
 
             function makeColorful3D(text, isUrdu, index = 0) { if (!text) return ""; if (isUrdu || /[؀-ۿ]/.test(text)) return text; let colorClass = `c-${(index % 6) + 1}`; let html = ""; for (let char of text) { if (char === ' ') html += '&nbsp;'; else { html += `<span class="colorful-letter ${colorClass}">${char}</span>`; } } return html; }
@@ -1316,7 +1433,7 @@ body {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v86'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v92'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
