@@ -94,9 +94,9 @@ body {
         #video-splash { background: #070b19; }
         #start-overlay { background-image: url('interface.png') !important; background-size: cover !important; background-position: center !important; z-index: 100; }
         #main-menu-screen { background-image: url('menu_bg.png') !important; background-size: cover !important; background-position: center !important; }
-        #home-screen { background-image: url('flashcards_bg.png') !important; background-size: cover !important; background-position: center !important; }
-        #games-menu-screen { background-image: url('interactive_bg.png') !important; background-size: cover !important; background-position: center !important; }
-        #funplay-menu-screen { background-image: url('funplay_bg.png') !important; background-size: cover !important; background-position: center !important; }
+#home-screen { background-image: url('flashcards_bg.png') !important; background-size: cover !important; background-position: center !important; }
+#games-menu-screen { background-image: url('interactive_bg.png') !important; background-size: cover !important; background-position: center !important; }
+#funplay-menu-screen { background-image: url('funplay_bg.png') !important; background-size: cover !important; background-position: center !important; }
 
         /* =========================================
            3. UI ELEMENTS (LOGOS, CARDS, PILLS, NAV)
@@ -219,9 +219,8 @@ body {
         .game-option.wrong { background: var(--danger); color: white; border-color: white; }
         .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
         .controls-container { 
-    display: flex; gap: 15px; padding: 15px 25px; border-radius: 50px; margin: 0 auto 20px auto; 
-    align-items: center; justify-content: center; flex-wrap: wrap; width: 95%; max-width: 450px; z-index: 10;
-    /* Matches the bottom glass pill shape */
+    display: flex; gap: 10px; padding: 10px 15px; border-radius: 50px; margin: 0 auto 20px auto; 
+    align-items: center; justify-content: center; flex-wrap: nowrap; width: 95%; max-width: 400px; z-index: 10;
     background: rgba(255, 255, 255, 0.15) !important; 
     backdrop-filter: blur(15px); 
     border: 2px solid rgba(255, 255, 255, 0.4) !important;
@@ -229,21 +228,18 @@ body {
 }
 
 .glass-btn {
-    /* Glass button background */
     background: rgba(255, 255, 255, 0.2) !important;
     border: 2px solid rgba(255, 255, 255, 0.6) !important;
     border-radius: 50% !important; 
-    width: 60px !important;
-    height: 60px !important;
+    width: 50px !important;
+    height: 50px !important;
     color: white !important;
-    font-size: 24px !important;
+    font-size: 20px !important;
     cursor: pointer;
     display: flex !important;
     align-items: center;
     justify-content: center;
     padding: 0 !important;
-    
-    /* 3D button shadow */
     box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.5) !important;
     transition: all 0.1s ease-in-out !important;
 }
@@ -815,6 +811,10 @@ body {
             <div class="controls-container">
                 <button id="btn-random" class="glass-btn" title="Random Card">🔀</button>
                 <button id="btn-prev" class="glass-btn" title="Previous Card">◀</button>
+                
+                <!-- HIDDEN BUTTON FIX: This stops the Javascript from crashing! -->
+                <button id="btn-auto" class="hidden">▶ Auto</button>
+                
                 <button id="btn-repeat" class="glass-btn" title="Listen Again">↻</button>
                 <button id="btn-sound-toggle" class="glass-btn" title="Toggle Sound" onclick="document.getElementById('toggle-mute').click(); this.innerText = userSettings.mute ? '🔇' : '🔊';">🔊</button>
                 <button id="btn-next" class="glass-btn" title="Next Card">▶</button>
@@ -1316,7 +1316,7 @@ body {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v84'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v86'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
