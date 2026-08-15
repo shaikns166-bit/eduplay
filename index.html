@@ -766,7 +766,7 @@ body {
             </div>
 <div class="setting-row">
              <label>Font Size</label>
-             <input type="range" id="font-size-slider" min="0.5" max="2.0" step="0.1" value="1.0">
+             <input type="range" id="font-size-slider" min="0.5" max="2.0" step="0.1" value="0.5">
          </div>
 <div class="setting-row">
                 <label>Flashcard Language</label>
@@ -1433,12 +1433,12 @@ if(langSelect) {
 
             // SMART MEMORY: Change Font Size function 
             window.currentModuleId = "";
-            window.currentModuleId = "";
 
             window.changeFontSize = function(change) {
                 if (!window.currentModuleId) return;
                 let scales = JSON.parse(localStorage.getItem('eduplayCategoryFontScales')) || {};
-                let currentScale = scales[window.currentModuleId] || 1.0;
+                // FIX: Set fallback default to 0.5 (minimum size) instead of 1.0
+                let currentScale = scales[window.currentModuleId] || 0.5;
                 currentScale += change;
                 if(currentScale < 0.5) currentScale = 0.5;
                 if(currentScale > 2.5) currentScale = 2.5;
@@ -1454,7 +1454,8 @@ if(langSelect) {
             window.applyModuleFontScale = function(moduleId) {
                 window.currentModuleId = moduleId;
                 let scales = JSON.parse(localStorage.getItem('eduplayCategoryFontScales')) || {};
-                let savedScale = scales[moduleId] || 1.0;
+                // FIX: Set fallback default to 0.5 (minimum size) instead of 1.0
+                let savedScale = scales[moduleId] || 0.5;
                 document.documentElement.style.setProperty('--font-scale', savedScale);
                 
                 const slider = document.getElementById("font-size-slider");
@@ -1710,7 +1711,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v124'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v126'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -1788,7 +1789,22 @@ function speak(text) {
         function bpShowMenu() { bpIsPlaying = false; bpIsPaused = false; bpStopBGM(); bpElGameUI.classList.remove('active'); bpElGameOver.classList.remove('active'); bpElPauseMenu.classList.remove('active'); bpElMainMenu.classList.add('active'); bpElGameArea.innerHTML = ''; bpBalloons = []; }
         function bpTogglePause() { if (!bpIsPlaying) return; bpIsPaused = !bpIsPaused; if (bpIsPaused) { bpStopBGM(); bpElPauseMenu.classList.add('active'); } else { bpElPauseMenu.classList.remove('active'); bpLastTime = performance.now(); bpStartBGM(); bpReqAnimId = requestAnimationFrame(bpGameLoop); } }
         function bpStartGame() { initBpAudio(); const modeKey = document.getElementById('bp-mode-select').value; bpCurrentMode = appData.modules[modeKey] || appData.modules.alphabets; bpDiff = document.getElementById('bp-diff-select').value; bpTimeRemaining = parseInt(document.getElementById('bp-time-select').value); bpScore = 0; bpHearts = 3; bpCombo = 0; bpBalloons = []; bpElGameArea.innerHTML = ''; bpIsPaused = false; bpUpdateHUD(); bpPickNewTarget(); bpElMainMenu.classList.remove('active'); bpElGameOver.classList.remove('active'); bpElPauseMenu.classList.remove('active'); bpElGameUI.classList.add('active'); bpIsPlaying = true; bpLastTime = performance.now(); bpLastSpawn = bpLastTime; bpLastTimerTick = bpLastTime; bpStartBGM(); bpReqAnimId = requestAnimationFrame(bpGameLoop); }
-        function bpPickNewTarget() { bpCurrentTarget = bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)]; const isUrdu = document.getElementById('bp-mode-select').value === 'urdu'; const isTelugu = document.getElementById('bp-mode-select').value.includes('telugu'); bpElQuestion.innerHTML = `🎯 Find <b class="${isUrdu ? 'urdu-text' : (isTelugu ? 'telugu-text' : '')}">${bpCurrentTarget.main || bpCurrentTarget.emoji || "Item"}</b>`; bpSpeak(`Find ${bpCurrentTarget.speak || bpCurrentTarget.main}`); }
+        function bpPickNewTarget() { 
+            bpCurrentTarget = bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)]; 
+            const isUrdu = document.getElementById('bp-mode-select').value === 'urdu'; 
+            const isTelugu = document.getElementById('bp-mode-select').value.includes('telugu'); 
+            
+            // FIX: Use inline styles instead of the global .urdu-text class to prevent giant text
+            let fontStyle = '';
+            if (isUrdu) {
+                fontStyle = "font-family: 'Noto Nastaliq Urdu', serif; font-size: 2.5rem; color: #333; text-shadow: none; line-height: 1;";
+            } else if (isTelugu) {
+                fontStyle = "font-family: 'Noto Sans Telugu', sans-serif;";
+            }
+            
+            bpElQuestion.innerHTML = `🎯 Find <b style="${fontStyle}">${bpCurrentTarget.main || bpCurrentTarget.emoji || "Item"}</b>`; 
+            bpSpeak(`Find ${bpCurrentTarget.speak || bpCurrentTarget.main}`); 
+        }
         function bpGameLoop(timestamp) {
             if (!bpIsPlaying || bpIsPaused || !bpGameActive) return; 
             const dt = timestamp - bpLastTime; bpLastTime = timestamp;
@@ -1806,33 +1822,24 @@ function speak(text) {
             bpReqAnimId = requestAnimationFrame(bpGameLoop);
         }
         function bpSpawnBalloon() {
-            const { size, speedMult } = bpDifficultySettings[bpDiff]; 
-            const isTarget = Math.random() < 0.35; 
-            const data = isTarget ? bpCurrentTarget : bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)];
+            const { size, speedMult } = bpDifficultySettings[bpDiff]; const isTarget = Math.random() < 0.35; const data = isTarget ? bpCurrentTarget : bpCurrentMode[Math.floor(Math.random() * bpCurrentMode.length)];
+            const balloon = document.createElement('div'); balloon.className = 'balloon'; balloon.style.width = size + 'px'; balloon.style.height = (size * 1.3) + 'px'; balloon.style.fontSize = (size * 0.45) + 'px';
             
-            const balloon = document.createElement('div'); 
-            balloon.className = 'balloon'; 
-            balloon.style.width = size + 'px'; 
-            balloon.style.height = (size * 1.3) + 'px'; 
-            balloon.style.fontSize = (size * 0.45) + 'px';
-            
-            // Keep anchor at top-left so JS transform controls exact position
+            // Force the anchor to the top-left edge. This stops Urdu (RTL) text from shifting balloons to the corner!
             balloon.style.left = '0px';
             balloon.style.top = '0px';
             
-            const bgColor = ['#F44336', '#2196F3', '#4CAF50', '#FFEB3B', '#9C27B0', '#FF9800', '#E91E63', '#00BCD4'][Math.floor(Math.random() * 8)]; 
-            balloon.style.setProperty('--b-color', bgColor);
-            
+            const bgColor = ['#F44336', '#2196F3', '#4CAF50', '#FFEB3B', '#9C27B0', '#FF9800', '#E91E63', '#00BCD4'][Math.floor(Math.random() * 8)]; balloon.style.setProperty('--b-color', bgColor);
             const selectedMode = document.getElementById('bp-mode-select').value; 
             
-            // FIX: Do NOT use the .urdu-text class because its "transform: !important" breaks the balloon animation!
-            // Apply the font directly instead.
+            // FIX: Apply fonts directly to avoid the global .urdu-text class breaking sizes/animations
             if (selectedMode === 'urdu') {
                 balloon.style.fontFamily = "'Noto Nastaliq Urdu', serif";
             } else if (selectedMode.includes('telugu')) {
                 balloon.style.fontFamily = "'Noto Sans Telugu', sans-serif";
             }
             
+            // Show the emoji/icon for Colors, Shapes, Fruits, AND Animals
             if (['colors', 'shapes', 'fruits', 'animals'].includes(selectedMode)) {
                 balloon.innerText = data.emoji || data.main || "❓";
             } else {
@@ -1845,9 +1852,7 @@ function speak(text) {
             const startY = window.innerHeight + 50; 
             
             const bObj = { element: balloon, data: data, x: startX, y: startY, xOffset: 0, swaySeed: Math.random() * 100, speed: (Math.random() * 2 + 1.5) * speedMult, color: bgColor };
-            balloon.addEventListener('pointerdown', (e) => { e.preventDefault(); if(bpIsPaused) return; bpHandlePop(bObj); }); 
-            bpElGameArea.appendChild(balloon); 
-            bpBalloons.push(bObj);
+            balloon.addEventListener('pointerdown', (e) => { e.preventDefault(); if(bpIsPaused) return; bpHandlePop(bObj); }); bpElGameArea.appendChild(balloon); bpBalloons.push(bObj);
         }
         function bpHandlePop(bObj) {
             if(!bpIsPlaying || bpIsPaused) return; const isCorrect = (bObj.data.main === bpCurrentTarget.main && bObj.data.emoji === bpCurrentTarget.emoji);
