@@ -1109,6 +1109,489 @@ body {
     </div>
 </div>
 
+<!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
+<div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
+    <style>
+        /* Scoped CSS to prevent conflicts */
+        #wj-wrapper { --blue-main: #3B82F6; --yellow-main: #FFC107; --green-main: #4CAF50; --red-main: #EF4444; --purple-main: #8B5CF6; --ink: #1E293B; --ink-soft: #475569; font-family: 'Fredoka', sans-serif; color: var(--ink); touch-action: none; }
+        #wj-wrapper * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+        #wj-wrapper .screen { position: absolute; inset: 0; z-index: 1; display: none; flex-direction: column; align-items: center; overflow-y: auto; overflow-x: hidden; }
+        #wj-wrapper .screen.active { display: flex; animation: wjFadeIn 0.3s ease; }
+        @keyframes wjFadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        #wj-wrapper .overlay { position: fixed; inset: 0; background: rgba(30,41,59,0.85); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        #wj-wrapper .overlay.active { display: flex; animation: wjFadeIn 0.3s ease; }
+        #wj-wrapper .overlay-box { background: #FFFFFF; border-radius: 32px; padding: 24px; text-align: center; width: min(360px, 90vw); box-shadow: 0 16px 40px rgba(0,0,0,0.4); position: relative; border: 4px solid #fff; }
+        #wj-wrapper .hud-bar { width: 100%; display: flex; justify-content: space-between; padding: 12px 16px; background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%); z-index: 10; position: fixed; top: 0; left: 0; }
+        #wj-wrapper .hud-group { display: flex; gap: 10px; }
+        #wj-wrapper .hud-pill { border: 3px solid #fff; border-radius: 999px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 0 rgba(0,0,0,0.15); }
+        #wj-wrapper .stars { background: #3B82F6; color: #fff; }
+        #wj-wrapper .coins { background: #FFC107; color: #1E293B; border-color: #fff; }
+        #wj-wrapper .streak { background: #EF4444; color: #fff;}
+        #wj-wrapper .lives { background: #fff; color: #EF4444; border-color: #EF4444; }
+        #wj-wrapper .btn { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 18px; border: 3px solid rgba(255,255,255,0.5); border-radius: 99px; padding: 14px 28px; cursor: pointer; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,0.2); transition: all 0.1s ease; margin: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        #wj-wrapper .btn:active { transform: translateY(6px); }
+        #wj-wrapper .btn-green { background: linear-gradient(180deg, #6EE7B7 0%, #4CAF50 100%); box-shadow: 0 6px 0 #388E3C, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-yellow { background: linear-gradient(180deg, #FDE047 0%, #FFC107 100%); color: #1E293B; text-shadow: none; box-shadow: 0 6px 0 #F59E0B, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-blue { background: linear-gradient(180deg, #93C5FD 0%, #3B82F6 100%); box-shadow: 0 6px 0 #2563EB, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-purple { background: linear-gradient(180deg, #C4B5FD 0%, #8B5CF6 100%); box-shadow: 0 6px 0 #6D28D9, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .icon-btn { width: 56px; height: 56px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.5); cursor: pointer; background: linear-gradient(180deg, #C4B5FD 0%, #8B5CF6 100%); box-shadow: 0 6px 0 #6D28D9, 0 8px 10px rgba(0,0,0,0.2); font-size: 24px; display: flex; align-items: center; justify-content: center; color: #fff; transition: all 0.1s; }
+        #wj-wrapper .icon-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 #6D28D9; }
+        #wj-wrapper .icon-btn.small { width: 44px; height: 44px; font-size: 18px; border-width: 2px; }
+        #wj-wrapper .mascot-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin-bottom: 10px; }
+        #wj-wrapper .mascot-floater { animation: wjFloatMascot 3s ease-in-out infinite; width: 128px; height: 128px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
+        @keyframes wjFloatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-position: 0 0; margin: 0 auto; }
+        @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
+        #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
+        @keyframes wjOwlCheering { from { background-position: 0 0; } to { background-position: -512px 0; } }
+        #wj-wrapper .owl-cheering { background-image: url("owl_cheering.png"); animation: wjOwlCheering 1s steps(4) 1; }
+        @keyframes wjOwlSad { from { background-position: 0 0; } to { background-position: -512px 0; } }
+        #wj-wrapper .owl-sad { background-image: url("owl_sad.png"); animation: wjOwlSad 1s steps(4) 1; }
+        @keyframes wjOwlWink { from { background-position: 0 0; } to { background-position: -512px 0; } }
+        #wj-wrapper .owl-wink { background-image: url("owl_wink.png"); animation: wjOwlWink 1s steps(4) 1; }
+        #wj-wrapper .speech-bubble { background: #fff; border-radius: 20px; padding: 12px 20px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; color: #1E293B; border: 2px solid #E2E8F0; text-align: center; max-width: 200px; margin-bottom: 5px; }
+        #wj-wrapper .speech-bubble:after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-top: 10px solid #fff; border-left: 10px solid transparent; border-right: 10px solid transparent; }
+        #wj-wrapper #wj-screen-map { background: url('map-bg.png') center bottom / cover no-repeat, linear-gradient(180deg, #60A5FA 0%, #34D399 100%); }
+        #wj-wrapper .logo-title { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        #wj-wrapper .logo-title p { background: #8B5CF6; color: #fff; padding: 4px 20px; border-radius: 99px; box-shadow: 0 3px 0 #6D28D9; font-weight: 800; font-size: 14px; letter-spacing: 1px; margin-top: -10px; pointer-events: auto;}
+        #wj-wrapper .side-menu { position: fixed; top: 220px; left: 10px; z-index: 100; display: flex; flex-direction: column; gap: 12px; }
+        #wj-wrapper .side-btn { border-radius: 99px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; color: #fff; cursor: pointer; border: 3px solid rgba(255,255,255,0.4); width: 160px; transition: transform 0.1s; text-shadow: 0 2px 2px rgba(0,0,0,0.2); }
+        #wj-wrapper .side-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 transparent !important; }
+        #wj-wrapper .btn-words { background: linear-gradient(180deg, #FF7B7B 0%, #E14E4E 100%); box-shadow: 0 6px 0 #B83A3A, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-progress { background: linear-gradient(180deg, #60A5FA 0%, #2563EB 100%); box-shadow: 0 6px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-badges { background: linear-gradient(180deg, #C4B5FD 0%, #8B5CF6 100%); box-shadow: 0 6px 0 #6D28D9, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .btn-gift { background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 100%); box-shadow: 0 6px 0 #D97706, 0 8px 15px rgba(0,0,0,0.2); color: #854D0E; text-shadow: none; }
+        #wj-wrapper .btn-shop { background: linear-gradient(180deg, #34D399 0%, #059669 100%); box-shadow: 0 6px 0 #047857, 0 8px 15px rgba(0,0,0,0.2); }
+        #wj-wrapper .map-area { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding-bottom: 100px; gap: 40px; }
+        #wj-wrapper .map-node { position: relative; width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%); border: 4px solid #fff; box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: transform 0.1s; }
+        #wj-wrapper .map-node:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
+        #wj-wrapper .map-node.locked { filter: grayscale(1); opacity: 0.8; pointer-events: none; }
+        #wj-wrapper .map-node.current { border-color: #FFC107; box-shadow: 0 0 0 4px rgba(255,193,7,0.4), 0 8px 0 #F59E0B; animation: wjPulseNode 2s infinite; }
+        @keyframes wjPulseNode { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        #wj-wrapper .map-node .lvl-num { font-size: 28px; font-weight: 700; color: #1E293B; margin-top: 5px; }
+        #wj-wrapper .map-node .stars { position: absolute; bottom: -15px; background: rgba(0,0,0,0.5); border-radius: 99px; padding: 2px 8px; font-size: 10px; letter-spacing: 2px; }
+        #wj-wrapper .map-label { position: absolute; right: -100px; background: #fff; padding: 4px 12px; border-radius: 12px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 0 rgba(0,0,0,0.1); color: #1E293B; white-space: nowrap; }
+        #wj-wrapper .map-label.left { right: auto; left: -100px; }
+        #wj-wrapper #wj-screen-game { background: url('forest-bg.png') center bottom / cover no-repeat, linear-gradient(180deg, #A7F3D0 0%, #10B981 100%); justify-content: flex-start; padding-top: 20px; }
+        #wj-wrapper .game-header { background: linear-gradient(180deg, #B5651D 0%, #8B4513 100%); border: 4px solid #5C2E0B; border-radius: 16px; box-shadow: 0 6px 0 #5C2E0B, 0 8px 15px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.2); width: 240px; height: 65px; display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 20px; }
+        #wj-wrapper .game-header h2 { font-size: 18px; color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,0.6); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        #wj-wrapper .game-header p { font-size: 13px; color: #FFD700; margin: 0; font-weight: 800; text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
+        #wj-wrapper .word-board { background: linear-gradient(180deg, #FFFDF0 0%, #FFF3C7 100%); border: 4px solid #D4A353; border-radius: 24px; padding: 25px 20px; width: 100%; max-width: 600px; box-shadow: 0 8px 0 #C28F3D, 0 15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; z-index: 15; }
+        #wj-wrapper .word-title { background: #fff; border: 3px solid #D4A353; border-radius: 99px; padding: 6px 20px; font-size: 14px; font-weight: 800; color: #8B4513; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; box-shadow: 0 4px 0 rgba(0,0,0,0.1); position: absolute; top: -18px; }
+        #wj-wrapper .slots-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%; margin-top: 15px; }
+        #wj-wrapper .slot { width: min(65px, 15vw); height: min(65px, 15vw); border-radius: 16px; background: rgba(139, 69, 19, 0.1); border: 3px solid rgba(139, 69, 19, 0.2); box-shadow: inset 0 6px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(34px, 7.5vw); color: #1E293B; transition: all 0.2s; }
+        #wj-wrapper .slot.filled { border: none; background: transparent; box-shadow: none; color: #D32F2F; text-shadow: 0 2px 0 rgba(255,255,255,0.5); }
+        #wj-wrapper .slot.prefilled { background: #E2E8F0; border-color: #CBD5E1; color: #475569; box-shadow: none; pointer-events: none; }
+        #wj-wrapper .slot.active-hint { border-color: #FFC107; background: #FEF08A; animation: wjPulseHint 1s infinite; }
+        #wj-wrapper .slot.reject-shake { animation: wjShake .4s; border-color: #EF4444; background: #FCA5A5; }
+        #wj-wrapper .slot.perfect-glow { animation: wjPerfectGlow 1.5s infinite alternate; }
+        #wj-wrapper .tray-wrap { width: 100%; max-width: 600px; margin-top: auto; padding-bottom: 20px; }
+        #wj-wrapper .tray { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 20px; position: relative; }
+        #wj-wrapper .tile { width: min(75px, 16vw); height: min(75px, 16vw); border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(42px, 9vw); color: #D32F2F; cursor: grab; touch-action: none; transition: all 0.1s; z-index: 30; box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 -4px 6px rgba(212,163,83,0.3); }
+        #wj-wrapper .tile:active, #wj-wrapper .tile.dragging { border-bottom: 3px solid #D4A353; transform: scale(1.15) translateY(5px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); z-index: 100; color: #B71C1C; }
+        #wj-wrapper .tile.hint-target { animation: wjTileGlow 0.9s ease-in-out infinite; }
+        #wj-wrapper .image-stage { display: none; width: min(220px, 50vw); height: min(220px, 50vw); margin: 20px auto; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: min(120px, 25vw); border: 8px solid #FFC107; position: relative; }
+        #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #wj-wrapper .game-controls { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 24px 24px 0 0; }
+        #wj-wrapper .ctrl-grp { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        #wj-wrapper .ctrl-grp span { font-size: 12px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        #wj-wrapper #wj-screen-complete { background: url('forest-bg.png') center bottom / cover no-repeat, radial-gradient(circle, #8B5CF6 0%, #4C1D95 100%); justify-content: center; }
+        #wj-wrapper .end-card { background: url('completed.png') center/cover no-repeat, linear-gradient(180deg, #FFFFFA 0%, #FFF8E1 100%); border-radius: 32px; padding: 110px 20px 25px; width: 100%; max-width: 440px; text-align: center; position: relative; margin-top: 50px; border: 6px solid #FFD700; box-shadow: 0 0 35px rgba(255, 215, 0, 0.4), 0 20px 50px rgba(0,0,0,0.5); }
+        #wj-wrapper .ribbon-banner { --ribbon-bg: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); --ribbon-tail: #991B1B; background: var(--ribbon-bg); color: #FFD700; font-size: 38px; font-weight: 900; padding: 15px 40px 45px; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 85%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 10; text-shadow: 0 3px 0 #D97706; }
+        #wj-wrapper .ribbon-banner:before, #wj-wrapper .ribbon-banner:after { content: ""; position: absolute; top: 55px; z-index: -1; width: 50px; height: 80px; background: var(--ribbon-tail); }
+        #wj-wrapper .ribbon-banner:before { left: -20px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+        #wj-wrapper .ribbon-banner:after { right: -20px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+        #wj-wrapper .end-stars { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 100%; display: flex; justify-content: center; gap: 5px; z-index: 20; font-size: 65px; color: #E2E8F0; text-shadow: 0 4px 0 #CBD5E1; }
+        #wj-wrapper .end-stars span { filter: drop-shadow(0 8px 6px rgba(0,0,0,0.3)); transition: all 0.3s; }
+        #wj-wrapper .end-stars span:nth-child(2) { transform: translateY(-15px) scale(1.15); }
+        #wj-wrapper .end-stars .earned { color: #FFC107; text-shadow: 0 4px 0 #F59E0B; animation: wjStarPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes wjStarPop { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
+        #wj-wrapper .end-lvl-text { color: #6D28D9; text-transform: uppercase; margin: 10px 0 15px; letter-spacing: 1px; font-size: 20px; font-weight: 800; }
+        #wj-wrapper .showcase-box { background: radial-gradient(circle, #FFFBEB 0%, #FEF08A 100%); border: 4px solid #FDE047; border-radius: 24px; padding: 30px 20px 20px; margin: 0 auto 35px; position: relative; width: 85%; box-shadow: inset 0 0 20px #F59E0B, 0 8px 15px rgba(0,0,0,0.1); }
+        #wj-wrapper .end-img { font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); animation: wjFloatMascot 2.5s ease-in-out infinite; margin-bottom: 10px; }
+        #wj-wrapper .showcase-ribbon { background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); color: white; padding: 6px 30px; border-radius: 99px; font-size: 22px; font-weight: 800; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); box-shadow: 0 6px 0 #991B1B, 0 8px 15px rgba(0,0,0,0.2); text-transform: uppercase; white-space: nowrap; letter-spacing: 2px; }
+        #wj-wrapper .stats-row { display: flex; justify-content: space-between; gap: 5px; padding: 0 10px; margin-bottom: 25px; }
+        #wj-wrapper .stat-box { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
+        #wj-wrapper .stat-icon { font-size: 26px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+        #wj-wrapper .stat-col { display: flex; flex-direction: column; align-items: flex-start; }
+        #wj-wrapper .stat-col span { font-size: 11px; color: #475569; font-weight: 700; text-transform: uppercase; }
+        #wj-wrapper .stat-col strong { font-size: 20px; color: #1E293B; line-height: 1; margin-top: 2px; }
+        #wj-wrapper .rewards-wrapper { position: relative; margin-top: 30px; background: #F8FAFC; border: 3px solid #E2E8F0; border-radius: 20px; padding: 25px 10px 15px; }
+        #wj-wrapper .rewards-pill { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #8B5CF6; color: #fff; padding: 4px 24px; border-radius: 99px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 0 #6D28D9; letter-spacing: 1px; }
+        #wj-wrapper .rewards-box { display: flex; justify-content: space-around; align-items: center; }
+        #wj-wrapper .rwd-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        #wj-wrapper .rwd-icon { font-size: 38px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+        #wj-wrapper .mascot-peek { position: absolute; bottom: -20px; right: -20px; z-index: 20; }
+        #wj-wrapper .toast { position: fixed; top: 15%; left: 50%; transform: translateX(-50%) translateY(-20px); background: #1E293B; color: #fff; padding: 14px 28px; border-radius: 999px; font-weight: 800; font-size: 16px; z-index: 2000; opacity: 0; transition: all .35s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.2); }
+        #wj-wrapper .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        #wj-wrapper .toast.streak { background: linear-gradient(90deg, #EF4444, #F59E0B); font-size: 20px; text-transform: uppercase; }
+        #wj-wrapper .particle { position: fixed; pointer-events: none; z-index: 1800; animation: wjBlast linear forwards; }
+        @keyframes wjBlast { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+        #wj-wrapper .chest-img { font-size: 100px; cursor: pointer; animation: wjPulseHint 1.5s infinite; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
+        #wj-wrapper .chest-img.open { animation: wjJumpShake 0.5s; }
+        @keyframes wjJumpShake { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.2) rotate(10deg); } 100% { transform: translateY(0) scale(1) rotate(0deg); } }
+        @keyframes wjPulseHint { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes wjShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+        @keyframes wjTileGlow { 0%,100% { box-shadow: 0 6px 0 #D4B46A, 0 0 0 0 rgba(255,193,7,.7); } 50% { box-shadow: 0 6px 0 #D4B46A, 0 0 0 12px rgba(255,193,7,0); border-color: #FFC107; } }
+        @keyframes wjPerfectGlow { 0% { box-shadow: 0 0 15px #FFD700; } 100% { box-shadow: 0 0 30px #FF9F1C; } }
+        @keyframes wjWordBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes wjPicPop { 0% { transform: scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); } }
+        #wj-wrapper .scroll-area { overflow-y: auto; width: 100%; padding-bottom: 40px; display: flex; flex-direction: column; align-items: center; }
+        #wj-wrapper .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; width: 100%; max-width: 500px; padding: 20px; }
+        #wj-wrapper .book-card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 6px 0 #E2E8F0; cursor: pointer; transition: transform 0.1s; }
+        #wj-wrapper .book-card:active { transform: translateY(4px); box-shadow: 0 2px 0 #E2E8F0; }
+        #wj-wrapper .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 500px; padding: 20px; }
+        #wj-wrapper .badge-card { background: #fff; border-radius: 50%; width: 90px; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 6px 0 #E2E8F0; opacity: 0.4; filter: grayscale(1); margin: 0 auto; }
+        #wj-wrapper .badge-card.unlocked { opacity: 1; filter: grayscale(0); border: 4px solid #FFC107; background: #FFFBEB; }
+    </style>
+
+    <div id="wj-app" style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #A7F3D0 0%, #34D399 100%);">
+      <div class="toast" id="wj-toast"></div>
+
+      <section class="screen active" id="wj-screen-map">
+        <div class="hud-bar">
+          <button class="icon-btn small" style="background:#EF4444; color:white; border:none; box-shadow:0 4px 0 #B91C1C; margin-right: 10px;" onclick="exitWordJumble();">✖</button>
+          <div class="hud-group">
+            <div class="hud-pill stars">⭐ <span id="wj-statStars">0</span></div>
+            <div class="hud-pill coins">🪙 <span id="wj-statCoins">0</span></div>
+          </div>
+          <div class="hud-group">
+            <div class="hud-pill streak" onclick="window.wjShowToast('Daily Learning Streak!')">🔥 <span id="wj-statStreak">0</span></div>
+            <button class="icon-btn small" style="background:#fff; color:#475569; box-shadow:0 4px 0 #CBD5E1; border:none;" onclick="document.getElementById('wj-overlay-settings').classList.add('active'); window.wjSFX.button();">⚙️</button>
+          </div>
+        </div>
+
+        <div class="logo-title">
+          <img src="eduplay_logo.png" alt="EduPlay" style="width: 100%; max-width: 280px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); pointer-events: auto;">
+          <p>WORD JUMBLE ADVENTURE</p>
+        </div>
+
+        <div class="side-menu">
+            <div class="side-btn btn-words" onclick="window.wjOpenWordBook()"><span class="icon">📖</span> My Words</div>
+            <div class="side-btn btn-progress" onclick="window.wjOpenProgress()"><span class="icon">🏆</span> Progress</div>
+            <div class="side-btn btn-badges" onclick="window.wjOpenAchievements()"><span class="icon">🏅</span> Badges</div>
+            <div class="side-btn btn-gift" onclick="window.wjStartDailyChallenge()"><span class="icon">🎯</span> Daily Gift</div>
+            <div class="side-btn btn-shop" onclick="window.wjOpenShop()"><span class="icon">🛒</span> Shop</div>
+        </div>
+
+        <div style="width: 100%; margin-top: 280px; position: relative;">
+            <div class="map-area" id="wj-mapArea"></div>
+        </div>
+      </section>
+
+      <section class="screen" id="wj-screen-game">
+        <div class="hud-bar" style="max-width: 800px; width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; z-index: 10; background: transparent; position: relative;">
+          <button class="icon-btn" style="background: #8B5CF6; color: white; border: 3px solid white; box-shadow: 0 5px 0 #6D28D9;" onclick="window.wjGoHome(); window.wjSFX.button();">⬅</button>
+          <div style="display: flex; gap: 10px; background: rgba(255,255,255,0.5); padding: 6px 16px; border-radius: 99px;">
+            <div class="hud-pill" style="background: #fff; border: 2px solid #FFC107; color: #F59E0B; box-shadow: 0 3px 0 #FFC107;">⭐ <span id="wj-hudStars">3</span></div>
+            <div class="hud-pill" style="background: #fff; border: 2px solid #EF4444; color: #DC2626; box-shadow: 0 3px 0 #EF4444;">❤️ <span id="wj-hudLives">3</span></div>
+          </div>
+          <button class="icon-btn" style="background: #A7F3D0; color: #047857; border: 3px solid white; box-shadow: 0 5px 0 #34D399;" onclick="window.wjToggleSound()">🔊</button>
+        </div>
+
+        <div class="game-header">
+          <h2 id="wj-ghTitle">Level 1</h2>
+          <p id="wj-ghLevel">10 Words</p>
+        </div>
+        
+        <div class="mascot-container">
+            <div class="speech-bubble" id="wj-mascotSpeech">Spell it!</div>
+            <div class="mascot-floater">
+                <div id="wj-owlMascot" class="owl-mascot owl-idle"></div>
+            </div>
+        </div>
+
+        <div class="word-board">
+            <div class="word-title" id="wj-wordProgressTitle">WORD 1 OF 10</div>
+            <div class="image-stage" id="wj-target-image"></div>
+            <div class="slots-row" id="wj-slotsRow"></div>
+        </div>
+
+        <div class="tray-wrap" id="wj-trayWrap">
+          <div class="tray" id="wj-tray"></div>
+        </div>
+
+        <div class="game-controls">
+            <div class="ctrl-grp" onclick="window.wjUseHint()">
+                <button class="icon-btn"><span style="filter:grayscale(1);">💡</span></button>
+                <span>Hint</span>
+            </div>
+            <div class="ctrl-grp" onclick="if(window.wjCurrentWord()) { window.wjPronounceWord(window.wjCurrentWord().w); window.wjSFX.button(); }">
+                <button class="icon-btn">🔊</button>
+                <span>Listen</span>
+            </div>
+        </div>
+      </section>
+
+      <section class="screen" id="wj-screen-complete">
+        <div class="end-card">
+          <div class="ribbon-banner" id="wj-endRibbon">AMAZING!</div>
+          <div class="end-stars" id="wj-endStars">☆☆☆</div>
+          <h3 class="end-lvl-text" id="wj-endLvlText">LEVEL 1 COMPLETE</h3>
+          
+          <div class="showcase-box" id="wj-endShowcase">
+             <div class="end-img" id="wj-endImg">🏆</div>
+             <div class="showcase-ribbon" id="wj-endWordText">VICTORY</div>
+          </div>
+          
+          <div class="stats-row">
+            <div class="stat-box"><span class="stat-icon">📖</span><div class="stat-col"><span>Words Solved</span><strong id="wj-endWords">10</strong></div></div>
+            <div class="stat-box"><span class="stat-icon">🎯</span><div class="stat-col"><span>Accuracy</span><strong id="wj-endAcc" style="color:#388E3C;">100%</strong></div></div>
+            <div class="stat-box"><span class="stat-icon">⚡</span><div class="stat-col"><span>Best Streak</span><strong id="wj-endStreak" style="color:#EF4444;">10</strong></div></div>
+          </div>
+          
+          <div class="rewards-wrapper">
+             <div class="rewards-pill">REWARDS</div>
+             <div class="rewards-box">
+                <div class="rwd-item">
+                    <div class="rwd-icon">⭐</div>
+                    <strong style="color:#1E293B; line-height:1.2;"><span id="wj-endRwdStars" style="font-size:20px;">+10</span><br>Stars</strong>
+                </div>
+                <div class="rwd-item">
+                    <div class="rwd-icon">🪙</div>
+                    <strong style="color:#1E293B; line-height:1.2;"><span id="wj-endRwdCoins" style="font-size:20px;">+25</span><br>Coins</strong>
+                </div>
+                <div class="rwd-item">
+                    <div class="rwd-icon">🎁</div>
+                    <strong style="color:#1E293B; line-height:1.2;"><span style="font-size:20px;">Treasure</span><br>Chest</strong>
+                </div>
+             </div>
+          </div>
+          
+          <div style="display:flex; gap:15px; justify-content:center; margin-top:25px; z-index: 10; position:relative;">
+            <button class="btn btn-purple" onclick="window.wjGoHome(); window.wjSFX.button();" style="flex:1;"><span style="font-size:22px; margin-right:5px;">🏠</span> Home</button>
+            <button class="btn btn-green" id="wj-btnNextLevel" onclick="window.wjStartNextLevel(); window.wjSFX.button();" style="flex:1.5;">Next Level ➜</button>
+          </div>
+
+          <div class="mascot-peek mascot-floater">
+              <div id="wj-owlComplete" class="owl-mascot owl-idle"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="wj-screen-wordbook" style="background:#E0F2FE;">
+        <div class="hud-bar" style="position: relative;"><button class="icon-btn small" onclick="window.wjGoHome(); window.wjSFX.button();">⬅</button></div>
+        <div style="font-size:40px; margin-top:20px;">📖</div><h2 style="margin:5px 0; color:#6D28D9;">Word Book</h2>
+        <p style="font-weight:700; color:#475569;">Collected: <span id="wj-wbCount">0</span></p>
+        <div class="scroll-area"><div class="book-grid" id="wj-wordBookGrid"></div></div>
+      </section>
+
+      <section class="screen" id="wj-screen-progress" style="background:#E0F2FE;">
+        <div class="hud-bar" style="position: relative;"><button class="icon-btn small" onclick="window.wjGoHome(); window.wjSFX.button();">⬅</button></div>
+        <div style="font-size:40px; margin-top:20px;">🏆</div><h2 style="margin:5px 0; color:#6D28D9;">My Progress</h2>
+        <div class="scroll-area" style="width:100%; max-width:500px; padding:20px; gap:15px;">
+            <div style="background:#fff; border-radius:20px; padding:20px; width:100%; box-shadow:0 6px 0 #E2E8F0; text-align:center;">
+                <h3 style="margin-bottom:15px; color:#8B5CF6;">Statistics</h3>
+                <div style="display:flex; justify-content:space-around;">
+                    <div><div style="font-size:24px;">📚</div><strong id="wj-pTotWords">0</strong><div style="font-size:12px; color:#475569;">Words</div></div>
+                    <div><div style="font-size:24px;">✨</div><strong id="wj-pPerfWords">0</strong><div style="font-size:12px; color:#475569;">Perfect</div></div>
+                    <div><div style="font-size:24px;">🔥</div><strong id="wj-pBestStreak">0</strong><div style="font-size:12px; color:#475569;">Streak</div></div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <section class="screen" id="wj-screen-achievements" style="background:#E0F2FE;">
+        <div class="hud-bar" style="position: relative;"><button class="icon-btn small" onclick="window.wjGoHome(); window.wjSFX.button();">⬅</button></div>
+        <div style="font-size:40px; margin-top:20px;">🏅</div><h2 style="margin:5px 0; color:#6D28D9;">Badges</h2>
+        <div class="scroll-area"><div class="badge-grid" id="wj-badgesGrid"></div></div>
+      </section>
+
+      <div class="overlay" id="wj-overlay-shop">
+        <div class="overlay-box" style="border-color: #4CAF50;">
+          <h2 style="color:#388E3C; margin-bottom:10px;">🛒 Item Shop</h2>
+          <p style="font-weight:700; color:#475569; margin-bottom:20px;">You have: 🪙 <span id="wj-shopCoins">0</span> Coins</p>
+          <div style="background:#F8FAFC; border:3px solid #E2E8F0; border-radius:16px; padding:15px; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+              <div style="text-align:left;"><div style="font-size:30px;">❤️</div><strong style="font-size:14px;">Extra Life</strong></div>
+              <div>
+                  <p style="font-size:12px; font-weight:700; margin:0 0 5px;">Inventory: <span id="wj-shopLivesOwned">0</span></p>
+                  <button class="btn btn-green" style="margin:0; padding:8px 16px; font-size:14px;" onclick="window.wjBuyLife()">Buy - 10 🪙</button>
+              </div>
+          </div>
+          <button class="btn btn-blue" style="width:100%;" onclick="document.getElementById('wj-overlay-shop').classList.remove('active'); window.wjSFX.button();">Close</button>
+        </div>
+      </div>
+
+      <audio id="wj-bgMusic" src="bgm.mp3" loop preload="auto"></audio>
+
+      <div class="overlay" id="wj-overlay-settings">
+        <div class="overlay-box">
+          <h2 style="margin-bottom:20px;">⚙️ Settings</h2>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; font-weight:700;">
+              <span>🎵 Background Music</span>
+              <button class="icon-btn small" id="wj-toggleMusicBtn" onclick="window.wjToggleMusic()" style="background:#4CAF50; box-shadow:0 4px 0 #388E3C;">✓</button>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-weight:700;">
+              <span>🔊 Owl Voice & Sounds</span>
+              <button class="icon-btn small" id="wj-toggleSound" onclick="window.wjToggleSound()" style="background:#4CAF50; box-shadow:0 4px 0 #388E3C;">✓</button>
+          </div>
+          <button class="btn btn-blue" style="width:100%;" onclick="document.getElementById('wj-overlay-settings').classList.remove('active'); window.wjSFX.button();">Close</button>
+        </div>
+      </div>
+
+      <div class="overlay" id="wj-overlay-chest">
+        <div class="overlay-box">
+          <h2 id="wj-chestTitle" style="color:#6D28D9; margin-bottom:10px;">Mystery Chest!</h2>
+          <div class="chest-img" id="wj-chestImg" onclick="window.wjOpenChest()">🎁</div>
+          <p id="wj-chestMsg" style="font-weight:700; margin-top:10px;">Tap to open!</p>
+          <button class="btn btn-yellow" id="wj-btnChestDone" style="display:none; width:100%; margin-top:20px;" onclick="document.getElementById('wj-overlay-chest').classList.remove('active'); window.wjAfterChest();">Awesome!</button>
+        </div>
+      </div>
+
+      <div class="overlay" id="wj-overlay-wordinfo">
+        <div class="overlay-box" style="border-color:#FFC107;">
+          <div style="font-size:80px; margin:-40px 0 10px; filter:drop-shadow(0 10px 10px rgba(0,0,0,0.2));" id="wj-wiImg">🍎</div>
+          <h2 style="font-size:32px; color:#8B5CF6; margin-bottom:5px;" id="wj-wiWord">APPLE</h2>
+          <p style="font-weight:700; color:#475569; margin-bottom:20px; font-size:16px;" id="wj-wiSent">An apple is a crunchy fruit.</p>
+          <div style="display:flex; gap:10px;">
+            <button class="icon-btn" onclick="window.wjPronounceWord(document.getElementById('wj-wiWord').innerText); window.wjSFX.button();">🔊</button>
+            <button class="btn btn-blue" style="flex:1;" onclick="document.getElementById('wj-overlay-wordinfo').classList.remove('active'); window.wjSFX.button();">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    (function(){
+        "use strict";
+        const $ = (id) => document.getElementById("wj-" + id);
+        let owlTimeout = null;
+        function setOwlState(stateId, elId = 'owlMascot') {
+            const el = $(elId); if (!el) return;
+            el.classList.remove('owl-idle', 'owl-cheering', 'owl-sad', 'owl-wink');
+            void el.offsetWidth; el.classList.add('owl-' + stateId);
+            if (elId === 'owlMascot') {
+                if (owlTimeout) { clearTimeout(owlTimeout); owlTimeout = null; }
+                if (stateId !== 'idle') { owlTimeout = setTimeout(() => { setOwlState('idle', 'owlMascot'); }, 1000); }
+            }
+        }
+        const ALL_WORDS = [
+         {w:"APPLE", emoji:"🍎", s:"A crunchy red fruit.", diff:"easy"}, {w:"MANGO", emoji:"🥭", s:"A sweet yellow fruit.", diff:"easy"}, {w:"ONION", emoji:"🧅", s:"It makes you cry.", diff:"med"}, {w:"CARROT", emoji:"🥕", s:"Rabbits love these.", diff:"med"}, {w:"CABBAGE", emoji:"🥬", s:"A leafy green vegetable.", diff:"hard"},
+         {w:"CAT", emoji:"🐱", s:"Says meow.", diff:"easy"}, {w:"DOG", emoji:"🐶", s:"Man's best friend.", diff:"easy"}, {w:"MONKEY", emoji:"🐵", s:"Loves bananas.", diff:"med"}, {w:"ELEPHANT", emoji:"🐘", s:"Has a long trunk.", diff:"hard"}, {w:"PENGUIN", emoji:"🐧", s:"A bird that swims.", diff:"hard"},
+         {w:"EYE", emoji:"👁️", s:"You use it to see.", diff:"easy"}, {w:"NOSE", emoji:"👃", s:"You use it to smell.", diff:"easy"}, {w:"MOUTH", emoji:"👄", s:"You use it to talk.", diff:"med"}, {w:"FINGER", emoji:"☝️", s:"You have ten of these.", diff:"med"}, {w:"SHOULDER", emoji:"🧍", s:"Between neck and arm.", diff:"hard"},
+         {w:"MONDAY", emoji:"📅", s:"First day of the school week.", diff:"med"}, {w:"FRIDAY", emoji:"📅", s:"Last day of the school week.", diff:"med"}, {w:"JANUARY", emoji:"❄️", s:"The first month.", diff:"hard"}, {w:"AUGUST", emoji:"☀️", s:"The eighth month.", diff:"hard"},
+         {w:"PEN", emoji:"🖊️", s:"Used for writing.", diff:"easy"}, {w:"BOOK", emoji:"📖", s:"You read this.", diff:"easy"}, {w:"RULER", emoji:"📏", s:"Used to measure.", diff:"med"}, {w:"PENCIL", emoji:"✏️", s:"You write and erase with it.", diff:"med"}, {w:"ERASER", emoji:"🧽", s:"Removes pencil marks.", diff:"hard"},
+         {w:"RED", emoji:"🔴", s:"Color of an apple.", diff:"easy"}, {w:"BLUE", emoji:"🔵", s:"Color of the sky.", diff:"easy"}, {w:"YELLOW", emoji:"🟡", s:"Color of the sun.", diff:"med"}, {w:"PURPLE", emoji:"🟣", s:"Color of grapes.", diff:"med"},
+         {w:"WASH", emoji:"🧼", s:"Clean your hands.", diff:"easy"}, {w:"BRUSH", emoji:"🪥", s:"Clean your teeth.", diff:"med"}, {w:"SHARE", emoji:"🤝", s:"Playing nice with others.", diff:"med"}, {w:"FIGHT", emoji:"😠", s:"A bad habit.", diff:"med"},
+         {w:"SUN", emoji:"☀️", s:"Shines in the day.", diff:"easy"}, {w:"WATER", emoji:"💧", s:"You drink this.", diff:"med"}, {w:"HOUSE", emoji:"🏠", s:"Where you live.", diff:"med"}, {w:"FAMILY", emoji:"👨‍👩‍👧", s:"People who love you.", diff:"hard"}
+        ];
+        const WORLDS = [];
+        for(let i = 1; i <= 100; i++) { let xPos = Math.sin(i * Math.PI / 2) * 110; WORLDS.push({ id: i, name: "Level " + i, pos: { x: xPos, y: 0 } }); }
+        const BADGES = [
+          { id: "first", icon: "🏅", name: "First Word", req: (s)=>s.stats.totalWords >= 1 }, { id: "ten", icon: "🥉", name: "10 Words", req: (s)=>s.stats.totalWords >= 10 },
+          { id: "streak5", icon: "🔥", name: "Hot Streak", req: (s)=>s.stats.bestStreak >= 5 }, { id: "perfect", icon: "✨", name: "Perfect Lvl", req: (s)=>Object.values(s.bestPerLvl).includes(3) },
+          { id: "book", icon: "📖", name: "Collector", req: (s)=>s.wordBook.length >= 15 }
+        ];
+        let audioCtx = null;
+        function ctx(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+        function tone(freq, dur, type, gain, delay){ if(!state.settings.sound) return; try{ const c = ctx(); const t0 = c.currentTime + (delay||0); const osc = c.createOscillator(); const g = c.createGain(); osc.type = type||"sine"; osc.frequency.setValueAtTime(freq, t0); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain||0.15, t0+0.02); g.gain.exponentialRampToValueAtTime(0.001, t0+dur); osc.connect(g).connect(c.destination); osc.start(t0); osc.stop(t0+dur+0.02); }catch(e){} }
+        const SFX = { pickup:()=>tone(520,0.08,"triangle",0.12), snap:()=>tone(800,0.1,"triangle",0.14), wrong:()=>{tone(220,0.14,"sawtooth",0.10); tone(180,0.16,"sawtooth",0.08,0.05);}, complete:()=>{[523,659,784,1046].forEach((f,i)=>tone(f,0.18,"sine",0.15,i*0.09));}, button:()=>tone(440,0.06,"square",0.08), cheer:()=>{ [400, 500, 600, 800, 1000, 1200, 1500].forEach((f,i)=>tone(f, 0.25, "triangle", 0.15, i*0.1)); }, speak:()=>tone(700, 0.05, "sine", 0.05), perfect:()=>{[880, 1100, 1320, 1760].forEach((f,i)=>tone(f, 0.15, "sine", 0.1, i*0.08));}, chest:()=>{[440,660,880,1320].forEach((f,i)=>tone(f,0.15,"square",0.10,i*0.08));}, coin:()=>tone(1200, 0.1, "sine", 0.1), loseLife:()=>tone(200, 0.3, "sawtooth", 0.2) };
+        function pronounceWord(text){ if(!state.settings.sound) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.rate = 0.85; u.pitch = 1.15; window.speechSynthesis.speak(u); } catch(e){} }
+        let state = { stars: 10, coins: 50, extraLives: 0, highestLevel: 1, bestPerLvl: {}, wordBook: [], achievements: [], stats: { totalWords: 0, perfectWords: 0, bestStreak: 0 }, daily: { date: "", count: 0, streak: 0, claimed: false }, settings: { sound: true, music: true } };
+        try { const raw = localStorage.getItem("eduplay_adv_v1"); if(raw) { let saved = JSON.parse(raw); state = { ...state, ...saved, stats: {...state.stats, ...saved.stats}, settings: {...state.settings, ...saved.settings} }; } } catch(e){}
+        function saveState(){ try{ localStorage.setItem("eduplay_adv_v1", JSON.stringify(state)); }catch(e){} }
+        const today = new Date().toISOString().slice(0,10);
+        if(state.daily.date !== today) { let y = new Date(); y.setDate(y.getDate() - 1); if(state.daily.date !== y.toISOString().slice(0,10)) { state.daily.streak = 0; } state.daily.date = today; state.daily.count = 0; state.daily.claimed = false; saveState(); }
+        let toastTimer=null;
+        window.wjShowToast = function(msg, type=""){ const t = $("toast"); t.textContent = msg; t.className = "toast show " + type; clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.className = "toast", 2500); };
+        window.wjShowScreen = (name) => { document.querySelectorAll('#wj-wrapper .screen').forEach(s => s.classList.remove('active')); $(name).classList.add('active'); SFX.button(); };
+        window.wjToggleSound = () => { state.settings.sound = !state.settings.sound; $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗"; saveState(); SFX.button(); };
+        window.wjToggleMusic = () => { state.settings.music = !state.settings.music; $("toggleMusicBtn").style.background = state.settings.music ? "#4CAF50" : "#CBD5E1"; $("toggleMusicBtn").innerText = state.settings.music ? "✓" : "✗"; if(state.settings.music) { $("bgMusic").play().catch(e=>{}); } else { $("bgMusic").pause(); } saveState(); SFX.button(); };
+        function owlSpeak(text) { if(!state.settings.sound) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.pitch = 1.7; u.rate = 1.1; window.speechSynthesis.speak(u); } catch(e){} }
+        function buildHome() {
+          $("statStars").textContent = state.stars; $("statCoins").textContent = state.coins; $("statStreak").textContent = state.daily.streak;
+          const m = $("mapArea"); m.innerHTML = "";
+          WORLDS.forEach((w) => {
+              const unlocked = w.id <= state.highestLevel; const stars = state.bestPerLvl[w.id] || 0;
+              const node = document.createElement("div"); node.className = "map-node" + (unlocked ? (w.id === state.highestLevel ? " current" : "") : " locked"); node.style.transform = `translateX(${w.pos.x}px)`;
+              let starHTML = stars > 0 ? `<div class="stars" style="color:#FFC107; text-shadow:0 1px 0 #000;">${"⭐".repeat(stars)}</div>` : "";
+              const lblClass = w.pos.x > 0 ? "map-label left" : "map-label";
+              node.innerHTML = `<div class="${lblClass}">${w.name}</div><div class="lvl-num">${w.id}</div>${unlocked && stars === 0 ? '<div style="position:absolute; top:-10px; right:-10px; font-size:24px;">🆕</div>' : ''}${starHTML}`;
+              if(unlocked) node.onclick = () => { SFX.button(); startSession(w.id); }; m.appendChild(node);
+          });
+        }
+        window.wjGoHome = () => { buildHome(); window.wjShowScreen('screen-map'); };
+        window.wjOpenWordBook = () => {
+            $("wbCount").textContent = state.wordBook.length; const g = $("wordBookGrid"); g.innerHTML = "";
+            if(state.wordBook.length === 0) g.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Play games to collect words!</p>";
+            state.wordBook.forEach(wStr => {
+                let wd = ALL_WORDS.find(x => x.w === wStr); if(!wd) return;
+                const d = document.createElement("div"); d.className = "book-card"; d.innerHTML = `<div class="emoji" style="font-size:40px; margin-bottom:5px;">${wd.emoji}</div><div style="font-weight:800;">${wd.w}</div>`;
+                d.onclick = () => { SFX.button(); $("wiImg").innerText = wd.emoji; $("wiWord").innerText = wd.w; $("wiSent").innerText = wd.s; $("overlay-wordinfo").classList.add("active"); pronounceWord(wd.w); }; g.appendChild(d);
+            }); window.wjShowScreen('screen-wordbook');
+        };
+        window.wjOpenProgress = () => { $("pTotWords").textContent = state.stats.totalWords; $("pPerfWords").textContent = state.stats.perfectWords; $("pBestStreak").textContent = state.stats.bestStreak; window.wjShowScreen('screen-progress'); };
+        window.wjOpenAchievements = () => {
+            const g = $("badgesGrid"); g.innerHTML = "";
+            BADGES.forEach(b => {
+                const has = state.achievements.includes(b.id); const d = document.createElement("div");
+                d.className = "badge-card" + (has ? " unlocked" : ""); 
+                if(has) d.style.cssText = "opacity:1; filter:grayscale(0); border:4px solid #FFC107; background:#FFFBEB;";
+                d.innerHTML = `<div class="badge-icon" style="font-size:36px;">${b.icon}</div><div style="font-size:10px; font-weight:800; text-align:center; margin-top:5px;">${b.name}</div>`; g.appendChild(d);
+            }); window.wjShowScreen('screen-achievements');
+        };
+        window.wjStartDailyChallenge = () => { SFX.button(); if(state.daily.claimed) { window.wjShowToast("Daily Gift already claimed! Come back tomorrow."); return; } state.daily.claimed = true; state.daily.streak++; saveState(); $("chestTitle").innerText = "Daily Gift!"; $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Tap to open!"; $("btnChestDone").style.display = "none"; $("overlay-chest").classList.add("active"); window.isDailyChest = true; };
+        window.wjOpenShop = () => { $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; $("overlay-shop").classList.add("active"); SFX.button(); };
+        window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; SFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { SFX.wrong(); window.wjShowToast("Not enough coins!"); } };
+        let selectedLvl = 1, sessionWords = [], sessionIdx = 0, currentWord = null, currentSlots = [], placedCount = 0, lives = 3, inGameStreak = 0, wordMistakes = 0, sessionAccStats = { correct: 0, wrong: 0 };
+        function getWordsForLevel(lvl) {
+            let eCount = 0, mCount = 0, hCount = 0;
+            if (lvl <= 10)      { eCount = 8; mCount = 2; hCount = 0; } else if (lvl <= 20) { eCount = 6; mCount = 3; hCount = 1; } else if (lvl <= 40) { eCount = 4; mCount = 3; hCount = 3; } else if (lvl <= 80) { eCount = 3; mCount = 3; hCount = 4; } else { eCount = 2; mCount = 4; hCount = 4; }
+            let easyPool = ALL_WORDS.filter(w => w.diff === "easy").sort(()=>Math.random()-0.5); let medPool = ALL_WORDS.filter(w => w.diff === "med").sort(()=>Math.random()-0.5); let hardPool = ALL_WORDS.filter(w => w.diff === "hard").sort(()=>Math.random()-0.5);
+            let selection = [].concat(easyPool.slice(0, eCount), medPool.slice(0, mCount), hardPool.slice(0, hCount));
+            while(selection.length < 10 && ALL_WORDS.length >= 10) { let randomWord = ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)]; if(!selection.includes(randomWord)) selection.push(randomWord); }
+            return selection.sort(()=>Math.random()-0.5);
+        }
+        function startSession(lvl) {
+            selectedLvl = lvl; sessionWords = getWordsForLevel(lvl); sessionIdx = 0; sessionAccStats = { correct: 0, wrong: 0 }; inGameStreak = 0; lives = 3 + state.extraLives; 
+            $("ghTitle").innerText = "Level " + lvl; $("ghLevel").innerText = "10 Words"; window.wjShowScreen("screen-game"); loadWord();
+        }
+        function loadWord(){
+          if(sessionIdx >= sessionWords.length || lives <= 0){ finishSession(); return; }
+          currentWord = sessionWords[sessionIdx]; placedCount = 0; wordMistakes = 0; currentSlots = currentWord.w.split(""); $("hudStars").textContent = state.stars; $("hudLives").textContent = lives; $("wordProgressTitle").innerText = `WORD ${sessionIdx + 1} OF 10`;
+          let prefilled = []; let fillCount = currentWord.w.length >= 5 ? (Math.random() > 0.5 ? 2 : 1) : 1; let indices = Array.from(Array(currentWord.w.length).keys()).sort(()=>Math.random()-0.5); prefilled = indices.slice(0, fillCount);
+          let extra = selectedLvl > 10 ? 2 : (selectedLvl > 3 ? 1 : 0); const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; const tileLetters = [];
+          currentSlots.forEach((l, i) => { if(!prefilled.includes(i)) tileLetters.push(l); }); for(let i=0; i<extra; i++) { let l = alphabet[Math.floor(Math.random()*26)]; if(!tileLetters.includes(l)) tileLetters.push(l); }
+          let shuffled = tileLetters.sort(()=>Math.random()-0.5); $("target-image").classList.remove("show-pic"); $("trayWrap").style.display = "block"; $("slotsRow").style.display = "flex";
+          setOwlState('idle', 'owlMascot'); if(sessionIdx === 0) { $("mascotSpeech").textContent = "Welcome! Good luck!"; owlSpeak("Welcome! Good luck!"); } else { $("mascotSpeech").textContent = "Spell it!"; owlSpeak("Spell it!"); } 
+          buildSlots(prefilled); buildTray(shuffled);
+        }
+        function buildSlots(prefilled){ const row = $("slotsRow"); row.innerHTML = ""; currentSlots.forEach((letter,i)=>{ const slot = document.createElement("div"); slot.className = "slot" + (prefilled.includes(i) ? " filled prefilled" : ""); slot.dataset.letter = letter; slot.dataset.index = i; if(prefilled.includes(i)) slot.textContent = letter; row.appendChild(slot); }); while(prefilled.includes(placedCount)) placedCount++; }
+        function buildTray(letters){ const tray = $("tray"); tray.innerHTML = ""; letters.forEach(letter=>{ const tile = document.createElement("div"); tile.className = "tile"; tile.textContent = letter; tile.dataset.letter = letter; makeDraggable(tile); tray.appendChild(tile); }); }
+        let draggedTile = null, originX, originY;
+        function makeDraggable(el) { el.addEventListener('pointerdown', dragStart); }
+        function dragStart(e) { if(e.target.classList.contains('placed') || e.target.classList.contains('prefilled')) return; SFX.pickup(); draggedTile = e.target; const rect = draggedTile.getBoundingClientRect(); draggedTile.style.position = 'absolute'; draggedTile.style.left = rect.left + 'px'; draggedTile.style.top = rect.top + 'px'; draggedTile.classList.add('dragging'); document.getElementById("wj-app").appendChild(draggedTile); originX = e.clientX - rect.left; originY = e.clientY - rect.top; document.addEventListener('pointermove', dragMove); document.addEventListener('pointerup', dragEnd); }
+        function dragMove(e) { if(!draggedTile) return; e.preventDefault(); draggedTile.style.left = (e.clientX - originX) + 'px'; draggedTile.style.top = (e.clientY - originY) + 'px'; }
+        function dragEnd(e) { if(!draggedTile) return; document.removeEventListener('pointermove', dragMove); document.removeEventListener('pointerup', dragEnd); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); const tileRect = draggedTile.getBoundingClientRect(); const tileCenter = { x: tileRect.left + tileRect.width/2, y: tileRect.top + tileRect.height/2 }; let droppedSlot = null; slots.forEach(slot => { const sRect = slot.getBoundingClientRect(); if(tileCenter.x > sRect.left && tileCenter.x < sRect.right && tileCenter.y > sRect.top && tileCenter.y < sRect.bottom) { droppedSlot = slot; } }); if(droppedSlot && droppedSlot.dataset.letter === draggedTile.dataset.letter && parseInt(droppedSlot.dataset.index) === placedCount) { handleCorrectPlacement(droppedSlot); } else if(droppedSlot) { handleWrongPlacement(); } else { returnTileToPool(); } }
+        function handleCorrectPlacement(slot) { SFX.snap(); slot.classList.add('filled'); slot.innerText = draggedTile.innerText; draggedTile.remove(); draggedTile = null; placedCount++; sessionAccStats.correct++; const slots = document.querySelectorAll('#wj-wrapper .slot'); while(placedCount < slots.length && slots[placedCount].classList.contains('filled')) { placedCount++; } setOwlState('cheering', 'owlMascot'); $("mascotSpeech").textContent = "Good!"; owlSpeak("Good!"); document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.remove('active-hint')); if(placedCount >= currentWord.w.length) wordCompleteSequence(); }
+        function handleWrongPlacement() { SFX.wrong(); draggedTile.classList.add('reject-shake'); wordMistakes++; sessionAccStats.wrong++; inGameStreak = 0; lives--; $("hudLives").textContent = lives; if(lives <= 0) { SFX.loseLife(); setOwlState('sad', 'owlMascot'); $("mascotSpeech").textContent = "Out of lives!"; setTimeout(() => { if(draggedTile) draggedTile.remove(); finishSession(); }, 1500); return; } setOwlState('sad', 'owlMascot'); $("mascotSpeech").textContent = "Try again!"; owlSpeak("Try again!"); setTimeout(() => { if(draggedTile) { draggedTile.classList.remove('reject-shake'); returnTileToPool(); } }, 400); }
+        function returnTileToPool() { const tray = $("tray"); draggedTile.style.position = 'relative'; draggedTile.style.left = 'auto'; draggedTile.style.top = 'auto'; draggedTile.classList.remove('dragging'); tray.appendChild(draggedTile); draggedTile = null; }
+        window.wjUseHint = () => { if(state.stars >= 1) { state.stars -= 1; $("hudStars").textContent = state.stars; saveState(); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); if(slots.length > 0) { SFX.button(); slots[0].classList.add('active-hint'); const neededLetter = slots[0].dataset.letter; const tiles = [...$("tray").children].filter(t=>t.dataset.letter===neededLetter); if(tiles[0]) tiles[0].classList.add("hint-target"); pronounceWord(currentWord.w); setOwlState('wink', 'owlMascot'); $("mascotSpeech").textContent = "Look for glowing letter!"; } } else { SFX.wrong(); window.wjShowToast("Need Stars for hints!"); } };
+        function wordCompleteSequence(){ state.stats.totalWords++; if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); if(wordMistakes === 0) { SFX.perfect(); state.stats.perfectWords++; inGameStreak++; if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); } else { SFX.complete(); } $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); setTimeout(() => { $("trayWrap").style.display = "none"; const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); setOwlState('cheering', 'owlMascot'); let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; $("mascotSpeech").textContent = winMsg; owlSpeak(winMsg); createConfetti(window.innerWidth/2, window.innerHeight/2, true); SFX.cheer(); setTimeout(() => { pronounceWord(currentWord.w); }, 600); setTimeout(() => { $("slotsRow").style.animation = ""; sessionIdx++; loadWord(); }, 2500); }, 600); }
+        function finishSession(){ const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); if(isWin) { let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; $("endImg").innerText = "🏆"; $("endWordText").innerText = "VICTORY"; owlSpeak("Awesome! Level complete!"); $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); SFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } } else { $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); SFX.wrong(); } window.wjShowScreen("screen-complete"); }
+        window.wjStartNextLevel = () => { SFX.button(); if(selectedLvl < 100) startSession(selectedLvl + 1); };
+        window.wjOpenChest = () => { if($("chestImg").classList.contains("open")) return; SFX.chest(); $("chestImg").classList.add("open"); let r = Math.random(); let rewardMsg = ""; if(r < 0.4) { state.coins += 25; rewardMsg = "🪙 +25 Coins!"; } else if(r < 0.8) { state.stars += 10; rewardMsg = "⭐ +10 Stars!"; } else { state.coins += 50; state.stars += 5; rewardMsg = "💰 MEGA JACKPOT!"; } saveState(); setTimeout(()=>{ $("chestMsg").textContent = rewardMsg; $("chestMsg").style.color = "#8B5CF6"; $("chestMsg").style.fontSize = "24px"; $("btnChestDone").style.display = "inline-flex"; createConfetti(window.innerWidth/2, window.innerHeight/2, true); }, 600); };
+        window.wjAfterChest = () => { SFX.button(); buildHome(); if(window.isDailyChest) window.wjShowScreen('screen-map'); };
+        function checkAchievements() { BADGES.forEach(b => { if(!state.achievements.includes(b.id) && b.req(state)) { state.achievements.push(b.id); setTimeout(() => { SFX.chest(); window.wjShowToast(`🏅 Badge Unlocked: ${b.name}`); saveState(); }, 1000); } }); }
+        function createConfetti(x, y, isBig = false) { const colors = ['#3B82F6', '#4CAF50', '#EF4444', '#FFC107', '#8B5CF6']; const count = isBig ? 60 : 30; for(let i=0; i<count; i++) { let conf = document.createElement('div'); conf.className = 'particle'; conf.style.left = x + 'px'; conf.style.top = y + 'px'; conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; conf.style.width = Math.random() * 15 + 5 + 'px'; conf.style.height = Math.random() * 10 + 5 + 'px'; conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; const angle = Math.random() * Math.PI * 2; const velocity = Math.random() * (isBig ? 300 : 150); conf.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`); conf.style.setProperty('--ty', `${Math.sin(angle) * velocity + (isBig ? -100 : 0)}px`); conf.style.animation = `wjBlast ${Math.random() * 1 + 1.5}s cubic-bezier(0.25, 1, 0.5, 1) forwards`; document.getElementById("wj-app").appendChild(conf); setTimeout(() => conf.remove(), 2500); } }
+        
+        window.wjCurrentWord = () => currentWord;
+        window.wjPronounceWord = pronounceWord;
+        window.wjSFX = SFX;
+        
+        window.wjBoot = function() {
+            if(state.settings.music && $("bgMusic")) { $("bgMusic").play().catch(e=>{}); }
+            window.wjGoHome();
+        };
+        window.wjStopBGM = function() {
+            if($("bgMusic")) $("bgMusic").pause();
+        };
+        
+        $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗";
+        
+    })();
+    </script>
+</div>
 <!-- ================= MAZE GAME WRAPPER ================= -->
 <div id="maze-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e0f2fe; z-index: 5000; overflow: hidden;">
     
@@ -1658,7 +2141,8 @@ function speak(text) {
                     { id: "guessShape", name: "Guess the Shape", img: "game_guess_shape.png", color: "#8AC926" }, 
                     { id: "shadowMatch", name: "Shadow Match", img: "game_shadow_match.png", color: "#6A4C93" },
                     { id: "matchingGame", name: "Balloon Match", img: "game_balloon_match.png", color: "#F72585" }, 
-                    { id: "mazeGame", name: "Draw Path Home", img: "game_draw_path.png", color: "#22c55e" }
+                    { id: "mazeGame", name: "Draw Path Home", img: "game_draw_path.png", color: "#22c55e" },
+{ id: "wordJumble", name: "Word Jumble", img: "eduplay_logo.png", color: "#F59E0B" }
                 ]; 
                 gamesList.forEach(game => { 
                     const card = document.createElement("div"); card.className = "category-card scale-in"; 
@@ -1684,7 +2168,10 @@ function speak(text) {
         window.enterMazeGame(); 
         return; 
     } 
-    
+    if (gameId === "wordJumble") {
+        enterWordJumble();
+        return;
+    }
     currentGameType = gameId; 
     gameScore = 0; 
     
@@ -1711,7 +2198,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v126'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v127'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -2697,7 +3184,37 @@ window.mazeHideAllOverlays = function() {
         }
     } catch(e){}
 };
+window.enterWordJumble = function() {
+    var appContainer = document.getElementById("app-container");
+    if(appContainer) appContainer.classList.replace("active-flex", "hidden");
+    document.getElementById("wj-wrapper").classList.remove("hidden");
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    try { 
+        let elem = document.documentElement; 
+        if (elem.requestFullscreen) { 
+            elem.requestFullscreen().then(() => { 
+                if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } 
+            }).catch(e => {}); 
+        } 
+    } catch(err) {}
+    if(window.wjBoot) window.wjBoot();
+};
 
+window.exitWordJumble = function() {
+    if(window.wjStopBGM) window.wjStopBGM();
+    document.getElementById("wj-wrapper").classList.add("hidden");
+    
+    var appContainer = document.getElementById("app-container");
+    if(appContainer) appContainer.classList.replace("hidden", "active-flex");
+    document.getElementById("main-header").classList.remove("hidden");
+    document.getElementById("home-screen").classList.replace("hidden", "active-grid");
+    document.getElementById("app-title").innerText = "🎮 Games Menu";
+    document.getElementById("btn-home").classList.remove("hidden");
+    try { 
+        if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
+        if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+    } catch(err) {}
+};
 window.mazeOpenCategories = function() { window.mazeHideAllOverlays(); window.mazeBuildMainMenu(); var closeBtn = document.getElementById('mazeCloseMainMenu'); if(closeBtn) closeBtn.style.display = 'flex'; var menuOverlay = document.getElementById('mazeMainMenuOverlay'); if(menuOverlay) menuOverlay.classList.remove('hidden'); };
 window.mazeOpenLevels = function() { window.mazeHideAllOverlays(); window.mazeBuildLevelGrid(); var levelsOverlay = document.getElementById('mazeLevelsOverlay'); if(levelsOverlay) levelsOverlay.classList.remove('hidden'); };
 window.mazeOpenHelp = function() { window.mazeHideAllOverlays(); var helpOverlay = document.getElementById('mazeHelpOverlay'); if(helpOverlay) helpOverlay.classList.remove('hidden'); };
