@@ -1111,8 +1111,7 @@ body {
 
 <!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
 <div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
-    
-        <style>
+    <style>
         /* Scoped CSS to prevent conflicts */
         #wj-wrapper { --blue-main: #3B82F6; --yellow-main: #FFC107; --green-main: #4CAF50; --red-main: #EF4444; --purple-main: #8B5CF6; --ink: #1E293B; --ink-soft: #475569; font-family: 'Fredoka', sans-serif; color: var(--ink); touch-action: none; }
         #wj-wrapper * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -1144,24 +1143,18 @@ body {
         @keyframes wjFloatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         
         #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-position: 0 0; margin: 0 auto; }
-        
-        /* 1. FIXED OWL ANIMATIONS: They all loop "infinite" now so the owl never vanishes! */
         @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
-        
         @keyframes wjOwlCheering { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-cheering { background-image: url("owl_cheering.png"); animation: wjOwlCheering 1s steps(4) infinite; }
-        
         @keyframes wjOwlSad { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-sad { background-image: url("owl_sad.png"); animation: wjOwlSad 1s steps(4) infinite; }
-        
         @keyframes wjOwlWink { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-wink { background-image: url("owl_wink.png"); animation: wjOwlWink 1s steps(4) infinite; }
         
         #wj-wrapper .speech-bubble { background: #fff; border-radius: 20px; padding: 12px 20px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; color: #1E293B; border: 2px solid #E2E8F0; text-align: center; max-width: 200px; margin-bottom: 5px; }
         #wj-wrapper .speech-bubble:after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-top: 10px solid #fff; border-left: 10px solid transparent; border-right: 10px solid transparent; }
         
-        /* MAP SETTINGS */
         #wj-wrapper #wj-screen-map { background: url('map-bg.png') center bottom / cover no-repeat, linear-gradient(180deg, #60A5FA 0%, #34D399 100%); }
         #wj-wrapper .logo-title { position: fixed; top: 55px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; width: 100%; }
         #wj-wrapper .logo-title img { max-width: 200px; } 
@@ -1192,13 +1185,13 @@ body {
         #wj-wrapper .game-header h2 { font-size: 18px; color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,0.6); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
         #wj-wrapper .game-header p { font-size: 13px; color: #FFD700; margin: 0; font-weight: 800; text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
         
-        /* 2. BIGGER LETTERS & SPACING (PORTRAIT) */
-        #wj-wrapper .word-board { background: linear-gradient(180deg, #FFFDF0 0%, #FFF3C7 100%); border: 4px solid #D4A353; border-radius: 24px; padding: 35px 20px 20px; width: 100%; max-width: 600px; box-shadow: 0 8px 0 #C28F3D, 0 15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; z-index: 15; }
+        /* PORTRAIT GAME LAYOUT */
+        #wj-wrapper .word-board { background: linear-gradient(180deg, #FFFDF0 0%, #FFF3C7 100%); border: 4px solid #D4A353; border-radius: 24px; padding: 35px 20px 20px; width: 100%; max-width: 600px; box-shadow: 0 8px 0 #C28F3D, 0 15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; z-index: 15; justify-content: center; min-height: 140px; }
         #wj-wrapper .board-content { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
-        #wj-wrapper .word-title { background: #fff; border: 3px solid #D4A353; border-radius: 99px; padding: 6px 20px; font-size: 14px; font-weight: 800; color: #8B4513; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; box-shadow: 0 4px 0 rgba(0,0,0,0.1); position: absolute; top: -18px; }
+        #wj-wrapper .word-title { background: #fff; border: 3px solid #D4A353; border-radius: 99px; padding: 6px 20px; font-size: 14px; font-weight: 800; color: #8B4513; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; box-shadow: 0 4px 0 rgba(0,0,0,0.1); position: absolute; top: -18px; z-index: 20;}
         #wj-wrapper .slots-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%; margin-top: 15px; }
         
-        #wj-wrapper .slot { width: min(70px, 16vw); height: min(70px, 16vw); border-radius: 50%; background: rgba(139, 69, 19, 0.1); border: 3px solid rgba(139, 69, 19, 0.2); box-shadow: inset 0 6px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(38px, 8vw); color: #1E293B; transition: all 0.2s; }
+        #wj-wrapper .slot { width: min(70px, 16vw); height: min(70px, 16vw); border-radius: 50%; background: rgba(139, 69, 19, 0.1); border: 3px solid rgba(139, 69, 19, 0.2); box-shadow: inset 0 6px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(38px, 8vw); color: #1E293B; transition: all 0.3s; }
         #wj-wrapper .slot.filled { background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; box-shadow: 0 4px 8px rgba(0,0,0,0.15); color: #D32F2F; text-shadow: none; }
         #wj-wrapper .slot.prefilled { background: #E2E8F0; border-color: #CBD5E1; color: #475569; box-shadow: none; pointer-events: none; }
         #wj-wrapper .slot.active-hint { border-color: #FFC107; background: #FEF08A; animation: wjPulseHint 1s infinite; }
@@ -1207,13 +1200,14 @@ body {
         
         #wj-wrapper .tray-wrap { width: 100%; max-width: 700px; margin: 15px auto 0; z-index: 20; }
         #wj-wrapper .tray { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; padding: 10px; position: relative; }
-        #wj-wrapper .tile { width: min(75px, 18vw); height: min(75px, 18vw); border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(42px, 10vw); color: #D32F2F; cursor: grab; touch-action: none; transition: all 0.1s; z-index: 30; box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 -4px 6px rgba(212,163,83,0.3); }
+        #wj-wrapper .tile { width: min(80px, 18vw); height: min(80px, 18vw); border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(44px, 10vw); color: #D32F2F; cursor: grab; touch-action: none; transition: all 0.1s; z-index: 30; box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 -4px 6px rgba(212,163,83,0.3); }
         #wj-wrapper .tile:active, #wj-wrapper .tile.dragging { border-bottom: 3px solid #D4A353; transform: scale(1.15) translateY(5px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); z-index: 100; color: #B71C1C; }
         #wj-wrapper .tile.hint-target { animation: wjTileGlow 0.9s ease-in-out infinite; }
         
-        #wj-wrapper .image-stage { position: absolute; top: -75px; left: 50%; transform: translateX(-50%); display: none; width: 140px; height: 140px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 70px; border: 8px solid #FFC107; z-index: 50; }
+        /* IMAGE CENTER REVEAL */
+        #wj-wrapper .image-stage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; width: 140px; height: 140px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 80px; border: 8px solid #FFC107; z-index: 50; }
         #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes wjPicPop { 0% { transform: translate(-50%, 0) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -20px) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, 0) scale(1) rotate(0deg); } }
+        @keyframes wjPicPop { 0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } }
         
         #wj-wrapper .game-controls { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 24px 24px 0 0; }
         #wj-wrapper .ctrl-grp { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
@@ -1232,9 +1226,7 @@ body {
         @keyframes wjStarPop { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
         #wj-wrapper .end-lvl-text { color: #6D28D9; text-transform: uppercase; margin: 10px 0 15px; letter-spacing: 1px; font-size: 20px; font-weight: 800; }
         #wj-wrapper .showcase-box { background: radial-gradient(circle, #FFFBEB 0%, #FEF08A 100%); border: 4px solid #FDE047; border-radius: 24px; padding: 30px 20px 20px; margin: 0 auto 35px; position: relative; width: 85%; box-shadow: inset 0 0 20px #F59E0B, 0 8px 15px rgba(0,0,0,0.1); }
-        
         #wj-wrapper .end-img { font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; min-height: 140px; }
-        
         #wj-wrapper .showcase-ribbon { background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); color: white; padding: 6px 30px; border-radius: 99px; font-size: 22px; font-weight: 800; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); box-shadow: 0 6px 0 #991B1B, 0 8px 15px rgba(0,0,0,0.2); text-transform: uppercase; white-space: nowrap; letter-spacing: 2px; }
         #wj-wrapper .stats-row { display: flex; justify-content: space-between; gap: 5px; padding: 0 10px; margin-bottom: 25px; }
         #wj-wrapper .stat-box { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
@@ -1247,7 +1239,7 @@ body {
         #wj-wrapper .rewards-box { display: flex; justify-content: space-around; align-items: center; }
         #wj-wrapper .rwd-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
         #wj-wrapper .rwd-icon { font-size: 38px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
-        #wj-wrapper .mascot-peek { display: none; } /* HIDDEN because we moved the owl to the center of the card! */
+        #wj-wrapper .mascot-peek { display: none; } 
         #wj-wrapper .toast { position: fixed; top: 15%; left: 50%; transform: translateX(-50%) translateY(-20px); background: #1E293B; color: #fff; padding: 14px 28px; border-radius: 999px; font-weight: 800; font-size: 16px; z-index: 2000; opacity: 0; transition: all .35s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.2); }
         #wj-wrapper .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #wj-wrapper .toast.streak { background: linear-gradient(90deg, #EF4444, #F59E0B); font-size: 20px; text-transform: uppercase; }
@@ -1270,28 +1262,30 @@ body {
         #wj-wrapper .badge-card.unlocked { opacity: 1; filter: grayscale(0); border: 4px solid #FFC107; background: #FFFBEB; }
         
         /* ========================================================
-           3. LANDSCAPE BIGGER LETTERS & FIX PICTURE CUTOFF
+           LANDSCAPE MAGIC FORMATTING (PERFECT ALIGNMENT)
            ======================================================== */
         @media (orientation: landscape) {
             #wj-wrapper #wj-screen-game { padding-top: 50px; overflow: hidden; justify-content: center; align-items: center; }
             #wj-wrapper .hud-bar { padding: 5px 16px; margin-bottom: 0px; position: absolute; top: 0; width: 100%; }
             #wj-wrapper .game-header { display: none; } 
             
-            #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: flex-end; gap: 20px; width: 100%; }
-            #wj-wrapper .mascot-container { margin: 0; transform: scale(1); z-index: 50;}
+            #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: center; gap: 20px; width: 100%; max-width: 800px; }
+            #wj-wrapper .mascot-container { margin: 0; transform: scale(1); z-index: 50; }
             
-            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 85%; z-index: 10; flex: 1; }
-            #wj-wrapper .word-title { font-size: 16px; padding: 6px 20px; top: -18px; position: absolute; left: 50%; transform: translateX(-50%); }
+            /* Plenty of space so text never overlaps */
+            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 85%; z-index: 10; flex: 1; position: relative; min-height: 180px; display: flex; justify-content: flex-end; align-items: center; }
+            #wj-wrapper .word-title { font-size: 16px; padding: 6px 20px; top: -18px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
             
-            #wj-wrapper .slot { width: 80px; height: 80px; font-size: 40px; border-radius: 50%; }
+            #wj-wrapper .slot { width: 75px; height: 75px; font-size: 40px; border-radius: 50%; }
             
             #wj-wrapper .tray-wrap { margin-top: 20px; padding-bottom: 10px; margin-bottom: 0; width: 95%; max-width: 800px; z-index: 20; position: relative; }
             #wj-wrapper .tray { padding: 10px; gap: 20px; }
-            #wj-wrapper .tile { width: 80px; height: 80px; font-size: 40px; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3), inset 0 -4px 6px rgba(212,163,83,0.3); }
+            #wj-wrapper .tile { width: 80px; height: 80px; font-size: 44px; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3), inset 0 -4px 6px rgba(212,163,83,0.3); }
             
-            /* Lifted the picture way up so it completely clears the spelling bar! */
-            #wj-wrapper .image-stage { position: absolute; top: -110px; left: 50%; transform: translateX(-50%); display: none; width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 80px; border: 8px solid #FFC107; z-index: 50; }
+            /* PICTURE REVEAL DEAD CENTER */
+            #wj-wrapper .image-stage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; width: 160px; height: 160px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 90px; border: 8px solid #FFC107; z-index: 50; }
             #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+            @keyframes wjPicPop { 0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } }
             
             /* LANDSCAPE RESULT SCREEN */
             #wj-wrapper #wj-screen-complete { overflow: hidden; padding: 10px; align-items: center; justify-content: center;}
@@ -1310,7 +1304,7 @@ body {
             #wj-wrapper .rwd-icon { font-size: 24px; }
             #wj-wrapper .rwd-item strong { font-size: 14px !important; }
             #wj-wrapper .rwd-item span { font-size: 14px !important; }
-            #wj-wrapper .mascot-peek { display: none; } /* HIDDEN because we moved the owl to the center of the card! */
+            #wj-wrapper .mascot-peek { display: none; }
             #wj-wrapper .btn-green, #wj-wrapper .btn-purple { font-size: 14px; padding: 8px 15px; margin: 5px;}
         }
     </style>
@@ -1364,17 +1358,19 @@ body {
           <p id="wj-ghLevel">10 Words</p>
         </div>
         
-        <div class="mascot-container">
-            <div class="speech-bubble" id="wj-mascotSpeech">Spell it!</div>
-            <div class="mascot-floater">
-                <div id="wj-owlMascot" class="owl-mascot owl-idle"></div>
+        <div class="board-content">
+            <div class="mascot-container">
+                <div class="speech-bubble" id="wj-mascotSpeech">Spell it!</div>
+                <div class="mascot-floater">
+                    <div id="wj-owlMascot" class="owl-mascot owl-idle"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="word-board">
-            <div class="word-title" id="wj-wordProgressTitle">WORD 1 OF 10</div>
-            <div class="image-stage" id="wj-target-image"></div>
-            <div class="slots-row" id="wj-slotsRow"></div>
+            <div class="word-board">
+                <div class="word-title" id="wj-wordProgressTitle">WORD 1 OF 10</div>
+                <div class="image-stage" id="wj-target-image"></div>
+                <div class="slots-row" id="wj-slotsRow"></div>
+            </div>
         </div>
 
         <div class="tray-wrap" id="wj-trayWrap">
@@ -1526,15 +1522,22 @@ body {
         "use strict";
         const $ = (id) => document.getElementById("wj-" + id);
         let owlTimeout = null;
+        
+        // This PRELOADER stops the owl from flickering!
+        const owlSprites = ["owl_idel.png", "owl_cheering.png", "owl_sad.png", "owl_wink.png"];
+        owlSprites.forEach(src => { const img = new Image(); img.src = src; });
+        
         function setOwlState(stateId, elId = 'owlMascot') {
             const el = $(elId); if (!el) return;
-            el.classList.remove('owl-idle', 'owl-cheering', 'owl-sad', 'owl-wink');
-            void el.offsetWidth; el.classList.add('owl-' + stateId);
+            if (el.dataset.state === stateId) return; 
+            el.dataset.state = stateId;
+            el.className = 'owl-mascot owl-' + stateId;
             if (elId === 'owlMascot') {
                 if (owlTimeout) { clearTimeout(owlTimeout); owlTimeout = null; }
-                if (stateId !== 'idle') { owlTimeout = setTimeout(() => { setOwlState('idle', 'owlMascot'); }, 1000); }
+                if (stateId !== 'idle') { owlTimeout = setTimeout(() => { setOwlState('idle', 'owlMascot'); }, 1500); }
             }
         }
+
         const ALL_WORDS = [
          {w:"APPLE", emoji:"🍎", s:"A crunchy red fruit.", diff:"easy"}, {w:"MANGO", emoji:"🥭", s:"A sweet yellow fruit.", diff:"easy"}, {w:"ONION", emoji:"🧅", s:"It makes you cry.", diff:"med"}, {w:"CARROT", emoji:"🥕", s:"Rabbits love these.", diff:"med"}, {w:"CABBAGE", emoji:"🥬", s:"A leafy green vegetable.", diff:"hard"},
          {w:"CAT", emoji:"🐱", s:"Says meow.", diff:"easy"}, {w:"DOG", emoji:"🐶", s:"Man's best friend.", diff:"easy"}, {w:"MONKEY", emoji:"🐵", s:"Loves bananas.", diff:"med"}, {w:"ELEPHANT", emoji:"🐘", s:"Has a long trunk.", diff:"hard"}, {w:"PENGUIN", emoji:"🐧", s:"A bird that swims.", diff:"hard"},
@@ -1545,29 +1548,38 @@ body {
          {w:"WASH", emoji:"🧼", s:"Clean your hands.", diff:"easy"}, {w:"BRUSH", emoji:"🪥", s:"Clean your teeth.", diff:"med"}, {w:"SHARE", emoji:"🤝", s:"Playing nice with others.", diff:"med"}, {w:"FIGHT", emoji:"😠", s:"A bad habit.", diff:"med"},
          {w:"SUN", emoji:"☀️", s:"Shines in the day.", diff:"easy"}, {w:"WATER", emoji:"💧", s:"You drink this.", diff:"med"}, {w:"HOUSE", emoji:"🏠", s:"Where you live.", diff:"med"}, {w:"FAMILY", emoji:"👨‍👩‍👧", s:"People who love you.", diff:"hard"}
         ];
+        
         const WORLDS = [];
         for(let i = 1; i <= 100; i++) { let xPos = Math.sin(i * Math.PI / 2) * 110; WORLDS.push({ id: i, name: "Level " + i, pos: { x: xPos, y: 0 } }); }
+        
         const BADGES = [
           { id: "first", icon: "🏅", name: "First Word", req: (s)=>s.stats.totalWords >= 1 }, { id: "ten", icon: "🥉", name: "10 Words", req: (s)=>s.stats.totalWords >= 10 },
           { id: "streak5", icon: "🔥", name: "Hot Streak", req: (s)=>s.stats.bestStreak >= 5 }, { id: "perfect", icon: "✨", name: "Perfect Lvl", req: (s)=>Object.values(s.bestPerLvl).includes(3) },
           { id: "book", icon: "📖", name: "Collector", req: (s)=>s.wordBook.length >= 15 }
         ];
+        
         let audioCtx = null;
         function ctx(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
         function tone(freq, dur, type, gain, delay){ if(!state.settings.sound) return; try{ const c = ctx(); const t0 = c.currentTime + (delay||0); const osc = c.createOscillator(); const g = c.createGain(); osc.type = type||"sine"; osc.frequency.setValueAtTime(freq, t0); g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain||0.15, t0+0.02); g.gain.exponentialRampToValueAtTime(0.001, t0+dur); osc.connect(g).connect(c.destination); osc.start(t0); osc.stop(t0+dur+0.02); }catch(e){} }
+        
         const SFX = { pickup:()=>tone(520,0.08,"triangle",0.12), snap:()=>tone(800,0.1,"triangle",0.14), wrong:()=>{tone(220,0.14,"sawtooth",0.10); tone(180,0.16,"sawtooth",0.08,0.05);}, complete:()=>{[523,659,784,1046].forEach((f,i)=>tone(f,0.18,"sine",0.15,i*0.09));}, button:()=>tone(440,0.06,"square",0.08), cheer:()=>{ [400, 500, 600, 800, 1000, 1200, 1500].forEach((f,i)=>tone(f, 0.25, "triangle", 0.15, i*0.1)); }, speak:()=>tone(700, 0.05, "sine", 0.05), perfect:()=>{[880, 1100, 1320, 1760].forEach((f,i)=>tone(f, 0.15, "sine", 0.1, i*0.08));}, chest:()=>{[440,660,880,1320].forEach((f,i)=>tone(f,0.15,"square",0.10,i*0.08));}, coin:()=>tone(1200, 0.1, "sine", 0.1), loseLife:()=>tone(200, 0.3, "sawtooth", 0.2) };
+        
         function pronounceWord(text){ if(!state.settings.sound) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.rate = 0.85; u.pitch = 1.15; window.speechSynthesis.speak(u); } catch(e){} }
+        
         let state = { stars: 10, coins: 50, extraLives: 0, highestLevel: 1, bestPerLvl: {}, wordBook: [], achievements: [], stats: { totalWords: 0, perfectWords: 0, bestStreak: 0 }, daily: { date: "", count: 0, streak: 0, claimed: false }, settings: { sound: true, music: true } };
         try { const raw = localStorage.getItem("eduplay_adv_v1"); if(raw) { let saved = JSON.parse(raw); state = { ...state, ...saved, stats: {...state.stats, ...saved.stats}, settings: {...state.settings, ...saved.settings} }; } } catch(e){}
         function saveState(){ try{ localStorage.setItem("eduplay_adv_v1", JSON.stringify(state)); }catch(e){} }
+        
         const today = new Date().toISOString().slice(0,10);
         if(state.daily.date !== today) { let y = new Date(); y.setDate(y.getDate() - 1); if(state.daily.date !== y.toISOString().slice(0,10)) { state.daily.streak = 0; } state.daily.date = today; state.daily.count = 0; state.daily.claimed = false; saveState(); }
+        
         let toastTimer=null;
         window.wjShowToast = function(msg, type=""){ const t = $("toast"); t.textContent = msg; t.className = "toast show " + type; clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.className = "toast", 2500); };
-        window.wjShowScreen = (name) => { document.querySelectorAll('#wj-wrapper .screen').forEach(s => s.classList.remove('active')); $(name).classList.add('active'); SFX.button(); };
-        window.wjToggleSound = () => { state.settings.sound = !state.settings.sound; $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗"; saveState(); SFX.button(); };
-        window.wjToggleMusic = () => { state.settings.music = !state.settings.music; $("toggleMusicBtn").style.background = state.settings.music ? "#4CAF50" : "#CBD5E1"; $("toggleMusicBtn").innerText = state.settings.music ? "✓" : "✗"; if(state.settings.music) { $("bgMusic").play().catch(e=>{}); } else { $("bgMusic").pause(); } saveState(); SFX.button(); };
+        window.wjShowScreen = (name) => { document.querySelectorAll('#wj-wrapper .screen').forEach(s => s.classList.remove('active')); $(name).classList.add('active'); window.wjSFX.button(); };
+        window.wjToggleSound = () => { state.settings.sound = !state.settings.sound; $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗"; saveState(); window.wjSFX.button(); };
+        window.wjToggleMusic = () => { state.settings.music = !state.settings.music; $("toggleMusicBtn").style.background = state.settings.music ? "#4CAF50" : "#CBD5E1"; $("toggleMusicBtn").innerText = state.settings.music ? "✓" : "✗"; if(state.settings.music) { $("bgMusic").play().catch(e=>{}); } else { $("bgMusic").pause(); } saveState(); window.wjSFX.button(); };
         function owlSpeak(text) { if(!state.settings.sound) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.pitch = 1.7; u.rate = 1.1; window.speechSynthesis.speak(u); } catch(e){} }
+        
         function buildHome() {
           $("statStars").textContent = state.stars; $("statCoins").textContent = state.coins; $("statStreak").textContent = state.daily.streak;
           const m = $("mapArea"); m.innerHTML = "";
@@ -1577,24 +1589,28 @@ body {
               let starHTML = stars > 0 ? `<div class="stars" style="color:#FFC107; text-shadow:0 1px 0 #000;">${"⭐".repeat(stars)}</div>` : "";
               const lblClass = w.pos.x > 0 ? "map-label left" : "map-label";
               node.innerHTML = `<div class="${lblClass}">${w.name}</div><div class="lvl-num">${w.id}</div>${unlocked && stars === 0 ? '<div style="position:absolute; top:-10px; right:-10px; font-size:24px;">🆕</div>' : ''}${starHTML}`;
-              if(unlocked) node.onclick = () => { SFX.button(); startSession(w.id); }; m.appendChild(node);
+              if(unlocked) node.onclick = () => { window.wjSFX.button(); startSession(w.id); }; m.appendChild(node);
           });
         }
+        
         window.wjGoHome = () => { 
-    // LOCK MAP TO PORTRAIT!
-    try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(e) {}
-    buildHome(); 
-    window.wjShowScreen('screen-map'); 
-};
+            try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(e) {} 
+            if(draggedTile) { draggedTile.remove(); draggedTile = null; }
+            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove());
+            buildHome(); 
+            window.wjShowScreen('screen-map'); 
+        };
+        
         window.wjOpenWordBook = () => {
             $("wbCount").textContent = state.wordBook.length; const g = $("wordBookGrid"); g.innerHTML = "";
             if(state.wordBook.length === 0) g.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Play games to collect words!</p>";
             state.wordBook.forEach(wStr => {
                 let wd = ALL_WORDS.find(x => x.w === wStr); if(!wd) return;
                 const d = document.createElement("div"); d.className = "book-card"; d.innerHTML = `<div class="emoji" style="font-size:40px; margin-bottom:5px;">${wd.emoji}</div><div style="font-weight:800;">${wd.w}</div>`;
-                d.onclick = () => { SFX.button(); $("wiImg").innerText = wd.emoji; $("wiWord").innerText = wd.w; $("wiSent").innerText = wd.s; $("overlay-wordinfo").classList.add("active"); pronounceWord(wd.w); }; g.appendChild(d);
+                d.onclick = () => { window.wjSFX.button(); $("wiImg").innerText = wd.emoji; $("wiWord").innerText = wd.w; $("wiSent").innerText = wd.s; $("overlay-wordinfo").classList.add("active"); pronounceWord(wd.w); }; g.appendChild(d);
             }); window.wjShowScreen('screen-wordbook');
         };
+        
         window.wjOpenProgress = () => { $("pTotWords").textContent = state.stats.totalWords; $("pPerfWords").textContent = state.stats.perfectWords; $("pBestStreak").textContent = state.stats.bestStreak; window.wjShowScreen('screen-progress'); };
         window.wjOpenAchievements = () => {
             const g = $("badgesGrid"); g.innerHTML = "";
@@ -1605,9 +1621,10 @@ body {
                 d.innerHTML = `<div class="badge-icon" style="font-size:36px;">${b.icon}</div><div style="font-size:10px; font-weight:800; text-align:center; margin-top:5px;">${b.name}</div>`; g.appendChild(d);
             }); window.wjShowScreen('screen-achievements');
         };
-        window.wjStartDailyChallenge = () => { SFX.button(); if(state.daily.claimed) { window.wjShowToast("Daily Gift already claimed! Come back tomorrow."); return; } state.daily.claimed = true; state.daily.streak++; saveState(); $("chestTitle").innerText = "Daily Gift!"; $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Tap to open!"; $("btnChestDone").style.display = "none"; $("overlay-chest").classList.add("active"); window.isDailyChest = true; };
-        window.wjOpenShop = () => { $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; $("overlay-shop").classList.add("active"); SFX.button(); };
-        window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; SFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { SFX.wrong(); window.wjShowToast("Not enough coins!"); } };
+        window.wjStartDailyChallenge = () => { window.wjSFX.button(); if(state.daily.claimed) { window.wjShowToast("Daily Gift already claimed! Come back tomorrow."); return; } state.daily.claimed = true; state.daily.streak++; saveState(); $("chestTitle").innerText = "Daily Gift!"; $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Tap to open!"; $("btnChestDone").style.display = "none"; $("overlay-chest").classList.add("active"); window.isDailyChest = true; };
+        window.wjOpenShop = () => { $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; $("overlay-shop").classList.add("active"); window.wjSFX.button(); };
+        window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; window.wjSFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { window.wjSFX.wrong(); window.wjShowToast("Not enough coins!"); } };
+        
         let selectedLvl = 1, sessionWords = [], sessionIdx = 0, currentWord = null, currentSlots = [], placedCount = 0, lives = 3, inGameStreak = 0, wordMistakes = 0, sessionAccStats = { correct: 0, wrong: 0 };
         function getWordsForLevel(lvl) {
             let eCount = 0, mCount = 0, hCount = 0;
@@ -1617,42 +1634,211 @@ body {
             while(selection.length < 10 && ALL_WORDS.length >= 10) { let randomWord = ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)]; if(!selection.includes(randomWord)) selection.push(randomWord); }
             return selection.sort(()=>Math.random()-0.5);
         }
+        
         function startSession(lvl) {
-    // LOCK GAME TO LANDSCAPE!
-    try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(e) {}
-    
-    selectedLvl = lvl; sessionWords = getWordsForLevel(lvl); sessionIdx = 0; sessionAccStats = { correct: 0, wrong: 0 }; inGameStreak = 0; lives = 3 + state.extraLives; 
-    $("ghTitle").innerText = "Level " + lvl; $("ghLevel").innerText = "10 Words"; window.wjShowScreen("screen-game"); loadWord();
-}
+            try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(e) {}
+            selectedLvl = lvl; sessionWords = getWordsForLevel(lvl); sessionIdx = 0; sessionAccStats = { correct: 0, wrong: 0 }; inGameStreak = 0; lives = 3 + state.extraLives; 
+            $("ghTitle").innerText = "Level " + lvl; $("ghLevel").innerText = "10 Words"; window.wjShowScreen("screen-game"); loadWord();
+        }
+        
         function loadWord(){
           if(sessionIdx >= sessionWords.length || lives <= 0){ finishSession(); return; }
-          currentWord = sessionWords[sessionIdx]; placedCount = 0; wordMistakes = 0; currentSlots = currentWord.w.split(""); $("hudStars").textContent = state.stars; $("hudLives").textContent = lives; $("wordProgressTitle").innerText = `WORD ${sessionIdx + 1} OF 10`;
+          currentWord = sessionWords[sessionIdx]; placedCount = 0; wordMistakes = 0; currentSlots = currentWord.w.split(""); 
+          $("hudStars").textContent = state.stars; $("hudLives").textContent = lives; $("wordProgressTitle").innerText = `WORD ${sessionIdx + 1} OF 10`;
+          
           let prefilled = []; let fillCount = currentWord.w.length >= 5 ? (Math.random() > 0.5 ? 2 : 1) : 1; let indices = Array.from(Array(currentWord.w.length).keys()).sort(()=>Math.random()-0.5); prefilled = indices.slice(0, fillCount);
           let extra = selectedLvl > 10 ? 2 : (selectedLvl > 3 ? 1 : 0); const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; const tileLetters = [];
+          
           currentSlots.forEach((l, i) => { if(!prefilled.includes(i)) tileLetters.push(l); }); for(let i=0; i<extra; i++) { let l = alphabet[Math.floor(Math.random()*26)]; if(!tileLetters.includes(l)) tileLetters.push(l); }
-          let shuffled = tileLetters.sort(()=>Math.random()-0.5); $("target-image").classList.remove("show-pic"); $("trayWrap").style.display = "block"; $("slotsRow").style.display = "flex";
+          let shuffled = tileLetters.sort(()=>Math.random()-0.5); 
+          
+          $("target-image").classList.remove("show-pic"); 
+          $("trayWrap").style.display = "block"; 
+          
+          $("slotsRow").style.display = "flex";
+          $("slotsRow").style.opacity = "1";
+          $("slotsRow").style.transition = "none";
+          
           setOwlState('idle', 'owlMascot'); if(sessionIdx === 0) { $("mascotSpeech").textContent = "Welcome! Good luck!"; owlSpeak("Welcome! Good luck!"); } else { $("mascotSpeech").textContent = "Spell it!"; owlSpeak("Spell it!"); } 
           buildSlots(prefilled); buildTray(shuffled);
         }
+        
         function buildSlots(prefilled){ const row = $("slotsRow"); row.innerHTML = ""; currentSlots.forEach((letter,i)=>{ const slot = document.createElement("div"); slot.className = "slot" + (prefilled.includes(i) ? " filled prefilled" : ""); slot.dataset.letter = letter; slot.dataset.index = i; if(prefilled.includes(i)) slot.textContent = letter; row.appendChild(slot); }); while(prefilled.includes(placedCount)) placedCount++; }
-        function buildTray(letters){ const tray = $("tray"); tray.innerHTML = ""; letters.forEach(letter=>{ const tile = document.createElement("div"); tile.className = "tile"; tile.textContent = letter; tile.dataset.letter = letter; makeDraggable(tile); tray.appendChild(tile); }); }
+        
+        function buildTray(letters){ 
+            const tray = $("tray"); tray.innerHTML = ""; 
+            letters.forEach(letter => { 
+                const tile = document.createElement("div"); 
+                tile.className = "tile"; tile.textContent = letter; tile.dataset.letter = letter; 
+                makeDraggable(tile); tray.appendChild(tile); 
+            }); 
+        }
+
         let draggedTile = null, originX, originY;
         function makeDraggable(el) { el.addEventListener('pointerdown', dragStart); }
-        function dragStart(e) { if(e.target.classList.contains('placed') || e.target.classList.contains('prefilled')) return; SFX.pickup(); draggedTile = e.target; const rect = draggedTile.getBoundingClientRect(); draggedTile.style.position = 'absolute'; draggedTile.style.left = rect.left + 'px'; draggedTile.style.top = rect.top + 'px'; draggedTile.classList.add('dragging'); document.getElementById("wj-app").appendChild(draggedTile); originX = e.clientX - rect.left; originY = e.clientY - rect.top; document.addEventListener('pointermove', dragMove); document.addEventListener('pointerup', dragEnd); }
-        function dragMove(e) { if(!draggedTile) return; e.preventDefault(); draggedTile.style.left = (e.clientX - originX) + 'px'; draggedTile.style.top = (e.clientY - originY) + 'px'; }
-        function dragEnd(e) { if(!draggedTile) return; document.removeEventListener('pointermove', dragMove); document.removeEventListener('pointerup', dragEnd); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); const tileRect = draggedTile.getBoundingClientRect(); const tileCenter = { x: tileRect.left + tileRect.width/2, y: tileRect.top + tileRect.height/2 }; let droppedSlot = null; slots.forEach(slot => { const sRect = slot.getBoundingClientRect(); if(tileCenter.x > sRect.left && tileCenter.x < sRect.right && tileCenter.y > sRect.top && tileCenter.y < sRect.bottom) { droppedSlot = slot; } }); if(droppedSlot && droppedSlot.dataset.letter === draggedTile.dataset.letter && parseInt(droppedSlot.dataset.index) === placedCount) { handleCorrectPlacement(droppedSlot); } else if(droppedSlot) { handleWrongPlacement(); } else { returnTileToPool(); } }
-        function handleCorrectPlacement(slot) { SFX.snap(); slot.classList.add('filled'); slot.innerText = draggedTile.innerText; draggedTile.remove(); draggedTile = null; placedCount++; sessionAccStats.correct++; const slots = document.querySelectorAll('#wj-wrapper .slot'); while(placedCount < slots.length && slots[placedCount].classList.contains('filled')) { placedCount++; } setOwlState('cheering', 'owlMascot'); $("mascotSpeech").textContent = "Good!"; owlSpeak("Good!"); document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.remove('active-hint')); if(placedCount >= currentWord.w.length) wordCompleteSequence(); }
-        function handleWrongPlacement() { SFX.wrong(); draggedTile.classList.add('reject-shake'); wordMistakes++; sessionAccStats.wrong++; inGameStreak = 0; lives--; $("hudLives").textContent = lives; if(lives <= 0) { SFX.loseLife(); setOwlState('sad', 'owlMascot'); $("mascotSpeech").textContent = "Out of lives!"; setTimeout(() => { if(draggedTile) draggedTile.remove(); finishSession(); }, 1500); return; } setOwlState('sad', 'owlMascot'); $("mascotSpeech").textContent = "Try again!"; owlSpeak("Try again!"); setTimeout(() => { if(draggedTile) { draggedTile.classList.remove('reject-shake'); returnTileToPool(); } }, 400); }
-        function returnTileToPool() { const tray = $("tray"); draggedTile.style.position = 'relative'; draggedTile.style.left = 'auto'; draggedTile.style.top = 'auto'; draggedTile.classList.remove('dragging'); tray.appendChild(draggedTile); draggedTile = null; }
-        window.wjUseHint = () => { if(state.stars >= 1) { state.stars -= 1; $("hudStars").textContent = state.stars; saveState(); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); if(slots.length > 0) { SFX.button(); slots[0].classList.add('active-hint'); const neededLetter = slots[0].dataset.letter; const tiles = [...$("tray").children].filter(t=>t.dataset.letter===neededLetter); if(tiles[0]) tiles[0].classList.add("hint-target"); pronounceWord(currentWord.w); setOwlState('wink', 'owlMascot'); $("mascotSpeech").textContent = "Look for glowing letter!"; } } else { SFX.wrong(); window.wjShowToast("Need Stars for hints!"); } };
-        function wordCompleteSequence(){ state.stats.totalWords++; if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); if(wordMistakes === 0) { SFX.perfect(); state.stats.perfectWords++; inGameStreak++; if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); } else { SFX.complete(); } $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); setTimeout(() => { $("trayWrap").style.display = "none"; const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); setOwlState('cheering', 'owlMascot'); let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; $("mascotSpeech").textContent = winMsg; owlSpeak(winMsg); createConfetti(window.innerWidth/2, window.innerHeight/2, true); SFX.cheer(); setTimeout(() => { pronounceWord(currentWord.w); }, 600); setTimeout(() => { $("slotsRow").style.animation = ""; sessionIdx++; loadWord(); }, 2500); }, 600); }
-        function finishSession(){ const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); if(isWin) { let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.5);"></div>'; 
-            $("endWordText").innerText = "VICTORY"; 
-            owlSpeak("Awesome! Level complete!"); $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); SFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } } else { $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); SFX.wrong(); } window.wjShowScreen("screen-complete"); }
-        window.wjStartNextLevel = () => { SFX.button(); if(selectedLvl < 100) startSession(selectedLvl + 1); };
-        window.wjOpenChest = () => { if($("chestImg").classList.contains("open")) return; SFX.chest(); $("chestImg").classList.add("open"); let r = Math.random(); let rewardMsg = ""; if(r < 0.4) { state.coins += 25; rewardMsg = "🪙 +25 Coins!"; } else if(r < 0.8) { state.stars += 10; rewardMsg = "⭐ +10 Stars!"; } else { state.coins += 50; state.stars += 5; rewardMsg = "💰 MEGA JACKPOT!"; } saveState(); setTimeout(()=>{ $("chestMsg").textContent = rewardMsg; $("chestMsg").style.color = "#8B5CF6"; $("chestMsg").style.fontSize = "24px"; $("btnChestDone").style.display = "inline-flex"; createConfetti(window.innerWidth/2, window.innerHeight/2, true); }, 600); };
-        window.wjAfterChest = () => { SFX.button(); buildHome(); if(window.isDailyChest) window.wjShowScreen('screen-map'); };
-        function checkAchievements() { BADGES.forEach(b => { if(!state.achievements.includes(b.id) && b.req(state)) { state.achievements.push(b.id); setTimeout(() => { SFX.chest(); window.wjShowToast(`🏅 Badge Unlocked: ${b.name}`); saveState(); }, 1000); } }); }
+        
+        function dragStart(e) { 
+            if(e.target.classList.contains('placed') || e.target.classList.contains('prefilled')) return; 
+            window.wjSFX.pickup(); 
+            draggedTile = e.target; 
+            const rect = draggedTile.getBoundingClientRect(); 
+            draggedTile.style.position = 'absolute'; 
+            draggedTile.style.left = rect.left + 'px'; 
+            draggedTile.style.top = rect.top + 'px';
+            draggedTile.style.zIndex = '2000';
+            draggedTile.classList.add('dragging'); 
+            document.getElementById("wj-app").appendChild(draggedTile); 
+            
+            originX = (e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : rect.left)) - rect.left;
+            originY = (e.clientY !== undefined ? e.clientY : (e.touches ? e.touches[0].clientY : rect.top)) - rect.top;
+            
+            document.addEventListener('pointermove', dragMove); 
+            document.addEventListener('pointerup', dragEnd); 
+            document.addEventListener('touchmove', dragMove, {passive: false}); 
+            document.addEventListener('touchend', dragEnd); 
+        }
+        
+        function dragMove(e) { 
+            if(!draggedTile) return; 
+            e.preventDefault(); 
+            let clientX = e.clientX !== undefined ? e.clientX : e.touches[0].clientX;
+            let clientY = e.clientY !== undefined ? e.clientY : e.touches[0].clientY;
+            draggedTile.style.left = (clientX - originX) + 'px'; 
+            draggedTile.style.top = (clientY - originY) + 'px'; 
+        }
+        
+        function dragEnd(e) { 
+            if(!draggedTile) return; 
+            document.removeEventListener('pointermove', dragMove); 
+            document.removeEventListener('pointerup', dragEnd); 
+            document.removeEventListener('touchmove', dragMove); 
+            document.removeEventListener('touchend', dragEnd); 
+            
+            const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); 
+            const tileRect = draggedTile.getBoundingClientRect(); 
+            const tileCenter = { x: tileRect.left + tileRect.width/2, y: tileRect.top + tileRect.height/2 }; 
+            let droppedSlot = null; 
+            
+            slots.forEach(slot => { 
+                const sRect = slot.getBoundingClientRect(); 
+                if(tileCenter.x > sRect.left && tileCenter.x < sRect.right && tileCenter.y > sRect.top && tileCenter.y < sRect.bottom) { 
+                    droppedSlot = slot; 
+                } 
+            }); 
+            
+            if(droppedSlot && droppedSlot.dataset.letter === draggedTile.dataset.letter && parseInt(droppedSlot.dataset.index) === placedCount) { 
+                handleCorrectPlacement(droppedSlot); 
+            } else if(droppedSlot) { 
+                handleWrongPlacement(); 
+            } else { 
+                returnTileToPool(); 
+            } 
+        }
+
+        function handleCorrectPlacement(slot) { 
+            window.wjSFX.snap(); 
+            slot.classList.add('filled'); 
+            slot.innerText = draggedTile.innerText; 
+            draggedTile.remove(); 
+            draggedTile = null; 
+            placedCount++; 
+            sessionAccStats.correct++; 
+            
+            const slots = document.querySelectorAll('#wj-wrapper .slot'); 
+            while(placedCount < slots.length && slots[placedCount].classList.contains('filled')) { 
+                placedCount++; 
+            } 
+            
+            setOwlState('cheering', 'owlMascot'); 
+            $("mascotSpeech").textContent = "Good!"; 
+            owlSpeak("Good!"); 
+            document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.remove('active-hint')); 
+            
+            if(placedCount >= currentWord.w.length) wordCompleteSequence(); 
+        }
+
+        function handleWrongPlacement() { 
+            window.wjSFX.wrong(); 
+            draggedTile.classList.add('reject-shake'); 
+            wordMistakes++; 
+            sessionAccStats.wrong++; 
+            inGameStreak = 0; 
+            lives--; 
+            $("hudLives").textContent = lives; 
+            
+            if(lives <= 0) { 
+                window.wjSFX.loseLife(); 
+                setOwlState('sad', 'owlMascot'); 
+                $("mascotSpeech").textContent = "Out of lives!"; 
+                setTimeout(() => { if(draggedTile) draggedTile.remove(); finishSession(); }, 1500); 
+                return; 
+            } 
+            
+            setOwlState('sad', 'owlMascot'); 
+            $("mascotSpeech").textContent = "Try again!"; 
+            owlSpeak("Try again!"); 
+            setTimeout(() => { if(draggedTile) { draggedTile.classList.remove('reject-shake'); returnTileToPool(); } }, 400); 
+        }
+        
+        function returnTileToPool() { 
+            if(!draggedTile) return;
+            const tray = $("tray"); 
+            draggedTile.style.position = 'relative'; 
+            draggedTile.style.left = 'auto'; 
+            draggedTile.style.top = 'auto';
+            draggedTile.style.zIndex = '30'; 
+            draggedTile.classList.remove('dragging'); 
+            tray.appendChild(draggedTile); 
+            draggedTile = null; 
+        }
+        
+        window.wjUseHint = () => { if(state.stars >= 1) { state.stars -= 1; $("hudStars").textContent = state.stars; saveState(); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); if(slots.length > 0) { window.wjSFX.button(); slots[0].classList.add('active-hint'); const neededLetter = slots[0].dataset.letter; const tiles = [...$("tray").children].filter(t=>t.dataset.letter===neededLetter); if(tiles[0]) tiles[0].classList.add("hint-target"); pronounceWord(currentWord.w); setOwlState('wink', 'owlMascot'); $("mascotSpeech").textContent = "Look for glowing letter!"; } } else { window.wjSFX.wrong(); window.wjShowToast("Need Stars for hints!"); } };
+        
+        function wordCompleteSequence(){ 
+            state.stats.totalWords++; if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); 
+            if(wordMistakes === 0) { window.wjSFX.perfect(); state.stats.perfectWords++; inGameStreak++; if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); } 
+            else { window.wjSFX.complete(); } 
+            
+            $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); 
+            
+            setTimeout(() => { 
+                $("trayWrap").style.display = "none"; 
+                $("slotsRow").style.transition = "opacity 0.5s ease";
+                $("slotsRow").style.opacity = "0";
+                
+                const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); 
+                setOwlState('cheering', 'owlMascot'); 
+                let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; 
+                $("mascotSpeech").textContent = winMsg; 
+                owlSpeak(winMsg); 
+                
+                createConfetti(window.innerWidth/2, window.innerHeight/2, true); window.wjSFX.cheer(); 
+                setTimeout(() => { pronounceWord(currentWord.w); }, 600); 
+                setTimeout(() => { $("slotsRow").style.animation = ""; sessionIdx++; loadWord(); }, 2500); 
+            }, 600); 
+        }
+        
+        function finishSession(){ 
+            const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); 
+            if(isWin) { 
+                let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); 
+                $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; 
+                
+                $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.4);"></div>'; 
+                $("endWordText").innerText = "VICTORY"; owlSpeak("Awesome! Level complete!"); 
+                
+                $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); window.wjSFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } 
+            } else { 
+                $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); window.wjSFX.wrong(); 
+            } 
+            window.wjShowScreen("screen-complete"); 
+        }
+        
+        window.wjStartNextLevel = () => { window.wjSFX.button(); if(selectedLvl < 100) startSession(selectedLvl + 1); };
+        window.wjOpenChest = () => { if($("chestImg").classList.contains("open")) return; window.wjSFX.chest(); $("chestImg").classList.add("open"); let r = Math.random(); let rewardMsg = ""; if(r < 0.4) { state.coins += 25; rewardMsg = "🪙 +25 Coins!"; } else if(r < 0.8) { state.stars += 10; rewardMsg = "⭐ +10 Stars!"; } else { state.coins += 50; state.stars += 5; rewardMsg = "💰 MEGA JACKPOT!"; } saveState(); setTimeout(()=>{ $("chestMsg").textContent = rewardMsg; $("chestMsg").style.color = "#8B5CF6"; $("chestMsg").style.fontSize = "24px"; $("btnChestDone").style.display = "inline-flex"; createConfetti(window.innerWidth/2, window.innerHeight/2, true); }, 600); };
+        window.wjAfterChest = () => { window.wjSFX.button(); buildHome(); if(window.isDailyChest) window.wjShowScreen('screen-map'); };
+        
+        function checkAchievements() { BADGES.forEach(b => { if(!state.achievements.includes(b.id) && b.req(state)) { state.achievements.push(b.id); setTimeout(() => { window.wjSFX.chest(); window.wjShowToast(`🏅 Badge Unlocked: ${b.name}`); saveState(); }, 1000); } }); }
         function createConfetti(x, y, isBig = false) { const colors = ['#3B82F6', '#4CAF50', '#EF4444', '#FFC107', '#8B5CF6']; const count = isBig ? 60 : 30; for(let i=0; i<count; i++) { let conf = document.createElement('div'); conf.className = 'particle'; conf.style.left = x + 'px'; conf.style.top = y + 'px'; conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; conf.style.width = Math.random() * 15 + 5 + 'px'; conf.style.height = Math.random() * 10 + 5 + 'px'; conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0'; const angle = Math.random() * Math.PI * 2; const velocity = Math.random() * (isBig ? 300 : 150); conf.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`); conf.style.setProperty('--ty', `${Math.sin(angle) * velocity + (isBig ? -100 : 0)}px`); conf.style.animation = `wjBlast ${Math.random() * 1 + 1.5}s cubic-bezier(0.25, 1, 0.5, 1) forwards`; document.getElementById("wj-app").appendChild(conf); setTimeout(() => conf.remove(), 2500); } }
         
         window.wjCurrentWord = () => currentWord;
@@ -1667,8 +1853,8 @@ body {
             if($("bgMusic")) $("bgMusic").pause();
         };
         
-        $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗";
-        
+        $("toggleSound").style.background = state.settings.sound ? "#4CAF50" : "#CBD5E1"; 
+        $("toggleSound").innerText = state.settings.sound ? "✓" : "✗";
     })();
     </script>
 </div>
@@ -2278,7 +2464,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v129'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v132'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
