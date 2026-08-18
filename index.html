@@ -1142,13 +1142,18 @@ body {
         #wj-wrapper .mascot-floater { animation: wjFloatMascot 3s ease-in-out infinite; width: 128px; height: 128px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
         @keyframes wjFloatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         
-        #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-position: 0 0; margin: 0 auto; }
+        /* 1. FIXED OWL ANIMATIONS: Scales any image perfectly to stop flickering! */
+        #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-size: 512px 128px; background-position: 0 0; margin: 0 auto; }
+        
         @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
+        
         @keyframes wjOwlCheering { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-cheering { background-image: url("owl_cheering.png"); animation: wjOwlCheering 1s steps(4) infinite; }
+        
         @keyframes wjOwlSad { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-sad { background-image: url("owl_sad.png"); animation: wjOwlSad 1s steps(4) infinite; }
+        
         @keyframes wjOwlWink { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-wink { background-image: url("owl_wink.png"); animation: wjOwlWink 1s steps(4) infinite; }
         
@@ -1226,7 +1231,10 @@ body {
         @keyframes wjStarPop { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
         #wj-wrapper .end-lvl-text { color: #6D28D9; text-transform: uppercase; margin: 10px 0 15px; letter-spacing: 1px; font-size: 20px; font-weight: 800; }
         #wj-wrapper .showcase-box { background: radial-gradient(circle, #FFFBEB 0%, #FEF08A 100%); border: 4px solid #FDE047; border-radius: 24px; padding: 30px 20px 20px; margin: 0 auto 35px; position: relative; width: 85%; box-shadow: inset 0 0 20px #F59E0B, 0 8px 15px rgba(0,0,0,0.1); }
-        #wj-wrapper .end-img { font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; min-height: 140px; }
+        
+        /* END IMAGE SETTINGS */
+        #wj-wrapper .end-img { display: flex; align-items: center; justify-content: center; min-height: 150px; margin-bottom: 5px; overflow: visible; font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
+        
         #wj-wrapper .showcase-ribbon { background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); color: white; padding: 6px 30px; border-radius: 99px; font-size: 22px; font-weight: 800; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); box-shadow: 0 6px 0 #991B1B, 0 8px 15px rgba(0,0,0,0.2); text-transform: uppercase; white-space: nowrap; letter-spacing: 2px; }
         #wj-wrapper .stats-row { display: flex; justify-content: space-between; gap: 5px; padding: 0 10px; margin-bottom: 25px; }
         #wj-wrapper .stat-box { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
@@ -1266,26 +1274,31 @@ body {
            ======================================================== */
         @media (orientation: landscape) {
             #wj-wrapper #wj-screen-game { padding-top: 50px; overflow: hidden; justify-content: center; align-items: center; }
-            #wj-wrapper .hud-bar { padding: 5px 16px; margin-bottom: 0px; position: absolute; top: 0; width: 100%; }
+            #wj-wrapper .hud-bar { padding: 5px 16px; margin-bottom: 0px; position: absolute; top: 0; width: 100%; z-index: 200; }
             #wj-wrapper .game-header { display: none; } 
             
-            #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: center; gap: 20px; width: 100%; max-width: 800px; }
-            #wj-wrapper .mascot-container { margin: 0; transform: scale(1); z-index: 50; }
+            #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: center; gap: 20px; width: 100%; max-width: 800px; position: relative; }
+            
+            /* Mascot safely tucked to the left side */
+            #wj-wrapper .mascot-container { position: absolute; left: -10px; top: 50%; transform: translateY(-50%) scale(0.9); z-index: 50; }
             
             /* Plenty of space so text never overlaps */
-            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 85%; z-index: 10; flex: 1; position: relative; min-height: 180px; display: flex; justify-content: flex-end; align-items: center; }
-            #wj-wrapper .word-title { font-size: 16px; padding: 6px 20px; top: -18px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
+            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 75%; z-index: 10; position: relative; min-height: 160px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;}
+            #wj-wrapper .word-title { font-size: 14px; padding: 4px 15px; top: -14px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
             
-            #wj-wrapper .slot { width: 75px; height: 75px; font-size: 40px; border-radius: 50%; }
+            #wj-wrapper .slot { width: 70px; height: 70px; font-size: 38px; border-radius: 50%; }
             
-            #wj-wrapper .tray-wrap { margin-top: 20px; padding-bottom: 10px; margin-bottom: 0; width: 95%; max-width: 800px; z-index: 20; position: relative; }
+            #wj-wrapper .tray-wrap { margin-top: 15px; padding-bottom: 10px; margin-bottom: 0; width: 95%; max-width: 800px; z-index: 20; position: relative; }
             #wj-wrapper .tray { padding: 10px; gap: 20px; }
-            #wj-wrapper .tile { width: 80px; height: 80px; font-size: 44px; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3), inset 0 -4px 6px rgba(212,163,83,0.3); }
+            #wj-wrapper .tile { width: 75px; height: 75px; font-size: 40px; border-radius: 50%; }
             
             /* PICTURE REVEAL DEAD CENTER */
-            #wj-wrapper .image-stage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; width: 160px; height: 160px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 90px; border: 8px solid #FFC107; z-index: 50; }
-            #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-            @keyframes wjPicPop { 0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } }
+            #wj-wrapper .image-stage { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; font-size: 80px; }
+            
+            /* GAME CONTROLS IN BOTTOM RIGHT CORNER */
+            #wj-wrapper .game-controls { position: absolute; right: 15px; bottom: 15px; width: auto; background: transparent; padding: 0; flex-direction: row; z-index: 100;}
+            #wj-wrapper .ctrl-grp span { display: none; } 
+            #wj-wrapper .icon-btn { width: 50px; height: 50px; font-size: 22px; }
             
             /* LANDSCAPE RESULT SCREEN */
             #wj-wrapper #wj-screen-complete { overflow: hidden; padding: 10px; align-items: center; justify-content: center;}
@@ -1295,7 +1308,7 @@ body {
             #wj-wrapper .end-stars { top: 10px; font-size: 35px; }
             #wj-wrapper .end-lvl-text { display: none; }
             #wj-wrapper .showcase-box { margin: 0; padding: 10px; width: 100%; grid-column: 1 / 2; }
-            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; min-height: 120px; display: flex; align-items: center; justify-content: center; } 
+            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; } 
             #wj-wrapper .showcase-ribbon { font-size: 14px; padding: 4px 20px; bottom: -12px; }
             #wj-wrapper .stats-row { grid-column: 2 / 3; margin: 0; flex-direction: column; gap: 5px; }
             #wj-wrapper .stat-box { justify-content: flex-start; }
@@ -1596,7 +1609,7 @@ body {
         window.wjGoHome = () => { 
             try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(e) {} 
             if(draggedTile) { draggedTile.remove(); draggedTile = null; }
-            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove());
+            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove()); // Sweeps away any ghost letters
             buildHome(); 
             window.wjShowScreen('screen-map'); 
         };
@@ -1655,6 +1668,7 @@ body {
           $("target-image").classList.remove("show-pic"); 
           $("trayWrap").style.display = "block"; 
           
+          // BRING BACK THE LETTERS
           $("slotsRow").style.display = "flex";
           $("slotsRow").style.opacity = "1";
           $("slotsRow").style.transition = "none";
@@ -1803,8 +1817,10 @@ body {
             
             setTimeout(() => { 
                 $("trayWrap").style.display = "none"; 
+                
+                // FADE OUT THE LETTERS SO THE PICTURE IS FLAWLESS
                 $("slotsRow").style.transition = "opacity 0.5s ease";
-                $("slotsRow").style.opacity = "0";
+                $("slotsRow").style.opacity = "0"; 
                 
                 const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); 
                 setOwlState('cheering', 'owlMascot'); 
@@ -1814,22 +1830,41 @@ body {
                 
                 createConfetti(window.innerWidth/2, window.innerHeight/2, true); window.wjSFX.cheer(); 
                 setTimeout(() => { pronounceWord(currentWord.w); }, 600); 
-                setTimeout(() => { $("slotsRow").style.animation = ""; sessionIdx++; loadWord(); }, 2500); 
+                
+                setTimeout(() => { 
+                    $("slotsRow").style.animation = ""; 
+                    sessionIdx++; 
+                    loadWord(); 
+                }, 2500); 
             }, 600); 
         }
         
         function finishSession(){ 
             const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); 
+            
+            $("endShowcase").style.display = "block"; // ALWAYS SHOW SHOWCASE
+            
             if(isWin) { 
                 let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); 
-                $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; 
+                $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; 
                 
-                $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.4);"></div>'; 
-                $("endWordText").innerText = "VICTORY"; owlSpeak("Awesome! Level complete!"); 
+                // OWL CHEERING
+                $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.3);"></div>'; 
+                $("endWordText").innerText = "VICTORY"; 
+                owlSpeak("Awesome! Level complete!"); 
                 
-                $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); window.wjSFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } 
+                $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; 
+                window.wjSFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); 
+                if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } 
             } else { 
-                $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); window.wjSFX.wrong(); 
+                $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; 
+                
+                // OWL SAD
+                $("endImg").innerHTML = '<div class="owl-mascot owl-sad" style="transform: scale(1.3);"></div>'; 
+                $("endWordText").innerText = "FAILED"; 
+                
+                $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; 
+                window.wjSFX.wrong(); 
             } 
             window.wjShowScreen("screen-complete"); 
         }
@@ -2464,7 +2499,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v132'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v133'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
