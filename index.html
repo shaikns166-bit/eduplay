@@ -1126,6 +1126,7 @@ body {
         #wj-wrapper .overlay { position: fixed; inset: 0; background: rgba(30,41,59,0.85); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         #wj-wrapper .overlay.active { display: flex; animation: wjFadeIn 0.3s ease; }
         #wj-wrapper .overlay-box { background: #FFFFFF; border-radius: 32px; padding: 24px; text-align: center; width: min(360px, 90vw); box-shadow: 0 16px 40px rgba(0,0,0,0.4); position: relative; border: 4px solid #fff; }
+        
         #wj-wrapper .hud-bar { width: 100%; display: flex; justify-content: space-between; padding: 12px 16px; background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%); z-index: 10; position: fixed; top: 0; left: 0; }
         #wj-wrapper .hud-group { display: flex; gap: 10px; }
         #wj-wrapper .hud-pill { border: 3px solid #fff; border-radius: 999px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 0 rgba(0,0,0,0.15); margin: 0; }
@@ -1149,7 +1150,6 @@ body {
         
         #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-size: 512px 128px; background-position: 0 0; margin: 0 auto; }
         
-        /* 1. FIXED OWL ANIMATIONS: They all loop "infinite" now so the owl never vanishes! */
         @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
         @keyframes wjOwlCheering { from { background-position: 0 0; } to { background-position: -512px 0; } }
@@ -1163,7 +1163,8 @@ body {
         #wj-wrapper .speech-bubble:after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-top: 10px solid #fff; border-left: 10px solid transparent; border-right: 10px solid transparent; }
         
         #wj-wrapper #wj-screen-map { background: url('map-bg.png') center bottom / cover no-repeat, linear-gradient(180deg, #60A5FA 0%, #34D399 100%); }
-        #wj-wrapper .logo-title { position: fixed; top: 55px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        @keyframes wjFloatLogo { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-12px); } }
+        #wj-wrapper .logo-title { position: fixed; top: 55px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; width: 100%; animation: wjFloatLogo 3.5s ease-in-out infinite; }
         #wj-wrapper .logo-title img { max-width: 200px; } 
         #wj-wrapper .logo-title p { background: #8B5CF6; color: #fff; padding: 4px 20px; border-radius: 99px; box-shadow: 0 3px 0 #6D28D9; font-weight: 800; font-size: 14px; letter-spacing: 1px; margin-top: -10px; pointer-events: auto;}
         
@@ -1176,7 +1177,10 @@ body {
         #wj-wrapper .btn-gift { background: linear-gradient(180deg, #FCD34D 0%, #F59E0B 100%); box-shadow: 0 6px 0 #D97706, 0 8px 15px rgba(0,0,0,0.2); color: #854D0E; text-shadow: none; }
         #wj-wrapper .btn-shop { background: linear-gradient(180deg, #34D399 0%, #059669 100%); box-shadow: 0 6px 0 #047857, 0 8px 15px rgba(0,0,0,0.2); }
         
-        #wj-wrapper .map-area { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; padding-bottom: 120px; gap: 40px; }
+        /* THE MAP SCROLL FIX FOR LANDSCAPE */
+        #wj-wrapper .map-scroll-wrap { width: 100%; margin-top: 260px; position: relative; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+        #wj-wrapper .map-area { position: relative; display: flex; flex-direction: column; align-items: center; padding-bottom: 120px; gap: 40px; }
+        
         #wj-wrapper .map-node { position: relative; width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%); border: 4px solid #fff; box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: transform 0.1s; }
         #wj-wrapper .map-node:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
         #wj-wrapper .map-node.locked { filter: grayscale(1); opacity: 0.8; pointer-events: none; }
@@ -1266,10 +1270,19 @@ body {
         #wj-wrapper .badge-card { background: #fff; border-radius: 50%; width: 90px; height: 90px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 6px 0 #E2E8F0; opacity: 0.4; filter: grayscale(1); margin: 0 auto; }
         #wj-wrapper .badge-card.unlocked { opacity: 1; filter: grayscale(0); border: 4px solid #FFC107; background: #FFFBEB; }
         
+        /* Puts the owl in front and to the right during the book reveal! */
+        #wj-wrapper .mascot-container.reveal-mode { z-index: 2000 !important; }
+        
         /* ========================================================
            LANDSCAPE MAGIC FORMATTING (PERFECT ALIGNMENT)
            ======================================================== */
         @media (orientation: landscape) {
+            #wj-wrapper .logo-title { top: 35px; position: absolute; }
+            #wj-wrapper .logo-title img { max-width: 150px; }
+            #wj-wrapper .logo-title p { font-size: 10px; padding: 2px 10px; margin-top: -5px; }
+            #wj-wrapper .map-scroll-wrap { margin-top: 140px; }
+            #wj-wrapper .map-area { gap: 20px; padding-bottom: 80px; }
+        
             #wj-wrapper #wj-screen-game { padding-top: 50px; overflow: hidden; justify-content: center; align-items: center; }
             
             /* PUSHES TOP BAR TO THE VERY EDGES */
@@ -1279,6 +1292,7 @@ body {
             
             /* Mascot safely tucked to the left side */
             #wj-wrapper .mascot-container { position: absolute; left: -10px; top: 50%; transform: translateY(-50%) scale(0.9); z-index: 50; }
+            #wj-wrapper .mascot-container.reveal-mode { left: auto !important; right: 3% !important; transform: translateY(-50%) scale(1.1) !important; }
             
             /* Plenty of space so text never overlaps */
             #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 75%; z-index: 10; position: relative; min-height: 160px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;}
@@ -1345,14 +1359,14 @@ body {
             <div class="side-btn btn-shop" onclick="window.wjOpenShop()"><span class="icon">🛒</span> Shop</div>
         </div>
 
-        <div style="width: 100%; margin-top: 280px; position: relative;">
+        <div class="map-scroll-wrap" style="width: 100%; margin-top: 280px; position: relative;">
             <div class="map-area" id="wj-mapArea"></div>
         </div>
       </section>
 
       <section class="screen" id="wj-screen-game">
         <!-- FIXED HUD AT THE VERY TOP EDGE -->
-        <div class="hud-bar" style="position: absolute; top: 5px; left: 5px; width: calc(100% - 10px); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
+        <div class="hud-bar" style="position: absolute; top: 15px; left: 15px; right: 15px; width: calc(100% - 30px); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
           <button class="icon-btn" style="background: #8B5CF6; color: white; border: 3px solid white; box-shadow: 0 5px 0 #6D28D9;" onclick="window.wjGoHome(); window.wjSFX.button();">⬅</button>
           
           <div style="display: flex; gap: 10px; background: rgba(255,255,255,0.8); padding: 6px 16px; border-radius: 99px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
@@ -1538,7 +1552,7 @@ body {
         }
 
         const ALL_WORDS = [
-         {w:"APPLE", emoji:"🍎", s:"A crunchy red fruit.", diff:"easy"}, {w:"MANGO", emoji:"🥭", s:"A sweet yellow fruit.", diff:"easy"}, {w:"ONION", emoji:"🧅", s:"It makes you cry.", diff:"med"}, {w:"CARROT", emoji:"🥕", s:"Rabbits love these.", diff:"med"}, {w:"CABBAGE", emoji:"🥬", s:"A leafy green vegetable.", diff:"hard"},
+         {w:"APPLE", emoji:"🍎", s:"An apple is a crunchy fruit.", diff:"easy"}, {w:"MANGO", emoji:"🥭", s:"A sweet yellow fruit.", diff:"easy"}, {w:"ONION", emoji:"🧅", s:"It makes you cry.", diff:"med"}, {w:"CARROT", emoji:"🥕", s:"Rabbits love these.", diff:"med"}, {w:"CABBAGE", emoji:"🥬", s:"A leafy green vegetable.", diff:"hard"},
          {w:"CAT", emoji:"🐱", s:"Says meow.", diff:"easy"}, {w:"DOG", emoji:"🐶", s:"Man's best friend.", diff:"easy"}, {w:"MONKEY", emoji:"🐵", s:"Loves bananas.", diff:"med"}, {w:"ELEPHANT", emoji:"🐘", s:"Has a long trunk.", diff:"hard"}, {w:"PENGUIN", emoji:"🐧", s:"A bird that swims.", diff:"hard"},
          {w:"EYE", emoji:"👁️", s:"You use it to see.", diff:"easy"}, {w:"NOSE", emoji:"👃", s:"You use it to smell.", diff:"easy"}, {w:"MOUTH", emoji:"👄", s:"You use it to talk.", diff:"med"}, {w:"FINGER", emoji:"☝️", s:"You have ten of these.", diff:"med"}, {w:"SHOULDER", emoji:"🧍", s:"Between neck and arm.", diff:"hard"},
          {w:"MONDAY", emoji:"📅", s:"First day of the school week.", diff:"med"}, {w:"FRIDAY", emoji:"📅", s:"Last day of the school week.", diff:"med"}, {w:"JANUARY", emoji:"❄️", s:"The first month.", diff:"hard"}, {w:"AUGUST", emoji:"☀️", s:"The eighth month.", diff:"hard"},
@@ -1575,13 +1589,17 @@ body {
         let toastTimer=null;
         window.wjShowToast = function(msg, type=""){ const t = $("toast"); t.textContent = msg; t.className = "toast show " + type; clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.className = "toast", 2500); };
         window.wjShowScreen = (name) => { document.querySelectorAll('#wj-wrapper .screen').forEach(s => s.classList.remove('active')); $(name).classList.add('active'); window.wjSFX.button(); };
-        window.wjToggleSound = () => { state.settings.sound = !state.settings.sound; $("wj-soundToggleBtn").innerText = state.settings.sound ? "🔊" : "🔇"; $("toggleSound").innerText = state.settings.sound ? "✓" : "✗"; saveState(); window.wjSFX.button(); };
-        window.wjToggleMusic = () => { state.settings.music = !state.settings.music; $("toggleMusicBtn").style.background = state.settings.music ? "#4CAF50" : "#CBD5E1"; $("toggleMusicBtn").innerText = state.settings.music ? "✓" : "✗"; if(state.settings.music) { $("bgMusic").play().catch(e=>{}); } else { $("bgMusic").pause(); } saveState(); window.wjSFX.button(); };
+        window.wjToggleSound = () => { state.settings.sound = !state.settings.sound; if($("wj-soundToggleBtn")) $("wj-soundToggleBtn").innerText = state.settings.sound ? "🔊" : "🔇"; if($("toggleSound")) $("toggleSound").innerText = state.settings.sound ? "✓" : "✗"; saveState(); window.wjSFX.button(); };
+        window.wjToggleMusic = () => { state.settings.music = !state.settings.music; if($("toggleMusicBtn")) $("toggleMusicBtn").style.background = state.settings.music ? "#4CAF50" : "#CBD5E1"; if($("toggleMusicBtn")) $("toggleMusicBtn").innerText = state.settings.music ? "✓" : "✗"; if(state.settings.music) { if($("bgMusic")) $("bgMusic").play().catch(e=>{}); } else { if($("bgMusic")) $("bgMusic").pause(); } saveState(); window.wjSFX.button(); };
         function owlSpeak(text) { if(!state.settings.sound) return; try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.pitch = 1.7; u.rate = 1.1; window.speechSynthesis.speak(u); } catch(e){} }
         
         function buildHome() {
-          $("statStars").textContent = state.stars; $("statCoins").textContent = state.coins; $("statStreak").textContent = state.daily.streak;
-          const m = $("mapArea"); m.innerHTML = "";
+          if($("statStars")) $("statStars").textContent = state.stars; 
+          if($("statCoins")) $("statCoins").textContent = state.coins; 
+          if($("statStreak")) $("statStreak").textContent = state.daily.streak;
+          const m = $("mapArea"); 
+          if(!m) return;
+          m.innerHTML = "";
           WORLDS.forEach((w) => {
               const unlocked = w.id <= state.highestLevel; const stars = state.bestPerLvl[w.id] || 0;
               const node = document.createElement("div"); node.className = "map-node" + (unlocked ? (w.id === state.highestLevel ? " current" : "") : " locked"); node.style.transform = `translateX(${w.pos.x}px)`;
@@ -1595,24 +1613,24 @@ body {
         window.wjGoHome = () => { 
             try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(e) {} 
             if(draggedTile) { draggedTile.remove(); draggedTile = null; }
-            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove());
+            document.querySelectorAll('#wj-wrapper .tile').forEach(t => t.remove());
             buildHome(); 
             window.wjShowScreen('screen-map'); 
         };
         
         window.wjOpenWordBook = () => {
-            $("wbCount").textContent = state.wordBook.length; const g = $("wordBookGrid"); g.innerHTML = "";
+            if($("wbCount")) $("wbCount").textContent = state.wordBook.length; const g = $("wordBookGrid"); if(!g) return; g.innerHTML = "";
             if(state.wordBook.length === 0) g.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Play games to collect words!</p>";
             state.wordBook.forEach(wStr => {
                 let wd = ALL_WORDS.find(x => x.w === wStr); if(!wd) return;
                 const d = document.createElement("div"); d.className = "book-card"; d.innerHTML = `<div class="emoji" style="font-size:40px; margin-bottom:5px;">${wd.emoji}</div><div style="font-weight:800;">${wd.w}</div>`;
-                d.onclick = () => { window.wjSFX.button(); $("wiImg").innerText = wd.emoji; $("wiWord").innerText = wd.w; $("wiSent").innerText = wd.s; $("overlay-wordinfo").classList.add("active"); pronounceWord(wd.w); }; g.appendChild(d);
+                d.onclick = () => { window.wjSFX.button(); if($("wiImg")) $("wiImg").innerText = wd.emoji; if($("wiWord")) $("wiWord").innerText = wd.w; if($("wiSent")) $("wiSent").innerText = wd.s; if($("overlay-wordinfo")) $("overlay-wordinfo").classList.add("active"); pronounceWord(wd.w); }; g.appendChild(d);
             }); window.wjShowScreen('screen-wordbook');
         };
         
-        window.wjOpenProgress = () => { $("pTotWords").textContent = state.stats.totalWords; $("pPerfWords").textContent = state.stats.perfectWords; $("pBestStreak").textContent = state.stats.bestStreak; window.wjShowScreen('screen-progress'); };
+        window.wjOpenProgress = () => { if($("pTotWords")) $("pTotWords").textContent = state.stats.totalWords; if($("pPerfWords")) $("pPerfWords").textContent = state.stats.perfectWords; if($("pBestStreak")) $("pBestStreak").textContent = state.stats.bestStreak; window.wjShowScreen('screen-progress'); };
         window.wjOpenAchievements = () => {
-            const g = $("badgesGrid"); g.innerHTML = "";
+            const g = $("badgesGrid"); if(!g) return; g.innerHTML = "";
             BADGES.forEach(b => {
                 const has = state.achievements.includes(b.id); const d = document.createElement("div");
                 d.className = "badge-card" + (has ? " unlocked" : ""); 
@@ -1620,9 +1638,9 @@ body {
                 d.innerHTML = `<div class="badge-icon" style="font-size:36px;">${b.icon}</div><div style="font-size:10px; font-weight:800; text-align:center; margin-top:5px;">${b.name}</div>`; g.appendChild(d);
             }); window.wjShowScreen('screen-achievements');
         };
-        window.wjStartDailyChallenge = () => { window.wjSFX.button(); if(state.daily.claimed) { window.wjShowToast("Daily Gift already claimed! Come back tomorrow."); return; } state.daily.claimed = true; state.daily.streak++; saveState(); $("chestTitle").innerText = "Daily Gift!"; $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Tap to open!"; $("btnChestDone").style.display = "none"; $("overlay-chest").classList.add("active"); window.isDailyChest = true; };
-        window.wjOpenShop = () => { $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; $("overlay-shop").classList.add("active"); window.wjSFX.button(); };
-        window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); $("shopCoins").textContent = state.coins; $("shopLivesOwned").textContent = state.extraLives; window.wjSFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { window.wjSFX.wrong(); window.wjShowToast("Not enough coins!"); } };
+        window.wjStartDailyChallenge = () => { window.wjSFX.button(); if(state.daily.claimed) { window.wjShowToast("Daily Gift already claimed! Come back tomorrow."); return; } state.daily.claimed = true; state.daily.streak++; saveState(); if($("chestTitle")) $("chestTitle").innerText = "Daily Gift!"; if($("chestImg")) $("chestImg").className = "chest-img"; if($("chestMsg")) $("chestMsg").textContent = "Tap to open!"; if($("btnChestDone")) $("btnChestDone").style.display = "none"; if($("overlay-chest")) $("overlay-chest").classList.add("active"); window.isDailyChest = true; };
+        window.wjOpenShop = () => { if($("shopCoins")) $("shopCoins").textContent = state.coins; if($("shopLivesOwned")) $("shopLivesOwned").textContent = state.extraLives; if($("overlay-shop")) $("overlay-shop").classList.add("active"); window.wjSFX.button(); };
+        window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); if($("shopCoins")) $("shopCoins").textContent = state.coins; if($("shopLivesOwned")) $("shopLivesOwned").textContent = state.extraLives; window.wjSFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { window.wjSFX.wrong(); window.wjShowToast("Not enough coins!"); } };
         
         let selectedLvl = 1, sessionWords = [], sessionIdx = 0, currentWord = null, currentSlots = [], placedCount = 0, lives = 3, inGameStreak = 0, wordMistakes = 0, sessionAccStats = { correct: 0, wrong: 0 };
         function getWordsForLevel(lvl) {
@@ -1673,7 +1691,6 @@ body {
           for(let i=0; i<extra; i++) { let l = alphabet[Math.floor(Math.random()*26)]; if(!tileLetters.includes(l)) tileLetters.push(l); }
           let shuffled = tileLetters.sort(()=>Math.random()-0.5); 
           
-          // Bulletproof Reset: Brings the board and letters back safely!
           let board = document.querySelector('#wj-wrapper .word-board');
           if(board) board.style.display = "flex"; 
           
@@ -1690,6 +1707,8 @@ body {
               $("slotsRow").style.animation = "";
           }
           
+          if($("mascot-area")) $("mascot-area").classList.remove("reveal-mode"); 
+          
           setOwlState('idle', 'owlMascot'); 
           if(sessionIdx === 0) { 
               if($("mascotSpeech")) $("mascotSpeech").textContent = "Welcome! Good luck!"; 
@@ -1703,10 +1722,10 @@ body {
           buildTray(shuffled);
         }
         
-        function buildSlots(prefilled){ const row = $("slotsRow"); row.innerHTML = ""; currentSlots.forEach((letter,i)=>{ const slot = document.createElement("div"); slot.className = "slot" + (prefilled.includes(i) ? " filled prefilled" : ""); slot.dataset.letter = letter; slot.dataset.index = i; if(prefilled.includes(i)) slot.textContent = letter; row.appendChild(slot); }); while(prefilled.includes(placedCount)) placedCount++; }
+        function buildSlots(prefilled){ const row = $("slotsRow"); if(!row) return; row.innerHTML = ""; currentSlots.forEach((letter,i)=>{ const slot = document.createElement("div"); slot.className = "slot" + (prefilled.includes(i) ? " filled prefilled" : ""); slot.dataset.letter = letter; slot.dataset.index = i; if(prefilled.includes(i)) slot.textContent = letter; row.appendChild(slot); }); while(prefilled.includes(placedCount)) placedCount++; }
         
         function buildTray(letters){ 
-            const tray = $("tray"); tray.innerHTML = ""; 
+            const tray = $("tray"); if(!tray) return; tray.innerHTML = ""; 
             letters.forEach(letter => { 
                 const tile = document.createElement("div"); 
                 tile.className = "tile"; tile.textContent = letter; tile.dataset.letter = letter; 
@@ -1790,7 +1809,7 @@ body {
             } 
             
             setOwlState('cheering', 'owlMascot', true); 
-            $("mascotSpeech").textContent = "Good!"; 
+            if($("mascotSpeech")) $("mascotSpeech").textContent = "Good!"; 
             owlSpeak("Good!"); 
             document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.remove('active-hint')); 
             
@@ -1804,18 +1823,18 @@ body {
             sessionAccStats.wrong++; 
             inGameStreak = 0; 
             lives--; 
-            $("hudLives").textContent = lives; 
+            if($("hudLives")) $("hudLives").textContent = lives; 
             
             if(lives <= 0) { 
                 window.wjSFX.loseLife(); 
                 setOwlState('sad', 'owlMascot', true); 
-                $("mascotSpeech").textContent = "Out of lives!"; 
+                if($("mascotSpeech")) $("mascotSpeech").textContent = "Out of lives!"; 
                 setTimeout(() => { if(draggedTile) draggedTile.remove(); finishSession(); }, 1500); 
                 return; 
             } 
             
             setOwlState('sad', 'owlMascot', false); 
-            $("mascotSpeech").textContent = "Try again!"; 
+            if($("mascotSpeech")) $("mascotSpeech").textContent = "Try again!"; 
             owlSpeak("Try again!"); 
             setTimeout(() => { if(draggedTile) { draggedTile.classList.remove('reject-shake'); returnTileToPool(); } }, 400); 
         }
@@ -1828,7 +1847,7 @@ body {
             draggedTile.style.top = 'auto';
             draggedTile.style.zIndex = '30'; 
             draggedTile.classList.remove('dragging'); 
-            tray.appendChild(draggedTile); 
+            if(tray) tray.appendChild(draggedTile); 
             draggedTile = null; 
         }
         
@@ -1837,7 +1856,7 @@ body {
             if(htBtn) { htBtn.classList.add("slot", "reject-shake"); setTimeout(() => htBtn.classList.remove("slot", "reject-shake"), 400); }
             
             if(state.stars >= 1) { 
-                state.stars -= 1; $("hudStars").textContent = state.stars; saveState(); 
+                state.stars -= 1; if($("hudStars")) $("hudStars").textContent = state.stars; saveState(); 
                 const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); 
                 if(slots.length > 0) { 
                     window.wjSFX.button(); 
@@ -1847,7 +1866,7 @@ body {
                     if(tiles[0]) tiles[0].classList.add("hint-target"); 
                     pronounceWord(currentWord.w); 
                     setOwlState('wink', 'owlMascot'); 
-                    $("mascotSpeech").textContent = "Look for glowing letter!"; 
+                    if($("mascotSpeech")) $("mascotSpeech").textContent = "Look for glowing letter!"; 
                 } 
             } else { 
                 window.wjSFX.wrong(); 
@@ -1875,7 +1894,6 @@ body {
             try { checkAchievements(); } catch(e) {}
             
             setTimeout(() => { 
-                // Safe hiding
                 if($("trayWrap")) { $("trayWrap").style.display = "none"; }
                 
                 if($("slotsRow")) {
@@ -1883,13 +1901,14 @@ body {
                     $("slotsRow").style.opacity = "0"; 
                 }
                 
-                // Safe book reveal
                 if($("reveal-img")) $("reveal-img").innerText = currentWord.emoji || ""; 
                 if($("reveal-word")) $("reveal-word").innerText = currentWord.w || ""; 
                 if($("reveal-sent")) $("reveal-sent").innerText = currentWord.s || ""; 
                 if($("word-reveal")) $("word-reveal").classList.add("show-book"); 
                 
-                setOwlState('cheering', 'owlMascot'); 
+                if($("mascot-area")) $("mascot-area").classList.add("reveal-mode"); 
+                
+                setOwlState('cheering', 'owlMascot', true); 
                 let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; 
                 if($("mascotSpeech")) $("mascotSpeech").textContent = winMsg; 
                 owlSpeak(winMsg); 
@@ -1914,7 +1933,7 @@ body {
             state.extraLives = Math.max(0, lives - 3); 
             saveState(); 
             
-            if($("endShowcase")) $("endShowcase").style.display = "block"; 
+            if($("endShowcase")) $("endShowcase").style.display = "block"; // ALWAYS SHOW SHOWCASE
             
             if(isWin) { 
                 let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); 
@@ -1970,7 +1989,9 @@ body {
                 }
                 if($("endStars")) $("endStars").innerText = "☆☆☆"; 
                 if($("endLvlText")) $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; 
-                if($("endShowcase")) $("endShowcase").style.display = "none"; 
+                
+                // THE FIX: We explicitly tell the box to display so the sad owl isn't hidden!
+                if($("endShowcase")) $("endShowcase").style.display = "block"; 
                 
                 if($("endImg")) $("endImg").innerHTML = '<div class="owl-mascot owl-sad" style="transform: scale(1.3);"></div>'; 
                 if($("endWordText")) $("endWordText").innerText = "FAILED"; 
@@ -2007,7 +2028,7 @@ body {
             if($("bgMusic")) $("bgMusic").pause();
         };
         
-        $("wj-soundToggleBtn").innerText = state.settings.sound ? "🔊" : "🔇";
+        if($("wj-soundToggleBtn")) $("wj-soundToggleBtn").innerText = state.settings.sound ? "🔊" : "🔇";
         
     })();
     </script>
@@ -2618,7 +2639,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v142'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v147'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
