@@ -1111,6 +1111,12 @@ body {
 
 <!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
 <div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
+    
+    <!-- INVISIBLE PRELOADER TO FIX OWL FLICKERING -->
+    <div style="position: absolute; width: 0; height: 0; overflow: hidden; z-index: -1;">
+        <div class="owl-idle"></div><div class="owl-cheering"></div><div class="owl-sad"></div><div class="owl-wink"></div>
+    </div>
+
     <style>
         /* Scoped CSS to prevent conflicts */
         #wj-wrapper { --blue-main: #3B82F6; --yellow-main: #FFC107; --green-main: #4CAF50; --red-main: #EF4444; --purple-main: #8B5CF6; --ink: #1E293B; --ink-soft: #475569; font-family: 'Fredoka', sans-serif; color: var(--ink); touch-action: none; }
@@ -1142,9 +1148,9 @@ body {
         #wj-wrapper .mascot-floater { animation: wjFloatMascot 3s ease-in-out infinite; width: 128px; height: 128px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
         @keyframes wjFloatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         
-        /* 1. FIXED OWL ANIMATIONS: Scales any image perfectly to stop flickering! */
         #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-size: 512px 128px; background-position: 0 0; margin: 0 auto; }
         
+        /* 1. FIXED OWL ANIMATIONS */
         @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
         
@@ -1209,10 +1215,14 @@ body {
         #wj-wrapper .tile:active, #wj-wrapper .tile.dragging { border-bottom: 3px solid #D4A353; transform: scale(1.15) translateY(5px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); z-index: 100; color: #B71C1C; }
         #wj-wrapper .tile.hint-target { animation: wjTileGlow 0.9s ease-in-out infinite; }
         
-        /* IMAGE CENTER REVEAL */
-        #wj-wrapper .image-stage { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; width: 140px; height: 140px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 80px; border: 8px solid #FFC107; z-index: 50; }
-        #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes wjPicPop { 0% { transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); } }
+        /* THE BEAUTIFUL BOOK WORD REVEAL! */
+        #wj-wrapper .word-reveal-book { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); display: none; width: 90%; max-width: 450px; background: #fff; border: 6px solid #D4A353; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); z-index: 100; flex-direction: row; align-items: center; padding: 20px; gap: 15px; }
+        #wj-wrapper .word-reveal-book.show-book { display: flex; animation: wjBookPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        #wj-wrapper .reveal-left { font-size: 60px; background: #FFFDF0; padding: 10px; border-radius: 15px; border: 4px solid #FFC107; display: flex; align-items: center; justify-content: center; min-width: 90px; }
+        #wj-wrapper .reveal-right { flex: 1; text-align: left; }
+        #wj-wrapper .reveal-right h2 { margin: 0 0 5px 0; color: #8B5CF6; font-size: 26px; letter-spacing: 1px; text-transform: uppercase; }
+        #wj-wrapper .reveal-right p { margin: 0; color: #475569; font-size: 16px; font-weight: 700; line-height: 1.3; }
+        @keyframes wjBookPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
         
         #wj-wrapper .game-controls { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 24px 24px 0 0; }
         #wj-wrapper .ctrl-grp { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
@@ -1232,7 +1242,6 @@ body {
         #wj-wrapper .end-lvl-text { color: #6D28D9; text-transform: uppercase; margin: 10px 0 15px; letter-spacing: 1px; font-size: 20px; font-weight: 800; }
         #wj-wrapper .showcase-box { background: radial-gradient(circle, #FFFBEB 0%, #FEF08A 100%); border: 4px solid #FDE047; border-radius: 24px; padding: 30px 20px 20px; margin: 0 auto 35px; position: relative; width: 85%; box-shadow: inset 0 0 20px #F59E0B, 0 8px 15px rgba(0,0,0,0.1); }
         
-        /* END IMAGE SETTINGS */
         #wj-wrapper .end-img { display: flex; align-items: center; justify-content: center; min-height: 150px; margin-bottom: 5px; overflow: visible; font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
         
         #wj-wrapper .showcase-ribbon { background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); color: white; padding: 6px 30px; border-radius: 99px; font-size: 22px; font-weight: 800; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); box-shadow: 0 6px 0 #991B1B, 0 8px 15px rgba(0,0,0,0.2); text-transform: uppercase; white-space: nowrap; letter-spacing: 2px; }
@@ -1279,11 +1288,9 @@ body {
             
             #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: center; gap: 20px; width: 100%; max-width: 800px; position: relative; }
             
-            /* Mascot safely tucked to the left side */
             #wj-wrapper .mascot-container { position: absolute; left: -10px; top: 50%; transform: translateY(-50%) scale(0.9); z-index: 50; }
             
-            /* Plenty of space so text never overlaps */
-            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 75%; z-index: 10; position: relative; min-height: 160px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;}
+            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 85%; z-index: 10; position: relative; min-height: 160px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;}
             #wj-wrapper .word-title { font-size: 14px; padding: 4px 15px; top: -14px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
             
             #wj-wrapper .slot { width: 70px; height: 70px; font-size: 38px; border-radius: 50%; }
@@ -1292,23 +1299,25 @@ body {
             #wj-wrapper .tray { padding: 10px; gap: 20px; }
             #wj-wrapper .tile { width: 75px; height: 75px; font-size: 40px; border-radius: 50%; }
             
-            /* PICTURE REVEAL DEAD CENTER */
-            #wj-wrapper .image-stage { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: 150px; font-size: 80px; }
+            /* BOOK POPUP SQUEEZED FOR LANDSCAPE */
+            #wj-wrapper .word-reveal-book { max-width: 500px; padding: 15px; }
+            #wj-wrapper .reveal-left { font-size: 55px; min-width: 80px; padding: 8px; }
+            #wj-wrapper .reveal-right h2 { font-size: 22px; }
+            #wj-wrapper .reveal-right p { font-size: 15px; }
             
-            /* GAME CONTROLS IN BOTTOM RIGHT CORNER */
             #wj-wrapper .game-controls { position: absolute; right: 15px; bottom: 15px; width: auto; background: transparent; padding: 0; flex-direction: row; z-index: 100;}
             #wj-wrapper .ctrl-grp span { display: none; } 
             #wj-wrapper .icon-btn { width: 50px; height: 50px; font-size: 22px; }
             
-            /* LANDSCAPE RESULT SCREEN */
-            #wj-wrapper #wj-screen-complete { overflow: hidden; padding: 10px; align-items: center; justify-content: center;}
-            #wj-wrapper .end-card { margin-top: 20px; padding: 25px 20px 10px; max-width: 700px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: center; border-radius: 20px;}
+            /* 1. RESULT SCREEN CUTOFF FIXED! Scaled down safely */
+            #wj-wrapper #wj-screen-complete { overflow-y: auto; padding: 5px; align-items: center; justify-content: center;}
+            #wj-wrapper .end-card { margin-top: 0px; padding: 15px; max-width: 600px; transform: scale(0.85); transform-origin: center; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: center; border-radius: 20px;}
             #wj-wrapper .ribbon-banner { top: -20px; font-size: 22px; padding: 10px 30px; width: 60%; }
             #wj-wrapper .ribbon-banner:before, #wj-wrapper .ribbon-banner:after { display: none; }
             #wj-wrapper .end-stars { top: 10px; font-size: 35px; }
             #wj-wrapper .end-lvl-text { display: none; }
             #wj-wrapper .showcase-box { margin: 0; padding: 10px; width: 100%; grid-column: 1 / 2; }
-            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; } 
+            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; min-height: 120px; display: flex; align-items: center; justify-content: center; } 
             #wj-wrapper .showcase-ribbon { font-size: 14px; padding: 4px 20px; bottom: -12px; }
             #wj-wrapper .stats-row { grid-column: 2 / 3; margin: 0; flex-direction: column; gap: 5px; }
             #wj-wrapper .stat-box { justify-content: flex-start; }
@@ -1381,8 +1390,16 @@ body {
 
             <div class="word-board">
                 <div class="word-title" id="wj-wordProgressTitle">WORD 1 OF 10</div>
-                <div class="image-stage" id="wj-target-image"></div>
                 <div class="slots-row" id="wj-slotsRow"></div>
+                
+                <!-- THE NEW "BOOK" WORD REVEAL POPUP! -->
+                <div class="word-reveal-book" id="wj-word-reveal">
+                    <div class="reveal-left" id="wj-reveal-img"></div>
+                    <div class="reveal-right">
+                        <h2 id="wj-reveal-word"></h2>
+                        <p id="wj-reveal-sent"></p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1536,10 +1553,6 @@ body {
         const $ = (id) => document.getElementById("wj-" + id);
         let owlTimeout = null;
         
-        // This PRELOADER stops the owl from flickering!
-        const owlSprites = ["owl_idel.png", "owl_cheering.png", "owl_sad.png", "owl_wink.png"];
-        owlSprites.forEach(src => { const img = new Image(); img.src = src; });
-        
         function setOwlState(stateId, elId = 'owlMascot') {
             const el = $(elId); if (!el) return;
             if (el.dataset.state === stateId) return; 
@@ -1609,7 +1622,7 @@ body {
         window.wjGoHome = () => { 
             try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(e) {} 
             if(draggedTile) { draggedTile.remove(); draggedTile = null; }
-            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove()); // Sweeps away any ghost letters
+            document.querySelectorAll('#wj-app .tile').forEach(t => t.remove()); 
             buildHome(); 
             window.wjShowScreen('screen-map'); 
         };
@@ -1665,15 +1678,19 @@ body {
           currentSlots.forEach((l, i) => { if(!prefilled.includes(i)) tileLetters.push(l); }); for(let i=0; i<extra; i++) { let l = alphabet[Math.floor(Math.random()*26)]; if(!tileLetters.includes(l)) tileLetters.push(l); }
           let shuffled = tileLetters.sort(()=>Math.random()-0.5); 
           
-          $("target-image").classList.remove("show-pic"); 
-          $("trayWrap").style.display = "block"; 
+          // PREVENT BOARD JUMPING: Keep tray in layout, just make visible
+          $("trayWrap").style.display = "block";
+          $("trayWrap").style.opacity = "1"; 
+          $("trayWrap").style.pointerEvents = "auto";
           
-          // BRING BACK THE LETTERS
           $("slotsRow").style.display = "flex";
           $("slotsRow").style.opacity = "1";
           $("slotsRow").style.transition = "none";
           
-          setOwlState('idle', 'owlMascot'); if(sessionIdx === 0) { $("mascotSpeech").textContent = "Welcome! Good luck!"; owlSpeak("Welcome! Good luck!"); } else { $("mascotSpeech").textContent = "Spell it!"; owlSpeak("Spell it!"); } 
+          setOwlState('idle', 'owlMascot'); 
+          if(sessionIdx === 0) { $("mascotSpeech").textContent = "Welcome! Good luck!"; owlSpeak("Welcome! Good luck!"); } 
+          else { $("mascotSpeech").textContent = "Spell it!"; owlSpeak("Spell it!"); } 
+          
           buildSlots(prefilled); buildTray(shuffled);
         }
         
@@ -1816,13 +1833,20 @@ body {
             $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); 
             
             setTimeout(() => { 
-                $("trayWrap").style.display = "none"; 
+                // PREVENT BOARD JUMPING: Don't use display:none, use opacity
+                $("trayWrap").style.opacity = "0"; 
+                $("trayWrap").style.pointerEvents = "none";
                 
-                // FADE OUT THE LETTERS SO THE PICTURE IS FLAWLESS
+                // FADE OUT THE LETTERS 
                 $("slotsRow").style.transition = "opacity 0.5s ease";
                 $("slotsRow").style.opacity = "0"; 
                 
-                const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); 
+                // SHOW THE BEAUTIFUL BOOK REVEAL
+                $("reveal-img").innerText = currentWord.emoji; 
+                $("reveal-word").innerText = currentWord.w; 
+                $("reveal-sent").innerText = currentWord.s; 
+                $("word-reveal").classList.add("show-book"); 
+                
                 setOwlState('cheering', 'owlMascot'); 
                 let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; 
                 $("mascotSpeech").textContent = winMsg; 
@@ -1830,12 +1854,12 @@ body {
                 
                 createConfetti(window.innerWidth/2, window.innerHeight/2, true); window.wjSFX.cheer(); 
                 setTimeout(() => { pronounceWord(currentWord.w); }, 600); 
-                
                 setTimeout(() => { 
+                    $("word-reveal").classList.remove("show-book"); 
                     $("slotsRow").style.animation = ""; 
                     sessionIdx++; 
                     loadWord(); 
-                }, 2500); 
+                }, 3500); 
             }, 600); 
         }
         
@@ -2499,7 +2523,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v133'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v135'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
