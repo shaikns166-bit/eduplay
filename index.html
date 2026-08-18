@@ -1856,39 +1856,53 @@ body {
         };
         
         function wordCompleteSequence(){ 
-            state.stats.totalWords++; if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); 
-            if(wordMistakes === 0) { window.wjSFX.perfect(); state.stats.perfectWords++; inGameStreak++; if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); } 
-            else { window.wjSFX.complete(); } 
+            state.stats.totalWords++; 
+            if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); 
             
-            $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); 
+            if(wordMistakes === 0) { 
+                window.wjSFX.perfect(); 
+                state.stats.perfectWords++; 
+                inGameStreak++; 
+                if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; 
+                document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); 
+                if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); 
+                if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); 
+            } else { 
+                window.wjSFX.complete(); 
+            } 
+            
+            if($("slotsRow")) $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; 
+            try { checkAchievements(); } catch(e) {}
             
             setTimeout(() => { 
-                // Hide Board and Tray completely
-                $("trayWrap").style.display = "none"; 
-                document.querySelector('#wj-wrapper .word-board').style.display = "none"; 
+                // Safe hiding
+                if($("trayWrap")) { $("trayWrap").style.display = "none"; }
                 
-                // Show the Big Reveal Book
-                $("reveal-img").innerText = currentWord.emoji; 
-                $("reveal-word").innerText = currentWord.w; 
-                $("reveal-sent").innerText = currentWord.s; 
-                $("word-reveal").classList.add("show-book"); 
+                if($("slotsRow")) {
+                    $("slotsRow").style.transition = "opacity 0.5s ease";
+                    $("slotsRow").style.opacity = "0"; 
+                }
                 
-                setOwlState('cheering', 'owlMascot', true); 
+                // Safe book reveal
+                if($("reveal-img")) $("reveal-img").innerText = currentWord.emoji || ""; 
+                if($("reveal-word")) $("reveal-word").innerText = currentWord.w || ""; 
+                if($("reveal-sent")) $("reveal-sent").innerText = currentWord.s || ""; 
+                if($("word-reveal")) $("word-reveal").classList.add("show-book"); 
+                
+                setOwlState('cheering', 'owlMascot'); 
                 let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; 
-                $("mascotSpeech").textContent = winMsg; 
+                if($("mascotSpeech")) $("mascotSpeech").textContent = winMsg; 
+                owlSpeak(winMsg); 
                 
-                createConfetti(window.innerWidth/2, window.innerHeight/2, true); window.wjSFX.cheer(); 
+                try { createConfetti(window.innerWidth/2, window.innerHeight/2, true); } catch(e){}
+                window.wjSFX.cheer(); 
                 
-                // Read the word first
                 setTimeout(() => { pronounceWord(currentWord.w); }, 600); 
-                // Read the sentence after 1.5s
                 setTimeout(() => { pronounceWord(currentWord.s); }, 2000); 
 
-                // Wait 5 seconds, then next word
                 setTimeout(() => { 
-                    $("word-reveal").classList.remove("show-book"); 
-                    document.querySelector('#wj-wrapper .word-board').style.display = "flex"; 
-                    $("slotsRow").style.animation = ""; 
+                    if($("word-reveal")) $("word-reveal").classList.remove("show-book"); 
+                    if($("slotsRow")) $("slotsRow").style.animation = ""; 
                     sessionIdx++; 
                     loadWord(); 
                 }, 5000); 
@@ -1896,30 +1910,79 @@ body {
         }
         
         function finishSession(){ 
-            const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); 
+            const isWin = lives > 0; 
+            state.extraLives = Math.max(0, lives - 3); 
+            saveState(); 
             
-            $("endShowcase").style.display = "block"; // ALWAYS SHOW SHOWCASE
+            if($("endShowcase")) $("endShowcase").style.display = "block"; 
             
             if(isWin) { 
-                let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); 
-                $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; 
+                let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); 
+                if(isNaN(acc)) acc = 0;
+                let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; 
+                let rewardCoins = selectedLvl * 10; 
+                let rewardStars = starsEarned * 5; 
                 
-                // OWL CHEERING
-                $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.3);"></div>'; 
-                $("endWordText").innerText = "VICTORY"; 
+                state.stars += rewardStars; 
+                state.coins += rewardCoins; 
+                if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; 
+                if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; 
+                saveState(); 
+                
+                if($("endRibbon")) {
+                    $("endRibbon").innerText = "AMAZING!"; 
+                    $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); 
+                    $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); 
+                }
+                
+                if($("endStars")) $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); 
+                if($("endLvlText")) $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; 
+                
+                if($("endImg")) $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.3);"></div>'; 
+                if($("endWordText")) $("endWordText").innerText = "VICTORY"; 
                 owlSpeak("Awesome! Level complete!"); 
                 
-                $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; 
-                window.wjSFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); 
-                if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } 
+                if($("endWords")) $("endWords").innerText = sessionIdx; 
+                if($("endAcc")) { $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; }
+                if($("endStreak")) $("endStreak").innerText = "🔥 " + inGameStreak; 
+                if($("endRwdStars")) $("endRwdStars").innerText = "+" + rewardStars; 
+                if($("endRwdCoins")) $("endRwdCoins").innerText = "+" + rewardCoins; 
+                if($("btnNextLevel")) $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; 
+                
+                setOwlState('cheering', 'owlComplete'); 
+                window.wjSFX.cheer(); 
+                try { createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); } catch(e){}
+                
+                if(Math.random() > 0.5) { 
+                    setTimeout(()=>{ 
+                        window.isDailyChest = false; 
+                        if($("overlay-chest")) $("overlay-chest").classList.add("active"); 
+                        if($("chestImg")) $("chestImg").className = "chest-img"; 
+                        if($("chestMsg")) $("chestMsg").textContent = "Level Reward Chest!"; 
+                        if($("btnChestDone")) $("btnChestDone").style.display = "none"; 
+                    }, 1500); 
+                } 
             } else { 
-                $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; 
+                if($("endRibbon")) {
+                    $("endRibbon").innerText = "GAME OVER"; 
+                    $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); 
+                    $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); 
+                }
+                if($("endStars")) $("endStars").innerText = "☆☆☆"; 
+                if($("endLvlText")) $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; 
+                if($("endShowcase")) $("endShowcase").style.display = "none"; 
                 
-                // OWL SAD
-                $("endImg").innerHTML = '<div class="owl-mascot owl-sad" style="transform: scale(1.3);"></div>'; 
-                $("endWordText").innerText = "FAILED"; 
+                if($("endImg")) $("endImg").innerHTML = '<div class="owl-mascot owl-sad" style="transform: scale(1.3);"></div>'; 
+                if($("endWordText")) $("endWordText").innerText = "FAILED"; 
                 
-                $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; 
+                if($("endWords")) $("endWords").innerText = sessionIdx; 
+                if($("endAcc")) { $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; }
+                if($("endStreak")) $("endStreak").innerText = "🔥 0"; 
+                if($("endRwdStars")) $("endRwdStars").innerText = "+0"; 
+                if($("endRwdCoins")) $("endRwdCoins").innerText = "+0"; 
+                if($("btnNextLevel")) $("btnNextLevel").style.display = "none"; 
+                
+                setOwlState('sad', 'owlComplete'); 
                 window.wjSFX.wrong(); 
             } 
             window.wjShowScreen("screen-complete"); 
@@ -2555,7 +2618,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v140'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v142'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
