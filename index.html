@@ -1111,7 +1111,8 @@ body {
 
 <!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
 <div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
-    <style>
+    
+        <style>
         /* Scoped CSS to prevent conflicts */
         #wj-wrapper { --blue-main: #3B82F6; --yellow-main: #FFC107; --green-main: #4CAF50; --red-main: #EF4444; --purple-main: #8B5CF6; --ink: #1E293B; --ink-soft: #475569; font-family: 'Fredoka', sans-serif; color: var(--ink); touch-action: none; }
         #wj-wrapper * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
@@ -1138,28 +1139,34 @@ body {
         #wj-wrapper .icon-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 #6D28D9; }
         #wj-wrapper .icon-btn.small { width: 44px; height: 44px; font-size: 18px; border-width: 2px; }
         
-        #wj-wrapper .mascot-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin-bottom: 10px; }
+        #wj-wrapper .mascot-container { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; margin-bottom: 0px; }
         #wj-wrapper .mascot-floater { animation: wjFloatMascot 3s ease-in-out infinite; width: 128px; height: 128px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
         @keyframes wjFloatMascot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        
         #wj-wrapper .owl-mascot { width: 128px; height: 128px; background-repeat: no-repeat; background-position: 0 0; margin: 0 auto; }
+        
+        /* 1. FIXED OWL ANIMATIONS: They all loop "infinite" now so the owl never vanishes! */
         @keyframes wjOwlIdle { from { background-position: 0 0; } to { background-position: -512px 0; } }
         #wj-wrapper .owl-idle { background-image: url("owl_idel.png"); animation: wjOwlIdle 1s steps(4) infinite; }
+        
         @keyframes wjOwlCheering { from { background-position: 0 0; } to { background-position: -512px 0; } }
-        #wj-wrapper .owl-cheering { background-image: url("owl_cheering.png"); animation: wjOwlCheering 1s steps(4) 1; }
+        #wj-wrapper .owl-cheering { background-image: url("owl_cheering.png"); animation: wjOwlCheering 1s steps(4) infinite; }
+        
         @keyframes wjOwlSad { from { background-position: 0 0; } to { background-position: -512px 0; } }
-        #wj-wrapper .owl-sad { background-image: url("owl_sad.png"); animation: wjOwlSad 1s steps(4) 1; }
+        #wj-wrapper .owl-sad { background-image: url("owl_sad.png"); animation: wjOwlSad 1s steps(4) infinite; }
+        
         @keyframes wjOwlWink { from { background-position: 0 0; } to { background-position: -512px 0; } }
-        #wj-wrapper .owl-wink { background-image: url("owl_wink.png"); animation: wjOwlWink 1s steps(4) 1; }
+        #wj-wrapper .owl-wink { background-image: url("owl_wink.png"); animation: wjOwlWink 1s steps(4) infinite; }
+        
         #wj-wrapper .speech-bubble { background: #fff; border-radius: 20px; padding: 12px 20px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; color: #1E293B; border: 2px solid #E2E8F0; text-align: center; max-width: 200px; margin-bottom: 5px; }
         #wj-wrapper .speech-bubble:after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-top: 10px solid #fff; border-left: 10px solid transparent; border-right: 10px solid transparent; }
         
-        /* PORTRAIT MAP FIXES */
+        /* MAP SETTINGS */
         #wj-wrapper #wj-screen-map { background: url('map-bg.png') center bottom / cover no-repeat, linear-gradient(180deg, #60A5FA 0%, #34D399 100%); }
         #wj-wrapper .logo-title { position: fixed; top: 55px; left: 50%; transform: translateX(-50%); z-index: 100; pointer-events: none; display: flex; flex-direction: column; align-items: center; width: 100%; }
-        #wj-wrapper .logo-title img { max-width: 200px; } /* Logo shrunk for mobile! */
+        #wj-wrapper .logo-title img { max-width: 200px; } 
         #wj-wrapper .logo-title p { background: #8B5CF6; color: #fff; padding: 4px 20px; border-radius: 99px; box-shadow: 0 3px 0 #6D28D9; font-weight: 800; font-size: 14px; letter-spacing: 1px; margin-top: -10px; pointer-events: auto;}
         
-        /* BOTTOM MENU BAR FIX! */
         #wj-wrapper .side-menu { position: fixed; bottom: 15px; left: 0; width: 100%; z-index: 100; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0 10px; }
         #wj-wrapper .side-btn { border-radius: 99px; padding: 8px 15px; display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; color: #fff; cursor: pointer; border: 3px solid rgba(255,255,255,0.4); transition: transform 0.1s; text-shadow: 0 2px 2px rgba(0,0,0,0.2); }
         
@@ -1184,25 +1191,34 @@ body {
         #wj-wrapper .game-header { background: linear-gradient(180deg, #B5651D 0%, #8B4513 100%); border: 4px solid #5C2E0B; border-radius: 16px; box-shadow: 0 6px 0 #5C2E0B, 0 8px 15px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.2); width: 240px; height: 65px; display: flex; align-items: center; justify-content: center; flex-direction: column; margin-bottom: 20px; }
         #wj-wrapper .game-header h2 { font-size: 18px; color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,0.6); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
         #wj-wrapper .game-header p { font-size: 13px; color: #FFD700; margin: 0; font-weight: 800; text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
-        #wj-wrapper .word-board { background: linear-gradient(180deg, #FFFDF0 0%, #FFF3C7 100%); border: 4px solid #D4A353; border-radius: 24px; padding: 25px 20px; width: 100%; max-width: 600px; box-shadow: 0 8px 0 #C28F3D, 0 15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; z-index: 15; }
+        
+        /* 2. BIGGER LETTERS & SPACING (PORTRAIT) */
+        #wj-wrapper .word-board { background: linear-gradient(180deg, #FFFDF0 0%, #FFF3C7 100%); border: 4px solid #D4A353; border-radius: 24px; padding: 35px 20px 20px; width: 100%; max-width: 600px; box-shadow: 0 8px 0 #C28F3D, 0 15px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; position: relative; z-index: 15; }
+        #wj-wrapper .board-content { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
         #wj-wrapper .word-title { background: #fff; border: 3px solid #D4A353; border-radius: 99px; padding: 6px 20px; font-size: 14px; font-weight: 800; color: #8B4513; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; box-shadow: 0 4px 0 rgba(0,0,0,0.1); position: absolute; top: -18px; }
         #wj-wrapper .slots-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%; margin-top: 15px; }
-        #wj-wrapper .slot { width: min(65px, 15vw); height: min(65px, 15vw); border-radius: 16px; background: rgba(139, 69, 19, 0.1); border: 3px solid rgba(139, 69, 19, 0.2); box-shadow: inset 0 6px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(34px, 7.5vw); color: #1E293B; transition: all 0.2s; }
-        #wj-wrapper .slot.filled { border: none; background: transparent; box-shadow: none; color: #D32F2F; text-shadow: 0 2px 0 rgba(255,255,255,0.5); }
+        
+        #wj-wrapper .slot { width: min(70px, 16vw); height: min(70px, 16vw); border-radius: 50%; background: rgba(139, 69, 19, 0.1); border: 3px solid rgba(139, 69, 19, 0.2); box-shadow: inset 0 6px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(38px, 8vw); color: #1E293B; transition: all 0.2s; }
+        #wj-wrapper .slot.filled { background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; box-shadow: 0 4px 8px rgba(0,0,0,0.15); color: #D32F2F; text-shadow: none; }
         #wj-wrapper .slot.prefilled { background: #E2E8F0; border-color: #CBD5E1; color: #475569; box-shadow: none; pointer-events: none; }
         #wj-wrapper .slot.active-hint { border-color: #FFC107; background: #FEF08A; animation: wjPulseHint 1s infinite; }
         #wj-wrapper .slot.reject-shake { animation: wjShake .4s; border-color: #EF4444; background: #FCA5A5; }
         #wj-wrapper .slot.perfect-glow { animation: wjPerfectGlow 1.5s infinite alternate; }
-        #wj-wrapper .tray-wrap { width: 100%; max-width: 600px; margin-top: auto; padding-bottom: 20px; }
-        #wj-wrapper .tray { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 20px; position: relative; }
-        #wj-wrapper .tile { width: min(75px, 16vw); height: min(75px, 16vw); border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(42px, 9vw); color: #D32F2F; cursor: grab; touch-action: none; transition: all 0.1s; z-index: 30; box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 -4px 6px rgba(212,163,83,0.3); }
+        
+        #wj-wrapper .tray-wrap { width: 100%; max-width: 700px; margin: 15px auto 0; z-index: 20; }
+        #wj-wrapper .tray { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; padding: 10px; position: relative; }
+        #wj-wrapper .tile { width: min(75px, 18vw); height: min(75px, 18vw); border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, #FFF3D6 100%); border: 4px solid #E8C170; border-bottom: 8px solid #D4A353; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: min(42px, 10vw); color: #D32F2F; cursor: grab; touch-action: none; transition: all 0.1s; z-index: 30; box-shadow: 0 6px 12px rgba(0,0,0,0.15), inset 0 -4px 6px rgba(212,163,83,0.3); }
         #wj-wrapper .tile:active, #wj-wrapper .tile.dragging { border-bottom: 3px solid #D4A353; transform: scale(1.15) translateY(5px); box-shadow: 0 15px 25px rgba(0,0,0,0.3); z-index: 100; color: #B71C1C; }
         #wj-wrapper .tile.hint-target { animation: wjTileGlow 0.9s ease-in-out infinite; }
-        #wj-wrapper .image-stage { display: none; width: min(220px, 50vw); height: min(220px, 50vw); margin: 20px auto; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: min(120px, 25vw); border: 8px solid #FFC107; position: relative; }
-        #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        #wj-wrapper .image-stage { position: absolute; top: -75px; left: 50%; transform: translateX(-50%); display: none; width: 140px; height: 140px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 70px; border: 8px solid #FFC107; z-index: 50; }
+        #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes wjPicPop { 0% { transform: translate(-50%, 0) scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: translate(-50%, -20px) scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%, 0) scale(1) rotate(0deg); } }
+        
         #wj-wrapper .game-controls { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 24px 24px 0 0; }
         #wj-wrapper .ctrl-grp { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
         #wj-wrapper .ctrl-grp span { font-size: 12px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        
         #wj-wrapper #wj-screen-complete { background: url('forest-bg.png') center bottom / cover no-repeat, radial-gradient(circle, #8B5CF6 0%, #4C1D95 100%); justify-content: center; }
         #wj-wrapper .end-card { background: url('completed.png') center/cover no-repeat, linear-gradient(180deg, #FFFFFA 0%, #FFF8E1 100%); border-radius: 32px; padding: 110px 20px 25px; width: 100%; max-width: 440px; text-align: center; position: relative; margin-top: 50px; border: 6px solid #FFD700; box-shadow: 0 0 35px rgba(255, 215, 0, 0.4), 0 20px 50px rgba(0,0,0,0.5); }
         #wj-wrapper .ribbon-banner { --ribbon-bg: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); --ribbon-tail: #991B1B; background: var(--ribbon-bg); color: #FFD700; font-size: 38px; font-weight: 900; padding: 15px 40px 45px; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 85%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 10; text-shadow: 0 3px 0 #D97706; }
@@ -1216,7 +1232,9 @@ body {
         @keyframes wjStarPop { 0% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
         #wj-wrapper .end-lvl-text { color: #6D28D9; text-transform: uppercase; margin: 10px 0 15px; letter-spacing: 1px; font-size: 20px; font-weight: 800; }
         #wj-wrapper .showcase-box { background: radial-gradient(circle, #FFFBEB 0%, #FEF08A 100%); border: 4px solid #FDE047; border-radius: 24px; padding: 30px 20px 20px; margin: 0 auto 35px; position: relative; width: 85%; box-shadow: inset 0 0 20px #F59E0B, 0 8px 15px rgba(0,0,0,0.1); }
-        #wj-wrapper .end-img { font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); animation: wjFloatMascot 2.5s ease-in-out infinite; margin-bottom: 10px; }
+        
+        #wj-wrapper .end-img { font-size: 90px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; min-height: 140px; }
+        
         #wj-wrapper .showcase-ribbon { background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%); color: white; padding: 6px 30px; border-radius: 99px; font-size: 22px; font-weight: 800; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); box-shadow: 0 6px 0 #991B1B, 0 8px 15px rgba(0,0,0,0.2); text-transform: uppercase; white-space: nowrap; letter-spacing: 2px; }
         #wj-wrapper .stats-row { display: flex; justify-content: space-between; gap: 5px; padding: 0 10px; margin-bottom: 25px; }
         #wj-wrapper .stat-box { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
@@ -1229,7 +1247,7 @@ body {
         #wj-wrapper .rewards-box { display: flex; justify-content: space-around; align-items: center; }
         #wj-wrapper .rwd-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
         #wj-wrapper .rwd-icon { font-size: 38px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
-        #wj-wrapper .mascot-peek { position: absolute; bottom: -20px; right: -20px; z-index: 20; }
+        #wj-wrapper .mascot-peek { display: none; } /* HIDDEN because we moved the owl to the center of the card! */
         #wj-wrapper .toast { position: fixed; top: 15%; left: 50%; transform: translateX(-50%) translateY(-20px); background: #1E293B; color: #fff; padding: 14px 28px; border-radius: 999px; font-weight: 800; font-size: 16px; z-index: 2000; opacity: 0; transition: all .35s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; pointer-events: none; border: 2px solid rgba(255,255,255,0.2); }
         #wj-wrapper .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         #wj-wrapper .toast.streak { background: linear-gradient(90deg, #EF4444, #F59E0B); font-size: 20px; text-transform: uppercase; }
@@ -1243,7 +1261,6 @@ body {
         @keyframes wjTileGlow { 0%,100% { box-shadow: 0 6px 0 #D4B46A, 0 0 0 0 rgba(255,193,7,.7); } 50% { box-shadow: 0 6px 0 #D4B46A, 0 0 0 12px rgba(255,193,7,0); border-color: #FFC107; } }
         @keyframes wjPerfectGlow { 0% { box-shadow: 0 0 15px #FFD700; } 100% { box-shadow: 0 0 30px #FF9F1C; } }
         @keyframes wjWordBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes wjPicPop { 0% { transform: scale(0.3) rotate(-10deg); opacity: 0; } 60% { transform: scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); } }
         #wj-wrapper .scroll-area { overflow-y: auto; width: 100%; padding-bottom: 40px; display: flex; flex-direction: column; align-items: center; }
         #wj-wrapper .book-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; width: 100%; max-width: 500px; padding: 20px; }
         #wj-wrapper .book-card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 6px 0 #E2E8F0; cursor: pointer; transition: transform 0.1s; }
@@ -1253,44 +1270,38 @@ body {
         #wj-wrapper .badge-card.unlocked { opacity: 1; filter: grayscale(0); border: 4px solid #FFC107; background: #FFFBEB; }
         
         /* ========================================================
-           LANDSCAPE MAGIC FORMATTING (PERFECT FIT WITHOUT SCROLL)
+           3. LANDSCAPE BIGGER LETTERS & FIX PICTURE CUTOFF
            ======================================================== */
         @media (orientation: landscape) {
-            #wj-wrapper #wj-screen-game { padding-top: 5px; overflow: hidden; justify-content: space-between; }
-            #wj-wrapper .hud-bar { padding: 5px 16px; margin-bottom: 0; }
-            #wj-wrapper .game-header { position: absolute; top: 55px; right: 15px; width: 160px; height: 40px; flex-direction: row; gap: 10px; margin: 0; border-radius: 12px; }
-            #wj-wrapper .game-header h2 { font-size: 14px; } #wj-wrapper .game-header p { font-size: 12px; }
+            #wj-wrapper #wj-screen-game { padding-top: 50px; overflow: hidden; justify-content: center; align-items: center; }
+            #wj-wrapper .hud-bar { padding: 5px 16px; margin-bottom: 0px; position: absolute; top: 0; width: 100%; }
+            #wj-wrapper .game-header { display: none; } 
             
-            /* Tucking the Mascot nicely into the corner */
-            #wj-wrapper .mascot-container { position: absolute; left: 15px; bottom: 5px; margin: 0; transform: scale(0.85); transform-origin: bottom left; }
+            #wj-wrapper .board-content { flex-direction: row; justify-content: center; align-items: flex-end; gap: 20px; width: 100%; }
+            #wj-wrapper .mascot-container { margin: 0; transform: scale(1); z-index: 50;}
             
-            /* Squeezing the Game Board to fit! */
-            #wj-wrapper .word-board { padding: 15px 10px 10px; margin-top: 5px; max-width: 500px; }
-            #wj-wrapper .word-title { font-size: 12px; padding: 4px 15px; top: -14px; }
-            #wj-wrapper .slot { width: min(45px, 10vw); height: min(45px, 10vw); font-size: 24px; border-radius: 10px; }
-            #wj-wrapper .image-stage { display:none; } /* Hide the giant picture until win */
+            #wj-wrapper .word-board { padding: 35px 20px 25px; margin-top: 10px; max-width: 650px; width: 85%; z-index: 10; flex: 1; }
+            #wj-wrapper .word-title { font-size: 16px; padding: 6px 20px; top: -18px; position: absolute; left: 50%; transform: translateX(-50%); }
             
-            /* Shrinking the Tiles */
-            #wj-wrapper .tray-wrap { padding-bottom: 5px; margin-bottom: 0; }
-            #wj-wrapper .tray { padding: 5px; gap: 8px; }
-            #wj-wrapper .tile { width: min(50px, 12vw); height: min(50px, 12vw); font-size: 26px; border-radius: 50%; }
+            #wj-wrapper .slot { width: 80px; height: 80px; font-size: 40px; border-radius: 50%; }
             
-            /* Pushing Controls to the corner */
-            #wj-wrapper .game-controls { position: absolute; right: 15px; bottom: 5px; width: auto; background: transparent; padding: 0; flex-direction: row; }
-            #wj-wrapper .ctrl-grp span { display: none; } /* Hide text to save space */
-            #wj-wrapper .icon-btn { width: 45px; height: 45px; font-size: 20px; }
+            #wj-wrapper .tray-wrap { margin-top: 20px; padding-bottom: 10px; margin-bottom: 0; width: 95%; max-width: 800px; z-index: 20; position: relative; }
+            #wj-wrapper .tray { padding: 10px; gap: 20px; }
+            #wj-wrapper .tile { width: 80px; height: 80px; font-size: 40px; border-radius: 50%; box-shadow: 0 6px 15px rgba(0,0,0,0.3), inset 0 -4px 6px rgba(212,163,83,0.3); }
+            
+            /* Lifted the picture way up so it completely clears the spelling bar! */
+            #wj-wrapper .image-stage { position: absolute; top: -110px; left: 50%; transform: translateX(-50%); display: none; width: 150px; height: 150px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 10px rgba(255,255,255,0.4), 0 15px 35px rgba(0,0,0,0.2); align-items: center; justify-content: center; font-size: 80px; border: 8px solid #FFC107; z-index: 50; }
+            #wj-wrapper .image-stage.show-pic { display: flex; animation: wjPicPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
             
             /* LANDSCAPE RESULT SCREEN */
             #wj-wrapper #wj-screen-complete { overflow: hidden; padding: 10px; align-items: center; justify-content: center;}
-            
-            /* Making the End Card Wide instead of Tall! */
             #wj-wrapper .end-card { margin-top: 20px; padding: 25px 20px 10px; max-width: 700px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: center; border-radius: 20px;}
             #wj-wrapper .ribbon-banner { top: -20px; font-size: 22px; padding: 10px 30px; width: 60%; }
-            #wj-wrapper .ribbon-banner:before, #wj-wrapper .ribbon-banner:after { display: none; } /* Hide tails */
+            #wj-wrapper .ribbon-banner:before, #wj-wrapper .ribbon-banner:after { display: none; }
             #wj-wrapper .end-stars { top: 10px; font-size: 35px; }
-            #wj-wrapper .end-lvl-text { display: none; } /* Hide text to save space */
+            #wj-wrapper .end-lvl-text { display: none; }
             #wj-wrapper .showcase-box { margin: 0; padding: 10px; width: 100%; grid-column: 1 / 2; }
-            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; }
+            #wj-wrapper .end-img { font-size: 60px; margin-bottom: 5px; min-height: 120px; display: flex; align-items: center; justify-content: center; } 
             #wj-wrapper .showcase-ribbon { font-size: 14px; padding: 4px 20px; bottom: -12px; }
             #wj-wrapper .stats-row { grid-column: 2 / 3; margin: 0; flex-direction: column; gap: 5px; }
             #wj-wrapper .stat-box { justify-content: flex-start; }
@@ -1299,7 +1310,7 @@ body {
             #wj-wrapper .rwd-icon { font-size: 24px; }
             #wj-wrapper .rwd-item strong { font-size: 14px !important; }
             #wj-wrapper .rwd-item span { font-size: 14px !important; }
-            #wj-wrapper .mascot-peek { transform: scale(0.6); right: -40px; bottom: -30px; }
+            #wj-wrapper .mascot-peek { display: none; } /* HIDDEN because we moved the owl to the center of the card! */
             #wj-wrapper .btn-green, #wj-wrapper .btn-purple { font-size: 14px; padding: 8px 15px; margin: 5px;}
         }
     </style>
@@ -1635,7 +1646,9 @@ body {
         function returnTileToPool() { const tray = $("tray"); draggedTile.style.position = 'relative'; draggedTile.style.left = 'auto'; draggedTile.style.top = 'auto'; draggedTile.classList.remove('dragging'); tray.appendChild(draggedTile); draggedTile = null; }
         window.wjUseHint = () => { if(state.stars >= 1) { state.stars -= 1; $("hudStars").textContent = state.stars; saveState(); const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); if(slots.length > 0) { SFX.button(); slots[0].classList.add('active-hint'); const neededLetter = slots[0].dataset.letter; const tiles = [...$("tray").children].filter(t=>t.dataset.letter===neededLetter); if(tiles[0]) tiles[0].classList.add("hint-target"); pronounceWord(currentWord.w); setOwlState('wink', 'owlMascot'); $("mascotSpeech").textContent = "Look for glowing letter!"; } } else { SFX.wrong(); window.wjShowToast("Need Stars for hints!"); } };
         function wordCompleteSequence(){ state.stats.totalWords++; if(!state.wordBook.includes(currentWord.w)) state.wordBook.push(currentWord.w); if(wordMistakes === 0) { SFX.perfect(); state.stats.perfectWords++; inGameStreak++; if(inGameStreak > state.stats.bestStreak) state.stats.bestStreak = inGameStreak; document.querySelectorAll('#wj-wrapper .slot').forEach(s => s.classList.add('perfect-glow')); if(inGameStreak===3) window.wjShowToast("🔥 3 WORD STREAK!", "streak"); if(inGameStreak===5) window.wjShowToast("🏆 SPELLING SUPERSTAR!", "streak"); } else { SFX.complete(); } $("slotsRow").style.animation = "wjWordBounce 0.6s ease"; checkAchievements(); setTimeout(() => { $("trayWrap").style.display = "none"; const imgEl = $("target-image"); imgEl.innerText = currentWord.emoji; imgEl.classList.add("show-pic"); setOwlState('cheering', 'owlMascot'); let winMsg = wordMistakes === 0 ? "Perfect spelling!" : "Excellent!"; $("mascotSpeech").textContent = winMsg; owlSpeak(winMsg); createConfetti(window.innerWidth/2, window.innerHeight/2, true); SFX.cheer(); setTimeout(() => { pronounceWord(currentWord.w); }, 600); setTimeout(() => { $("slotsRow").style.animation = ""; sessionIdx++; loadWord(); }, 2500); }, 600); }
-        function finishSession(){ const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); if(isWin) { let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; $("endImg").innerText = "🏆"; $("endWordText").innerText = "VICTORY"; owlSpeak("Awesome! Level complete!"); $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); SFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } } else { $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); SFX.wrong(); } window.wjShowScreen("screen-complete"); }
+        function finishSession(){ const isWin = lives > 0; state.extraLives = Math.max(0, lives - 3); saveState(); if(isWin) { let acc = sessionAccStats.correct / (sessionAccStats.correct + sessionAccStats.wrong); let starsEarned = acc === 1 ? 3 : acc >= 0.7 ? 2 : 1; let rewardCoins = selectedLvl * 10; let rewardStars = starsEarned * 5; state.stars += rewardStars; state.coins += rewardCoins; if(selectedLvl === state.highestLevel && selectedLvl < 100) state.highestLevel++; if(!state.bestPerLvl[selectedLvl] || starsEarned > state.bestPerLvl[selectedLvl]) state.bestPerLvl[selectedLvl] = starsEarned; saveState(); $("endRibbon").innerText = "AMAZING!"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #EF4444 0%, #DC2626 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#991B1B'); $("endStars").innerHTML = `<span class="earned">⭐</span>`.repeat(starsEarned) + `☆`.repeat(3-starsEarned); $("endLvlText").innerText = `LEVEL ${selectedLvl} COMPLETE`; $("endShowcase").style.display = "block"; $("endImg").innerHTML = '<div class="owl-mascot owl-cheering" style="transform: scale(1.5);"></div>'; 
+            $("endWordText").innerText = "VICTORY"; 
+            owlSpeak("Awesome! Level complete!"); $("endWords").innerText = sessionIdx; $("endAcc").innerText = Math.round(acc * 100) + "%"; $("endAcc").style.color = "#388E3C"; $("endStreak").innerText = "🔥 " + inGameStreak; $("endRwdStars").innerText = "+" + rewardStars; $("endRwdCoins").innerText = "+" + rewardCoins; $("btnNextLevel").style.display = selectedLvl < 100 ? "inline-flex" : "none"; setOwlState('cheering', 'owlComplete'); SFX.cheer(); createConfetti(window.innerWidth/3, 0); createConfetti(window.innerWidth*0.66, 0); if(Math.random() > 0.5) { setTimeout(()=>{ window.isDailyChest = false; $("overlay-chest").classList.add("active"); $("chestImg").className = "chest-img"; $("chestMsg").textContent = "Level Reward Chest!"; $("btnChestDone").style.display = "none"; }, 1500); } } else { $("endRibbon").innerText = "GAME OVER"; $("endRibbon").style.setProperty('--ribbon-bg', 'linear-gradient(180deg, #475569 0%, #1E293B 100%)'); $("endRibbon").style.setProperty('--ribbon-tail', '#0F172A'); $("endStars").innerText = "☆☆☆"; $("endLvlText").innerText = `LEVEL ${selectedLvl} FAILED`; $("endShowcase").style.display = "none"; $("endWords").innerText = sessionIdx; $("endAcc").innerText = "0%"; $("endAcc").style.color = "#EF4444"; $("endStreak").innerText = "🔥 0"; $("endRwdStars").innerText = "+0"; $("endRwdCoins").innerText = "+0"; $("btnNextLevel").style.display = "none"; setOwlState('sad', 'owlComplete'); SFX.wrong(); } window.wjShowScreen("screen-complete"); }
         window.wjStartNextLevel = () => { SFX.button(); if(selectedLvl < 100) startSession(selectedLvl + 1); };
         window.wjOpenChest = () => { if($("chestImg").classList.contains("open")) return; SFX.chest(); $("chestImg").classList.add("open"); let r = Math.random(); let rewardMsg = ""; if(r < 0.4) { state.coins += 25; rewardMsg = "🪙 +25 Coins!"; } else if(r < 0.8) { state.stars += 10; rewardMsg = "⭐ +10 Stars!"; } else { state.coins += 50; state.stars += 5; rewardMsg = "💰 MEGA JACKPOT!"; } saveState(); setTimeout(()=>{ $("chestMsg").textContent = rewardMsg; $("chestMsg").style.color = "#8B5CF6"; $("chestMsg").style.fontSize = "24px"; $("btnChestDone").style.display = "inline-flex"; createConfetti(window.innerWidth/2, window.innerHeight/2, true); }, 600); };
         window.wjAfterChest = () => { SFX.button(); buildHome(); if(window.isDailyChest) window.wjShowScreen('screen-map'); };
@@ -2265,7 +2278,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v128'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v129'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
