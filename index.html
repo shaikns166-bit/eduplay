@@ -874,6 +874,18 @@ body {
                 </div>
                 <div class="pill-arrow-circle" style="color: #ff477e;">➔</div>
             </button>
+<button onclick="enterBasketCatch()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #10B981, #059669);">
+                <div class="pill-left-content">
+                    <div class="pill-icon-box" style="background: rgba(255,255,255,0.9); font-size: 35px;">
+                        🧺
+                    </div>
+                    <div class="pill-text-area">
+                        <h3 class="pill-title">Basket Catch</h3>
+                        <p class="pill-subtitle">Catch the falling words!</p>
+                    </div>
+                </div>
+                <div class="pill-arrow-circle" style="color: #059669;">➔</div>
+            </button>
         </section>
 
         
@@ -1328,6 +1340,70 @@ body {
             #wj-wrapper .rwd-item span { font-size: 14px !important; }
             #wj-wrapper .btn-green, #wj-wrapper .btn-purple { font-size: 14px; padding: 8px 15px; margin: 5px;}
         }
+/* ================= BASKET CATCH STYLES ================= */
+        #bc-wrapper { position: fixed; inset: 0; z-index: 5000; overflow: hidden; font-family: 'Nunito', sans-serif; background-color: #84CC16; touch-action: none; user-select: none; }
+        #bc-wrapper * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        #bc-game-container { width: 100vw; height: 100vh; position: relative; overflow: hidden; background-image: url('background_catch.png'); background-size: cover; background-position: center bottom; background-repeat: no-repeat; }
+
+        #bc-wrapper .bc-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; }
+        #bc-wrapper .bc-overlay.active { display: flex; animation: bcFadeIn 0.3s ease; }
+        @keyframes bcFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #bc-wrapper .bc-panel { background: #FFFFFF; border: 6px solid #38BDF8; border-radius: 40px; padding: 30px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); position: relative; }
+        #bc-wrapper .bc-panel-title { font-size: 36px; font-weight: 900; color: #0F172A; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 2px 0 #CBD5E1; }
+        
+        #bc-wrapper .bc-btn { background: linear-gradient(180deg, #4CAF50 0%, #166534 100%); box-shadow: 0 6px 0 #14532D, 0 10px 15px rgba(0,0,0,0.2); color: #fff; font-size: 24px; font-weight: 900; border: 4px solid #fff; border-radius: 99px; padding: 15px 40px; cursor: pointer; text-transform: uppercase; transition: transform 0.1s; margin: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Nunito', sans-serif;}
+        #bc-wrapper .bc-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 #14532D; }
+        #bc-wrapper .bc-btn-blue { background: linear-gradient(180deg, #38BDF8 0%, #0369A1 100%); box-shadow: 0 6px 0 #075985; }
+        #bc-wrapper .bc-btn-blue:active { box-shadow: 0 0px 0 #075985; }
+        #bc-wrapper .bc-btn-red { background: linear-gradient(180deg, #F43F5E 0%, #BE123C 100%); box-shadow: 0 6px 0 #9F1239; }
+        #bc-wrapper .bc-btn-red:active { box-shadow: 0 0px 0 #9F1239; }
+
+        #bc-wrapper .bc-top-bar { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; z-index: 2010; }
+        #bc-wrapper .bc-circle-btn { width: 60px; height: 60px; border-radius: 50%; font-size: 28px; padding: 0; }
+        #bc-wrapper .bc-stats-pill { background: #0F172A; border: 3px solid #FFF; border-radius: 99px; padding: 8px 20px; color: #FFF; font-size: 22px; font-weight: 900; display: flex; gap: 10px; align-items: center; box-shadow: 0 6px 15px rgba(0,0,0,0.2); margin: 0;}
+        #bc-wrapper .bc-stats-pill .gold { color: #FFC107; } #bc-wrapper .bc-stats-pill .red { color: #F43F5E; }
+
+        /* Main Menu Specifics */
+        #bc-menu-main { 
+            background: rgba(15, 23, 42, 0.5) url('main_basket_catch.png') center/cover no-repeat !important; 
+            background-blend-mode: overlay !important; 
+        }
+        #bc-wrapper .eduplay-logo { max-width: 80%; max-height: 140px; object-fit: contain; margin-top: 60px; margin-bottom: 5px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
+        #bc-wrapper .bc-title-logo { font-size: 42px; font-weight: 900; color: #FFC107; text-shadow: 0 4px 0 #D97706, 0 8px 15px rgba(0,0,0,0.5); line-height: 1.1; margin-bottom: 20px; text-align: center; white-space: nowrap; font-family: 'Nunito', sans-serif;}
+        #bc-wrapper .bc-menu-character { width: 160px; height: 160px; margin: 0 auto 20px; background: url('main_screen.png') 0 0; background-size: 640px 160px; animation: bcMenuWave 4s steps(1) infinite; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4)); }
+        @keyframes bcMenuWave { 0%, 60% { background-position: 0px 0; } 65% { background-position: -160px 0; } 70% { background-position: -320px 0; } 75% { background-position: -480px 0; } 80% { background-position: -320px 0; } 85% { background-position: -480px 0; } 90% { background-position: -160px 0; } 95%, 100%{ background-position: 0px 0; } }
+
+        /* HUD & Gameplay */
+        #bc-wrapper .bc-hud-top { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 100; }
+        #bc-wrapper .bc-target-box { background: #0F172A; border-radius: 20px 20px 30px 30px; padding: 10px 30px 15px; border: 4px solid #38BDF8; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; margin-top: -15px; }
+        #bc-wrapper .bc-target-word-card { background: #1E293B; border-radius: 99px; padding: 5px 25px; border: 2px solid #64748B; display: flex; align-items: center; gap: 10px; }
+        #bc-wrapper .bc-hud-bottom { position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: flex-end; z-index: 100; pointer-events: none; }
+        #bc-wrapper .bc-info-box { background: #0F172A; border-radius: 20px; padding: 10px 20px; min-width: 110px; text-align: center; border: 3px solid #38BDF8; box-shadow: 0 8px 15px rgba(0,0,0,0.25); }
+        
+        #bc-wrapper .cw-parachute-item { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translateX(-50%); will-change: top; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
+        #bc-wrapper .cw-canopy-container { width: 120px; height: 105px; position: relative; z-index: 1; margin-bottom: -5px; }
+        #bc-wrapper .cw-icon-container { position: relative; z-index: 10; font-size: 70px; line-height: 1; margin-top: -15px; margin-bottom: 2px; text-shadow: -4px -4px 0 #FFF, 4px -4px 0 #FFF, -4px 4px 0 #FFF, 4px 4px 0 #FFF, -5px 0px 0 #FFF, 5px 0px 0 #FFF, 0px -5px 0 #FFF, 0px 5px 0 #FFF, 0 6px 12px rgba(0,0,0,0.25); }
+        #bc-wrapper .cw-word-board { background: #FFFFFF; border-radius: 99px; min-width: 95px; padding: 8px 20px; text-align: center; z-index: 2; position: relative; box-shadow: 0 6px 15px rgba(0,0,0,0.2); font-size: 20px; font-weight: 900; color: #0F172A; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        #bc-wrapper #cw-player { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; z-index: 50; }
+        #bc-wrapper .cw-player-img { width: 140px; height: 140px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); --flip: 1; transform: scaleX(var(--flip)); transition: transform 0.1s; }
+        #bc-wrapper .cw-player-img.idle { background-image: url('sprite_idle.png'); background-size: 560px 140px; animation: cw-idle 3s steps(1) infinite; }
+        @keyframes cw-idle { 0%, 80% { background-position: 0px 0; } 85% { background-position: -140px 0; } 90% { background-position: -280px 0; } 95%, 100% { background-position: -420px 0; } }
+        #bc-wrapper .cw-player-img.running { background-image: url('sprite_run.png'); background-size: 560px 140px; animation: cw-run 0.4s steps(4) infinite; }
+        @keyframes cw-run { from { background-position: 0px 0; } to { background-position: -560px 0; } }
+        #bc-wrapper .cw-player-img.catching { background-image: url('sprite_catch_happy.png') !important; background-size: 140px 140px !important; animation: none !important; }
+        #bc-wrapper .cw-player-img.wrong-catch { background-image: url('sprite_catch_wrong.png') !important; background-size: 140px 140px !important; animation: none !important; }
+        #bc-wrapper .basket-shake { animation: bcShake 0.3s cubic-bezier(.36,.07,.19,.97) both; filter: hue-rotate(320deg) saturate(200%) drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
+        @keyframes bcShake { 10%, 90% { transform: scaleX(var(--flip)) translateX(-4px); } 20%, 80% { transform: scaleX(var(--flip)) translateX(6px); } 30%, 50%, 70% { transform: scaleX(var(--flip)) translateX(-8px); } 40%, 60% { transform: scaleX(var(--flip)) translateX(8px); } }
+
+        #bc-wrapper .bc-float-text { position: absolute; font-weight: 900; font-size: 32px; color: #FFF; text-shadow: 0 4px 0 #000; pointer-events: none; z-index: 150; animation: bcFloatUp 1.2s ease-out forwards; }
+        @keyframes bcFloatUp { 0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; } 20% { transform: translate(-50%, -30px) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -80px) scale(1); opacity: 0; } }
+        #bc-wrapper .bc-particle { position: absolute; pointer-events: none; border-radius: 50%; z-index: 140; }
+
+        /* Rotate Warning */
+        #bc-rotate-warning { display: none; position: fixed; inset: 0; background: #0F172A; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        @media screen and (orientation: portrait) { body.is-playing-bc #bc-rotate-warning { display: flex; } body.is-playing-bc #bc-game-container { display: none; } }
     </style>
 
     <div id="wj-app" style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #A7F3D0 0%, #34D399 100%);">
@@ -2126,7 +2202,112 @@ body {
   </div>
 </div>
 <!-- ================= END MAZE GAME WRAPPER ================= -->
+<!-- ================= BASKET CATCH WRAPPER ================= -->
+<div id="bc-wrapper" class="hidden">
+    <div id="bc-rotate-warning">
+        <div style="font-size: 80px; margin-bottom: 20px; animation: bounce 1s infinite;">🔄</div>
+        <h2 style="font-size: 28px; line-height: 1.4;">Please Rotate Your Phone<br><span style="color:#FFC107;">to Landscape Mode</span><br>to play!</h2>
+        <button class="bc-btn bc-btn-red" style="margin-top: 30px;" onclick="exitBasketCatch()">🔙 Exit</button>
+    </div>
 
+    <div id="bc-game-container">
+        <div class="play-area" id="bc-play-area" style="position: absolute; inset: 0; z-index: 10; overflow: hidden;">
+            <div id="cw-player"><div class="cw-player-img idle" id="bc-player-img"></div></div>
+        </div>
+
+        <div class="bc-hud-top" id="bc-hud-top" style="display:none;">
+            <button class="bc-btn bc-btn-blue bc-circle-btn" onclick="bcPauseGame()">II</button>
+            <div class="bc-target-box">
+                <h3 style="color: #FFF; font-size: 18px; text-transform: uppercase; margin-bottom: 5px;">CATCH THE WORD</h3>
+                <div class="bc-target-word-card">
+                    <span style="font-size: 12px; color: #94A3B8; font-weight: 700;">TARGET</span>
+                    <span id="bc-hud-target-word" style="font-size: 28px; color: #FFC107; font-weight: 900;">APPLE</span>
+                    <span id="bc-hud-target-icon" style="font-size: 28px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));">🍎</span>
+                </div>
+            </div>
+            <div class="bc-stats-pill"><span class="red">❤️</span> <span id="bc-hud-lives">3</span></div>
+        </div>
+        
+        <div class="bc-hud-bottom" id="bc-hud-bottom" style="display:none;">
+            <div class="bc-info-box"><span style="color:#FFF; font-size:14px; font-weight:800;">SCORE</span><strong id="bc-hud-score" style="color:#FFC107; font-size:32px; font-weight:900;">0</strong></div>
+            <div class="bc-stats-pill"><span class="gold">⭐</span> <span id="bc-hud-stars">0</span></div>
+            <div class="bc-info-box"><span style="color:#FFF; font-size:14px; font-weight:800;">COMBO</span><strong id="bc-hud-combo" style="color:#FFC107; font-size:32px; font-weight:900;">X1</strong></div>
+        </div>
+
+        <div id="bc-speed-up-noti" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 40px; font-weight: 900; color: #FFC107; text-shadow: 0 4px 0 #D97706, 0 10px 20px rgba(0,0,0,0.5); z-index: 1000; text-align: center; transition: transform 0.3s; opacity: 0;">⚡ SPEED UP!<br><span style="font-size:24px; color:#FFF; text-shadow: 0 2px 4px #000;">Getting faster!</span></div>
+
+        <!-- MENUS -->
+        <div class="bc-overlay active" id="bc-menu-main">
+            <div class="bc-top-bar">
+                <button class="bc-btn bc-btn-blue bc-circle-btn" onclick="exitBasketCatch()">←</button>
+                <div style="display:flex; gap:10px;">
+                    <div class="bc-stats-pill"><span class="red">❤️</span> <span id="bc-menu-lives">3</span></div>
+                    <div class="bc-stats-pill"><span class="gold">⭐</span> <span id="bc-menu-stars">0</span></div>
+                    <button class="bc-btn bc-btn-blue bc-circle-btn" onclick="bcShowScreen('bc-menu-settings')">⚙</button>
+                </div>
+            </div>
+            <img src="eduplay_logo.png" class="eduplay-logo" alt="EduPlay" onerror="this.style.display='none'">
+            <div class="bc-title-logo">BASKET CATCH</div>
+            <div class="bc-menu-character"></div>
+            
+            <!-- NAYA HIGH SCORE BADGE -->
+            <div style="font-size: 22px; font-weight: 900; color: #FFF; text-shadow: 0 2px 4px #000; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 5px 20px; border-radius: 99px; border: 2px solid #38BDF8; display: inline-block;">
+                🏆 HIGH SCORE: <span id="bc-menu-highscore" style="color: #FFC107;">0</span>
+            </div><br>
+            
+            <button class="bc-btn" onclick="bcStartCountdown()" style="font-size: 32px; padding: 20px 60px; box-shadow: 0 10px 0 #14532D, 0 15px 25px rgba(0,0,0,0.4);">▶ START</button>
+            <button class="bc-btn bc-btn-blue" onclick="bcShowScreen('bc-menu-shop')">🛍 SHOP</button>
+        </div>
+
+        <div class="bc-overlay" id="bc-menu-countdown"><div style="font-size: 150px; font-weight: 900; color: #FFF; text-shadow: 0 10px 0 #0F172A;" id="bc-countdown-text">3</div></div>
+
+        <div class="bc-overlay" id="bc-menu-shop">
+            <div class="bc-top-bar"><button class="bc-btn bc-btn-blue bc-circle-btn" onclick="bcShowScreen('bc-menu-main')">←</button></div>
+            <div class="bc-panel">
+                <div class="bc-panel-title">SHOP</div>
+                <div style="font-size: 80px; margin-bottom: -10px;">❤️</div>
+                <h3 style="font-size: 24px; color: #334155; margin-bottom: 20px;">1 EXTRA LIFE</h3>
+                <button class="bc-btn" id="bc-btn-buy-life" onclick="bcBuyLife()">BUY — ⭐20</button>
+                <p id="bc-shop-msg" style="color:#F43F5E; font-weight: 900; margin-top: 10px; height: 24px;"></p>
+            </div>
+        </div>
+
+        <div class="bc-overlay" id="bc-menu-settings">
+            <div class="bc-top-bar"><button class="bc-btn bc-btn-blue bc-circle-btn" onclick="bcShowScreen('bc-menu-main')">←</button></div>
+            <div class="bc-panel">
+                <div class="bc-panel-title">SETTINGS</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 24px; font-weight: 900; color: #334155; margin-bottom: 15px; padding: 10px 20px; background: #F1F5F9; border-radius: 20px;">
+                    <span>🔊 SOUND EFFECTS</span>
+                    <button class="bc-btn" id="bc-btn-sound" onclick="bcToggleSound()" style="margin:0; padding: 10px 20px; font-size:20px;">ON</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bc-overlay" id="bc-menu-pause">
+            <div class="bc-panel">
+                <div class="bc-panel-title">GAME PAUSED</div>
+                <button class="bc-btn" onclick="bcResumeGame()">▶ RESUME</button>
+                <button class="bc-btn bc-btn-blue" onclick="bcQuitToMenu()">🏠 MAIN MENU</button>
+            </div>
+        </div>
+
+        <div class="bc-overlay" id="bc-menu-gameover">
+            <div class="bc-panel">
+                <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #6D28D9 0%, #4C1D95 100%); color: #FFC107; padding: 10px 40px; border-radius: 99px; font-size: 24px; font-weight: 900; border: 4px solid #A855F7;">GAME OVER</div>
+                <div style="font-size: 70px; color: #CBD5E1; margin: 30px 0 10px; text-shadow: 0 6px 0 #94A3B8;">
+                    <span id="bc-star1">★</span><span id="bc-star2" style="position:relative; top:-20px;">★</span><span id="bc-star3">★</span>
+                </div>
+                <div style="background: #F1F5F9; border-radius: 20px; padding: 15px; margin-bottom: 20px; text-align: left; font-size:20px; font-weight:800; color:#334155;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>SCORE</span> <span style="color:#0F172A;" id="bc-go-score">0</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>BEST COMBO</span> <span style="color:#FFC107;" id="bc-go-combo">X1</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>EARNED</span> <span style="color:#4CAF50;" id="bc-go-earned">+0 ⭐</span></div>
+                </div>
+                <button class="bc-btn" onclick="bcStartCountdown()">🔄 PLAY AGAIN</button>
+                <button class="bc-btn bc-btn-blue" onclick="bcQuitToMenu()">🏠 MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- ==================================================
      EDUPLAY LOGIC SCRIPT
      ================================================== -->
@@ -2639,7 +2820,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v147'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v153'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -4038,5 +4219,249 @@ window.mazeBuildLevelGrid = function(){
 })();
 </script>
 <!-- ================= END MAZE GAME ENGINE ================= -->
+<!-- ================= BASKET CATCH ENGINE ================= -->
+<script>
+(function() {
+    "use strict";
+
+    window.enterBasketCatch = function() {
+        document.getElementById("app-container").classList.replace("active-flex", "hidden");
+        document.getElementById("bc-wrapper").classList.remove("hidden");
+        try { 
+            let elem = document.documentElement; 
+            if (elem.requestFullscreen) { 
+                elem.requestFullscreen().then(() => { 
+                    if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } 
+                }).catch(e => {}); 
+            } 
+        } catch(err) {}
+        window.bcShowScreen('bc-menu-main');
+    };
+
+    window.exitBasketCatch = function() {
+        bcIsPlaying = false; bcIsPaused = false; cancelAnimationFrame(bcGameLoopId);
+        document.body.classList.remove('is-playing-bc');
+        document.getElementById("bc-wrapper").classList.add("hidden");
+        document.getElementById("app-container").classList.replace("hidden", "active-flex");
+        document.getElementById("main-header").classList.remove("hidden");
+        document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
+        document.getElementById("app-title").innerText = "Fun Play";
+        document.getElementById("btn-home").classList.remove("hidden");
+        try { 
+            if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
+            if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+        } catch(err) {}
+    };
+
+    const BC_WORD_DATA = {
+        "FRUITS": [ {w: "APPLE", e: "🍎", c: "#F43F5E"}, {w: "BANANA", e: "🍌", c: "#EAB308"}, {w: "MANGO", e: "🥭", c: "#F59E0B"}, {w: "GRAPES", e: "🍇", c: "#A855F7"} ],
+        "ANIMALS": [ {w: "CAT", e: "🐱", c: "#F97316"}, {w: "DOG", e: "🐶", c: "#8B5CF6"}, {w: "LION", e: "🦁", c: "#EAB308"}, {w: "ELEPHANT", e: "🐘", c: "#94A3B8"} ],
+        "VEHICLES": [ {w: "CAR", e: "🚗", c: "#3B82F6"}, {w: "BUS", e: "🚌", c: "#EAB308"}, {w: "TRAIN", e: "🚂", c: "#EF4444"} ]
+    };
+    let BC_ALL_WORDS = [];
+    Object.values(BC_WORD_DATA).forEach(arr => BC_ALL_WORDS = BC_ALL_WORDS.concat(arr));
+
+    let bcAudioCtx = null;
+    function bcInitAudio() { 
+        if (!bcAudioCtx && bcSoundOn) bcAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); 
+        if (bcAudioCtx && bcAudioCtx.state === 'suspended') bcAudioCtx.resume(); 
+    }
+    function bcPlayTone(freq, type, dur, vol = 0.1) {
+        if (!bcSoundOn || !bcAudioCtx) return;
+        const osc = bcAudioCtx.createOscillator(); const gain = bcAudioCtx.createGain();
+        osc.type = type; osc.frequency.setValueAtTime(freq, bcAudioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, bcAudioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, bcAudioCtx.currentTime + dur);
+        osc.connect(gain).connect(bcAudioCtx.destination); osc.start(); osc.stop(bcAudioCtx.currentTime + dur);
+    }
+    const bcSfx = {
+        correct: () => { bcInitAudio(); bcPlayTone(600, 'sine', 0.1, 0.1); setTimeout(() => bcPlayTone(800, 'sine', 0.2, 0.1), 100); },
+        wrong: () => { bcInitAudio(); bcPlayTone(200, 'sawtooth', 0.3, 0.1); setTimeout(() => bcPlayTone(150, 'square', 0.4, 0.1), 150); },
+        combo3: () => { bcInitAudio(); [440, 554, 659].forEach((f, i) => setTimeout(() => bcPlayTone(f, 'sine', 0.2, 0.1), i * 100)); },
+        combo5: () => { bcInitAudio(); [440, 554, 659, 880].forEach((f, i) => setTimeout(() => bcPlayTone(f, 'square', 0.2, 0.1), i * 100)); },
+        buy: () => { bcInitAudio(); bcPlayTone(880, 'triangle', 0.1, 0.1); setTimeout(() => bcPlayTone(1100, 'triangle', 0.3, 0.1), 100); }
+    };
+
+    let bcStars = parseInt(localStorage.getItem('eduplay_stars')) || 100; 
+    let bcLives = parseInt(localStorage.getItem('eduplay_lives')) || 3;
+    let bcSoundOn = localStorage.getItem('eduplay_sound') !== 'false';
+    let bcHighScore = parseInt(localStorage.getItem('eduplay_bc_highscore')) || 0;
+    
+    let bcIsPlaying = false; let bcIsPaused = false; let bcScore = 0; let bcCombo = 1; let bcBestCombo = 1; let bcCurrentLives = 3; let bcTargetWord = null; let bcSpeedMultiplier = 1.0;
+    let bcActiveItems = []; let bcParticles = []; let bcGameLoopId; let bcLastTime = 0; let bcTimeSinceLastSpawn = 0; let bcGameTimeMs = 0;
+    let bcPlayerX = window.innerWidth / 2; let bcIsDragging = false; let bcLastPlayerX = bcPlayerX; let bcRunTimer = null;
+    let bcTempSpeedBoost = 1.0; let bcSpeedBoostTimer = null;
+
+    const bcSpecialItems = [ { type: 'diamond', e: '💎', w: '+10 ⭐', c: '#06B6D4' }, { type: 'fire', e: '🔥', w: 'DANGER', c: '#EF4444' }, { type: 'speed', e: '⚡', w: 'SPEED X2', c: '#EAB308' } ];
+
+    function bcUpdateStorage() {
+        localStorage.setItem('eduplay_stars', bcStars); localStorage.setItem('eduplay_lives', bcLives); localStorage.setItem('eduplay_sound', bcSoundOn);
+        if(document.getElementById('bc-menu-stars')) document.getElementById('bc-menu-stars').innerText = bcStars; 
+        if(document.getElementById('bc-menu-lives')) document.getElementById('bc-menu-lives').innerText = bcLives;
+        if(document.getElementById('bc-menu-highscore')) document.getElementById('bc-menu-highscore').innerText = bcHighScore;
+        const buyBtn = document.getElementById('bc-btn-buy-life');
+        if(buyBtn) {
+            if(bcStars < 20) { buyBtn.disabled = true; buyBtn.innerText = "Need 20 ⭐"; } else { buyBtn.disabled = false; buyBtn.innerText = "BUY — ⭐20"; }
+        }
+        const soundBtn = document.getElementById('bc-btn-sound');
+        if(soundBtn) {
+            soundBtn.innerText = bcSoundOn ? "ON" : "OFF";
+            soundBtn.className = bcSoundOn ? "bc-btn" : "bc-btn bc-btn-red";
+        }
+    }
+
+    window.bcShowScreen = function(id) {
+        document.querySelectorAll('#bc-wrapper .bc-overlay').forEach(el => el.classList.remove('active'));
+        if (id) {
+            let screen = document.getElementById(id);
+            if(screen) screen.classList.add('active');
+        }
+        bcUpdateStorage();
+    };
+
+    window.bcToggleSound = function() { bcSoundOn = !bcSoundOn; bcInitAudio(); bcUpdateStorage(); };
+    window.bcBuyLife = function() { if (bcStars >= 20) { bcStars -= 20; bcLives += 1; bcSfx.buy(); bcUpdateStorage(); let msg = document.getElementById('bc-shop-msg'); if(msg) { msg.innerText = "❤️ +1 LIFE! ⭐ -20"; setTimeout(() => msg.innerText = "", 2000); } } };
+
+    function bcUpdatePlayerPosition(clientX) {
+        if (!bcIsPlaying || bcIsPaused) return;
+        bcPlayerX = Math.max(70, Math.min(window.innerWidth - 70, clientX));
+        let playerContainer = document.getElementById('cw-player');
+        if(playerContainer) playerContainer.style.left = bcPlayerX + 'px';
+        
+        let bcPlayerImg = document.getElementById('bc-player-img');
+        if(!bcPlayerImg) return;
+
+        if (bcPlayerX > bcLastPlayerX + 1) { bcPlayerImg.style.setProperty('--flip', '1'); bcPlayerImg.classList.add('running'); bcPlayerImg.classList.remove('idle'); } 
+        else if (bcPlayerX < bcLastPlayerX - 1) { bcPlayerImg.style.setProperty('--flip', '-1'); bcPlayerImg.classList.add('running'); bcPlayerImg.classList.remove('idle'); }
+        bcLastPlayerX = bcPlayerX;
+        clearTimeout(bcRunTimer); bcRunTimer = setTimeout(() => { bcPlayerImg.classList.remove('running'); bcPlayerImg.classList.add('idle'); }, 100);
+    }
+    
+    // Safely attach events so we don't crash
+    setTimeout(() => {
+        const bcPlayArea = document.getElementById('bc-play-area');
+        if(bcPlayArea) {
+            bcPlayArea.addEventListener('touchstart', (e) => { bcIsDragging = true; bcUpdatePlayerPosition(e.touches[0].clientX); }, {passive: false});
+            bcPlayArea.addEventListener('touchmove', (e) => { if(bcIsDragging) { e.preventDefault(); bcUpdatePlayerPosition(e.touches[0].clientX); } }, {passive: false});
+            bcPlayArea.addEventListener('touchend', () => { bcIsDragging = false; });
+            bcPlayArea.addEventListener('mousedown', (e) => { bcIsDragging = true; bcUpdatePlayerPosition(e.clientX); });
+            bcPlayArea.addEventListener('mousemove', (e) => { if(bcIsDragging) bcUpdatePlayerPosition(e.clientX); });
+        }
+        window.addEventListener('mouseup', () => { bcIsDragging = false; });
+    }, 500);
+
+    function bcPickNewTarget() {
+        bcTargetWord = BC_ALL_WORDS[Math.floor(Math.random() * BC_ALL_WORDS.length)];
+        let wordEl = document.getElementById('bc-hud-target-word');
+        let iconEl = document.getElementById('bc-hud-target-icon');
+        if(wordEl) wordEl.innerText = bcTargetWord.w; 
+        if(iconEl) iconEl.innerText = bcTargetWord.e;
+    }
+
+    function bcCreateParachute() {
+        let data, isSpecial = false, specialType = null;
+        if (Math.random() < 0.15) { isSpecial = true; data = bcSpecialItems[Math.floor(Math.random() * bcSpecialItems.length)]; specialType = data.type; } 
+        else { data = Math.random() < 0.45 ? bcTargetWord : BC_ALL_WORDS[Math.floor(Math.random() * BC_ALL_WORDS.length)]; }
+        
+        const item = document.createElement('div'); item.className = 'cw-parachute-item';
+        const clipId = 'clip_' + Math.random().toString(36).substr(2, 9);
+        const svg = `<svg width="100%" height="100%" viewBox="0 0 100 95" preserveAspectRatio="none" style="display:block; overflow:visible;"><line x1="18" y1="44" x2="35" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="44" x2="45" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="60" y1="44" x2="55" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="82" y1="44" x2="65" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><defs><path id="frontEdge_${clipId}" d="M 5 45 A 45 40 0 0 1 95 45 Q 86 38 77 45 Q 68 38 59 45 Q 50 38 41 45 Q 32 38 23 45 Q 14 38 5 45 Z" /><clipPath id="${clipId}"><use href="#frontEdge_${clipId}" /></clipPath></defs><path d="M 5 45 A 45 40 0 0 1 95 45 Q 50 55 5 45 Z" fill="#000000" opacity="0.15" /><use href="#frontEdge_${clipId}" fill="${data.c}" /><g clip-path="url(#${clipId})"><path d="M 23 45 Q 32 38 41 45 Q 46 20 50 5 Q 35 20 23 45 Z" fill="#FFFFFF" /><path d="M 59 45 Q 68 38 77 45 Q 65 20 50 5 Q 54 20 59 45 Z" fill="#FFFFFF" /></g><use href="#frontEdge_${clipId}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="3" /><use href="#frontEdge_${clipId}" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" /></svg>`;
+        item.innerHTML = `<div class="cw-canopy-container">${svg}</div><div class="cw-icon-container">${data.e}</div><div class="cw-word-board">${data.w}</div>`;
+        const startX = Math.random() * (window.innerWidth - 120) + 60; item.style.left = startX + 'px'; item.style.top = '-180px'; 
+        let bcPlayArea = document.getElementById('bc-play-area');
+        if(bcPlayArea) bcPlayArea.appendChild(item);
+        
+        bcActiveItems.push({ el: item, x: startX, y: -180, data: data, speed: (Math.random() * 2.5 + 6.0) * bcSpeedMultiplier, isSpecial: isSpecial, type: specialType });
+    }
+
+    function bcShowFloatText(x, y, text, color) { const el = document.createElement('div'); el.className = 'bc-float-text'; el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.color = color; el.innerText = text; let bcPlayArea = document.getElementById('bc-play-area'); if(bcPlayArea) bcPlayArea.appendChild(el); setTimeout(() => el.remove(), 1200); }
+    function bcCreateParticles(x, y, color) { for(let i=0; i<8; i++) { const p = document.createElement('div'); p.className = 'bc-particle'; p.style.backgroundColor = color; p.style.width = (Math.random() * 12 + 6) + 'px'; p.style.height = p.style.width; let bcPlayArea = document.getElementById('bc-play-area'); if(bcPlayArea) bcPlayArea.appendChild(p); bcParticles.push({ el: p, x: x, y: y, vx: (Math.random() - 0.5) * 15, vy: (Math.random() - 0.5) * 15 - 5, life: 1 }); } }
+    function bcUpdateHUD() { 
+        let scoreEl = document.getElementById('bc-hud-score'); if(scoreEl) scoreEl.innerText = bcScore; 
+        let comboEl = document.getElementById('bc-hud-combo'); if(comboEl) comboEl.innerText = "X" + bcCombo; 
+        let starsEl = document.getElementById('bc-hud-stars'); if(starsEl) starsEl.innerText = bcStars; 
+        let livesEl = document.getElementById('bc-hud-lives'); if(livesEl) livesEl.innerText = bcCurrentLives; 
+    }
+
+    function bcGameLoop(timestamp) {
+        if (!bcIsPlaying) return; if (bcIsPaused) { bcLastTime = timestamp; bcGameLoopId = requestAnimationFrame(bcGameLoop); return; }
+        let dt = timestamp - bcLastTime; bcLastTime = timestamp;
+        
+        bcTimeSinceLastSpawn += dt; if (bcTimeSinceLastSpawn > 1500 / bcSpeedMultiplier) { bcCreateParachute(); bcTimeSinceLastSpawn = 0; }
+        bcGameTimeMs += dt; if (bcGameTimeMs >= 60000) { bcGameTimeMs = 0; if (bcSpeedMultiplier < 2.5) { bcSpeedMultiplier += 0.05; const noti = document.getElementById('bc-speed-up-noti'); if(noti) { noti.style.transform = "translate(-50%, -50%) scale(1)"; noti.style.opacity = "1"; setTimeout(() => {noti.style.transform = "translate(-50%, -50%) scale(0)"; noti.style.opacity="0";}, 2000); } } }
+
+        const playerY = window.innerHeight - 110; 
+        let bcPlayerImg = document.getElementById('bc-player-img');
+
+        for (let i = bcActiveItems.length - 1; i >= 0; i--) {
+            let item = bcActiveItems[i]; item.y += (item.speed * bcTempSpeedBoost); item.el.style.top = item.y + 'px';
+            let distance = Math.sqrt(Math.pow(item.x - bcPlayerX, 2) + Math.pow((item.y + 160) - playerY, 2));
+
+            if (distance < 95) { 
+                if (item.isSpecial) {
+                    if (item.type === 'diamond') { bcStars += 10; bcUpdateStorage(); bcSfx.correct(); bcCreateParticles(item.x, item.y, '#06B6D4'); bcShowFloatText(item.x, item.y - 20, "+10 ⭐", '#06B6D4'); if(bcPlayerImg){ bcPlayerImg.classList.add('catching'); setTimeout(() => bcPlayerImg.classList.remove('catching'), 500); } } 
+                    else if (item.type === 'fire') { bcSfx.wrong(); bcCombo = 1; bcCurrentLives--; bcCreateParticles(item.x, item.y, '#EF4444'); bcShowFloatText(item.x, item.y - 20, "BURN!", '#EF4444'); if(bcPlayerImg) { bcPlayerImg.classList.add('wrong-catch'); bcPlayerImg.classList.remove('basket-shake'); void bcPlayerImg.offsetWidth; bcPlayerImg.classList.add('basket-shake'); setTimeout(() => bcPlayerImg.classList.remove('wrong-catch', 'basket-shake'), 500); } if (bcCurrentLives <= 0) { window.bcEndGame(); item.el.remove(); bcActiveItems.splice(i, 1); break; } } 
+                    else if (item.type === 'speed') { bcSfx.combo3(); bcCreateParticles(item.x, item.y, '#EAB308'); bcShowFloatText(item.x, item.y - 20, "SPEED X2!", '#EAB308'); if(bcPlayerImg) { bcPlayerImg.classList.add('wrong-catch'); setTimeout(() => bcPlayerImg.classList.remove('wrong-catch'), 500); } bcTempSpeedBoost = 2.0; clearTimeout(bcSpeedBoostTimer); bcSpeedBoostTimer = setTimeout(() => { bcTempSpeedBoost = 1.0; }, 5000); }
+                } else if (item.data.w === bcTargetWord.w) {
+                    let points = bcCombo >= 5 ? 15 : (bcCombo >= 3 ? 10 : 5); bcScore += points; 
+                    if (bcCombo >= 5) { bcSfx.combo5(); } else if (bcCombo >= 3) { bcSfx.combo3(); } else { bcSfx.correct(); }
+                    bcCreateParticles(item.x, item.y, '#FFC107'); bcShowFloatText(item.x, item.y - 20, "+" + points, '#FFC107'); if(bcPlayerImg){ bcPlayerImg.classList.add('catching'); setTimeout(() => bcPlayerImg.classList.remove('catching'), 500); } bcCombo++; if(bcCombo > bcBestCombo) bcBestCombo = bcCombo; bcPickNewTarget();
+                } else {
+                    bcSfx.wrong(); bcCombo = 1; bcCurrentLives--; bcCreateParticles(item.x, item.y, '#EF4444'); bcShowFloatText(item.x, item.y - 20, "Oops!", '#EF4444'); if(bcPlayerImg){ bcPlayerImg.classList.add('wrong-catch'); bcPlayerImg.classList.remove('basket-shake'); void bcPlayerImg.offsetWidth; bcPlayerImg.classList.add('basket-shake'); setTimeout(() => bcPlayerImg.classList.remove('wrong-catch', 'basket-shake'), 500); } if (bcCurrentLives <= 0) { window.bcEndGame(); item.el.remove(); bcActiveItems.splice(i, 1); break; }
+                }
+                bcUpdateHUD(); item.el.remove(); bcActiveItems.splice(i, 1);
+            } else if (item.y > window.innerHeight + 50) { item.el.remove(); bcActiveItems.splice(i, 1); }
+        }
+
+        for (let i = bcParticles.length - 1; i >= 0; i--) { let p = bcParticles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.5; p.life -= 0.03; p.el.style.left = p.x + 'px'; p.el.style.top = p.y + 'px'; p.el.style.opacity = p.life; if (p.life <= 0) { p.el.remove(); bcParticles.splice(i, 1); } }
+        bcGameLoopId = requestAnimationFrame(bcGameLoop);
+    }
+
+    window.bcStartCountdown = function() {
+        bcInitAudio();
+        if(bcLives <= 0) { alert("You need more lives! Visit the shop."); window.bcShowScreen('bc-menu-main'); return; }
+        bcLives--; bcUpdateStorage(); bcCurrentLives = 3; bcScore = 0; bcCombo = 1; bcBestCombo = 1; bcSpeedMultiplier = 1.0; bcGameTimeMs = 0; bcTempSpeedBoost = 1.0; clearTimeout(bcSpeedBoostTimer);
+        bcActiveItems.forEach(i => i.el.remove()); bcActiveItems = []; bcParticles.forEach(p => p.el.remove()); bcParticles = [];
+        window.bcShowScreen('bc-menu-countdown'); 
+        let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; 
+        let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; 
+        document.body.classList.add('is-playing-bc');
+        let count = 3; const countEl = document.getElementById('bc-countdown-text'); if(countEl) countEl.innerText = count;
+        let interval = setInterval(() => { count--; if (count > 0) { if(countEl) countEl.innerText = count; } else if (count === 0) { if(countEl) countEl.innerText = "GO!"; } else { clearInterval(interval); bcStartGameplay(); } }, 800);
+    };
+
+    function bcStartGameplay() { window.bcShowScreen(null); let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'flex'; let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'flex'; bcIsPlaying = true; bcIsPaused = false; bcPickNewTarget(); bcUpdateHUD(); bcLastTime = performance.now(); bcGameLoopId = requestAnimationFrame(bcGameLoop); }
+    window.bcPauseGame = function() { bcIsPaused = true; window.bcShowScreen('bc-menu-pause'); };
+    window.bcResumeGame = function() { bcIsPaused = false; window.bcShowScreen(null); bcLastTime = performance.now(); };
+    window.bcQuitToMenu = function() { bcIsPlaying = false; let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; document.body.classList.remove('is-playing-bc'); window.bcShowScreen('bc-menu-main'); };
+
+    window.bcEndGame = function() {
+        bcIsPlaying = false; 
+        let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; 
+        let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; 
+        document.body.classList.remove('is-playing-bc');
+        
+        if (bcScore > bcHighScore) { bcHighScore = bcScore; localStorage.setItem('eduplay_bc_highscore', bcHighScore); }
+        
+        let earnedStars = Math.floor(bcScore / 15); if (bcBestCombo >= 5) earnedStars += 5;
+        let starRating = 1; if (bcScore > 50 && bcBestCombo >= 5) starRating = 3; else if (bcScore > 25) starRating = 2; if(starRating === 3) earnedStars += 10;
+        bcStars += earnedStars; bcUpdateStorage();
+        
+        let goScore = document.getElementById('bc-go-score'); if(goScore) goScore.innerText = bcScore; 
+        let goCombo = document.getElementById('bc-go-combo'); if(goCombo) goCombo.innerText = "X" + bcBestCombo; 
+        let goEarned = document.getElementById('bc-go-earned'); if(goEarned) goEarned.innerText = "+" + earnedStars + " ⭐";
+        
+        let s1 = document.getElementById('bc-star1'), s2 = document.getElementById('bc-star2'), s3 = document.getElementById('bc-star3');
+        if(s1) s1.style.color = '#CBD5E1'; if(s2) s2.style.color = '#CBD5E1'; if(s3) s3.style.color = '#CBD5E1';
+        
+        window.bcShowScreen('bc-menu-gameover');
+        
+        setTimeout(() => { if(s1) s1.style.color = '#FFC107'; }, 300); 
+        if(starRating >= 2) setTimeout(() => { if(s2) s2.style.color = '#FFC107'; }, 600); 
+        if(starRating >= 3) setTimeout(() => { if(s3) s3.style.color = '#FFC107'; }, 900);
+    };
+
+})();
+</script>
 </body>
 </html>
