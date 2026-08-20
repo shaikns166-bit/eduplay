@@ -1406,11 +1406,8 @@ body {
         @media screen and (orientation: portrait) { body.is-playing-bc #bc-rotate-warning { display: flex; } body.is-playing-bc #bc-game-container { display: none; } }
 /* 📱 BASKET CATCH MOBILE OPTIMIZATION (Scaling & Layout) */
         @media (max-width: 950px) and (orientation: landscape) {
-            /* Teddy ko chota aur deck pe set kiya */
-            #bc-wrapper .cw-player-img { width: 90px !important; height: 90px !important; }
-            #bc-wrapper .cw-player-img.idle, #bc-wrapper .cw-player-img.running { background-size: 360px 90px !important; }
-            #bc-wrapper .cw-player-img.catching, #bc-wrapper .cw-player-img.wrong-catch { background-size: 90px 90px !important; }
-            #bc-wrapper #cw-player { bottom: 25px !important; }
+            /* Fix: Teddy ko bina sprite break kiye scale (chota) kiya */
+            #bc-wrapper #cw-player { transform: translateX(-50%) scale(0.65) !important; transform-origin: bottom center; bottom: 10px !important; }
 
             /* Parachutes ko scale down kiya taaki upar se aate hue feel hon */
             #bc-wrapper .cw-parachute-item { transform: translateX(-50%) scale(0.65) !important; transform-origin: top center; }
@@ -2849,7 +2846,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v154'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v155'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -4371,14 +4368,43 @@ window.mazeBuildLevelGrid = function(){
         clearTimeout(bcRunTimer); bcRunTimer = setTimeout(() => { bcPlayerImg.classList.remove('running'); bcPlayerImg.classList.add('idle'); }, 100);
     }
     
+    // 🎮 NEW: Smooth Relative Dragging Variables
+    let bcTouchStartX = 0;
+    let bcInitialPlayerX = window.innerWidth / 2;
+
     setTimeout(() => {
         const bcPlayArea = document.getElementById('bc-play-area');
         if(bcPlayArea) {
-            bcPlayArea.addEventListener('touchstart', (e) => { bcIsDragging = true; bcUpdatePlayerPosition(e.touches[0].clientX); }, {passive: false});
-            bcPlayArea.addEventListener('touchmove', (e) => { if(bcIsDragging) { e.preventDefault(); bcUpdatePlayerPosition(e.touches[0].clientX); } }, {passive: false});
+            // Touch Events (Mobile)
+            bcPlayArea.addEventListener('touchstart', (e) => { 
+                bcIsDragging = true; 
+                bcTouchStartX = e.touches[0].clientX; 
+                bcInitialPlayerX = bcPlayerX; // Touch start point save karein
+            }, {passive: false});
+            
+            bcPlayArea.addEventListener('touchmove', (e) => { 
+                if(bcIsDragging) { 
+                    e.preventDefault(); 
+                    let deltaX = e.touches[0].clientX - bcTouchStartX; // Kitna drag kiya
+                    bcUpdatePlayerPosition(bcInitialPlayerX + deltaX); // Utna hi Teddy move karega
+                } 
+            }, {passive: false});
+            
             bcPlayArea.addEventListener('touchend', () => { bcIsDragging = false; });
-            bcPlayArea.addEventListener('mousedown', (e) => { bcIsDragging = true; bcUpdatePlayerPosition(e.clientX); });
-            bcPlayArea.addEventListener('mousemove', (e) => { if(bcIsDragging) bcUpdatePlayerPosition(e.clientX); });
+            
+            // Mouse Events (PC)
+            bcPlayArea.addEventListener('mousedown', (e) => { 
+                bcIsDragging = true; 
+                bcTouchStartX = e.clientX; 
+                bcInitialPlayerX = bcPlayerX; 
+            });
+            
+            bcPlayArea.addEventListener('mousemove', (e) => { 
+                if(bcIsDragging) { 
+                    let deltaX = e.clientX - bcTouchStartX;
+                    bcUpdatePlayerPosition(bcInitialPlayerX + deltaX); 
+                } 
+            });
         }
         window.addEventListener('mouseup', () => { bcIsDragging = false; });
     }, 500);
