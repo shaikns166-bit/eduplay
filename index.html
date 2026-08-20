@@ -1404,6 +1404,35 @@ body {
         /* Rotate Warning */
         #bc-rotate-warning { display: none; position: fixed; inset: 0; background: #0F172A; color: white; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         @media screen and (orientation: portrait) { body.is-playing-bc #bc-rotate-warning { display: flex; } body.is-playing-bc #bc-game-container { display: none; } }
+/* 📱 BASKET CATCH MOBILE OPTIMIZATION (Scaling & Layout) */
+        @media (max-width: 950px) and (orientation: landscape) {
+            /* Teddy ko chota aur deck pe set kiya */
+            #bc-wrapper .cw-player-img { width: 90px !important; height: 90px !important; }
+            #bc-wrapper .cw-player-img.idle, #bc-wrapper .cw-player-img.running { background-size: 360px 90px !important; }
+            #bc-wrapper .cw-player-img.catching, #bc-wrapper .cw-player-img.wrong-catch { background-size: 90px 90px !important; }
+            #bc-wrapper #cw-player { bottom: 25px !important; }
+
+            /* Parachutes ko scale down kiya taaki upar se aate hue feel hon */
+            #bc-wrapper .cw-parachute-item { transform: translateX(-50%) scale(0.65) !important; transform-origin: top center; }
+            
+            /* HUD UI ko chota kiya taaki screen cover na ho */
+            #bc-wrapper .bc-target-box { transform: scale(0.6); transform-origin: top center; margin-top: -15px; }
+            #bc-wrapper .bc-hud-top { top: 5px; left: 10px; right: 10px; }
+            #bc-wrapper .bc-circle-btn { width: 40px; height: 40px; font-size: 18px; }
+            #bc-wrapper .bc-stats-pill { font-size: 16px; padding: 4px 12px; }
+            #bc-wrapper .bc-info-box { transform: scale(0.7); transform-origin: bottom left; }
+            #bc-wrapper #bc-hud-bottom { bottom: 5px; left: 10px; right: 10px; }
+            #bc-wrapper #bc-hud-bottom .bc-info-box:last-child { transform-origin: bottom right; }
+            #bc-wrapper #bc-hud-bottom .bc-stats-pill { transform: scale(0.75); transform-origin: bottom center; }
+        }
+
+        /* 📱 PORTRAIT MENU FIXES (For Shop Button Visibility) */
+        @media (orientation: portrait) {
+            #bc-wrapper .eduplay-logo { margin-top: 10vh !important; max-height: 12vh !important; }
+            #bc-wrapper .bc-title-logo { font-size: 36px !important; margin-bottom: 2vh !important; }
+            #bc-wrapper .bc-menu-character { width: 120px !important; height: 120px !important; background-size: 480px 120px !important; margin-bottom: 2vh !important; }
+            #bc-wrapper .bc-btn { font-size: 20px !important; padding: 12px 30px !important; margin: 8px !important; }
+        }
     </style>
 
     <div id="wj-app" style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #A7F3D0 0%, #34D399 100%);">
@@ -2820,7 +2849,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v153'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v154'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -4227,11 +4256,13 @@ window.mazeBuildLevelGrid = function(){
     window.enterBasketCatch = function() {
         document.getElementById("app-container").classList.replace("active-flex", "hidden");
         document.getElementById("bc-wrapper").classList.remove("hidden");
+        
+        // 🔄 MENU KO PORTRAIT MEIN LOCK KAREIN
         try { 
             let elem = document.documentElement; 
             if (elem.requestFullscreen) { 
                 elem.requestFullscreen().then(() => { 
-                    if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } 
+                    if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } 
                 }).catch(e => {}); 
             } 
         } catch(err) {}
@@ -4247,9 +4278,12 @@ window.mazeBuildLevelGrid = function(){
         document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
         document.getElementById("app-title").innerText = "Fun Play";
         document.getElementById("btn-home").classList.remove("hidden");
+        
+        // 🔄 WAPAS PORTRAIT MEIN LE AAYEIN FUN PLAY KE LIYE
         try { 
             if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
-            if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+            if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); }
+            if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); }
         } catch(err) {}
     };
 
@@ -4337,7 +4371,6 @@ window.mazeBuildLevelGrid = function(){
         clearTimeout(bcRunTimer); bcRunTimer = setTimeout(() => { bcPlayerImg.classList.remove('running'); bcPlayerImg.classList.add('idle'); }, 100);
     }
     
-    // Safely attach events so we don't crash
     setTimeout(() => {
         const bcPlayArea = document.getElementById('bc-play-area');
         if(bcPlayArea) {
@@ -4367,11 +4400,13 @@ window.mazeBuildLevelGrid = function(){
         const clipId = 'clip_' + Math.random().toString(36).substr(2, 9);
         const svg = `<svg width="100%" height="100%" viewBox="0 0 100 95" preserveAspectRatio="none" style="display:block; overflow:visible;"><line x1="18" y1="44" x2="35" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="44" x2="45" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="60" y1="44" x2="55" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><line x1="82" y1="44" x2="65" y2="85" stroke="#D2A679" stroke-width="3" stroke-linecap="round"/><defs><path id="frontEdge_${clipId}" d="M 5 45 A 45 40 0 0 1 95 45 Q 86 38 77 45 Q 68 38 59 45 Q 50 38 41 45 Q 32 38 23 45 Q 14 38 5 45 Z" /><clipPath id="${clipId}"><use href="#frontEdge_${clipId}" /></clipPath></defs><path d="M 5 45 A 45 40 0 0 1 95 45 Q 50 55 5 45 Z" fill="#000000" opacity="0.15" /><use href="#frontEdge_${clipId}" fill="${data.c}" /><g clip-path="url(#${clipId})"><path d="M 23 45 Q 32 38 41 45 Q 46 20 50 5 Q 35 20 23 45 Z" fill="#FFFFFF" /><path d="M 59 45 Q 68 38 77 45 Q 65 20 50 5 Q 54 20 59 45 Z" fill="#FFFFFF" /></g><use href="#frontEdge_${clipId}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="3" /><use href="#frontEdge_${clipId}" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" /></svg>`;
         item.innerHTML = `<div class="cw-canopy-container">${svg}</div><div class="cw-icon-container">${data.e}</div><div class="cw-word-board">${data.w}</div>`;
-        const startX = Math.random() * (window.innerWidth - 120) + 60; item.style.left = startX + 'px'; item.style.top = '-180px'; 
+        const startX = Math.random() * (window.innerWidth - 120) + 60; item.style.left = startX + 'px'; item.style.top = '-200px'; 
         let bcPlayArea = document.getElementById('bc-play-area');
         if(bcPlayArea) bcPlayArea.appendChild(item);
         
-        bcActiveItems.push({ el: item, x: startX, y: -180, data: data, speed: (Math.random() * 2.5 + 6.0) * bcSpeedMultiplier, isSpecial: isSpecial, type: specialType });
+        // 🚀 SPEED FIX: Mobile par speed zyaada rakhi hai taaki object upar se tezi se girein!
+        let baseSpeed = (window.innerHeight < 500) ? 3.5 : 5.0; 
+        bcActiveItems.push({ el: item, x: startX, y: -200, data: data, speed: (Math.random() * 2.5 + baseSpeed) * bcSpeedMultiplier, isSpecial: isSpecial, type: specialType });
     }
 
     function bcShowFloatText(x, y, text, color) { const el = document.createElement('div'); el.className = 'bc-float-text'; el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.color = color; el.innerText = text; let bcPlayArea = document.getElementById('bc-play-area'); if(bcPlayArea) bcPlayArea.appendChild(el); setTimeout(() => el.remove(), 1200); }
@@ -4390,14 +4425,19 @@ window.mazeBuildLevelGrid = function(){
         bcTimeSinceLastSpawn += dt; if (bcTimeSinceLastSpawn > 1500 / bcSpeedMultiplier) { bcCreateParachute(); bcTimeSinceLastSpawn = 0; }
         bcGameTimeMs += dt; if (bcGameTimeMs >= 60000) { bcGameTimeMs = 0; if (bcSpeedMultiplier < 2.5) { bcSpeedMultiplier += 0.05; const noti = document.getElementById('bc-speed-up-noti'); if(noti) { noti.style.transform = "translate(-50%, -50%) scale(1)"; noti.style.opacity = "1"; setTimeout(() => {noti.style.transform = "translate(-50%, -50%) scale(0)"; noti.style.opacity="0";}, 2000); } } }
 
-        const playerY = window.innerHeight - 110; 
+        // 🎯 DYNAMIC HITBOX: Mobile aur PC dono ke liye Teddy ki height aur catch radius set kiya!
+        const isMobile = window.innerHeight < 500; 
+        const playerY = window.innerHeight - (isMobile ? 70 : 110); 
         let bcPlayerImg = document.getElementById('bc-player-img');
 
         for (let i = bcActiveItems.length - 1; i >= 0; i--) {
             let item = bcActiveItems[i]; item.y += (item.speed * bcTempSpeedBoost); item.el.style.top = item.y + 'px';
-            let distance = Math.sqrt(Math.pow(item.x - bcPlayerX, 2) + Math.pow((item.y + 160) - playerY, 2));
+            
+            let wordBoardOffset = isMobile ? 100 : 160;
+            let distance = Math.sqrt(Math.pow(item.x - bcPlayerX, 2) + Math.pow((item.y + wordBoardOffset) - playerY, 2));
+            let catchRadius = isMobile ? 65 : 95;
 
-            if (distance < 95) { 
+            if (distance < catchRadius) { 
                 if (item.isSpecial) {
                     if (item.type === 'diamond') { bcStars += 10; bcUpdateStorage(); bcSfx.correct(); bcCreateParticles(item.x, item.y, '#06B6D4'); bcShowFloatText(item.x, item.y - 20, "+10 ⭐", '#06B6D4'); if(bcPlayerImg){ bcPlayerImg.classList.add('catching'); setTimeout(() => bcPlayerImg.classList.remove('catching'), 500); } } 
                     else if (item.type === 'fire') { bcSfx.wrong(); bcCombo = 1; bcCurrentLives--; bcCreateParticles(item.x, item.y, '#EF4444'); bcShowFloatText(item.x, item.y - 20, "BURN!", '#EF4444'); if(bcPlayerImg) { bcPlayerImg.classList.add('wrong-catch'); bcPlayerImg.classList.remove('basket-shake'); void bcPlayerImg.offsetWidth; bcPlayerImg.classList.add('basket-shake'); setTimeout(() => bcPlayerImg.classList.remove('wrong-catch', 'basket-shake'), 500); } if (bcCurrentLives <= 0) { window.bcEndGame(); item.el.remove(); bcActiveItems.splice(i, 1); break; } } 
@@ -4420,6 +4460,10 @@ window.mazeBuildLevelGrid = function(){
     window.bcStartCountdown = function() {
         bcInitAudio();
         if(bcLives <= 0) { alert("You need more lives! Visit the shop."); window.bcShowScreen('bc-menu-main'); return; }
+        
+        // 🔄 JAISE HI START DABAYA, GAME KO LANDSCAPE MEIN LOCK KAR DEIN!
+        try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(err) {}
+
         bcLives--; bcUpdateStorage(); bcCurrentLives = 3; bcScore = 0; bcCombo = 1; bcBestCombo = 1; bcSpeedMultiplier = 1.0; bcGameTimeMs = 0; bcTempSpeedBoost = 1.0; clearTimeout(bcSpeedBoostTimer);
         bcActiveItems.forEach(i => i.el.remove()); bcActiveItems = []; bcParticles.forEach(p => p.el.remove()); bcParticles = [];
         window.bcShowScreen('bc-menu-countdown'); 
