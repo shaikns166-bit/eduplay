@@ -1369,17 +1369,51 @@ body {
             background: rgba(15, 23, 42, 0.5) url('main_basket_catch.png') center/cover no-repeat !important; 
             background-blend-mode: overlay !important; 
         }
-        #bc-wrapper .eduplay-logo { max-width: 80%; max-height: 140px; object-fit: contain; margin-top: 60px; margin-bottom: 5px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
-        #bc-wrapper .bc-title-logo { font-size: 42px; font-weight: 900; color: #FFC107; text-shadow: 0 4px 0 #D97706, 0 8px 15px rgba(0,0,0,0.5); line-height: 1.1; margin-bottom: 20px; text-align: center; white-space: nowrap; font-family: 'Nunito', sans-serif;}
+        @keyframes bcFloatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        
+        #bc-wrapper .eduplay-logo { 
+            max-width: 90%; 
+            max-height: 18vh; 
+            object-fit: contain; 
+            margin-top: 60px; 
+            margin-bottom: 10px; 
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); 
+            animation: bcFloatLogo 3.5s ease-in-out infinite; 
+        }
+        
+        #bc-wrapper .bc-title-logo { 
+            font-size: 48px; 
+            font-weight: 900; 
+            text-shadow: 0 4px 0 #334155, 0 8px 15px rgba(0,0,0,0.5); 
+            line-height: 1.1; 
+            margin-bottom: 15px; 
+            text-align: center; 
+            white-space: nowrap; 
+            font-family: 'Nunito', sans-serif;
+            letter-spacing: 2px;
+        }
         #bc-wrapper .bc-menu-character { width: 160px; height: 160px; margin: 0 auto 20px; background: url('main_screen.png') 0 0; background-size: 640px 160px; animation: bcMenuWave 4s steps(1) infinite; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4)); }
         @keyframes bcMenuWave { 0%, 60% { background-position: 0px 0; } 65% { background-position: -160px 0; } 70% { background-position: -320px 0; } 75% { background-position: -480px 0; } 80% { background-position: -320px 0; } 85% { background-position: -480px 0; } 90% { background-position: -160px 0; } 95%, 100%{ background-position: 0px 0; } }
 
-        /* HUD & Gameplay */
+        /* HUD & Gameplay (GLASSMORPHISM & RIGHT-SIDE STACK) */
         #bc-wrapper .bc-hud-top { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: flex-start; z-index: 100; }
-        #bc-wrapper .bc-target-box { background: #0F172A; border-radius: 20px 20px 30px 30px; padding: 10px 30px 15px; border: 4px solid #38BDF8; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; margin-top: -15px; }
-        #bc-wrapper .bc-target-word-card { background: #1E293B; border-radius: 99px; padding: 5px 25px; border: 2px solid #64748B; display: flex; align-items: center; gap: 10px; }
-        #bc-wrapper .bc-hud-bottom { position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: flex-end; z-index: 100; pointer-events: none; }
-        #bc-wrapper .bc-info-box { background: #0F172A; border-radius: 20px; padding: 10px 20px; min-width: 110px; text-align: center; border: 3px solid #38BDF8; box-shadow: 0 8px 15px rgba(0,0,0,0.25); }
+        
+        #bc-wrapper .bc-target-box { background: rgba(15, 23, 42, 0.4) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 20px 20px 30px 30px; padding: 10px 30px 15px; border: 3px solid #38BDF8; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; margin-top: -15px; }
+        #bc-wrapper .bc-target-word-card { background: rgba(255, 255, 255, 0.15) !important; border-radius: 99px; padding: 5px 25px; border: 2px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; gap: 10px; box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2); }
+        
+        /* Move bottom HUD to right side below Lives */
+        #bc-wrapper .bc-hud-bottom { position: absolute !important; top: 75px !important; right: 15px !important; left: auto !important; bottom: auto !important; display: flex; flex-direction: column !important; align-items: flex-end !important; gap: 12px !important; z-index: 100; pointer-events: none; }
+        
+        #bc-wrapper .bc-info-box { background: rgba(15, 23, 42, 0.4) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 20px; padding: 10px 20px; min-width: 110px; text-align: center; box-shadow: 0 8px 15px rgba(0,0,0,0.25); }
+        #bc-wrapper .bc-info-box span { display: block; font-size: 14px; color: #FFFFFF; font-weight: 800; letter-spacing: 1px; margin-bottom: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; }
+        #bc-wrapper .bc-info-box strong { display: block; font-size: 32px; color: #FFC107; font-weight: 900; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; }
+        
+        /* Colorful Borders & Text Shadows for Glass UI */
+        #bc-wrapper .bc-stats-pill { background: rgba(15, 23, 42, 0.4) !important; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; }
+        #bc-hud-top .bc-stats-pill { border: 3px solid #F43F5E !important; } /* Lives - Red */
+        #bc-hud-bottom .bc-info-box:first-child { border: 3px solid #4CAF50 !important; } /* Score - Green */
+        #bc-hud-bottom .bc-stats-pill { border: 3px solid #FFC107 !important; } /* Stars - Yellow */
+        #bc-hud-bottom .bc-info-box:last-child { border: 3px solid #A855F7 !important; } /* Combo - Purple */
         
         #bc-wrapper .cw-parachute-item { position: absolute; display: flex; flex-direction: column; align-items: center; transform: translateX(-50%); will-change: top; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); }
         #bc-wrapper .cw-canopy-container { width: 120px; height: 105px; position: relative; z-index: 1; margin-bottom: -5px; }
@@ -1406,29 +1440,34 @@ body {
         @media screen and (orientation: portrait) { body.is-playing-bc #bc-rotate-warning { display: flex; } body.is-playing-bc #bc-game-container { display: none; } }
 /* 📱 BASKET CATCH MOBILE OPTIMIZATION (Scaling & Layout) */
         @media (max-width: 950px) and (orientation: landscape) {
-            /* Fix: Teddy ko bina sprite break kiye scale (chota) kiya */
-            #bc-wrapper #cw-player { transform: translateX(-50%) scale(0.65) !important; transform-origin: bottom center; bottom: 10px !important; }
+            /* 1. Main Menu Landscape Fit */
+            #bc-wrapper .eduplay-logo { margin-top: 5px !important; max-height: 22vh !important; margin-bottom: 0px !important; }
+            #bc-wrapper .bc-title-logo { font-size: 32px !important; margin-bottom: 0px !important; letter-spacing: 1px !important;}
+            #bc-menu-teddy { transform: scale(0.55) !important; margin-bottom: -35px !important; margin-top: -20px !important;}
+            #bc-high-score-pill { font-size: 16px !important; padding: 4px 15px !important; margin-bottom: 5px !important; }
+            #bc-menu-main > .bc-btn { font-size: 24px !important; padding: 10px 40px !important; box-shadow: 0 6px 0 #14532D, 0 10px 15px rgba(0,0,0,0.4) !important; }
+            #bc-wrapper .bc-circle-btn { width: 40px !important; height: 40px !important; font-size: 18px !important; padding: 0 !important; }
 
-            /* Parachutes ko scale down kiya taaki upar se aate hue feel hon */
+            /* 2. Gameplay HUD & Teddy Fit */
+            #bc-wrapper #cw-player { transform: translateX(-50%) scale(0.65) !important; transform-origin: bottom center; bottom: 45px !important; }
             #bc-wrapper .cw-parachute-item { transform: translateX(-50%) scale(0.65) !important; transform-origin: top center; }
-            
-            /* HUD UI ko chota kiya taaki screen cover na ho */
             #bc-wrapper .bc-target-box { transform: scale(0.6); transform-origin: top center; margin-top: -15px; }
             #bc-wrapper .bc-hud-top { top: 5px; left: 10px; right: 10px; }
-            #bc-wrapper .bc-circle-btn { width: 40px; height: 40px; font-size: 18px; }
             #bc-wrapper .bc-stats-pill { font-size: 16px; padding: 4px 12px; }
-            #bc-wrapper .bc-info-box { transform: scale(0.7); transform-origin: bottom left; }
-            #bc-wrapper #bc-hud-bottom { bottom: 5px; left: 10px; right: 10px; }
-            #bc-wrapper #bc-hud-bottom .bc-info-box:last-child { transform-origin: bottom right; }
-            #bc-wrapper #bc-hud-bottom .bc-stats-pill { transform: scale(0.75); transform-origin: bottom center; }
+            
+            /* 3. Mobile UI Stack adjustment for right side */
+            #bc-wrapper #bc-hud-bottom { top: 50px !important; right: 10px !important; gap: 8px !important; }
+            #bc-wrapper .bc-info-box { transform: scale(0.7); transform-origin: right center; padding: 5px 10px !important; min-width: 90px !important;}
+            #bc-wrapper #bc-hud-bottom .bc-stats-pill { transform: scale(0.8); transform-origin: right center; margin: 0 !important;}
         }
 
-        /* 📱 PORTRAIT MENU FIXES (For Shop Button Visibility) */
+        /* 📱 PORTRAIT MENU FIXES */
         @media (orientation: portrait) {
-            #bc-wrapper .eduplay-logo { margin-top: 10vh !important; max-height: 12vh !important; }
-            #bc-wrapper .bc-title-logo { font-size: 36px !important; margin-bottom: 2vh !important; }
-            #bc-wrapper .bc-menu-character { width: 120px !important; height: 120px !important; background-size: 480px 120px !important; margin-bottom: 2vh !important; }
-            #bc-wrapper .bc-btn { font-size: 20px !important; padding: 12px 30px !important; margin: 8px !important; }
+            #bc-wrapper .eduplay-logo { margin-top: 8vh !important; max-height: 22vh !important; max-width: 90% !important; }
+            #bc-wrapper .bc-title-logo { font-size: 42px !important; margin-bottom: 2vh !important; }
+            /* GLITCH FIX: Width/Height ki jagah Scale use kiya hai! */
+            #bc-wrapper .bc-menu-character { transform: scale(0.9); margin-bottom: 1vh !important; }
+            #bc-wrapper .bc-btn { font-size: 20px !important; padding: 12px 35px !important; margin: 8px !important; }
         }
     </style>
 
@@ -2264,25 +2303,34 @@ body {
 
         <!-- MENUS -->
         <div class="bc-overlay active" id="bc-menu-main">
-            <div class="bc-top-bar">
+            <div class="bc-top-bar" style="top: 10px;">
                 <button class="bc-btn bc-btn-blue bc-circle-btn" onclick="exitBasketCatch()">←</button>
-                <div style="display:flex; gap:10px;">
+                <div style="display:flex; gap:10px; align-items:flex-start;">
                     <div class="bc-stats-pill"><span class="red">❤️</span> <span id="bc-menu-lives">3</span></div>
                     <div class="bc-stats-pill"><span class="gold">⭐</span> <span id="bc-menu-stars">0</span></div>
-                    <button class="bc-btn bc-btn-blue bc-circle-btn" onclick="bcShowScreen('bc-menu-settings')">⚙</button>
+                    
+                    <!-- NEW: Settings and Shop Stacked Vertically -->
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <button class="bc-btn bc-btn-blue bc-circle-btn" style="margin:0;" onclick="bcShowScreen('bc-menu-settings')">⚙</button>
+                        <button class="bc-btn bc-btn-blue bc-circle-btn" style="margin:0; font-size:24px;" onclick="bcShowScreen('bc-menu-shop')">🛒</button>
+                    </div>
                 </div>
             </div>
-            <img src="eduplay_logo.png" class="eduplay-logo" alt="EduPlay" onerror="this.style.display='none'">
-            <div class="bc-title-logo">BASKET CATCH</div>
-            <div class="bc-menu-character"></div>
             
-            <!-- NAYA HIGH SCORE BADGE -->
-            <div style="font-size: 22px; font-weight: 900; color: #FFF; text-shadow: 0 2px 4px #000; margin-bottom: 15px; background: rgba(0,0,0,0.4); padding: 5px 20px; border-radius: 99px; border: 2px solid #38BDF8; display: inline-block;">
+            <img src="eduplay_logo.png" class="eduplay-logo" alt="EduPlay" onerror="this.style.display='none'">
+            <div class="bc-title-logo">
+                <span style="color:#38BDF8;">B</span><span style="color:#4CAF50;">A</span><span style="color:#F43F5E;">S</span><span style="color:#A855F7;">K</span><span style="color:#F97316;">E</span><span style="color:#FFC107;">T</span>
+                &nbsp;
+                <span style="color:#4CAF50;">C</span><span style="color:#FFC107;">A</span><span style="color:#F43F5E;">T</span><span style="color:#38BDF8;">C</span><span style="color:#A855F7;">H</span>
+            </div>
+            
+            <div class="bc-menu-character" id="bc-menu-teddy"></div>
+            
+            <div id="bc-high-score-pill" style="font-size: 22px; font-weight: 900; color: #FFF; text-shadow: 0 2px 4px #000; margin-bottom: 10px; background: rgba(0,0,0,0.4); padding: 5px 20px; border-radius: 99px; border: 2px solid #38BDF8; display: inline-block;">
                 🏆 HIGH SCORE: <span id="bc-menu-highscore" style="color: #FFC107;">0</span>
             </div><br>
             
-            <button class="bc-btn" onclick="bcStartCountdown()" style="font-size: 32px; padding: 20px 60px; box-shadow: 0 10px 0 #14532D, 0 15px 25px rgba(0,0,0,0.4);">▶ START</button>
-            <button class="bc-btn bc-btn-blue" onclick="bcShowScreen('bc-menu-shop')">🛍 SHOP</button>
+            <button class="bc-btn" onclick="bcStartCountdown()" style="font-size: 32px; padding: 15px 50px; box-shadow: 0 10px 0 #14532D, 0 15px 25px rgba(0,0,0,0.4); margin-top: 0;">▶ START</button>
         </div>
 
         <div class="bc-overlay" id="bc-menu-countdown"><div style="font-size: 150px; font-weight: 900; color: #FFF; text-shadow: 0 10px 0 #0F172A;" id="bc-countdown-text">3</div></div>
@@ -2318,22 +2366,33 @@ body {
         </div>
 
         <div class="bc-overlay" id="bc-menu-gameover">
-            <div class="bc-panel">
-                <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #6D28D9 0%, #4C1D95 100%); color: #FFC107; padding: 10px 40px; border-radius: 99px; font-size: 24px; font-weight: 900; border: 4px solid #A855F7;">GAME OVER</div>
-                <div style="font-size: 70px; color: #CBD5E1; margin: 30px 0 10px; text-shadow: 0 6px 0 #94A3B8;">
-                    <span id="bc-star1">★</span><span id="bc-star2" style="position:relative; top:-20px;">★</span><span id="bc-star3">★</span>
+            <div class="bc-panel" style="max-width: 600px; padding: 20px; margin-top: 15px;">
+                <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #6D28D9 0%, #4C1D95 100%); color: #FFC107; padding: 5px 30px; border-radius: 99px; font-size: 20px; font-weight: 900; border: 4px solid #A855F7; z-index: 10;">GAME OVER</div>
+                
+                <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
+                    <!-- LEFT SIDE: Teddy & Stars -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <img id="bc-result-teddy" src="sad_teddy.png" alt="Teddy" style="width: 100px; height: 100px; object-fit: contain; margin-bottom: -15px; z-index: 5; position: relative;">
+                        <div id="bc-go-stars-container" style="font-size: 55px; color: #CBD5E1; text-shadow: 0 4px 0 #94A3B8;">
+                            <span id="bc-star1">★</span><span id="bc-star2" style="position:relative; top:-15px;">★</span><span id="bc-star3">★</span>
+                        </div>
+                    </div>
+                    
+                    <!-- RIGHT SIDE: Colorful Stats & Buttons -->
+                    <div style="flex: 1; min-width: 250px;">
+                        <div style="background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%); border-radius: 20px; padding: 15px; margin-bottom: 15px; text-align: left; font-size: 18px; font-weight: 900; color: #0F172A; border: 3px solid #38BDF8; box-shadow: 0 8px 15px rgba(0,0,0,0.1);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>SCORE</span> <span style="color:#2563EB;" id="bc-go-score">0</span></div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>BEST COMBO</span> <span style="color:#D97706;" id="bc-go-combo">X1</span></div>
+                            <div style="display:flex; justify-content:space-between;"><span>EARNED</span> <span style="color:#059669;" id="bc-go-earned">+0 ⭐</span></div>
+                        </div>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="bc-btn" onclick="bcStartCountdown()" style="font-size: 16px; padding: 10px 15px; margin: 0; flex: 1;">🔄 AGAIN</button>
+                            <button class="bc-btn bc-btn-blue" onclick="bcQuitToMenu()" style="font-size: 16px; padding: 10px 15px; margin: 0; flex: 1;">🏠 MENU</button>
+                        </div>
+                    </div>
                 </div>
-                <div style="background: #F1F5F9; border-radius: 20px; padding: 15px; margin-bottom: 20px; text-align: left; font-size:20px; font-weight:800; color:#334155;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>SCORE</span> <span style="color:#0F172A;" id="bc-go-score">0</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>BEST COMBO</span> <span style="color:#FFC107;" id="bc-go-combo">X1</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>EARNED</span> <span style="color:#4CAF50;" id="bc-go-earned">+0 ⭐</span></div>
-                </div>
-                <button class="bc-btn" onclick="bcStartCountdown()">🔄 PLAY AGAIN</button>
-                <button class="bc-btn bc-btn-blue" onclick="bcQuitToMenu()">🏠 MAIN MENU</button>
             </div>
         </div>
-    </div>
-</div>
 <!-- ==================================================
      EDUPLAY LOGIC SCRIPT
      ================================================== -->
@@ -4503,13 +4562,25 @@ window.mazeBuildLevelGrid = function(){
     function bcStartGameplay() { window.bcShowScreen(null); let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'flex'; let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'flex'; bcIsPlaying = true; bcIsPaused = false; bcPickNewTarget(); bcUpdateHUD(); bcLastTime = performance.now(); bcGameLoopId = requestAnimationFrame(bcGameLoop); }
     window.bcPauseGame = function() { bcIsPaused = true; window.bcShowScreen('bc-menu-pause'); };
     window.bcResumeGame = function() { bcIsPaused = false; window.bcShowScreen(null); bcLastTime = performance.now(); };
-    window.bcQuitToMenu = function() { bcIsPlaying = false; let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; document.body.classList.remove('is-playing-bc'); window.bcShowScreen('bc-menu-main'); };
+    window.bcQuitToMenu = function() { 
+        bcIsPlaying = false; 
+        let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; 
+        let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; 
+        document.body.classList.remove('is-playing-bc'); 
+        
+        // Ensure screen stays in Landscape for the Main Menu
+        try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(err) {}
+        
+        window.bcShowScreen('bc-menu-main'); 
+    };
 
     window.bcEndGame = function() {
         bcIsPlaying = false; 
         let hudTop = document.getElementById('bc-hud-top'); if(hudTop) hudTop.style.display = 'none'; 
         let hudBot = document.getElementById('bc-hud-bottom'); if(hudBot) hudBot.style.display = 'none'; 
-        document.body.classList.remove('is-playing-bc');
+        
+        // 🔄 Force Landscape to fit the new result board properly!
+        try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(err) {}
         
         if (bcScore > bcHighScore) { bcHighScore = bcScore; localStorage.setItem('eduplay_bc_highscore', bcHighScore); }
         
@@ -4523,6 +4594,12 @@ window.mazeBuildLevelGrid = function(){
         
         let s1 = document.getElementById('bc-star1'), s2 = document.getElementById('bc-star2'), s3 = document.getElementById('bc-star3');
         if(s1) s1.style.color = '#CBD5E1'; if(s2) s2.style.color = '#CBD5E1'; if(s3) s3.style.color = '#CBD5E1';
+        
+        // 🐻 HAPPY OR SAD TEDDY LOGIC (3 stars = Happy, 1 or 2 stars = Sad)
+        let teddyImg = document.getElementById('bc-result-teddy');
+        if(teddyImg) {
+            teddyImg.src = (starRating === 3) ? 'happy_teddy.png' : 'sad_teddy.png';
+        }
         
         window.bcShowScreen('bc-menu-gameover');
         
