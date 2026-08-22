@@ -1469,6 +1469,21 @@ body {
             #bc-wrapper .bc-menu-character { transform: scale(0.9); margin-bottom: 1vh !important; }
             #bc-wrapper .bc-btn { font-size: 20px !important; padding: 12px 35px !important; margin: 8px !important; }
         }
+/* 🐻 RESULT SCREEN ANIMATED TEDDY */
+        #bc-result-teddy {
+            width: 120px;
+            height: 120px;
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 480px 120px; /* 4 Frames: 120 x 4 = 480px */
+            animation: bcResultTeddySprite 0.8s steps(4) infinite;
+            margin-bottom: -5px;
+            z-index: 5;
+            position: relative;
+        }
+        @keyframes bcResultTeddySprite {
+            100% { background-position: -480px center; }
+        }
     </style>
 
     <div id="wj-app" style="position: relative; width: 100vw; height: 100vh; overflow: hidden; background: linear-gradient(180deg, #A7F3D0 0%, #34D399 100%);">
@@ -2372,7 +2387,7 @@ body {
                 <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px;">
                     <!-- LEFT SIDE: Teddy & Stars -->
                     <div style="display: flex; flex-direction: column; align-items: center;">
-                        <img id="bc-result-teddy" src="sad_teddy.png" alt="Teddy" style="width: 100px; height: 100px; object-fit: contain; margin-bottom: -15px; z-index: 5; position: relative;">
+                        <div id="bc-result-teddy"></div>
                         <div id="bc-go-stars-container" style="font-size: 55px; color: #CBD5E1; text-shadow: 0 4px 0 #94A3B8;">
                             <span id="bc-star1">★</span><span id="bc-star2" style="position:relative; top:-15px;">★</span><span id="bc-star3">★</span>
                         </div>
@@ -2451,13 +2466,13 @@ body {
         const genCounting = () => countMap.map((emoji, i) => { let num = Math.floor(Math.random() * 5) + 2; return { main: num.toString(), sub: `Count the items`, emoji: Array(num).fill(emoji).join(" "), img: "", speak: `There are ${num} items.` }; });
         const listToObj = (arr) => arr.map(item => ({ main: "", sub: item[0], emoji: item[1] || "", img: item[2] || "", speak: item[0] }));
         const fruits = [
-            ['Apple','🍎','apple.png','سیب','ఆపిల్'],['Banana','🍌','banana.png','کیلا','అరటిపండు'],['Orange','🍊','orange.png','مالٹا','నారింజ'],['Mango','🥭','mango.png','آم','మామిడిపండు'],['Grapes','🍇','grapes.png','انگور','ద్రాక్షపండ్లు'],['Guava','🍐','guava.png','امرود','జామకాయ'],['Papaya','🍈','papaya.png','پپیتا','బొప్పాయి'],['Pineapple','🍍','pineapple.png','انناس','అనాసపండు'],['Watermelon','🍉','watermelon.png','تربوز','పుచ్చకాయ'],['Pear','🍐','pear.png','ناشپاتی','బేరిపండు'],['Cherry','🍒','cherry.png','آلوچہ','చెర్రీపండు'],['Peach','🍑','peach.png','آڑو','పీచ్‌పండు'],['Kiwi','🥝','kiwi.png','کیوی','కివి'],['Strawberry','🍓','strawberry.png','اسٹرابیری','స్ట్రాబెర్రీ'],['Pomegranate','🍎','pomegranate.png','انار','దానిమ్మపండు'],['Coconut','🥥','coconut.png','ناریل','కొబ్బరికాయ'],['Lemon','🍋','lemon.png','لیموں','నిమ్మకాయ'],['Lychee','🍒','lychee.png','لیچی','లీచి'],['Dragon Fruit','🐉','dragonfruit.png','ڈریگن فروٹ','డ్రాగన్ ఫ్రూట్'],['Avocado','🥑','avocado.png','ایفاکاڈো','వెన్నపండు']
+            ['Apple','🍎','apple.png','سیب','ఆపిల్'],['Banana','🍌','banana.png','موز','అరటిపండు'],['Orange','🍊','orange.png','مالٹا/نارنگی','నారింజ'],['Mango','🥭','mango.png','آم','మామిడిపండు'],['Grapes','🍇','grapes.png','انگور','ద్రాక్షపండ్లు'],['Guava','🍐','guava.png','امرود/جام','జామకాయ'],['Papaya','🍈','papaya.png','پپیتا','బొప్పాయి'],['Pineapple','🍍','pineapple.png','انناس','అనాసపండు'],['Watermelon','🍉','watermelon.png','تربوز','పుచ్చకాయ'],['Pear','🍐','pear.png','ناشپاتی','బేరిపండు'],['Cherry','🍒','cherry.png','آلوچہ','చెర్రీపండు'],['Peach','🍑','peach.png','آڑو','పీచ్‌పండు'],['Kiwi','🥝','kiwi.png','کیوی','కివి'],['Strawberry','🍓','strawberry.png','اسٹرابیری','స్ట్రాబెర్రీ'],['Pomegranate','🍎','pomegranate.png','انار','దానిమ్మపండు'],['Coconut','🥥','coconut.png','ناریل','కొబ్బరికాయ'],['Lemon','🍋','lemon.png','لیموں','నిమ్మకాయ'],['Lychee','🍒','lychee.png','لیچی','లీచి'],['Dragon Fruit','🐉','dragonfruit.png','ڈریگن فروٹ','డ్రాగన్ ఫ్రూట్'],['Avocado','🥑','avocado.png','ایواکاڈو','వెన్నపండు']
         ];
         const vegetables = [
             ['Carrot','🥕','carrot.png','گاجر','క్యారెట్'],['Potato','🥔','potato.png','آلو','బంగాళదుంప'],['Tomato','🍅','tomato.png','ٹماٹر','టమాట'],['Onion','🧅','onion.png','پیاز','ఉల్లిపాయ'],['Corn','🌽','corn.png','مکئی','మొక్కజొన్న'],['Broccoli','🥦','broccoli.png','بروکلی','బ్రోకలీ'],['Cabbage','🥬','cabbage.png','بند گوبی','క్యాబేజీ'],['Peas','🫛','peas.png','مٹر','బఠానీలు'],['Spinach','🥬','spinach.png','پالک','పాలకూర'],['Mushroom','🍄','mushroom.png','کھمبی','పుట్టగొడుగు'],['Brinjal','🍆','brinjal.png','بینگن','వంకాయ'],['Cucumber','🥒','cucumber.png','کھیرا','కీరాదోస'],['capsicum','🫑','capsicum.png','شملہ مرچ','క్యాప్సికం'],['Garlic','🧄','garlic.png','لہسن','వెల్లుల్లి'],['Ginger','🫚','ginger.png','ادرک','అల్లం'],['Chili','🌶️','chili.png','مرچ','మిరపకాయ'],['Pumpkin','🎃','pumpkin.png','کدو','గుమ్మడికాయ'],['Radish','🥗','radish.png','مولی','ముల్లంగి'],['Sweet Potato','🍠','sweet potato.png','شکرقندی','చిలగడదుంప'],['Cauliflower','🥦','cauliflower.png','پھول گوبی','కాలీఫ్లవర్']
         ];
         const animals = [
-            ['Lion','🦁','lion.png','شیر','సింహం'],['Tiger','🐅','tiger.png','چیتا','పులి'],['Elephant','🐘','elephant.png','ہاتھی','ఏనుగు'],['Monkey','🐒','monkey.png','بندر','కోతి'],['Dog','🐶','dog.png','کتا','కుక్క'],['Cat','🐱','cat.png','بلی','పిల్లి'],['Cow','🐄','cow.png','गाय','ఆవు'],['Buffalo','🐃','buffalo.png','بھینس','పోతు/గేదె'],['Horse','🐎','horse.png','گھوڑا','గుర్రం'],['Goat','🐐','goat.png','بکری','మేక'],['Sheep','🐑','sheep.png','بھیڑ','గొర్రె'],['Camel','🐫','camel.png','اونٹ','ఒంటె'],['Rabbit','🐰','rabbit.png','خرگوش','కుందేలు'],['Bear','🐻','bear.png','ریچھ','ఎలుగుబంటి'],['Fox','🦊','fox.png','لومڑی','నక్క'],['Wolf','🐺','wolf.png','بھیڑیا','తోడేలు'],['Deer','🦌','deer.png','ہرن','జింక'],['Zebra','🦓','zebra.png','زیبرا','జెబ్రా'],['Giraffe','🦒','giraffe.png','ظرافہ','జిరాఫీ'],['Kangaroo','🦘','kangaroo.png','کنگارو','కంగారూ'],['Panda','🐼','panda.png','پانڈا','పాండా'],['Cheetah','🐆','cheetah.png','چیتا','చిరుతపులి']
+            ['Lion','🦁','lion.png','شیر','సింహం'],['Tiger','🐅','tiger.png','چیتا','పులి'],['Elephant','🐘','elephant.png','ہاتھی','ఏనుగు'],['Monkey','🐒','monkey.png','بندر','కోతి'],['Dog','🐶','dog.png','کتا','కుక్క'],['Cat','🐱','cat.png','بلی','పిల్లి'],['Cow','🐄','cow.png','گائے','ఆవు'],['Buffalo','🐃','buffalo.png','بھینس','పోతు/గేదె'],['Horse','🐎','horse.png','گھوڑا','గుర్రం'],['Goat','🐐','goat.png','بکری','మేక'],['Sheep','🐑','sheep.png','بھیڑ','గొర్రె'],['Camel','🐫','camel.png','اونٹ','ఒంటె'],['Rabbit','🐰','rabbit.png','خرگوش','కుందేలు'],['Bear','🐻','bear.png','ریچھ','ఎలుగుబంటి'],['Fox','🦊','fox.png','لومڑی','నక్క'],['Wolf','🐺','wolf.png','بھیڑیا','తోడేలు'],['Deer','🦌','deer.png','ہرن','జింక'],['Zebra','🦓','zebra.png','زیبرا','జెబ్రా'],['Giraffe','🦒','giraffe.png','ژراف','జిరాఫీ'],['Kangaroo','🦘','kangaroo.png','کنگارو','కంగారూ'],['Panda','🐼','panda.png','پانڈا','పాండా'],['Cheetah','🐆','cheetah.png','چیتا','చిరుతపులి']
         ];
         const birds = [
             ['Parrot','🦜','parrot.png','طوطا','చిలుక'],['Peacock','🦚','peacock.png','مور','నెమలి'],['Eagle','🦅','eagle.png','عقاب','డేగ'],['Duck','🦆','duck.png','بطخ','బాతు'],['Owl','🦉','owl.png','الو','గుడ్లగూబ'],['Chicken','🐔','chicken.png','مرغی','కోడి'],['Pigeon','🕊️','pigeon.png','کبوتر','పావురం'],['Crow','🐦‍⬛','crow.png','کووا','కాకి'],['Sparrow','🐦','sparrow.png','چڑیا','పిచ్చుక'],['Penguin','🐧','penguin.png','پینگوئن','పెంగ్విన్'],['Swan','🦢','swan.png','ہنس','హంస'],['Flamingo','🦩','flamingo.png','فلامنگو','ఫ్లెమింగో'],['Ostrich','🴩','ostrich.png','شتر مرغ','ఉష్ట్రపక్షి'],['Turkey','🦃','turkey.png','ترکی مرغ','టర్కీ కోడి']
@@ -2905,7 +2920,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v156'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v157'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -4595,10 +4610,10 @@ window.mazeBuildLevelGrid = function(){
         let s1 = document.getElementById('bc-star1'), s2 = document.getElementById('bc-star2'), s3 = document.getElementById('bc-star3');
         if(s1) s1.style.color = '#CBD5E1'; if(s2) s2.style.color = '#CBD5E1'; if(s3) s3.style.color = '#CBD5E1';
         
-        // 🐻 HAPPY OR SAD TEDDY LOGIC (3 stars = Happy, 1 or 2 stars = Sad)
-        let teddyImg = document.getElementById('bc-result-teddy');
-        if(teddyImg) {
-            teddyImg.src = (starRating === 3) ? 'happy_teddy.png' : 'sad_teddy.png';
+        // 🐻 HAPPY OR SAD TEDDY SPRITE LOGIC (3 stars = Happy, 1 or 2 stars = Sad)
+        let teddyDiv = document.getElementById('bc-result-teddy');
+        if(teddyDiv) {
+            teddyDiv.style.backgroundImage = (starRating === 3) ? "url('happy_teddy.png')" : "url('sad_teddy.png')";
         }
         
         window.bcShowScreen('bc-menu-gameover');
@@ -4608,7 +4623,31 @@ window.mazeBuildLevelGrid = function(){
         if(starRating >= 3) setTimeout(() => { if(s3) s3.style.color = '#FFC107'; }, 900);
     };
 
-})();
+})(); 
+
+// 🛠️ SHADOW MATCH (MULTI-TOUCH BUG) FIX - AUTO CLEANUP
+window.clearStuckImages = function() {
+    document.querySelectorAll('img').forEach(img => {
+        if(img.parentElement === document.body && (img.style.position === 'absolute' || img.style.position === 'fixed')) {
+            img.remove();
+        }
+    });
+};
+
+// 1. Agar 2 fingers ek sath touch hon
+window.addEventListener('touchstart', (e) => { 
+    if (e.touches && e.touches.length > 1) clearStuckImages(); 
+}, {passive: false});
+
+// 2. Agar touch cancel ho jaye
+window.addEventListener('touchcancel', clearStuckImages);
+
+// 3. AUTO CLEANUP: Jab saari ungliyan screen se hat jayein, to atki hui image saaf kar do
+window.addEventListener('touchend', (e) => {
+    if (e.touches && e.touches.length === 0) {
+        setTimeout(clearStuckImages, 100);
+    }
+});
 </script>
 </body>
 </html>
