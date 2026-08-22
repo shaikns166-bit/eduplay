@@ -2920,7 +2920,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v163';self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v164';self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -3203,6 +3203,12 @@ function speak(text) {
 
         function smAttachDragHandlers(cardEl, card) {
             cardEl.addEventListener("pointerdown", (e) => {
+                // 🛑 ROOT CAUSE FIX: Agar ek tasweer pehle se drag ho rahi hai, toh dusri ungli ko completely ignore karo!
+                if (smDrag) return; 
+                
+                // 🧹 EXTRA SAFETY: Agar pichli koi tasweer atki reh gayi ho toh usko saaf kar do
+                smEl.dragLayer.innerHTML = "";
+
                 e.preventDefault();
                 const clone = document.createElement("div"); clone.className = "drag-clone";
                 if (card.src) clone.innerHTML = `<img src="${card.src}" alt="" style="width:100%; height:100%; object-fit:contain;" onerror="this.style.display='none'" />`;
@@ -4624,14 +4630,7 @@ window.mazeBuildLevelGrid = function(){
     };
 
 })();
-// 🛑 SHADOW MATCH: MULTI-TOUCH BLOCKER (Root Cause Fix)
-// Ye code bacchon ko ek waqt mein 2 tasweerein uthane (drag) se rokega
-document.addEventListener('touchstart', function(event) {
-    if (event.touches && event.touches.length > 1) {
-        event.preventDefault();      // Dusri ungli ke touch ko rok dega
-        event.stopPropagation(); // Game ke code ko confuse hone se bachayega
-    }
-}, { passive: false, capture: true }); // Capture 'true' ka matlab ye sabse pehle action lega
+
 </script>
 </body>
 </html>
