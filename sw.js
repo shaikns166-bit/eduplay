@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eduplay-pwa-games-v157';
+const CACHE_NAME = 'eduplay-pwa-games-v158';
 
 // 1. INSTALLATION: Save the core files immediately
 self.addEventListener('install', event => {
