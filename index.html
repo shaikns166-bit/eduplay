@@ -2920,7 +2920,7 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v159'; self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
+                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v160 self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
                 const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
                 window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
             }
@@ -4623,7 +4623,31 @@ window.mazeBuildLevelGrid = function(){
         if(starRating >= 3) setTimeout(() => { if(s3) s3.style.color = '#FFC107'; }, 900);
     };
 
-})(); 
+})();
+
+ // 🛠️ SHADOW MATCH (MULTI-TOUCH BUG) FIX - ADVANCED AUTO CLEANUP
+window.clearStuckImages = function() {
+    let floatingElements = document.querySelectorAll('body > div, body > img');
+    floatingElements.forEach(el => {
+        if ((el.style.position === 'absolute' || el.style.position === 'fixed') && el.id !== 'wj-app') {
+            el.remove();
+        }
+    });
+};
+
+window.addEventListener('touchstart', (e) => { 
+    if (e.touches && e.touches.length > 1) {
+        clearStuckImages(); 
+    }
+}, {passive: false});
+
+window.addEventListener('touchcancel', clearStuckImages);
+
+window.addEventListener('touchend', (e) => {
+    if (e.touches && e.touches.length === 0) {
+        setTimeout(clearStuckImages, 150);
+    }
+});
 </script>
 </body>
 </html>
