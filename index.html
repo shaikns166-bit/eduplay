@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Jameel+Noori+Nastaleeq&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#4EA8DE">
     <style>
+button, .btn, .icon-btn, .category-card, .game-option, .main-menu-pill {
+    touch-action: manipulation;
+}
 #game-emoji-img {
     color: #1e293b !important;
     text-shadow: 0 2px 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.8) !important;
@@ -429,7 +432,15 @@ body {
            SHADOW MATCH STYLES (ENDLESS DRAG & DROP WITH TIMER)
            ========================================================= */
         #sm-wrapper { position: fixed; inset: 0; z-index: 3000; background: radial-gradient(120% 140% at 50% -10%, #33306e 0%, var(--ink-navy) 55%, #100f28 100%); color: var(--cloud); font-family: var(--font-body); overflow-x: hidden; display: flex; flex-direction: column; }
-        #sm-wrapper::before { content: ""; position: fixed; inset: 0; z-index: -1; background-image: radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.5) 50%, transparent), radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,.4) 50%, transparent), radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,.35) 50%, transparent), radial-gradient(1.5px 1.5px at 30% 85%, rgba(255,255,255,.3) 50%, transparent), radial-gradient(2px 2px at 90% 60%, rgba(255,255,255,.4) 50%, transparent); background-size: 100% 100%; }
+        #sm-wrapper::before { 
+    content: ""; 
+    position: fixed; 
+    inset: 0; 
+    z-index: -1; 
+    background-color: #100f28; 
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+    background-size: 30px 30px; 
+}
         #sm-wrapper .screen { min-height: 100vh; padding: 16px 16px 40px; max-width: 900px; margin: 0 auto; width: 100%; }
         #sm-wrapper .hud { display: flex; align-items: center; gap: 10px; background: var(--violet-panel); border-radius: var(--radius-md); padding: 10px 12px; box-shadow: var(--shadow-drop); margin-bottom: 8px; flex-wrap: wrap; }
         #sm-wrapper .hud-score { display: flex; flex-direction: column; align-items: center; }
@@ -659,6 +670,35 @@ body {
 .grid-container {
     padding-top: 80px !important; 
     height: 100% !important;
+}
+/* 🚀 MOBILE PERFORMANCE FIXES (ANTI-LAG) 🚀 */
+@media (max-width: 950px) {
+    /* 1. Stop heavy background animations */
+    .blob {
+        display: none !important; 
+        animation: none !important;
+    }
+
+    /* 2. Disable Glass/Blur effects on UI elements */
+    .overlay, .modal, .glass-panel, .glass-header, .controls-container,
+    .bc-target-box, .bc-info-box, .bc-stats-pill, .bc-overlay, .bc-panel,
+    .maze-overlay, .bp-menu-panel, .mg-overlay {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background-color: rgba(15, 23, 42, 0.95) !important; /* Solid color fallback */
+    }
+
+    /* 3. Remove expensive Drop-Shadows from moving sprites */
+    .cw-player-img, .bc-menu-character, .owl-mascot, .mascot-floater,
+    .floating-logo, .real-img, #bc-result-teddy {
+        filter: none !important;
+    }
+
+    /* 4. Hardware Acceleration for smoothly moving elements */
+    .balloon, .cw-parachute-item, .tile, .flash-card, .map-node {
+        will-change: transform;
+        transform: translateZ(0); 
+    }
 }
     </style>    
 </head>
@@ -2737,19 +2777,33 @@ if(langSelect) {
             } 
             return html; 
         }
-function speak(text) { 
-                if (userSettings.mute || !text) return; 
-                if (!('speechSynthesis' in window)) return;
-                window.speechSynthesis.cancel(); 
-                const utterance = new SpeechSynthesisUtterance(text); 
-                utterance.rate = 0.85; 
-                utterance.pitch = 1.1; 
-                utterance.volume = typeof userSettings.volume !== 'undefined' ? userSettings.volume : 1.0; 
-                if (/[\u0600-\u06FF]/.test(text)) utterance.lang = 'ur-PK'; 
-                else if (/[\u0C00-\u0C7F]/.test(text)) utterance.lang = 'te-IN'; 
-                else utterance.lang = 'en-US'; 
-                window.speechSynthesis.speak(utterance); 
+// 🚀 NAYA FIX: Smart Voice Finder for Urdu & Telugu
+        function speak(text) { 
+            if (userSettings.mute || !text) return; 
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel(); 
+            const utterance = new SpeechSynthesisUtterance(text); 
+            utterance.rate = 0.85; 
+            utterance.pitch = 1.1; 
+            utterance.volume = typeof userSettings.volume !== 'undefined' ? userSettings.volume : 1.0; 
+            
+            // Language detect karein
+            let targetLang = 'en-US';
+            if (/[\u0600-\u06FF]/.test(text)) targetLang = 'ur'; // Urdu
+            else if (/[\u0C00-\u0C7F]/.test(text)) targetLang = 'te'; // Telugu
+            
+            utterance.lang = targetLang === 'ur' ? 'ur-PK' : (targetLang === 'te' ? 'te-IN' : 'en-US');
+
+            // Phone ke andar ki saari awaazein (voices) check karein
+            let voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                // Jo language match ho rahi hai, uski voice ko zabardasti set karein
+                let match = voices.find(v => v.lang.startsWith(targetLang));
+                if (match) utterance.voice = match;
             }
+
+            window.speechSynthesis.speak(utterance); 
+        }
             function showCard(index, animation) { 
             if(index < 0) index = currentModule.length - 1; 
             if(index >= currentModule.length) index = 0; 
@@ -2920,9 +2974,27 @@ function speak(text) {
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
             if ('serviceWorker' in navigator) {
-                const swCode = `const CACHE_NAME = 'eduplay-pwa-games-v164';self.addEventListener('install', event => { event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll([ location.origin + location.pathname ])) ); self.skipWaiting(); }); self.addEventListener('fetch', event => { event.respondWith( caches.match(event.request).then(cachedResponse => { if (cachedResponse) return cachedResponse; return fetch(event.request).then(networkResponse => { return caches.open(CACHE_NAME).then(cache => { if (event.request.url.startsWith('http')) cache.put(event.request, networkResponse.clone()); return networkResponse; }); }); }) ); }); self.addEventListener('activate', event => { event.waitUntil( caches.keys().then(keys => Promise.all( keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)) )) ); event.waitUntil(clients.claim()); });`;
-                const blob = new Blob([swCode], { type: 'application/javascript' }); const swUrl = URL.createObjectURL(blob);
-                window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(err => console.log(err)));
+                window.addEventListener('load', () => {
+                    // 🚀 NAYA FIX: Seedha external sw.js file ko link kar diya
+                    navigator.serviceWorker.register('sw.js').then(registration => {
+                        
+                        // Jab Service worker ready ho jaye, tab chup-chaap background mein download karein
+                        navigator.serviceWorker.ready.then(() => {
+                            const coreAssets = [
+                                'eduplay_logo.png', 'menu_bg_2.png', 'intro.mp4', 'intro_mobile.mp4', 
+                                'icon_menu_flashcards.png', 'icon_menu_games.png', 'icon_menu_funplay.png'
+                            ];
+                            
+                            const allAssets = [...coreAssets, ...allImagesToPreload];
+                            
+                            // Ek-ek karke files mangwao taaki sw.js unhe cache mein save kar le
+                            allAssets.forEach(src => {
+                                if (src) fetch(src, { mode: 'no-cors' }).catch(() => {});
+                            });
+                        });
+
+                    }).catch(err => console.log('Service Worker Error:', err));
+                });
             }
         });
     </script>
@@ -3816,6 +3888,9 @@ function speak(text) {
             }
         }
 
+        // 🚀 NAYA FIX: Line drawing ko smooth banane ke liye Frame Ticker
+        let mgDrawTicking = false; 
+        
         function mgHandlePointerMove(e) {
             if (!mgCurrentLine || !mgGameActive) return;
             if (e.cancelable) e.preventDefault(); 
@@ -3825,8 +3900,16 @@ function speak(text) {
             if (Math.sqrt(dx*dx + dy*dy) > 10) { mgIsDragging = true; }
             mgCurrentLine.endX = pos.x; 
             mgCurrentLine.endY = pos.y;
-            mgSoundEngine.updateDrawing(Math.sqrt(dx*dx + dy*dy));
-            mgRenderCanvas();
+            
+            // 🚀 NAYA FIX: requestAnimationFrame se audio aur canvas hang nahi honge
+            if (!mgDrawTicking) {
+                requestAnimationFrame(() => {
+                    mgSoundEngine.updateDrawing(Math.sqrt(dx*dx + dy*dy));
+                    mgRenderCanvas();
+                    mgDrawTicking = false;
+                });
+                mgDrawTicking = true;
+            }
         }
 
         function mgHandlePointerUp(e) {
