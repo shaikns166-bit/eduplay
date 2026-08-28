@@ -4814,15 +4814,27 @@ window.mazeBuildLevelGrid = function(){
             window.addEventListener('orientationchange', function() { setTimeout(or_resizeCanvas, 500); });
 
             window.enterOrangeRunner = function() {
-                let appCont = document.getElementById("app-container");
-                if(appCont) appCont.classList.replace("active-flex", "hidden");
-                let wrapper = document.getElementById("or-wrapper");
-                if(wrapper) wrapper.style.display = "block";
-                let hsDisplay = document.getElementById('or-high-score-display');
-                if(hsDisplay) hsDisplay.innerText = '🏆 High Score: ' + highScore;
-                window.or_returnToMenu();
-                try { let elem = document.documentElement; if (elem.requestFullscreen) { elem.requestFullscreen().then(() => { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } setTimeout(or_resizeCanvas, 600); }).catch(e => {}); } } catch(err) {}
-            };
+            let appCont = document.getElementById("app-container");
+            if(appCont) appCont.classList.replace("active-flex", "hidden");
+            let wrapper = document.getElementById("or-wrapper");
+            if(wrapper) wrapper.style.display = "block";
+            let hsDisplay = document.getElementById('or-high-score-display');
+            if(hsDisplay) hsDisplay.innerText = '🏆 High Score: ' + highScore;
+            window.or_returnToMenu();
+            
+            // 🚀 Menu ke liye Portrait Lock
+            try { 
+                let elem = document.documentElement; 
+                if (elem.requestFullscreen) { 
+                    elem.requestFullscreen().then(() => { 
+                        if (screen.orientation && screen.orientation.lock) { 
+                            screen.orientation.lock("portrait").catch(e => {}); 
+                        } 
+                        setTimeout(or_resizeCanvas, 600); 
+                    }).catch(e => {}); 
+                } 
+            } catch(err) {}
+        };
             
             window.exitOrangeRunner = function() {
                 gameState = 'menu'; animationRunning = false; bgMusic.pause();
@@ -4837,14 +4849,21 @@ window.mazeBuildLevelGrid = function(){
             window.or_toggleSound = function() { soundOn = !soundOn; document.getElementById('or-btn-sound').innerText = soundOn ? "🔊 Sound: ON" : "🔇 Sound: OFF"; };
             
             window.or_returnToMenu = function() {
-                document.getElementById('or-game-over-screen').style.display = 'none'; 
-                document.getElementById('or-pause-screen').style.display = 'none'; 
-                document.getElementById('or-game-hud').style.display = 'none'; 
-                document.getElementById('or-main-menu').style.display = 'flex'; 
-                document.getElementById('or-menu-controls').style.display = 'block'; 
-                document.getElementById('or-how-to-play-modal').style.display = 'none'; 
-                gameState = 'menu'; animationRunning = false; bgMusic.pause();
-            };
+            document.getElementById('or-game-over-screen').style.display = 'none'; 
+            document.getElementById('or-pause-screen').style.display = 'none'; 
+            document.getElementById('or-game-hud').style.display = 'none'; 
+            document.getElementById('or-main-menu').style.display = 'flex'; 
+            document.getElementById('or-menu-controls').style.display = 'block'; 
+            document.getElementById('or-how-to-play-modal').style.display = 'none'; 
+            gameState = 'menu'; animationRunning = false; bgMusic.pause();
+            
+            // 🚀 Menu par wapas aane par Portrait Lock
+            try { 
+                if (screen.orientation && screen.orientation.lock) { 
+                    screen.orientation.lock("portrait").catch(e => {}); 
+                } 
+            } catch(err) {}
+        };
 
             window.or_togglePause = function() {
                 if (gameState === 'playing') { gameState = 'paused'; document.getElementById('or-pause-screen').style.display = 'flex'; bgMusic.pause(); } 
@@ -4852,23 +4871,31 @@ window.mazeBuildLevelGrid = function(){
             };
 
             window.or_prepareGame = function() {
-                or_canvas = document.getElementById('or-gameCanvas');
-                if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
-                
-                document.getElementById('or-main-menu').style.display = 'none'; 
-                document.getElementById('or-menu-controls').style.display = 'none'; 
-                document.getElementById('or-game-hud').style.display = 'block'; 
-                document.getElementById('or-touch-to-start').style.display = 'block';
-                
-                score = 0; lives = 3; currentSpeed = baseSpeed; items = []; bgOffset = 0;
-                platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
-                
-                pickNewTarget(); updateHUD(); or_resizeCanvas(); 
-                
-                player.vy = 0; player.state = 'ready'; player.animFrame = 0;
-                gameState = 'ready';
-                if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
-            };
+            or_canvas = document.getElementById('or-gameCanvas');
+            if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
+            
+            document.getElementById('or-main-menu').style.display = 'none'; 
+            document.getElementById('or-menu-controls').style.display = 'none'; 
+            document.getElementById('or-game-hud').style.display = 'block'; 
+            document.getElementById('or-touch-to-start').style.display = 'block';
+            
+            score = 0; lives = 3; currentSpeed = baseSpeed; items = []; bgOffset = 0;
+            platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
+            
+            pickNewTarget(); updateHUD(); or_resizeCanvas(); 
+            
+            player.vy = 0; player.state = 'ready'; player.animFrame = 0;
+            gameState = 'ready';
+            
+            // 🚀 Game shuru hone par Landscape Lock
+            try { 
+                if (screen.orientation && screen.orientation.lock) { 
+                    screen.orientation.lock("landscape").catch(e => {}); 
+                } 
+            } catch(err) {}
+
+            if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
+        };
 
             function startGameplay() {
                 document.getElementById('or-touch-to-start').style.display = 'none';
