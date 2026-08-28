@@ -45,7 +45,7 @@ body {
     width: 100%;
     height: 100%;
 }
-        .blob { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.8; animation: floatBlob 15s infinite alternate ease-in-out; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; z-index: -1; opacity: 0.2; animation: floatBlob 15s infinite alternate ease-in-out; pointer-events: none; }
         .blob-1 { width: 400px; height: 400px; background: #FFD166; top: -100px; left: -100px; }
         .blob-2 { width: 500px; height: 500px; background: #4EA8DE; bottom: -150px; right: -100px; animation-delay: -5s; }
         .blob-3 { width: 350px; height: 350px; background: #9D4EDD; top: 30%; left: 30%; animation-delay: -10s; }
@@ -700,6 +700,54 @@ body {
         transform: translateZ(0); 
     }
 }
+/* ================= ORANGE RUNNER STYLES ================= */
+#or-wrapper { position: fixed; inset: 0; z-index: 6000; background: #000; overflow: hidden; touch-action: none; font-family: 'Fredoka', sans-serif; display: none; width: 100vw; height: 100vh; }
+#or-wrapper canvas { display: block; width: 100%; height: 100%; }
+#or-wrapper .top-right-controls { position: absolute; top: 15px; right: 15px; z-index: 6250; }
+#or-wrapper .btn-settings { background: #f59e0b; border: 3px solid #fde047; border-radius: 12px; font-size: 24px; padding: 5px 12px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white; }
+#or-wrapper .btn-settings:active { transform: translateY(3px); box-shadow: none; }
+#or-wrapper #or-main-menu { position: absolute; inset: 0; background-image: url('alpha_menu_background.png'); background-size: cover; background-position: center bottom; background-color: #38bdf8; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 6200; }
+#or-wrapper .menu-panel { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(6px); border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 35px; padding: 30px 20px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.3); width: 90%; max-width: 380px; max-height: 85vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
+#or-wrapper .idle-sprite {
+            width: 110px;  
+            height: 135px; 
+            background-image: url('orange_idle._2.png');
+            background-size: 780px 450px; 
+            background-repeat: no-repeat;
+            margin: 0 auto 5px; 
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+            animation: or_smartIdle 4.5s step-end infinite;
+        }
+
+        @keyframes or_smartIdle {
+            0% { background-position: -10px -5px; } 5% { background-position: -140px -5px; } 10% { background-position: -270px -5px; } 15% { background-position: -400px -5px; } 20% { background-position: -530px -5px; } 25% { background-position: -660px -5px; }
+            30% { background-position: -10px -155px; } 35% { background-position: -140px -155px; } 40% { background-position: -270px -155px; } 45% { background-position: -400px -155px; } 50% { background-position: -530px -155px; } 55% { background-position: -660px -155px; }
+            60% { background-position: -10px -305px; } 65% { background-position: -140px -305px; } 70% { background-position: -270px -305px; } 75% { background-position: -400px -305px; } 80% { background-position: -530px -305px; } 85% { background-position: -660px -305px; }
+            90%, 100% { background-position: -10px -5px; }
+        }
+@keyframes or_floatLogo { 
+            0% { transform: translate(-50%, 0px) rotate(0deg); } 
+            50% { transform: translate(-50%, -12px) rotate(1deg); } 
+            100% { transform: translate(-50%, 0px) rotate(0deg); } 
+        }
+        .or-floating-logo { 
+            position: absolute; 
+            top: 4vh; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 80%; 
+            max-width: 260px; 
+            animation: or_floatLogo 3.5s ease-in-out infinite; 
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); 
+            z-index: 220; 
+            pointer-events: none; 
+        }
+#or-wrapper .btn-play { background: linear-gradient(180deg, #4ade80, #16a34a); border: 3px solid #bbf7d0; box-shadow: 0 6px 0 #14532d, 0 10px 15px rgba(0,0,0,0.3); color: white; font-size: 22px; font-weight: 900; padding: 12px 20px; border-radius: 99px; cursor: pointer; text-transform: uppercase; transition: all 0.1s; width: 100%; margin-bottom: 5px; }
+#or-wrapper .btn-play:active { transform: translateY(6px); box-shadow: 0 0 0 transparent; }
+#or-wrapper .btn-close { background: linear-gradient(180deg, #ef4444, #b91c1c); border-color: #fca5a5; box-shadow: 0 6px 0 #7f1d1d; }
+#or-wrapper .game-title { font-size: 50px; color: white; text-shadow: 2px 2px 0 #000; margin-bottom: 15px; }
+#or-wrapper .pill { background: transparent; border: none; box-shadow: none; color: white; display: flex; align-items: center; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 4px 10px rgba(0,0,0,0.8); }
+@media (max-height: 650px) { #or-wrapper .menu-panel { padding: 15px 15px; gap: 8px; } #or-wrapper .btn-play { font-size: 18px; padding: 8px 15px; } #or-wrapper .idle-sprite { transform: scale(0.75); margin-bottom: -5px; } }
     </style>    
 </head>
 <body>
@@ -889,19 +937,19 @@ body {
 
         <!-- ================= FUN PLAY MENU SCREEN ================= -->
         <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding-bottom: 90px;">
-            <button onclick="enterAlphaRunner()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #38bdf8, #2563eb);">
-                <div class="pill-left-content">
-                    <div class="pill-icon-box">
-                        <img src="fun_alpha_runner.png" alt="" onerror="this.style.display='none'">
-                    </div>
-                    <div class="pill-text-area">
-                        <h3 class="pill-title">Alpha Runner</h3>
-                        <p class="pill-subtitle">Run and collect items!</p>
-                    </div>
-                </div>
-                <div class="pill-arrow-circle" style="color: #2563eb;">➔</div>
-            </button>
-
+<button onclick="enterOrangeRunner()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+    <div class="pill-left-content">
+        <div class="pill-icon-box">
+            <img src="orange_idle.png" alt="" onerror="this.style.display='none'">
+        </div>
+        <div class="pill-text-area">
+            <h3 class="pill-title">Orange Runner</h3>
+            <p class="pill-subtitle">Run and collect items!</p>
+        </div>
+    </div>
+    <div class="pill-arrow-circle" style="color: #d97706;">➔</div>
+</button>
+            
             <button onclick="enterBalloonPop()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #ff477e, #ff7a9f);">
                 <div class="pill-left-content">
                     <div class="pill-icon-box">
@@ -999,54 +1047,6 @@ body {
             <div id="game-options" class="game-options-grid"></div>
         </section>
     </main>
-
-    <!-- AR HTML -->
-    <div id="ar-wrapper" class="hidden">
-        <div id="ar-rotate-prompt">
-            <h1>📱 Please Rotate Your Phone</h1><p>This game is best played in Landscape mode!</p>
-            <button class="ar-btn ar-btn-red" onclick="exitAlphaRunner()">🔙 Back to Fun Play</button>
-        </div>
-        <div id="ar-gameContainer">
-            <canvas id="ar-gameCanvas"></canvas>
-            <div class="stats-bar" id="ar-hud">
-                <div class="stat score" id="ar-scoreDisplay">Score: 0</div>
-                <div class="stat-target" id="ar-targetDisplay">Find: A</div>
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div class="stat stars" id="ar-starDisplay">⭐: 0/5</div>
-                    <div class="stat lives" id="ar-livesDisplay">❤️❤️❤️</div>
-                </div>
-            </div>
-            <button class="pause-btn" id="ar-pauseBtn" onclick="arTogglePause(event)">⏸</button>
-            <div class="touch-zones" id="ar-touchZones"></div>
-            <div class="ar-overlay active" id="ar-mainMenu">
-                <h1>🏃 ALPHA RUNNER</h1><h2>Learn & Play</h2>
-                <div class="high-score" id="ar-menuHighScore">🏆 High Score: 0</div>
-                <div class="grid-btns"><button class="ar-btn ar-btn-green" onclick="arShowModeSelect()">▶ Play Game</button><button class="ar-btn ar-btn-blue" onclick="arShowHowToPlay()">❓ How to Play</button></div>
-                <button class="ar-btn ar-btn-red" style="margin-top: 15px;" onclick="exitAlphaRunner()">🔙 Back to Fun Play</button>
-            </div>
-            <div class="ar-overlay" id="ar-modeSelect">
-                <h1>Select Mode</h1>
-                <div class="grid-btns"><button class="ar-btn ar-btn-green" onclick="arSelectMode('english')">🔤 English Words</button><button class="ar-btn ar-btn-yellow" onclick="arSelectMode('urdu')">🕌 Urdu الفاظ</button><button class="ar-btn ar-btn-blue" onclick="arSelectMode('picture')">🖼️ Picture Match</button><button class="ar-btn ar-btn-red" onclick="arShowScreen('ar-mainMenu')">🔙 Back</button></div>
-            </div>
-            <div class="ar-overlay" id="ar-levelSelect">
-                <h1>Select Level</h1><h2 id="ar-levelModeTitle">Mode</h2>
-                <div class="grid-btns"><button class="ar-btn ar-btn-green" onclick="arStartGame('easy')">🟢 Easy</button><button class="ar-btn ar-btn-yellow" onclick="arStartGame('medium')">🟡 Medium</button><button class="ar-btn ar-btn-red" onclick="arStartGame('hard')">🔴 Hard</button><button class="ar-btn" onclick="arShowScreen('ar-modeSelect')">🔙 Back</button></div>
-            </div>
-            <div class="ar-overlay" id="ar-howToPlay">
-                <h1>How to Play</h1>
-                <div class="instructions"><p><strong>🎮 Controls:</strong> Tap screen to JUMP.</p><p><strong>🎯 Goal:</strong> Collect items! Avoid cacti!</p><p><strong>❤️ Lives:</strong> 3 lives.</p></div>
-                <button class="ar-btn ar-btn-blue" onclick="arShowScreen('ar-mainMenu')">🔙 Back</button>
-            </div>
-            <div class="ar-overlay" id="ar-pauseMenu">
-                <h1>⏸ Paused</h1>
-                <div class="grid-btns"><button class="ar-btn ar-btn-green" onclick="arTogglePause(event)">▶ Resume</button><button class="ar-btn ar-btn-yellow" onclick="arRestartGame()">🔄 Restart</button><button class="ar-btn ar-btn-red" onclick="arShowScreen('ar-mainMenu'); arResetGame()">🏠 Game Menu</button></div>
-            </div>
-            <div class="ar-overlay" id="ar-gameOver">
-                <h1>💀 Game Over</h1><h2 id="ar-finalScore">Score: 0</h2><div class="high-score" id="ar-gameOverHigh">🏆 High Score: 0</div>
-                <div class="grid-btns"><button class="ar-btn ar-btn-green" onclick="arRestartGame()">🔄 Play Again</button><button class="ar-btn ar-btn-blue" onclick="arShowScreen('ar-mainMenu'); arResetGame()">🏠 Game Menu</button></div>
-            </div>
-        </div>
-    </div>
 
     <!-- BP HTML -->
     <div id="bp-wrapper" class="hidden">
@@ -1159,6 +1159,86 @@ body {
                 <button class="btn-large secondary" style="margin-top: 20px; width: 100%;" onclick="exitMatchingGame()">Exit to Main Menu</button>
         </div>
     </div>
+</div>
+<!-- ================= ORANGE RUNNER WRAPPER ================= -->
+<div id="or-wrapper">
+    <!-- TOP RIGHT CONTROLS (Settings & Help) -->
+    <div class="top-right-controls" id="or-menu-controls">
+        <button class="btn-settings" style="display: block; margin-bottom: 10px; margin-left: auto;" onclick="or_toggleSettings()">⚙️</button>
+        <button class="btn-settings" style="display: block; font-size: 16px; padding: 6px 12px; background: #3b82f6; border-color: #93c5fd; margin-left: auto;" onclick="or_toggleHowToPlay()">📖 Help</button>
+    </div>
+
+    <!-- MAIN MENU -->
+    <div id="or-main-menu">
+        <!-- TOP LEFT EXIT BUTTON -->
+        <button class="btn-play btn-close" style="position: absolute; top: 15px; left: 15px; width: auto; font-size: 16px; padding: 8px 15px; margin: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100;" onclick="exitOrangeRunner()">🔙 Exit</button>
+
+        <!-- 🚀 EDUPLAY FLOATING LOGO -->
+        <img src="eduplay_logo.png" class="or-floating-logo" alt="EduPlay Logo" onerror="this.style.display='none';">
+
+        <!-- MENU PANEL (Pushed slightly down to make space for the logo) -->
+        <div class="menu-panel" style="margin-top: 60px;">
+            <div class="idle-sprite"></div>
+            
+            <div id="or-high-score-display" style="color: white; font-size: 20px; font-weight: 900; margin-bottom: 5px; text-shadow: 2px 2px 0 #000;">🏆 High Score: 0</div>
+            
+            <button class="btn-play" onclick="or_prepareGame()" style="margin-bottom: 0;">▶ PLAY</button>
+        </div>
+    </div>
+
+    <!-- HOW TO PLAY MODAL -->
+    <div id="or-how-to-play-modal" style="position: absolute; inset: 0; background: rgba(0,0,0,0.85); z-index: 6300; display: none; justify-content: center; align-items: center;">
+        <div class="menu-panel" style="width: 95%; max-width: 480px; text-align: left; padding: 25px 20px;">
+            <h2 style="color: #fde047; font-size: 26px; text-align: center; margin-bottom: 12px; text-shadow: 2px 2px 0 #000;">How to Play? 🎮</h2>
+            <ul style="color: white; font-size: 16px; line-height: 1.5; padding-left: 15px; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; gap: 8px;">
+                <li>👆 <b>Jump & Double Jump:</b> Tap once to jump, and tap again in the air!</li>
+                <li>🎯 <b>Target Letters:</b> Collect correct target letters for +10 points.</li>
+                <li>❌ <b>Wrong Letters:</b> Avoid wrong letters or you lose 1 life.</li>
+                <li>⭐ <b>Gold Stars:</b> Collect stars to earn +5 extra points.</li>
+                <li>❤️ <b>Extra Lives:</b> Grab floating hearts to restore health!</li>
+                <li>🐺 <b>Enemies:</b> Beware of wolves and monsters.</li>
+            </ul>
+            <button class="btn-play btn-close" style="margin-top: 15px;" onclick="or_toggleHowToPlay()">✖ Close</button>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="or-settings-modal" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 6300; display: none; justify-content: center; align-items: center;">
+        <div class="menu-panel">
+            <h2 class="game-title" style="font-size: 32px;">Settings</h2>
+            <button class="btn-play" id="or-btn-sound" onclick="or_toggleSound()">🔊 Sound: ON</button>
+            <button class="btn-play btn-close" onclick="or_toggleSettings()">✖ Close</button>
+        </div>
+    </div>
+
+    <!-- GAME HUD (Includes Pause) -->
+    <div id="or-game-hud" style="display: none; position: absolute; inset: 0; pointer-events: none; z-index: 6100;">
+        <div class="hud-top" style="position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="pill">⭐ Score: <span id="or-ui-score" style="color:#fde047; margin-left:5px;">0</span></div>
+            <div class="pill">Find: <span id="or-ui-target" style="color:#fde047; margin-left:10px; font-size: 38px;">A</span></div>
+            <div class="right-hud" style="display: flex; gap: 10px; align-items: center; pointer-events: auto;">
+                <div id="or-ui-lives" style="font-size: 24px;">❤️❤️❤️</div>
+                <button class="btn-settings" style="padding: 2px 10px; font-size: 20px;" onclick="or_togglePause()">⏸</button>
+            </div>
+        </div>
+        <div id="or-touch-to-start" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 36px; color: white; font-weight: 900; text-shadow: 0 4px 0 #000; animation: pulse 1s infinite alternate; display: none; text-align: center;">Tap Screen<br>To Run!</div>
+    </div>
+
+    <!-- PAUSE SCREEN MODAL -->
+    <div id="or-pause-screen" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 6300; display: none; justify-content: center; align-items: center; flex-direction: column;">
+        <h1 class="game-title">PAUSED</h1>
+        <button class="btn-play" style="width: auto; margin-bottom: 15px;" onclick="or_togglePause()">▶ Resume</button>
+        <button class="btn-play btn-close" style="width: auto;" onclick="or_returnToMenu()">🏠 Game Menu</button>
+    </div>
+
+    <!-- GAME OVER SCREEN -->
+    <div id="or-game-over-screen" style="position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 6300; display: none; justify-content: center; align-items: center; flex-direction: column;">
+        <h1 class="game-title" style="font-size: 60px;">GAME OVER</h1>
+        <h2 style="color: white; font-size: 30px; margin-bottom: 30px;">Score: <span id="or-final-score" style="color:#fde047;">0</span></h2>
+        <button class="btn-play" style="width: auto;" onclick="or_returnToMenu()">🏠 Game Menu</button>
+    </div>
+
+    <canvas id="or-gameCanvas"></canvas>
 </div>
 <!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
 <div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
@@ -2999,58 +3079,6 @@ if(langSelect) {
         });
     </script>
 
-    <!-- AR ENGINE -->
-    <script>
-        let arGameActive = false;
-        function enterAlphaRunner() { document.getElementById("app-container").classList.replace("active-flex", "hidden"); document.getElementById("ar-wrapper").classList.remove("hidden"); arGameActive = true; try { let elem = document.documentElement; if (elem.requestFullscreen) { elem.requestFullscreen().then(() => { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported.")); } }).catch(e => console.log("Fullscreen blocked.")); } } catch(err) { console.log(err); } arResize(); arShowScreen('ar-mainMenu'); }
-        function exitAlphaRunner() { arResetGame(); document.getElementById("ar-wrapper").classList.add("hidden"); document.getElementById("app-container").classList.replace("hidden", "active-flex"); document.getElementById("main-header").classList.remove("hidden"); document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden"); document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex"); document.getElementById("app-title").innerText = "Fun Play"; document.getElementById("btn-home").classList.remove("hidden"); arGameActive = false; try { if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } } catch(err) { console.log(err); } }
-        const arAudioEngine = { ctx: null, bgmInterval: null, isMuted: false, init() { try { this.ctx = new (window.AudioContext || window.webkitAudioContext)() } catch(e) {} }, playTone(freq, dur, type, vol) { if(!this.ctx || this.isMuted) return; const o = this.ctx.createOscillator(), g = this.ctx.createGain(); o.type = type || 'sine'; o.frequency.setValueAtTime(freq, this.ctx.currentTime); g.gain.setValueAtTime(vol || 0.12, this.ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur); o.connect(g); g.connect(this.ctx.destination); o.start(); o.stop(this.ctx.currentTime + dur); }, playCollect() { this.playTone(523, 0.08, 'sine', 0.15); setTimeout(()=>this.playTone(659, 0.08, 'sine', 0.15), 60); setTimeout(()=>this.playTone(784, 0.15, 'sine', 0.15), 120); }, playStar() { this.playTone(880, 0.1, 'sine', 0.2); setTimeout(()=>this.playTone(1046, 0.15, 'sine', 0.2), 100); }, play1UP() { this.playTone(523, 0.1, 'square', 0.15); setTimeout(()=>this.playTone(659, 0.1, 'square', 0.15), 100); setTimeout(()=>this.playTone(784, 0.1, 'square', 0.15), 200); setTimeout(()=>this.playTone(1046, 0.3, 'square', 0.15), 300); }, playWrong() { this.playTone(180, 0.25, 'sawtooth', 0.1); this.playTone(120, 0.25, 'square', 0.08); }, playRockHit() { this.playTone(80, 0.3, 'sawtooth', 0.15); this.playTone(60, 0.3, 'square', 0.12); }, playGameOver() { [350, 300, 250, 180].forEach((f, i)=>setTimeout(()=>this.playTone(f, 0.4, 'sine', 0.15), i * 180)); }, playJump(jumps) { const baseFreq = 350 + (jumps * 100); this.playTone(baseFreq, 0.1, 'sine', 0.08); setTimeout(()=>this.playTone(baseFreq+100, 0.1, 'sine', 0.08), 50); }, startBGM() { if(!this.ctx || this.isMuted) return; this.stopBGM(); const n = [262, 330, 392, 523, 392, 330]; let i = 0; this.bgmInterval = setInterval(()=>{ if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return; this.playTone(n[i], 0.35, 'triangle', 0.025); i = (i+1) % n.length; }, 380); }, stopBGM() { if(this.bgmInterval) clearInterval(this.bgmInterval); } };
-        const arGameData = { english: { letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), words: { A:['Apple','Ant','Arm','Axe','Airplane'], B:['Bag','Book','Bear','Banana','Boy','Ball','Bat','Bed','Bus'], C:['Cat','Cow','Car','Cup','Cap','Chair','Chalk','Class'], D:['Dog','Duck','Desk','Door','Doll'], E:['Egg','Eye','Ear','Elephant','Eraser'], F:['Fish','Frog','Fan','Flag','Fox','Fruit'], G:['Goat','Girl','Grapes','Glass','Green'], H:['Hat','Hen','Hand','House','Horse','Help'], I:['Ice','Ink','Iron','Igloo'], J:['Jug','Jam','Juice','Jump'], K:['Kite','Key','King','Kangaroo'], L:['Lion','Leg','Lamp','Lock','Lemon'], M:['Moon','Man','Mat','Milk','Monkey','Mango'], N:['Nest','Net','Nose','Nut','Nail'], O:['Owl','Orange','Ox','Oil'], P:['Pen','Pencil','Pot','Pan','Pig','Parrot','Pea','Potato'], Q:['Queen','Quilt','Quiet'], R:['Rat','Rose','Ring','Rabbit','Ruler','Radish'], S:['Sun','Star','Soap','Socks','Ship','Shoe','Smile','Share'], T:['Tree','Tap','Tiger','Toy','Table','Tomato','Toothbrush'], U:['Umbrella','Uniform'], V:['Van','Vase','Violin'], W:['Water','Watch','Wall','Wolf','Wash'], X:['X-ray','Xylophone'], Y:['Yak','Yoyo','Yellow'], Z:['Zebra','Zoo','Zip'] } }, urdu: { letters: ['ا','ب','پ','ت','ٹ','ج','چ','د','ڈ','ر','س','ش','ط','ع','غ','ف','ق','ک','گ','ل','م','ن','ہ'], words: { 'ا':['انار','انگور','استاد','انڈا','اونٹ'], 'ب':['بستہ','بلی','بطخ','بکری','بستر','بس'], 'پ':['پانی','پینسل','پنکھا','پیاز','پودا'], 'ت':['تتلی','تربوز','تالا','تولیہ'], 'ٹ':['ٹماٹر','ٹوپی','ٹوکری'], 'ج':['جوتا','جگ','جہاز','جرابیں'], 'چ':['چڑیا','چاند','چمچ','چابی'], 'د':['درخت','دروازہ','دانت','دودھ'], 'ڈ':['ڈیسک','ڈبہ','ڈول'], 'ر':['ریچھ','ریل','روٹی','رسی'], 'س':['سیب','سورج','سکول','سچ'], 'ش':['شیر','شترمرغ','شلجم'], 'ط':['طوطا','طالب علم'], 'ع':['عینک','عورت'], 'غ':['غبارہ'], 'ف':['فٹ بال','فاختہ'], 'ق':['قلم','قینچی'], 'ک':['کتاب','کتا','کرسی','کیلا','کبوتر'], 'گ':['گائے','گاجر','گلاس','گڑیا'], 'ل':['لومڑی','لیموں','لڑکا'], 'م':['میز','مچھلی','مور','مرغی','مولی'], 'ن':['ناک','ناشپاتی','نل'], 'ہ':['ہاتھی','ہاتھ','ہار'] } }, picture: { letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''), pictures: { A:['🍎','🐜','✈️'], B:['🎒','🐻','🍌','⚽','📚','🚌','🛏️'], C:['🐱','🚗','🐄','🪑','🥕'], D:['🐕','🦆','🚪','👗'], E:['🥚','🐘','👁️','👂'], F:['🐟','🐸','🦊','🚩'], G:['🐐','🍇','👧','👓'], H:['🐔','🏠','✋','🐴','🎩'], I:['🧊','🍦'], J:['🧃','👖'], K:['🔑','🪁','👑'], L:['🦁','🍋','🦵','💡'], M:['🌙','🥛','🥭','🐒','🍈'], N:['👃','🥜','📰'], O:['🦉','🍊','🧅'], P:['🖊️','🐷','🥔','🦜','🍕'], Q:['👑'], R:['🐀','🌹','💍','📏','🐇'], S:['☀️','🧼','🧦','🚢','👟','🍓'], T:['🌳','🐅','🧸','🍅','🪥','⛺'], U:['☂️','🏫'], V:['🚐','🎻'], W:['💧','⌚','🐺','🍉'], X:['❌','✖️'], Y:['🪀','🟡'], Z:['🦓','🤐'] } } };
-        const arCanvas = document.getElementById('ar-gameCanvas'); const arCtx = arCanvas.getContext('2d');
-        let arGameState = { screen: 'ar-mainMenu', mode: 'english', level: 'easy', isPlaying: false, isPaused: false, score: 0, scoreForStar: 0, stars: 0, lives: 3, highScore: parseInt(localStorage.getItem('alphaRunnerHigh') || '0'), targetLetter: '', player: {x: 120, y: 0, groundY: 0, vy: 0, isJumping: false, jumps: 0}, objects: [], particles: [], bgOffset: 0, spawnTimer: 0, gameSpeed: 6, difficultyMultiplier: 1, shake: 0 };
-        const arLevels = { easy: {speed: 5, spawnRate: 130, wrongRatio: 0.3, rockRatio: 0.25}, medium: {speed: 7, spawnRate: 95, wrongRatio: 0.45, rockRatio: 0.32}, hard: {speed: 9, spawnRate: 75, wrongRatio: 0.6, rockRatio: 0.38} };
-        function arResize() { const c = document.getElementById('ar-gameContainer'); arCanvas.width = c.clientWidth; arCanvas.height = c.clientHeight; arGameState.player.groundY = arCanvas.height - 120; if(!arGameState.player.isJumping) arGameState.player.y = arGameState.player.groundY; } window.addEventListener('resize', arResize); setTimeout(arResize, 100);
-        function arShowScreen(id) { document.querySelectorAll('.ar-overlay').forEach(el=>el.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); arGameState.screen = id; if(id === 'ar-mainMenu') document.getElementById('ar-menuHighScore').textContent = '🏆 High Score: ' + arGameState.highScore; }
-        function arShowModeSelect() { arAudioEngine.init(); arShowScreen('ar-modeSelect'); } function arShowHowToPlay() { arShowScreen('ar-howToPlay'); }
-        function arSelectMode(mode) { arGameState.mode = mode; const titles = {english: 'English Words', urdu: 'Urdu الفاظ', picture: 'Picture Match'}; document.getElementById('ar-levelModeTitle').textContent = titles[mode]; arShowScreen('ar-levelSelect'); }
-        function arStartGame(level) { arGameState.level = level; arGameState.score = 0; arGameState.scoreForStar = 0; arGameState.stars = 0; arGameState.lives = 3; arGameState.objects = []; arGameState.particles = []; arGameState.isPlaying = true; arGameState.isPaused = false; arGameState.gameSpeed = arLevels[level].speed; arGameState.difficultyMultiplier = 1; arGameState.shake = 0; arGameState.player.y = arGameState.player.groundY; arGameState.player.vy = 0; arGameState.player.isJumping = false; arGameState.player.jumps = 0; arPickNewTarget(); arUpdateHUD(); arShowScreen(''); document.getElementById('ar-hud').classList.add('active'); document.getElementById('ar-pauseBtn').classList.add('active'); document.getElementById('ar-touchZones').classList.add('active'); arAudioEngine.startBGM(); }
-        function arPickNewTarget() { const data = arGameData[arGameState.mode]; arGameState.targetLetter = data.letters[Math.floor(Math.random() * data.letters.length)]; arUpdateHUD(); }
-        function arUpdateHUD() { document.getElementById('ar-targetDisplay').textContent = 'Find: ' + arGameState.targetLetter; document.getElementById('ar-scoreDisplay').textContent = 'Score: ' + arGameState.score; document.getElementById('ar-starDisplay').textContent = '⭐: ' + arGameState.stars + '/5'; document.getElementById('ar-livesDisplay').textContent = '❤️'.repeat(arGameState.lives) + '🖤'.repeat(Math.max(0, 3-arGameState.lives)); }
-        function arTogglePause(e) { if(e) e.stopPropagation(); if(!arGameState.isPlaying) return; arGameState.isPaused = !arGameState.isPaused; if(arGameState.isPaused) { arShowScreen('ar-pauseMenu'); document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); } else { arShowScreen(''); document.getElementById('ar-hud').classList.add('active'); document.getElementById('ar-pauseBtn').classList.add('active'); document.getElementById('ar-touchZones').classList.add('active'); } }
-        function arRestartGame() { arStartGame(arGameState.level); } 
-        function arResetGame() { arGameState.isPlaying = false; arGameState.isPaused = false; arGameState.shake = 0; document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); arAudioEngine.stopBGM(); }
-        function arGameOver() { arGameState.isPlaying = false; arAudioEngine.stopBGM(); arAudioEngine.playGameOver(); arGameState.shake = 0; if(arGameState.score > arGameState.highScore) { arGameState.highScore = arGameState.score; localStorage.setItem('alphaRunnerHigh', arGameState.highScore); } document.getElementById('ar-finalScore').textContent = 'Score: ' + arGameState.score; document.getElementById('ar-gameOverHigh').textContent = '🏆 High Score: ' + arGameState.highScore; document.getElementById('ar-hud').classList.remove('active'); document.getElementById('ar-pauseBtn').classList.remove('active'); document.getElementById('ar-touchZones').classList.remove('active'); arShowScreen('ar-gameOver'); }
-        function arLoseLife() { arGameState.lives--; arAudioEngine.playWrong(); arUpdateHUD(); arGameState.shake = 10; if(arGameState.lives <= 0) arGameOver(); } 
-        function arHitRock() { arGameState.lives--; arAudioEngine.playRockHit(); arUpdateHUD(); arGameState.shake = 15; if(arGameState.lives <= 0) arGameOver(); } 
-        function arHitHole() { arLoseLife(); if(arGameState.lives > 0) { arGameState.player.vy = -16; arGameState.player.isJumping = true; arGameState.player.jumps = 1; } }
-        function arJump(e) { if(e) e.preventDefault(); if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return; if(arGameState.player.jumps < 3) { arGameState.player.vy = -18.5 + (arGameState.player.jumps * 2.5); arGameState.player.isJumping = true; arGameState.player.jumps++; arAudioEngine.playJump(arGameState.player.jumps); } }
-        document.addEventListener('keydown', (e) => { if(!arGameActive) return; if(e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') arJump(); if(e.key === 'Escape' || e.key === 'p' || e.key === 'P') arTogglePause(); });
-        
-        const arTouchZones = document.getElementById('ar-touchZones');
-        arTouchZones.addEventListener('touchstart', (e) => { e.preventDefault(); arJump(); }, {passive: false});
-        arTouchZones.addEventListener('mousedown', (e) => { e.preventDefault(); if(e.button === 0) arJump(); }, {passive: false});
-        
-        function arSpawnObject() { const data = arGameData[arGameState.mode]; const lvl = arLevels[arGameState.level]; const isObstacle = Math.random() < lvl.rockRatio; const startX = arCanvas.width + 100; const groundY = arGameState.player.groundY; if(isObstacle) { const obsType = Math.random(); if(obsType < 0.35) { arGameState.objects.push({type:'rock', x:startX, y:groundY + 10, width:40, height:60, hit:false}); } else if (obsType < 0.70) { const animals = ['🐍', '🐊', '🦂', '🐺']; const animal = animals[Math.floor(Math.random()*animals.length)]; arGameState.objects.push({type:'animal', animalType: animal, x:startX, y:groundY + 5, width:60, height:50, hit:false}); } else { arGameState.objects.push({type:'hole', x:startX, y:groundY, width:130, height:20, hit:false}); } return; } const isCorrect = Math.random() > lvl.wrongRatio; let text, isRight; if(arGameState.mode === 'picture') { if(isCorrect) { const p = data.pictures[arGameState.targetLetter]; text = p[Math.floor(Math.random()*p.length)]; isRight = true; } else { let wl; do { wl = data.letters[Math.floor(Math.random()*data.letters.length)]; } while(wl === arGameState.targetLetter); const p = data.pictures[wl]; text = p[Math.floor(Math.random()*p.length)]; isRight = false; } } else { if(isCorrect) { const w = data.words[arGameState.targetLetter]; text = w[Math.floor(Math.random()*w.length)]; isRight = true; } else { let wl; do { wl = data.letters[Math.floor(Math.random()*data.letters.length)]; } while(wl === arGameState.targetLetter); const w = data.words[wl]; text = w[Math.floor(Math.random()*w.length)]; isRight = false; } } const randHeight = Math.random(); let itemY = groundY - 30; if(randHeight > 0.6) itemY = groundY - 120; if(randHeight > 0.85) itemY = Math.max(60, groundY - 220); arGameState.objects.push({type:'item', x:startX, y:itemY, text:text, isCorrect:isRight, hit:false, width: 80, height: 80}); }
-        function arSpawnParticles(x, y, color) { for(let i=0; i<10; i++) { arGameState.particles.push({ x: x, y: y, vx: (Math.random()-0.5)*6, vy: (Math.random()-0.5)*6-2, life: 1, color: color, size: Math.random()*5+2 }); } }
-        function arCheckStarSpawn() { if (arGameState.scoreForStar >= 50) { arGameState.scoreForStar -= 50; arGameState.objects.push({ type:'star', x: arCanvas.width + 100, y: Math.max(60, arGameState.player.groundY - 200), width: 60, height: 60, hit: false }); } }
-        function arUpdate() { if(!arGameState.isPlaying || arGameState.isPaused || !arGameActive) return; arGameState.bgOffset += arGameState.gameSpeed * 0.5; arGameState.player.vy += 0.9; arGameState.player.y += arGameState.player.vy; if(arGameState.player.y >= arGameState.player.groundY && arGameState.player.vy >= 0) { arGameState.player.y = arGameState.player.groundY; arGameState.player.isJumping = false; arGameState.player.jumps = 0; arGameState.player.vy = 0; } arGameState.spawnTimer++; const sr = Math.max(40, arLevels[arGameState.level].spawnRate - Math.floor(arGameState.score/30)); if(arGameState.spawnTimer >= sr) { arSpawnObject(); arGameState.spawnTimer = 0; } const px = arGameState.player.x; const py = arGameState.player.y; const pRadius = 35; arGameState.objects = arGameState.objects.filter(obj => { obj.x -= arGameState.gameSpeed; if(!obj.hit) { let dx = obj.x - px; let dy = (obj.y - (obj.type === 'hole' ? 0 : obj.height/2)) - (py - pRadius); if (obj.type === 'hole') { if (Math.abs(dx) < (obj.width/2 - 10) && py >= arGameState.player.groundY - 15) { obj.hit = true; arHitHole(); arUpdateHUD(); } } else { let dist = Math.sqrt(dx*dx + dy*dy); if (dist < pRadius + (obj.type === 'star' ? 20 : 30)) { obj.hit = true; if(obj.type === 'rock' || obj.type === 'animal') { arHitRock(); arSpawnParticles(px, py, '#888'); } else if (obj.type === 'star') { arGameState.stars++; arAudioEngine.playStar(); arSpawnParticles(px, py, '#ffd700'); if (arGameState.stars >= 5) { arGameState.stars = 0; arGameState.lives++; arAudioEngine.play1UP(); } } else { if(obj.isCorrect) { arGameState.score += 10; arGameState.scoreForStar += 10; arAudioEngine.playCollect(); arSpawnParticles(px, py, '#4caf50'); if(arGameState.score % 30 === 0) arPickNewTarget(); arCheckStarSpawn(); arGameState.gameSpeed = Math.min(18, arLevels[arGameState.level].speed + arGameState.score * 0.015); } else { arLoseLife(); arSpawnParticles(px, py, '#f44336'); } } arUpdateHUD(); } } } return obj.x > -250; }); arGameState.particles = arGameState.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.025; return p.life > 0; }); }
-        function arDrawBackgroundAndGround() { const grad = arCtx.createLinearGradient(0, 0, 0, arCanvas.height); grad.addColorStop(0, '#87CEEB'); grad.addColorStop(1, '#E0F6FF'); arCtx.fillStyle = grad; arCtx.fillRect(0, 0, arCanvas.width, arCanvas.height); arCtx.fillStyle = '#D2B48C'; for(let i=0; i<5; i++) { let mx = (i * 400 - (arGameState.bgOffset * 0.2)) % (arCanvas.width + 400); if(mx < -400) mx += arCanvas.width + 800; arCtx.beginPath(); arCtx.moveTo(mx, arCanvas.height); arCtx.lineTo(mx + 200, arCanvas.height - 300 + (i%2)*50); arCtx.lineTo(mx + 400, arCanvas.height); arCtx.fill(); } const groundY = arGameState.player.groundY + 15; arCtx.fillStyle = '#C2B280'; arCtx.fillRect(0, groundY, arCanvas.width, arCanvas.height - groundY); arCtx.fillStyle = '#A69050'; arCtx.fillRect(0, groundY+10, arCanvas.width, arCanvas.height - groundY - 10); arCtx.fillStyle = 'rgba(0,0,0,0.1)'; for(let i=0; i<20; i++) { let dx = (i * 80 - arGameState.bgOffset) % arCanvas.width; if(dx < 0) dx += arCanvas.width; arCtx.fillRect(dx, groundY + 15 + (i%3)*10, 15, 4); } }
-        function arDrawPlayer() { const x = arGameState.player.x; const y = arGameState.player.y; arCtx.fillStyle = 'rgba(0,0,0,0.2)'; arCtx.beginPath(); arCtx.ellipse(x, arGameState.player.groundY + 15, 20, 6, 0, 0, Math.PI*2); arCtx.fill(); let bob = 0, legSwing = 0, armSwing = 0; if(!arGameState.player.isJumping) { bob = Math.sin(Date.now()/70)*4; armSwing = Math.sin(Date.now()/70)*12; legSwing = Math.sin(Date.now()/70)*15; } else { legSwing = 15 + (arGameState.player.jumps * 5); armSwing = -10 - (arGameState.player.jumps * 5); } arCtx.fillStyle = '#ff9800'; arCtx.beginPath(); arCtx.arc(x, y-45+bob, 14, 0, Math.PI*2); arCtx.fill(); arCtx.fillStyle = '#333'; arCtx.beginPath(); arCtx.arc(x+5, y-48+bob, 3, 0, Math.PI*2); arCtx.fill(); arCtx.fillStyle = '#2196f3'; arCtx.fillRect(x-10, y-30+bob, 20, 24); arCtx.strokeStyle = '#ff9800'; arCtx.lineWidth = 5; arCtx.lineCap = 'round'; arCtx.beginPath(); arCtx.moveTo(x, y-25+bob); arCtx.lineTo(x-armSwing, y-5+bob); arCtx.stroke(); arCtx.strokeStyle = '#1565c0'; arCtx.lineWidth = 6; arCtx.lineCap = 'round'; arCtx.beginPath(); arCtx.moveTo(x, y-2+bob); arCtx.lineTo(x-legSwing, y+18+bob); arCtx.stroke(); arCtx.beginPath(); arCtx.moveTo(x, y-2+bob); arCtx.lineTo(x+legSwing, y+18+bob); arCtx.stroke(); arCtx.strokeStyle = '#ff9800'; arCtx.lineWidth = 5; arCtx.beginPath(); arCtx.moveTo(x, y-25+bob); arCtx.lineTo(x+armSwing, y-5+bob); arCtx.stroke(); }
-        function arDrawObjects() { arGameState.objects.forEach(obj => { if(obj.hit && obj.type !== 'hole') return; const x = obj.x, y = obj.y; if(obj.type === 'hole') { arCtx.fillStyle = '#0a0a1a'; arCtx.beginPath(); arCtx.ellipse(x, y + 15, obj.width/2, 10, 0, 0, Math.PI * 2); arCtx.fill(); return; } if(obj.type === 'star') { arCtx.font = '60px Arial'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle'; const pulse = Math.sin(Date.now()/150) * 5; arCtx.fillText('⭐', x, y + pulse); return; } if(obj.type === 'animal') { arCtx.font = '70px Arial'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle'; arCtx.fillText(obj.animalType, x, y - 20); return; } if(obj.type === 'rock') { arCtx.fillStyle = '#2E7D32'; arCtx.fillRect(x-15, y-70, 30, 70); arCtx.fillRect(x-30, y-45, 15, 30); arCtx.fillRect(x+15, y-55, 15, 30); arCtx.fillStyle = '#FFF'; arCtx.fillRect(x-17, y-60, 3, 3); arCtx.fillRect(x+15, y-30, 3, 3); arCtx.fillRect(x-5, y-15, 3, 3); return; } const isEmoji = arGameState.mode === 'picture'; const fontSize = isEmoji ? 85 : 45; const boxW = isEmoji ? fontSize * 1.3 : Math.min(260, obj.text.length * fontSize * 0.6) + 30; const boxH = fontSize + (isEmoji ? 10 : 25); arCtx.fillStyle = 'rgba(255,255,255,0.95)'; arCtx.strokeStyle = obj.isCorrect ? '#4caf50' : '#2196F3'; arCtx.lineWidth = 4; arCtx.beginPath(); arCtx.roundRect(x-boxW/2, y-boxH, boxW, boxH, 12); arCtx.fill(); arCtx.stroke(); arCtx.fillStyle = '#000'; arCtx.textAlign = 'center'; arCtx.textBaseline = 'middle'; if(arGameState.mode === 'urdu') { arCtx.font = fontSize + 'px "Jameel Noori Nastaleeq","Noto Nastaliq Urdu","Urdu Typesetting",serif'; } else { arCtx.font = (isEmoji?'':'bold ') + fontSize + 'px "Segoe UI",sans-serif'; } arCtx.fillText(obj.text, x, y-boxH/2 + (isEmoji ? 5 : 2)); }); }
-        function arDrawParticles() { arGameState.particles.forEach(p => { arCtx.globalAlpha = p.life; arCtx.fillStyle = p.color; arCtx.beginPath(); arCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); arCtx.fill(); arCtx.globalAlpha = 1; }); }
-        
-        function arRender() { 
-            if (!arGameActive) { requestAnimationFrame(arRender); return; } 
-            arCtx.save(); 
-            if(arGameState.shake > 0) { 
-                arCtx.translate((Math.random()-0.5)*arGameState.shake, (Math.random()-0.5)*arGameState.shake); 
-                arGameState.shake--;
-            } 
-            arDrawBackgroundAndGround(); arDrawObjects(); arDrawPlayer(); arDrawParticles(); arCtx.restore(); requestAnimationFrame(arRender); 
-        }
-        setInterval(arUpdate, 1000/60); arRender(); document.getElementById('ar-menuHighScore').textContent = '🏆 High Score: ' + arGameState.highScore;
-    </script>
-
     <!-- BP ENGINE -->
     <script>
         let bpGameActive = false; let bpReqAnimId = null;
@@ -4262,7 +4290,15 @@ function mDrawConfettiParticles(dt){ mCtx.save(); for(var i=0; i<window.mazeGame
 function mSpawnConfetti(x,y){ var colors=['#ef4444','#fde047','#0ea5e9','#22c55e','#a855f7','#f97316']; for(var i=0;i<40;i++){ window.mazeGameData.confetti.push({ x: x, y: y, vx:(Math.random()-0.5)*300, vy:-150-Math.random()*250, rot:Math.random()*Math.PI, vr:(Math.random()-0.5)*10, life:1.3+Math.random()*0.8, color:colors[Math.floor(Math.random()*colors.length)] }); } }
 
 var mLastT = performance.now();
-function mFrame(now){ try { var dt = Math.min(0.05,(now-mLastT)/1000); mLastT = now; mRender(now, dt); } catch(err) { } requestAnimationFrame(mFrame); }
+function mFrame(now){ 
+    // AGAR MAZE GAME HIDDEN HAI TOH LOOP ROK DO
+    if(document.getElementById("maze-wrapper").classList.contains("hidden")) {
+        setTimeout(function() { requestAnimationFrame(mFrame); }, 500);
+        return;
+    }
+    try { var dt = Math.min(0.05,(now-mLastT)/1000); mLastT = now; mRender(now, dt); } catch(err) { } 
+    requestAnimationFrame(mFrame); 
+}
 
 function mRender(now, dt){
   var d = window.mazeGameData.data; if(!d) return; mCtx.clearRect(0,0,W,H);
@@ -4715,5 +4751,462 @@ window.mazeBuildLevelGrid = function(){
 })();
 
 </script>
+<!-- YAHAN ORANGE RUNNER KI FULL JAVASCRIPT PASTE KAREIN -->
+    <script>
+        // ================= ORANGE RUNNER FULL GAME ENGINE (ORIGINAL LOGIC + SMOOTH FIXES) =================
+        (function() {
+            let soundOn = true;
+            let gameState = 'menu'; 
+            let bgOffset = 0, baseSpeed = 5, currentSpeed = 5, gameStartTime = 0;
+            let score = 0, lives = 3, targetLetter = 'A';
+            let lettersPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            let spawnTimer = 0;
+            let items = [], platforms = [], coins = [], enemies = [], extraLives = [], monsters = [];
+            let player = { x: window.innerWidth * 0.05, y: 0, w: 100, h: 100, vy: 0, gravity: 0.8, jumpPower: -13, groundY: 0, animFrame: 0, state: 'ready', jumps: 0 };
+            let highScore = localStorage.getItem('orHighScore') || 0;
+            let animationRunning = false;
+
+            let or_canvas = null;
+            let or_ctx = null;
+
+            const imgGameIdle = new Image(); imgGameIdle.src = 'orange_idle.png';
+            const imgRun = new Image(); imgRun.src = 'orange_run.png';
+            const imgJump = new Image(); imgJump.src = 'orange_jump.png';
+            const imgSky = new Image(); imgSky.src = 'bg_sky.png';
+            const imgMountains = new Image(); imgMountains.src = 'bg_mountains.png';
+            const imgHills = new Image(); imgHills.src = 'bg_hills.png';
+            const imgGround = new Image(); imgGround.src = 'bg_ground.png';
+            const imgWolf = new Image(); imgWolf.src = 'wolf_coin.png';
+            const imgMonster = new Image(); imgMonster.src = 'monster_run.png';
+
+            let audioCtx = null;
+            try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+
+            function playSFX(type) {
+                if(!soundOn || !audioCtx) return;
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination); let now = audioCtx.currentTime;
+                if (type === 'jump') { osc.type = 'sine'; osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(800, now + 0.2); gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
+                else if (type === 'coin' || type === 'correct') { osc.type = 'square'; osc.frequency.setValueAtTime(987, now); osc.frequency.setValueAtTime(1318, now + 0.1); gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3); osc.start(now); osc.stop(now + 0.3); }
+                else if (type === 'hurt' || type === 'gameover') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, now); osc.frequency.exponentialRampToValueAtTime(50, now + 0.4); gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4); osc.start(now); osc.stop(now + 0.4); }
+                else if (type === 'heart') { osc.type = 'sine'; osc.frequency.setValueAtTime(523, now); osc.frequency.setValueAtTime(659, now + 0.1); osc.frequency.setValueAtTime(783, now + 0.2); osc.frequency.setValueAtTime(1046, now + 0.3); gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
+                else if (type === 'land') { osc.type = 'square'; osc.frequency.setValueAtTime(100, now); osc.frequency.exponentialRampToValueAtTime(20, now + 0.1); gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); }
+            }
+
+            function speakLetter(letter) {
+                if(!soundOn) return;
+                let msg = new SpeechSynthesisUtterance("Find " + letter);
+                msg.rate = 0.9; msg.pitch = 1.2; window.speechSynthesis.cancel(); window.speechSynthesis.speak(msg);
+            }
+
+            const bgMusic = new Audio('bg_orange_music.mp3'); bgMusic.loop = true; bgMusic.volume = 0.3; 
+
+            function or_resizeCanvas() {
+                if(or_canvas) {
+                    or_canvas.width = window.innerWidth;
+                    or_canvas.height = window.innerHeight;
+                    player.groundY = or_canvas.height - 180 - player.h + 75;
+                    if (player.state !== 'jump') { player.y = player.groundY; }
+                }
+            }
+            window.addEventListener('resize', or_resizeCanvas);
+            window.addEventListener('orientationchange', function() { setTimeout(or_resizeCanvas, 500); });
+
+            window.enterOrangeRunner = function() {
+                let appCont = document.getElementById("app-container");
+                if(appCont) appCont.classList.replace("active-flex", "hidden");
+                let wrapper = document.getElementById("or-wrapper");
+                if(wrapper) wrapper.style.display = "block";
+                let hsDisplay = document.getElementById('or-high-score-display');
+                if(hsDisplay) hsDisplay.innerText = '🏆 High Score: ' + highScore;
+                window.or_returnToMenu();
+                try { let elem = document.documentElement; if (elem.requestFullscreen) { elem.requestFullscreen().then(() => { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } setTimeout(or_resizeCanvas, 600); }).catch(e => {}); } } catch(err) {}
+            };
+            
+            window.exitOrangeRunner = function() {
+                gameState = 'menu'; animationRunning = false; bgMusic.pause();
+                document.getElementById("or-wrapper").style.display = "none";
+                let appCont = document.getElementById("app-container");
+                if(appCont) appCont.classList.replace("hidden", "active-flex");
+                try { if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(err) {}
+            };
+
+            window.or_toggleSettings = function() { let m = document.getElementById('or-settings-modal'); if(m) m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; };
+            window.or_toggleHowToPlay = function() { let m = document.getElementById('or-how-to-play-modal'); if(m) m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; };
+            window.or_toggleSound = function() { soundOn = !soundOn; document.getElementById('or-btn-sound').innerText = soundOn ? "🔊 Sound: ON" : "🔇 Sound: OFF"; };
+            
+            window.or_returnToMenu = function() {
+                document.getElementById('or-game-over-screen').style.display = 'none'; 
+                document.getElementById('or-pause-screen').style.display = 'none'; 
+                document.getElementById('or-game-hud').style.display = 'none'; 
+                document.getElementById('or-main-menu').style.display = 'flex'; 
+                document.getElementById('or-menu-controls').style.display = 'block'; 
+                document.getElementById('or-how-to-play-modal').style.display = 'none'; 
+                gameState = 'menu'; animationRunning = false; bgMusic.pause();
+            };
+
+            window.or_togglePause = function() {
+                if (gameState === 'playing') { gameState = 'paused'; document.getElementById('or-pause-screen').style.display = 'flex'; bgMusic.pause(); } 
+                else if (gameState === 'paused') { gameState = 'playing'; document.getElementById('or-pause-screen').style.display = 'none'; if (soundOn) bgMusic.play().catch(e => {}); }
+            };
+
+            window.or_prepareGame = function() {
+                or_canvas = document.getElementById('or-gameCanvas');
+                if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
+                
+                document.getElementById('or-main-menu').style.display = 'none'; 
+                document.getElementById('or-menu-controls').style.display = 'none'; 
+                document.getElementById('or-game-hud').style.display = 'block'; 
+                document.getElementById('or-touch-to-start').style.display = 'block';
+                
+                score = 0; lives = 3; currentSpeed = baseSpeed; items = []; bgOffset = 0;
+                platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
+                
+                pickNewTarget(); updateHUD(); or_resizeCanvas(); 
+                
+                player.vy = 0; player.state = 'ready'; player.animFrame = 0;
+                gameState = 'ready';
+                if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
+            };
+
+            function startGameplay() {
+                document.getElementById('or-touch-to-start').style.display = 'none';
+                gameStartTime = Date.now(); gameState = 'playing'; player.state = 'run';
+                platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
+            }
+
+            function pickNewTarget() {
+                let oldTarget = targetLetter;
+                targetLetter = lettersPool[Math.floor(Math.random() * lettersPool.length)];
+                while(targetLetter === oldTarget) targetLetter = lettersPool[Math.floor(Math.random() * lettersPool.length)];
+                speakLetter(targetLetter);
+            }
+
+            function updateHUD() {
+                document.getElementById('or-ui-score').innerText = score; 
+                document.getElementById('or-ui-target').innerText = targetLetter;
+                let safeLives = Math.max(0, lives);
+                let emptyHearts = Math.max(0, 3 - safeLives); 
+                document.getElementById('or-ui-lives').innerText = '❤️'.repeat(safeLives) + '🖤'.repeat(emptyHearts);
+            }
+
+            let wrapperEl = document.getElementById('or-wrapper');
+            if(wrapperEl) {
+                wrapperEl.addEventListener('pointerdown', (e) => {
+                    let btn = e.target.closest('button');
+                    if(btn && btn.innerText.includes('⏸')) { e.preventDefault(); window.or_togglePause(); return; }
+                    if(e.target.closest('#or-main-menu') || e.target.closest('#or-settings-modal') || e.target.closest('.btn-settings') || e.target.closest('#or-game-over-screen') || e.target.closest('#or-pause-screen') || e.target.closest('#or-how-to-play-modal') || e.target.closest('.btn-close')) return;
+                    
+                    if (gameState === 'ready') {
+                        startGameplay();
+                        if (soundOn) bgMusic.play().catch(err => console.log(err));
+                        if (soundOn) speakLetter(targetLetter);
+                    } else if (gameState === 'playing') {
+                        if (player.state === 'run' || (player.state === 'jump' && player.jumps < 2)) {
+                            player.vy = player.jumpPower; player.state = 'jump'; player.animFrame = 0; player.jumps++; playSFX('jump');
+                        }
+                    }
+                });
+            }
+
+            function drawScenery(canvas, ctx) {
+                let cw = canvas.width; let ch = canvas.height;
+                if(imgSky.complete && imgSky.src && imgSky.naturalWidth > 0) {
+                    let skyX = Math.floor(-(bgOffset * 0.1) % cw);
+                    ctx.drawImage(imgSky, skyX, 0, cw, ch);
+                    ctx.drawImage(imgSky, skyX + cw, 0, cw, ch);
+                } else { ctx.fillStyle = "#38bdf8"; ctx.fillRect(0, 0, cw, ch); }
+
+                let groundHeight = 150; let groundY = ch - 180; 
+                ctx.fillStyle = "#4a2511"; ctx.fillRect(0, groundY + groundHeight - 2, cw, ch - (groundY + groundHeight) + 5);
+
+                if(imgMountains.complete && imgMountains.src && imgMountains.naturalWidth > 0) {
+                    let mountX = Math.floor(-(bgOffset * 0.3) % cw); let mHeight = 550;
+                    ctx.drawImage(imgMountains, mountX, ch - mHeight - 40, cw, mHeight);
+                    ctx.drawImage(imgMountains, mountX + cw, ch - mHeight - 40, cw, mHeight);
+                }
+                if(imgHills.complete && imgHills.src && imgHills.naturalWidth > 0) {
+                    let hillX = Math.floor(-(bgOffset * 0.6) % cw); let hHeight = 400; let hillY = groundY - hHeight + 120; 
+                    ctx.drawImage(imgHills, hillX, hillY, cw, hHeight);
+                    ctx.drawImage(imgHills, hillX + cw, hillY, cw, hHeight);
+                }
+                if(imgGround.complete && imgGround.src && imgGround.naturalWidth > 0) {
+                    let groundX = Math.floor(-bgOffset % cw);
+                    ctx.drawImage(imgGround, groundX, groundY, cw, groundHeight);
+                    ctx.drawImage(imgGround, groundX + cw, groundY, cw, groundHeight);
+                }
+            }
+
+            function drawPlayer(canvas, ctx) {
+                let px = Math.floor(player.x); let py = Math.floor(player.y);
+                if (player.state === 'ready') {
+                    if(imgRun.complete) { let fw = imgRun.width/5; let fh = imgRun.height/5; ctx.drawImage(imgRun, 0, 0, fw, fh, px, py + 45, player.w, player.h); }
+                } else if (player.state === 'run') {
+                    if(imgRun.complete) {
+                        let cols = 5; let fw = imgRun.width/cols; let fh = imgRun.height/5; let currentFrame = Math.floor(player.animFrame)%12;
+                        ctx.drawImage(imgRun, (currentFrame%cols)*fw, Math.floor(currentFrame/cols)*fh, fw, fh, px, py + 45, player.w, player.h);
+                        player.animFrame += 0.3 * (currentSpeed/5); 
+                    }
+                } else if (player.state === 'jump') {
+                    if(imgJump.complete) {
+                        let cols = 4; let rows = 4; let fw = imgJump.width/cols; let fh = imgJump.height/rows; let currentFrame = Math.min(15, Math.floor(player.animFrame));
+                        ctx.drawImage(imgJump, (currentFrame%cols)*fw, Math.floor(currentFrame/cols)*fh, fw, fh, px, py + 45, player.w, player.h);
+                        player.animFrame += 0.45; 
+                    }
+                }
+
+                if (gameState === 'playing') {
+                    player.vy += player.gravity; player.y += player.vy;
+                    let isLanded = false; let hitX = player.x + 25; let hitW = player.w - 50; 
+                    for (let i = 0; i < platforms.length; i++) {
+                        let p = platforms[i];
+                        if (hitX + hitW > p.x && hitX < p.x + p.w) {
+                            let feetY = player.y + player.h + 45; let prevFeetY = (player.y - player.vy) + player.h + 45;
+                            if (player.vy >= 0 && prevFeetY <= p.y + 30 && feetY >= p.y) {
+                                player.y = p.y - player.h - 45 + 2; player.vy = 0; player.jumps = 0; isLanded = true;
+                                if (player.state === 'jump') { if (soundOn) playSFX('land'); player.state = 'run'; }
+                                break; 
+                            }
+                        }
+                    }
+                    let mainGroundY = canvas.height - 180 - player.h + 75; 
+                    if (!isLanded && player.y >= mainGroundY) {
+                        player.y = mainGroundY; player.vy = 0; player.jumps = 0; 
+                        if (player.state === 'jump') { if (soundOn) playSFX('land'); player.state = 'run'; }
+                    }
+                }
+            }
+
+            function handleItems(canvas, ctx) {
+                if (gameState !== 'playing') return;
+                
+                // 🚀 EXACT SAME ORIGINAL SPAWN LOGIC FROM SOURCE: 5 🚀
+                spawnTimer++;
+                if (spawnTimer > 100 - (currentSpeed * 2)) {
+                    spawnTimer = 0;
+                    
+                    let isCorrect = Math.random() > 0.5;
+                    let letter = isCorrect ? targetLetter : lettersPool[Math.floor(Math.random() * lettersPool.length)];
+                    let colorsList = ['#3b82f6', '#22c55e', '#a855f7', '#f97316'];
+                    let boxColor = colorsList[Math.floor(Math.random() * colorsList.length)];
+
+                    let spawnX = canvas.width + 200; 
+                    let randomLayout = Math.random();
+
+                    if (randomLayout < 0.33) {
+                        let itemY = canvas.height - 250;
+                        items.push({ x: spawnX, y: itemY, size: 60, letter: letter, isCorrect: isCorrect, color: boxColor, collected: false });
+                        if (Math.random() < 0.5) {
+                            for(let j = 0; j < 3; j++) {
+                                coins.push({ x: spawnX - 200 + (j * 50), y: canvas.height - 220, collected: false });
+                            }
+                        }
+                    } 
+                    else if (randomLayout < 0.66) {
+                        let heightLevels = [240, 270, 300]; 
+                        let offset = heightLevels[Math.floor(Math.random() * heightLevels.length)];
+                        let itemY = canvas.height - offset;
+
+                        items.push({ x: spawnX, y: itemY, size: 60, letter: letter, isCorrect: isCorrect, color: boxColor, collected: false });
+                        platforms.push({ x: spawnX - 30, y: itemY + 60, w: 120, h: 30 });
+
+                        if (Math.random() < 0.5) {
+                            if (Math.random() > 0.5) {
+                                for(let j = 0; j < 3; j++) {
+                                    coins.push({ x: (spawnX - 10) + (j * 45), y: itemY - 30, collected: false });
+                                }
+                            } else {
+                                let arcOffsets = [0, -40, -60, -40, 0];
+                                for(let j = 0; j < 5; j++) {
+                                    coins.push({ x: spawnX - 300 + (j * 55), y: (canvas.height - 200) + arcOffsets[j], collected: false });
+                                }
+                            }
+                        }
+                    } 
+                    else {
+                        let steps = 3;
+                        let stepSpacing = 160; 
+                        let isGoingUp = Math.random() > 0.5;
+
+                        for (let s = 0; s < steps; s++) {
+                            let stepY = isGoingUp ? canvas.height - 200 - (s * 40) : canvas.height - 280 + (s * 40);  
+                            let curX = spawnX + (s * stepSpacing);
+                            platforms.push({ x: curX, y: stepY, w: 120, h: 30 });
+                            if (Math.random() < 0.6) {
+                                 coins.push({ x: curX + 60, y: stepY - 30, collected: false });
+                            }
+                            if (s === steps - 1) {
+                                items.push({ x: curX + 30, y: stepY - 60, size: 60, letter: letter, isCorrect: isCorrect, color: boxColor, collected: false });
+                            }
+                        }
+                        spawnTimer = -100; 
+                    }
+
+                    if (isCorrect && Math.random() < 0.40) {
+                        let placement = Math.floor(Math.random() * 3); 
+                        let enemyX = spawnX + 150 + (Math.random() * 150); 
+                        let enemyY;
+                        if (placement === 0) enemyY = canvas.height - 210;
+                        else if (placement === 1) enemyY = canvas.height - 350;
+                        else enemyY = canvas.height - 280;
+                        enemies.push({ x: enemyX, y: enemyY, size: 50, active: true });
+                    }
+
+                    if (Math.random() < 0.05) {
+                        let heartY = canvas.height - 300 - (Math.random() * 80); 
+                        extraLives.push({ x: spawnX + 400, y: heartY, size: 40, collected: false });
+                    }
+
+                    // 🚀 ORIGINAL MONSTER SPAWN LOGIC 🚀
+                    if (isCorrect && Math.random() < 0.35) { 
+    let mWidth = 120; let mHeight = 120; let groundLevel = canvas.height - 165; 
+    monsters.push({ x: spawnX + 500, y: groundLevel, w: mWidth, h: mHeight, animFrame: 0, active: true });
+    
+    // 🚀 FIX: Wolf ke upar aane wala letter hamesha Correct (Target) letter hi hoga
+    items.push({ 
+        x: spawnX + 530, 
+        y: groundLevel - 110, 
+        size: 60, 
+        letter: targetLetter, 
+        isCorrect: true, 
+        color: '#3b82f6', 
+        collected: false 
+    });
+}
+                }
+
+                let hitX = player.x + 35, hitY = player.y + 45, hitW = player.w - 70, hitH = player.h - 55;
+
+                for (let i = coins.length - 1; i >= 0; i--) {
+                    let c = coins[i]; c.x -= currentSpeed;
+                    if (!c.collected) {
+                        let ix = Math.floor(c.x); let iy = Math.floor(c.y);
+                        ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(ix, iy, 16, 0, Math.PI*2); ctx.fill();
+                        ctx.fillStyle = "#fef08a"; ctx.beginPath(); ctx.arc(ix, iy, 10, 0, Math.PI*2); ctx.fill();
+                        ctx.fillStyle = "#ca8a04"; ctx.font = "bold 14px 'Fredoka', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("★", ix, iy + 1);
+
+                        if (hitX < c.x + 16 && hitX + hitW > c.x - 16 && hitY < c.y + 16 && hitY + hitH > c.y - 16) {
+                            c.collected = true; score += 5; if (soundOn) playSFX('coin'); updateHUD();
+                        }
+                    }
+                    if (c.x < -100) coins.splice(i, 1);
+                }
+
+                for (let i = platforms.length - 1; i >= 0; i--) {
+                    let p = platforms[i]; p.x -= currentSpeed;
+                    let ix = Math.floor(p.x); let iy = Math.floor(p.y);
+                    ctx.fillStyle = "#8b4513"; ctx.beginPath(); ctx.roundRect(ix, iy, p.w, p.h, 8); ctx.fill();
+                    ctx.fillStyle = "#65a30d"; ctx.beginPath(); ctx.roundRect(ix, iy, p.w, 12, {tl: 8, tr: 8, bl: 0, br: 0}); ctx.fill();
+                    if (p.x + p.w < -100) platforms.splice(i, 1);
+                }
+
+                for (let i = items.length - 1; i >= 0; i--) {
+                    let item = items[i]; item.x -= currentSpeed;
+                    if (!item.collected) {
+                        let ix = Math.floor(item.x); let iy = Math.floor(item.y);
+                        ctx.fillStyle = "white"; ctx.beginPath(); ctx.roundRect(ix, iy, item.size, item.size, 10); ctx.fill();
+                        ctx.fillStyle = item.color; ctx.beginPath(); ctx.roundRect(ix+4, iy+4, item.size-8, item.size-8, 8); ctx.fill();
+                        ctx.fillStyle = "white"; ctx.font = "bold 32px 'Fredoka', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(item.letter, ix + item.size/2, iy + item.size/2 + 2);
+
+                        if (hitX < item.x + item.size && hitX + hitW > item.x && hitY < item.y + item.size && hitY + hitH > item.y) {
+                            item.collected = true;
+                            if (item.letter === targetLetter) { 
+                                score += 10; 
+                                if (soundOn) playSFX('correct'); 
+                                pickNewTarget(); 
+                            } 
+                            else { 
+                                lives--; 
+                                if (soundOn) playSFX('hurt'); 
+                                if (lives <= 0) gameOver(); 
+                            }
+                            updateHUD();
+                        }
+                    }
+                    if (item.x < -100) items.splice(i, 1);
+                }
+
+                for (let i = enemies.length - 1; i >= 0; i--) {
+                    let en = enemies[i]; en.x -= currentSpeed;
+                    if (en.active) {
+                        let coinSize = 34; let ex = Math.floor(en.x - coinSize/2), ey = Math.floor(en.y - coinSize/2);
+                        if (imgWolf.complete && imgWolf.naturalWidth > 0) ctx.drawImage(imgWolf, ex, ey, coinSize, coinSize);
+                        if (hitX < en.x + 17 && hitX + hitW > en.x - 17 && hitY < en.y + 17 && hitY + hitH > en.y - 17) {
+                            en.active = false; lives--; if (soundOn) playSFX('hurt'); 
+                            ctx.fillStyle = "rgba(239, 68, 68, 0.4)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            if (lives <= 0) gameOver(); updateHUD();
+                        }
+                    }
+                    if (en.x < -100) enemies.splice(i, 1);
+                }
+
+                for (let i = extraLives.length - 1; i >= 0; i--) {
+                    let h = extraLives[i]; h.x -= currentSpeed;
+                    if (!h.collected) {
+                        let ix = Math.floor(h.x); let iy = Math.floor(h.y);
+                        ctx.font = "40px Arial"; ctx.fillText("❤️", ix, iy);
+                        if (hitX < h.x + 20 && hitX + hitW > h.x - 20 && hitY < h.y + 20 && hitY + hitH > h.y - 20) {
+                            h.collected = true; lives++; if (soundOn) playSFX('heart'); 
+                            ctx.fillStyle = "rgba(34, 197, 94, 0.4)"; ctx.fillRect(0, 0, canvas.width, canvas.height); updateHUD(); 
+                        }
+                    }
+                    if (h.x < -100) extraLives.splice(i, 1);
+                }
+
+                for (let i = monsters.length - 1; i >= 0; i--) {
+                    let m = monsters[i]; 
+                    
+                    // 🚀 ORIGINAL FAST WOLF SPEED 🚀
+                    m.x -= (currentSpeed + 3); 
+                    
+                    if (m.active) {
+                        if (imgMonster.complete && imgMonster.naturalWidth > 0) {
+                            let cols = 5, rows = 5; let fw = imgMonster.naturalWidth/cols, fh = imgMonster.naturalHeight/rows;
+                            let currentFrame = Math.floor(m.animFrame)%16; let cx = (currentFrame%cols)*fw, cy = Math.floor(currentFrame/cols)*fh;
+                            ctx.save(); ctx.translate(Math.floor(m.x + m.w/2), Math.floor(m.y + m.h/2)); ctx.scale(-1, 1); ctx.drawImage(imgMonster, cx, cy, fw, fh, -m.w/2, -m.h/2, m.w, m.h); ctx.restore(); m.animFrame += 0.45; 
+                        }
+                        let mx = m.x + 30, my = m.y + 40, mw = m.w - 50, mh = m.h - 40;
+                        if (hitX < mx + mw && hitX + hitW > mx && hitY < my + mh && hitY + hitH > my) {
+                            m.active = false; lives--; if (soundOn) playSFX('hurt'); 
+                            ctx.fillStyle = "rgba(239, 68, 68, 0.4)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            if (lives <= 0) gameOver(); updateHUD();
+                        }
+                    }
+                    if (m.x < -200) monsters.splice(i, 1);
+                }
+            }
+
+            function gameOver() {
+                playSFX('gameover'); bgMusic.pause(); gameState = 'gameover';
+                if (score > highScore) { highScore = score; localStorage.setItem('orHighScore', highScore); document.getElementById('or-high-score-display').innerText = '🏆 High Score: ' + highScore; }
+                document.getElementById('or-final-score').innerText = score;
+                document.getElementById('or-game-over-screen').style.display = 'flex';
+                document.getElementById('or-touch-to-start').style.display = 'none';
+            }
+
+            function gameLoop() {
+                if (gameState === 'menu' || !animationRunning) return;
+                if (gameState === 'paused') { requestAnimationFrame(gameLoop); return; }
+                
+                if (!or_canvas) {
+                    or_canvas = document.getElementById('or-gameCanvas');
+                    if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
+                }
+                if (!or_ctx) { requestAnimationFrame(gameLoop); return; }
+
+                if (gameState === 'playing') {
+                    bgOffset += currentSpeed; let elapsedTime = Date.now() - gameStartTime; currentSpeed = baseSpeed + Math.floor(elapsedTime / 60000) * 2; if(currentSpeed > 15) currentSpeed = 15;
+                }
+
+                drawScenery(or_canvas, or_ctx);
+                handleItems(or_canvas, or_ctx);
+                drawPlayer(or_canvas, or_ctx);
+
+                requestAnimationFrame(gameLoop);
+            }
+
+        })();
+    </script> 
 </body>
 </html>
