@@ -1,8 +1,11 @@
 [{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "io.github.shaikns166_bit.twa",
-        "sha256_cert_fingerprints": ["A3:70:16:56:07:F6:AC:DC:E5:8A:27:B1:EE:2F:7B:31:62:21:49:E8:4A:6B:D3:0A:3A:44:F5:4B:17:CB:43:56"]
-      }
-    }]
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.shaikns166_bit.twa",
+    "sha256_cert_fingerprints": [
+      "A3:70:16:56:07:F6:AC:DC:E5:8A:27:B1:EE:2F:7B:31:62:21:49:E8:4A:6B:D3:0A:3A:44:F5:4B:17:CB:43:56",
+      "01:C4:60:BC:67:30:C3:E5:AE:93:C0:B2:8D:29:C1:C3:08:D1:03:B8:8F:FC:BA:D2:67:A5:DD:47:5A:32:EA:4B"
+    ]
+  }
+}]
