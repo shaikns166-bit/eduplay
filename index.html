@@ -3054,29 +3054,6 @@ if(langSelect) {
             function generateGameRound() { gameOptionsContainer.innerHTML = ""; gameRealImg.className = "real-img scale-in"; gameEmojiImg.className = "emoji-text scale-in"; gameEmojiImg.style.fontSize = "8rem"; if (currentGameType === "findLetter") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.main; gameQuestionText.innerText = `Find the letter for ${randomItem.sub.split(" for ")[1]}!`; setGameImage(randomItem); speak(gameQuestionText.innerText); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "missingLetter") { let idx = Math.floor(Math.random() * 23); let l1 = String.fromCharCode(65 + idx); let l2 = String.fromCharCode(65 + idx + 1); let l3 = String.fromCharCode(65 + idx + 2); let hideIdx = Math.floor(Math.random() * 3); correctAnswer = String.fromCharCode(65 + idx + hideIdx); let displayString = ""; if(hideIdx === 0) displayString = `_  ${l2}  ${l3}`; if(hideIdx === 1) displayString = `${l1}  _  ${l3}`; if(hideIdx === 2) displayString = `${l1}  ${l2}  _`; gameQuestionText.innerText = "What is the missing letter?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = displayString; gameEmojiImg.style.fontSize = "clamp(3rem, 10vh, 5rem)"; speak("What is the missing letter?"); let options = [correctAnswer]; while(options.length < 4) { let randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26)); if(!options.includes(randomChar)) options.push(randomChar); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "countObjects") { let num = Math.floor(Math.random() * 8) + 2; let randomEmoji = ['🍎','🐶','🚗','⭐','🏀'][Math.floor(Math.random() * 5)]; correctAnswer = num.toString(); gameQuestionText.innerText = "How many are there?"; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = Array(num).fill(randomEmoji).join(" "); gameEmojiImg.style.fontSize = "clamp(2rem, 8vh, 4rem)"; speak("How many are there?"); let options = [num]; while(options.length < 4) { let wrongNum = Math.floor(Math.random() * 9) + 1; if(!options.includes(wrongNum)) options.push(wrongNum); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt.toString() === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "matchPicture") { let randomItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; correctAnswer = randomItem.emoji; let targetWord = randomItem.sub.split(" for ")[1]; gameQuestionText.innerText = `Where is the ${targetWord}?`; gameRealImg.classList.add("hidden"); gameEmojiImg.classList.remove("hidden"); gameEmojiImg.innerText = "❓"; speak(`Where is the ${targetWord}?`); let options = [randomItem]; while(options.length < 4) { let wrongItem = alphabetWordsData[Math.floor(Math.random() * alphabetWordsData.length)]; if(!options.some(opt => opt.emoji === wrongItem.emoji)) options.push(wrongItem); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; if (opt.img && opt.img !== "") { btn.innerHTML = `<img src="${opt.img}" style="max-height:80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span style="display:none;">${opt.emoji}</span>`; } else { btn.innerText = opt.emoji; } btn.addEventListener("click", () => handleAnswer(btn, opt.emoji === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessColor") { let randomItem = colors[Math.floor(Math.random() * colors.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What color is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What color is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongColor = colors[Math.floor(Math.random() * colors.length)][0]; if(!options.includes(wrongColor)) options.push(wrongColor); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } else if (currentGameType === "guessShape") { let randomItem = shapes[Math.floor(Math.random() * shapes.length)]; correctAnswer = randomItem[0]; gameQuestionText.innerText = "What shape is this?"; setGameImage({ emoji: randomItem[1], img: randomItem[2] }); speak("What shape is this?"); let options = [correctAnswer]; while(options.length < 4) { let wrongShape = shapes[Math.floor(Math.random() * shapes.length)][0]; if(!options.includes(wrongShape)) options.push(wrongShape); } options.sort(() => Math.random() - 0.5); options.forEach(opt => { const btn = document.createElement("button"); btn.className = "game-option"; btn.style.fontSize = "1.8rem"; btn.innerText = opt; btn.addEventListener("click", () => handleAnswer(btn, opt === correctAnswer)); gameOptionsContainer.appendChild(btn); }); } }
             function handleAnswer(btnElement, isCorrect) { if (isCorrect) { btnElement.classList.add("correct", "correct-anim"); speak("Correct! Good job!"); gameScore += 10; gameScoreElement.innerText = gameScore; Array.from(gameOptionsContainer.children).forEach(b => b.disabled = true); setTimeout(() => generateGameRound(), 1500); } else { btnElement.classList.add("wrong", "shake-anim"); speak("Try again!"); setTimeout(() => btnElement.classList.remove("wrong", "shake-anim"), 500); } }
 
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    // 🚀 NAYA FIX: Seedha external sw.js file ko link kar diya
-                    navigator.serviceWorker.register('sw.js').then(registration => {
-                        
-                        // Jab Service worker ready ho jaye, tab chup-chaap background mein download karein
-                        navigator.serviceWorker.ready.then(() => {
-                            const coreAssets = [
-                                'eduplay_logo.png', 'menu_bg_2.png', 'intro.mp4', 'intro_mobile.mp4', 
-                                'icon_menu_flashcards.png', 'icon_menu_games.png', 'icon_menu_funplay.png'
-                            ];
-                            
-                            const allAssets = [...coreAssets, ...allImagesToPreload];
-                            
-                            // Ek-ek karke files mangwao taaki sw.js unhe cache mein save kar le
-                            allAssets.forEach(src => {
-                                if (src) fetch(src, { mode: 'no-cors' }).catch(() => {});
-                            });
-                        });
-
-                    }).catch(err => console.log('Service Worker Error:', err));
-                });
-            }
         });
     </script>
 
@@ -5236,5 +5213,12 @@ window.mazeBuildLevelGrid = function(){
 
         })();
     </script> 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("Service Worker Registered Successfully!"))
+      .catch(err => console.log("Service Worker Failed:", err));
+  }
+</script>
 </body>
 </html>
