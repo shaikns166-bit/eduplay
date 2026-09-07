@@ -1311,8 +1311,8 @@ body {
         #wj-wrapper .btn-shop { background: linear-gradient(180deg, #34D399 0%, #059669 100%); box-shadow: 0 6px 0 #047857, 0 8px 15px rgba(0,0,0,0.2); }
         
         /* THE MAP SCROLL FIX FOR LANDSCAPE */
-        #wj-wrapper .map-scroll-wrap { width: 100%; margin-top: 260px; position: relative; display: flex; flex-direction: column; align-items: center; z-index: 2; }
-        #wj-wrapper .map-area { position: relative; display: flex; flex-direction: column; align-items: center; padding-bottom: 120px; gap: 40px; }
+        #wj-wrapper .map-scroll-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+        #wj-wrapper .map-area { position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 280px; padding-bottom: 120px; gap: 40px; width: 100%; }
         
         #wj-wrapper .map-node { position: relative; width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%); border: 4px solid #fff; box-shadow: 0 8px 0 rgba(0,0,0,0.15), 0 12px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; z-index: 2; transition: transform 0.1s; }
         #wj-wrapper .map-node:active { transform: translateY(6px); box-shadow: 0 2px 0 rgba(0,0,0,0.15); }
@@ -1413,8 +1413,8 @@ body {
             #wj-wrapper .logo-title { top: 35px; position: absolute; }
             #wj-wrapper .logo-title img { max-width: 150px; }
             #wj-wrapper .logo-title p { font-size: 10px; padding: 2px 10px; margin-top: -5px; }
-            #wj-wrapper .map-scroll-wrap { margin-top: 140px; }
-            #wj-wrapper .map-area { gap: 20px; padding-bottom: 80px; }
+            #wj-wrapper .map-scroll-wrap { margin-top: 0px; }
+            #wj-wrapper .map-area { padding-top: 140px; gap: 20px; padding-bottom: 80px; }
         
             #wj-wrapper #wj-screen-game { padding-top: 50px; overflow: hidden; justify-content: center; align-items: center; }
             
@@ -1614,11 +1614,8 @@ body {
         <div class="hud-bar">
           <button class="icon-btn small" style="background:#EF4444; color:white; border:none; box-shadow:0 4px 0 #B91C1C; margin-right: 10px;" onclick="exitWordJumble();">✖</button>
           <div class="hud-group">
-            <div class="hud-pill stars">⭐ <span id="wj-statStars">0</span></div>
-            <div class="hud-pill coins">🪙 <span id="wj-statCoins">0</span></div>
-          </div>
-          <div class="hud-group">
             <div class="hud-pill streak" onclick="window.wjShowToast('Daily Learning Streak!')">🔥 <span id="wj-statStreak">0</span></div>
+            <button class="icon-btn small" style="background:#3B82F6; color:white; box-shadow:0 4px 0 #2563EB; border:none; margin-right: 5px;" onclick="document.getElementById('wj-overlay-help').classList.add('active'); window.wjSFX.button();">❓</button>
             <button class="icon-btn small" style="background:#fff; color:#475569; box-shadow:0 4px 0 #CBD5E1; border:none;" onclick="document.getElementById('wj-overlay-settings').classList.add('active'); window.wjSFX.button();">⚙️</button>
           </div>
         </div>
@@ -1636,7 +1633,7 @@ body {
             <div class="side-btn btn-shop" onclick="window.wjOpenShop()"><span class="icon">🛒</span> Shop</div>
         </div>
 
-        <div class="map-scroll-wrap" style="width: 100%; margin-top: 280px; position: relative;">
+        <div class="map-scroll-wrap">
             <div class="map-area" id="wj-mapArea"></div>
         </div>
       </section>
@@ -1756,7 +1753,23 @@ body {
         <div style="font-size:40px; margin-top:20px;">🏅</div><h2 style="margin:5px 0; color:#6D28D9;">Badges</h2>
         <div class="scroll-area"><div class="badge-grid" id="wj-badgesGrid"></div></div>
       </section>
-
+      
+      <!-- HOW TO PLAY OVERLAY -->
+      <div class="overlay" id="wj-overlay-help">
+        <div class="overlay-box" style="border-color: #3B82F6; text-align: left; width: min(400px, 95vw);">
+          <h2 style="color:#2563EB; margin-bottom:15px; text-align: center;">🎮 How to Play</h2>
+          
+          <div style="font-size: 15px; color: #1E293B; line-height: 1.5; margin-bottom: 20px; font-weight: 600;">
+              <p style="margin-bottom: 12px;"><span style="font-size: 20px;">👆</span> <b>Drag & Drop:</b> Drag the colorful letters from the bottom tray into the empty circles to spell words.</p>
+              <p style="margin-bottom: 12px;"><span style="font-size: 20px;">🧠</span> <b>Smart Spelling:</b> If you spell a different real word (like <i>ATE</i> instead of <i>EAT</i>), the game will accept it!</p>
+              <p style="margin-bottom: 12px;"><span style="font-size: 20px;">💡</span> <b>Use Hints:</b> Stuck? Tap the lightbulb to reveal the next letter! It costs <b>1 ⭐ Star</b>.</p>
+              <p style="margin-bottom: 12px;"><span style="font-size: 20px;">❤️</span> <b>Watch Your Lives:</b> Placing a wrong letter costs a life. If you run out, buy more in the <b>Shop</b> using Coins (🪙).</p>
+              <p style="margin-bottom: 5px;"><span style="font-size: 20px;">🔥</span> <b>Streaks:</b> Spell words without making mistakes to build your streak and earn extra ⭐ Stars and 🪙 Coins!</p>
+          </div>
+          
+          <button class="btn btn-blue" style="width:100%; margin: 0;" onclick="document.getElementById('wj-overlay-help').classList.remove('active'); window.wjSFX.button();">Got it! 👍</button>
+        </div>
+      </div>
       <div class="overlay" id="wj-overlay-shop">
         <div class="overlay-box" style="border-color: #4CAF50;">
           <h2 style="color:#388E3C; margin-bottom:10px;">🛒 Item Shop</h2>
@@ -1829,14 +1842,1233 @@ body {
         }
 
         const ALL_WORDS = [
-         {w:"APPLE", emoji:"🍎", s:"An apple is a crunchy fruit.", diff:"easy"}, {w:"MANGO", emoji:"🥭", s:"A sweet yellow fruit.", diff:"easy"}, {w:"ONION", emoji:"🧅", s:"It makes you cry.", diff:"med"}, {w:"CARROT", emoji:"🥕", s:"Rabbits love these.", diff:"med"}, {w:"CABBAGE", emoji:"🥬", s:"A leafy green vegetable.", diff:"hard"},
-         {w:"CAT", emoji:"🐱", s:"Says meow.", diff:"easy"}, {w:"DOG", emoji:"🐶", s:"Man's best friend.", diff:"easy"}, {w:"MONKEY", emoji:"🐵", s:"Loves bananas.", diff:"med"}, {w:"ELEPHANT", emoji:"🐘", s:"Has a long trunk.", diff:"hard"}, {w:"PENGUIN", emoji:"🐧", s:"A bird that swims.", diff:"hard"},
-         {w:"EYE", emoji:"👁️", s:"You use it to see.", diff:"easy"}, {w:"NOSE", emoji:"👃", s:"You use it to smell.", diff:"easy"}, {w:"MOUTH", emoji:"👄", s:"You use it to talk.", diff:"med"}, {w:"FINGER", emoji:"☝️", s:"You have ten of these.", diff:"med"}, {w:"SHOULDER", emoji:"🧍", s:"Between neck and arm.", diff:"hard"},
-         {w:"MONDAY", emoji:"📅", s:"First day of the school week.", diff:"med"}, {w:"FRIDAY", emoji:"📅", s:"Last day of the school week.", diff:"med"}, {w:"JANUARY", emoji:"❄️", s:"The first month.", diff:"hard"}, {w:"AUGUST", emoji:"☀️", s:"The eighth month.", diff:"hard"},
-         {w:"PEN", emoji:"🖊️", s:"Used for writing.", diff:"easy"}, {w:"BOOK", emoji:"📖", s:"You read this.", diff:"easy"}, {w:"RULER", emoji:"📏", s:"Used to measure.", diff:"med"}, {w:"PENCIL", emoji:"✏️", s:"You write and erase with it.", diff:"med"}, {w:"ERASER", emoji:"🧽", s:"Removes pencil marks.", diff:"hard"},
-         {w:"RED", emoji:"🔴", s:"Color of an apple.", diff:"easy"}, {w:"BLUE", emoji:"🔵", s:"Color of the sky.", diff:"easy"}, {w:"YELLOW", emoji:"🟡", s:"Color of the sun.", diff:"med"}, {w:"PURPLE", emoji:"🟣", s:"Color of grapes.", diff:"med"},
-         {w:"WASH", emoji:"🧼", s:"Clean your hands.", diff:"easy"}, {w:"BRUSH", emoji:"🪥", s:"Clean your teeth.", diff:"med"}, {w:"SHARE", emoji:"🤝", s:"Playing nice with others.", diff:"med"}, {w:"FIGHT", emoji:"😠", s:"A bad habit.", diff:"med"},
-         {w:"SUN", emoji:"☀️", s:"Shines in the day.", diff:"easy"}, {w:"WATER", emoji:"💧", s:"You drink this.", diff:"med"}, {w:"HOUSE", emoji:"🏠", s:"Where you live.", diff:"med"}, {w:"FAMILY", emoji:"👨‍👩‍👧", s:"People who love you.", diff:"hard"}
+         // --- LEVEL 1 ---
+    {w:"GO", emoji:"🚦", s:"Green means go!", diff:"easy"},
+    {w:"US", emoji:"👨‍👩‍👧‍👦", s:"You and me make us.", diff:"easy"},
+    {w:"AIR", emoji:"💨", s:"We breathe fresh air.", diff:"easy"},
+    {w:"AND", emoji:"➕", s:"This and that.", diff:"easy"},
+    {w:"ARM", emoji:"💪", s:"Flex your strong arm.", diff:"easy"},
+    {w:"BAD", emoji:"👎", s:"That is a bad idea.", diff:"easy"},
+    {w:"BAG", emoji:"🎒", s:"Pack your school bag.", diff:"easy"},
+    {w:"BED", emoji:"🛏️", s:"Time to sleep in bed.", diff:"easy"},
+    {w:"BIG", emoji:"🐘", s:"That is a big elephant.", diff:"easy"},
+    {w:"BUD", emoji:"🌱", s:"A small flower bud.", diff:"easy"},
+
+    // --- LEVEL 2 ---
+    {w:"BUN", emoji:"🍔", s:"A soft burger bun.", diff:"easy"},
+    {w:"BUS", emoji:"🚌", s:"The yellow school bus.", diff:"easy"},
+    {w:"CAB", emoji:"🚕", s:"Ride in a yellow cab.", diff:"easy"},
+    {w:"CAR", emoji:"🚗", s:"Drive the fast car.", diff:"easy"},
+    {w:"COD", emoji:"🐟", s:"A cod is a type of fish.", diff:"easy"},
+    {w:"DIG", emoji:"⛏️", s:"Dig a hole in the dirt.", diff:"easy"},
+    {w:"DOG", emoji:"🐶", s:"The dog loves to play.", diff:"easy"},
+    {w:"EAR", emoji:"👂", s:"Listen with your ear.", diff:"easy"},
+    {w:"GUM", emoji:"🍬", s:"Chew the sweet gum.", diff:"easy"},
+    {w:"LEG", emoji:"🦵", s:"Kick the ball with your leg.", diff:"easy"},
+
+    // --- LEVEL 3 ---
+    {w:"MAN", emoji:"👨", s:"The man is walking.", diff:"easy"},
+    {w:"MEN", emoji:"👨‍👦‍👦", s:"The men are working.", diff:"easy"},
+    {w:"MUD", emoji:"🟤", s:"Pigs love to roll in wet mud.", diff:"easy"},
+    {w:"OIL", emoji:"🛢️", s:"Cook the food in oil.", diff:"easy"},
+    {w:"OLD", emoji:"👴", s:"My grandpa is old and wise.", diff:"easy"},
+    {w:"OUR", emoji:"🤝", s:"This is our house.", diff:"easy"},
+    {w:"RED", emoji:"🔴", s:"The apple is red.", diff:"easy"},
+    {w:"RUG", emoji:"🧶", s:"Sit on the soft rug.", diff:"easy"},
+    {w:"RUN", emoji:"🏃", s:"Run fast to win the race.", diff:"easy"},
+    {w:"SAD", emoji:"😢", s:"Do not be sad, smile!", diff:"easy"},
+
+    // --- LEVEL 4 ---
+    {w:"SEA", emoji:"🌊", s:"Swim in the deep blue sea.", diff:"easy"},
+    {w:"SUN", emoji:"☀️", s:"The sun shines bright.", diff:"easy"},
+    {w:"ANT", emoji:"🐜", s:"A tiny crawling ant.", diff:"easy"},
+    {w:"ART", emoji:"🎨", s:"Let's paint some art.", diff:"easy"},
+    {w:"ASK", emoji:"🙋", s:"Raise your hand to ask.", diff:"easy"},
+    {w:"BAT", emoji:"🦇", s:"The bat flies at night.", diff:"easy"},
+    {w:"BAY", emoji:"🏖️", s:"Boats float in the bay.", diff:"easy"},
+    {w:"BOX", emoji:"📦", s:"What is inside the box?", diff:"easy"},
+    {w:"BOY", emoji:"👦", s:"The boy is playing.", diff:"easy"},
+    {w:"CAP", emoji:"🧢", s:"Wear a cap in the sun.", diff:"easy"},
+
+    // --- LEVEL 5 ---
+    {w:"CAT", emoji:"🐱", s:"The cat says meow.", diff:"easy"},
+    {w:"COW", emoji:"🐄", s:"The cow gives us milk.", diff:"easy"},
+    {w:"CUP", emoji:"☕", s:"Drink water from the cup.", diff:"easy"},
+    {w:"CUT", emoji:"✂️", s:"Cut the paper with scissors.", diff:"easy"},
+    {w:"DAY", emoji:"🌞", s:"It is a beautiful sunny day.", diff:"easy"},
+    {w:"DRY", emoji:"🏜️", s:"The desert is very dry.", diff:"easy"},
+    {w:"EAT", emoji:"🍽️", s:"Time to eat lunch.", diff:"easy"},
+    {w:"EYE", emoji:"👁️", s:"I see with my eye.", diff:"easy"},
+    {w:"FAN", emoji:"🌀", s:"The fan keeps us cool.", diff:"easy"},
+    {w:"FAR", emoji:"🔭", s:"The stars are very far away.", diff:"easy"},
+
+    // --- LEVEL 6 ---
+    {w:"FIG", emoji:"🌰", s:"A sweet and sticky fig.", diff:"easy"},
+    {w:"FUN", emoji:"🥳", s:"We are having so much fun!", diff:"easy"},
+    {w:"FUR", emoji:"🐈", s:"The cat has soft fur.", diff:"easy"},
+    {w:"GET", emoji:"🤲", s:"Go and get the ball.", diff:"easy"},
+    {w:"HEN", emoji:"🐔", s:"The hen laid an egg.", diff:"easy"},
+    {w:"JAM", emoji:"🍓", s:"Sweet strawberry jam on toast.", diff:"easy"},
+    {w:"LET", emoji:"👐", s:"Please let me help you.", diff:"easy"},
+    {w:"LIP", emoji:"👄", s:"A big smile on your lip.", diff:"easy"},
+    {w:"MAP", emoji:"🗺️", s:"Look at the map to find the way.", diff:"easy"},
+    {w:"MAT", emoji:"🧘", s:"Sit down on the floor mat.", diff:"easy"},
+
+    // --- LEVEL 7 ---
+    {w:"MAY", emoji:"🌸", s:"Flowers bloom in the month of May.", diff:"easy"},
+    {w:"NEW", emoji:"✨", s:"Look at my new shoes.", diff:"easy"},
+    {w:"NUT", emoji:"🥜", s:"The squirrel eats the nut.", diff:"easy"},
+    {w:"OWL", emoji:"🦉", s:"The owl hoots at night.", diff:"easy"},
+    {w:"OWN", emoji:"🏡", s:"I have my own room.", diff:"easy"},
+    {w:"PEA", emoji:"🫛", s:"A tiny green sweet pea.", diff:"easy"},
+    {w:"PEN", emoji:"🖊️", s:"Write with a blue pen.", diff:"easy"},
+    {w:"PIE", emoji:"🥧", s:"A slice of warm apple pie.", diff:"easy"},
+    {w:"PIG", emoji:"🐷", s:"The pink pig goes oink.", diff:"easy"},
+    {w:"PIN", emoji:"📌", s:"Hold the paper with a pin.", diff:"easy"},
+
+    // --- LEVEL 8 ---
+    {w:"RAT", emoji:"🐀", s:"The rat is looking for cheese.", diff:"easy"},
+    {w:"SAP", emoji:"🌲", s:"Sticky sap comes from the tree.", diff:"easy"},
+    {w:"SAW", emoji:"🪚", s:"Cut the wood with a saw.", diff:"easy"},
+    {w:"SAY", emoji:"💬", s:"What did you say to me?", diff:"easy"},
+    {w:"SIT", emoji:"🪑", s:"Please sit on the chair.", diff:"easy"},
+    {w:"TEA", emoji:"🍵", s:"A hot cup of green tea.", diff:"easy"},
+    {w:"TOE", emoji:"🦶", s:"Wiggle your big toe.", diff:"easy"},
+    {w:"TUB", emoji:"🛁", s:"Take a bath in the tub.", diff:"easy"},
+    {w:"VAN", emoji:"🚐", s:"We drove the van to school.", diff:"easy"},
+    {w:"WIN", emoji:"🏆", s:"You win the gold medal!", diff:"easy"},
+
+    // --- LEVEL 9 ---
+    {w:"YAM", emoji:"🍠", s:"A sweet baked yam.", diff:"easy"},
+    {w:"FAT", emoji:"🐻", s:"A big, fat, sleepy bear.", diff:"easy"},
+    {w:"FEW", emoji:"🤏", s:"I only have a few candies left.", diff:"easy"},
+    {w:"FLY", emoji:"🪰", s:"A fly buzzed around the room.", diff:"easy"},
+    {w:"FOX", emoji:"🦊", s:"The sly orange fox.", diff:"easy"},
+    {w:"HAT", emoji:"🎩", s:"Put a hat on your head.", diff:"easy"},
+    {w:"HAY", emoji:"🌾", s:"Horses like to eat hay.", diff:"easy"},
+    {w:"HIT", emoji:"🏏", s:"Hit the ball hard!", diff:"easy"},
+    {w:"HOP", emoji:"🦘", s:"Hop like a kangaroo.", diff:"easy"},
+    {w:"HOT", emoji:"🔥", s:"Be careful, the fire is hot!", diff:"easy"},
+
+    // --- LEVEL 10 ---
+    {w:"JAW", emoji:"🦈", s:"The shark has a big jaw.", diff:"easy"},
+    {w:"KEY", emoji:"🔑", s:"Use the key to open the door.", diff:"easy"},
+    {w:"PUT", emoji:"📥", s:"Put the toys in the box.", diff:"easy"},
+    {w:"SHY", emoji:"🙈", s:"The little boy feels shy.", diff:"easy"},
+    {w:"SKY", emoji:"🌌", s:"Look up at the blue sky.", diff:"easy"},
+    {w:"THE", emoji:"🎯", s:"The game is very fun.", diff:"easy"},
+    {w:"TOY", emoji:"🧸", s:"Play with your favorite toy.", diff:"easy"},
+    {w:"TRY", emoji:"💪", s:"Always try your best!", diff:"easy"},
+    {w:"VET", emoji:"🩺", s:"The vet helps sick animals.", diff:"easy"},
+    {w:"WAX", emoji:"🕯️", s:"A candle is made of wax.", diff:"easy"},
+
+    // --- LEVEL 11 ---
+    {w:"WET", emoji:"💦", s:"Do not get wet in the rain.", diff:"easy"},
+    {w:"ADD", emoji:"➕", s:"Add the numbers together.", diff:"easy"},
+    {w:"BEE", emoji:"🐝", s:"The little bee makes honey.", diff:"easy"},
+    {w:"EEL", emoji:"🐍", s:"An eel is a long, slippery fish.", diff:"easy"},
+    {w:"EGG", emoji:"🥚", s:"The hen laid a white egg.", diff:"easy"},
+    {w:"SEE", emoji:"👀", s:"I can see with my eyes.", diff:"easy"},
+    {w:"ANY", emoji:"🤷", s:"You can pick any toy you like.", diff:"med"},
+    {w:"WHY", emoji:"❓", s:"Why is the sky blue?", diff:"med"},
+    {w:"BEAN", emoji:"🫘", s:"A healthy green string bean.", diff:"med"},
+    {w:"BEAR", emoji:"🐻", s:"The big brown bear is sleeping.", diff:"med"},
+
+    // --- LEVEL 12 ---
+    {w:"BLUE", emoji:"🔵", s:"The wide ocean is blue.", diff:"med"},
+    {w:"BULB", emoji:"💡", s:"Turn on the bright light bulb.", diff:"med"},
+    {w:"COLD", emoji:"🥶", s:"Winter snow is very cold.", diff:"med"},
+    {w:"COMB", emoji:"🪮", s:"Use a comb to brush your hair.", diff:"med"},
+    {w:"CORN", emoji:"🌽", s:"I love to eat sweet yellow corn.", diff:"med"},
+    {w:"CRAB", emoji:"🦀", s:"A crab walks sideways on the beach.", diff:"med"},
+    {w:"CURD", emoji:"🥣", s:"Eat a bowl of fresh curd.", diff:"med"},
+    {w:"DRUM", emoji:"🥁", s:"Beat the loud marching drum.", diff:"med"},
+    {w:"GIRL", emoji:"👧", s:"The little girl is smiling.", diff:"med"},
+    {w:"GLAD", emoji:"😁", s:"I am so glad to see you!", diff:"med"},
+
+    // --- LEVEL 13 ---
+    {w:"GLUE", emoji:"🧴", s:"Use sticky glue for your craft.", diff:"med"},
+    {w:"GOLD", emoji:"🥇", s:"The winner gets a gold medal.", diff:"med"},
+    {w:"LAMB", emoji:"🐑", s:"A baby sheep is called a lamb.", diff:"med"},
+    {w:"LAND", emoji:"🏞️", s:"Trees grow on the dry land.", diff:"med"},
+    {w:"LION", emoji:"🦁", s:"The lion is the king of the jungle.", diff:"med"},
+    {w:"LONG", emoji:"📏", s:"A giraffe has a very long neck.", diff:"med"},
+    {w:"LOUD", emoji:"🔊", s:"The music is too loud!", diff:"med"},
+    {w:"MEAL", emoji:"🍽️", s:"Eat a healthy meal every day.", diff:"med"},
+    {w:"MEAN", emoji:"😠", s:"Do not be mean to your friends.", diff:"med"},
+    {w:"NAIL", emoji:"🔨", s:"Hit the metal nail with a hammer.", diff:"med"},
+
+    // --- LEVEL 14 ---
+    {w:"NEAR", emoji:"📍", s:"The playground is near my house.", diff:"med"},
+    {w:"RAIN", emoji:"🌧️", s:"I love jumping in the rain puddles.", diff:"med"},
+    {w:"READ", emoji:"📖", s:"I love to read story books.", diff:"med"},
+    {w:"REAL", emoji:"💯", s:"Is that magic or is it real?", diff:"med"},
+    {w:"ROAD", emoji:"🛣️", s:"Look both ways before crossing the road.", diff:"med"},
+    {w:"SAID", emoji:"💬", s:"He said hello to his teacher.", diff:"med"},
+    {w:"SAND", emoji:"🏖️", s:"Build a big castle in the sand.", diff:"med"},
+    {w:"SEAL", emoji:"🦭", s:"The seal swims in the cold water.", diff:"med"},
+    {w:"SING", emoji:"🎤", s:"Let's sing a happy song together.", diff:"med"},
+    {w:"SONG", emoji:"🎵", s:"That is my favorite musical song.", diff:"med"},
+
+    // --- LEVEL 15 ---
+    {w:"SOUR", emoji:"🍋", s:"Yellow lemons taste very sour.", diff:"med"},
+    {w:"AUNT", emoji:"👩", s:"My aunt gave me a birthday gift.", diff:"med"},
+    {w:"BACK", emoji:"🔙", s:"Please come back here right now.", diff:"med"},
+    {w:"BARK", emoji:"🐕", s:"The dog will bark at the mailman.", diff:"med"},
+    {w:"BOLT", emoji:"🔩", s:"Fasten the metal nut and bolt.", diff:"med"},
+    {w:"BOWL", emoji:"🥣", s:"I ate a hot bowl of soup.", diff:"med"},
+    {w:"BUSH", emoji:"🌳", s:"A bird is hiding in the green bush.", diff:"med"},
+    {w:"CALF", emoji:"🐄", s:"A baby cow is called a calf.", diff:"med"},
+    {w:"CARP", emoji:"🐟", s:"A carp is a large fish in the pond.", diff:"med"},
+    {w:"CART", emoji:"🛒", s:"Put the fresh groceries in the cart.", diff:"med"},
+
+    // --- LEVEL 16 ---
+    {w:"CHIN", emoji:"🧔", s:"You have a little dimple on your chin.", diff:"med"},
+    {w:"CROW", emoji:"🐦‍⬛", s:"The black crow flies high in the sky.", diff:"med"},
+    {w:"DARK", emoji:"🌃", s:"It gets very dark at night time.", diff:"med"},
+    {w:"DESK", emoji:"🪑", s:"Sit quietly at your school desk.", diff:"med"},
+    {w:"DISH", emoji:"🍽️", s:"Please serve the food on a clean dish.", diff:"med"},
+    {w:"DOWN", emoji:"⬇️", s:"Look down at your toes.", diff:"med"},
+    {w:"DRAW", emoji:"🖍️", s:"I want to draw a picture of a house.", diff:"med"},
+    {w:"DUCK", emoji:"🦆", s:"The little duck goes quack quack.", diff:"med"},
+    {w:"EACH", emoji:"🤲", s:"Give one shiny apple to each person.", diff:"med"},
+    {w:"FARM", emoji:"🚜", s:"The red tractor works on the farm.", diff:"med"},
+
+    // --- LEVEL 17 ---
+    {w:"FERN", emoji:"🌿", s:"A green leafy fern grows in the woods.", diff:"med"},
+    {w:"FIND", emoji:"🔍", s:"Can you find the hidden puzzle piece?", diff:"med"},
+    {w:"FOAL", emoji:"🐎", s:"A baby horse is called a foal.", diff:"med"},
+    {w:"FORM", emoji:"📝", s:"Please fill out the school form.", diff:"med"},
+    {w:"FROG", emoji:"🐸", s:"The little green frog jumps so high.", diff:"med"},
+    {w:"FROM", emoji:"🎁", s:"I got a nice letter from my best friend.", diff:"med"},
+    {w:"GOAT", emoji:"🐐", s:"The hungry goat eats the green grass.", diff:"med"},
+    {w:"GREY", emoji:"🐘", s:"The large elephant is the color grey.", diff:"med"},
+    {w:"GROW", emoji:"🌱", s:"Tiny plants need water and sun to grow.", diff:"med"},
+    {w:"HAIR", emoji:"💇", s:"Use a brush to fix your messy hair.", diff:"med"},
+
+    // --- LEVEL 18 ---
+    {w:"HAND", emoji:"✋", s:"Wave your hand to say a friendly hello.", diff:"med"},
+    {w:"HARD", emoji:"🧱", s:"The brick wall is very hard and strong.", diff:"med"},
+    {w:"HEAD", emoji:"👱", s:"Wear a warm hat on your head.", diff:"med"},
+    {w:"HEAR", emoji:"👂", s:"I can hear the sweet birds singing.", diff:"med"},
+    {w:"HOLD", emoji:"🤝", s:"Please hold my hand when we cross the street.", diff:"med"},
+    {w:"HOUR", emoji:"⏳", s:"I will be ready to play in one hour.", diff:"med"},
+    {w:"KIND", emoji:"🥰", s:"Always be kind and gentle to animals.", diff:"med"},
+    {w:"KING", emoji:"👑", s:"The royal king wears a golden crown.", diff:"med"},
+    {w:"LAMP", emoji:"🛋️", s:"Turn on the lamp so we can read a book.", diff:"med"},
+    {w:"LARK", emoji:"🐦", s:"A lark is a beautiful singing bird.", diff:"med"},
+
+    // --- LEVEL 19 ---
+    {w:"LAST", emoji:"🏁", s:"The slow turtle came last in the race.", diff:"med"},
+    {w:"LEAF", emoji:"🍃", s:"A green leaf fell from the tall tree.", diff:"med"},
+    {w:"LIST", emoji:"📋", s:"Let's make a long shopping list.", diff:"med"},
+    {w:"LOAF", emoji:"🍞", s:"We bought a fresh loaf of bread.", diff:"med"},
+    {w:"MARK", emoji:"❌", s:"Leave a red mark on the white paper.", diff:"med"},
+    {w:"MEAT", emoji:"🥩", s:"The hungry lion likes to eat meat.", diff:"med"},
+    {w:"MILK", emoji:"🥛", s:"Drink a tall glass of cold milk.", diff:"med"},
+    {w:"MINT", emoji:"🌿", s:"Fresh green mint smells so very good.", diff:"med"},
+    {w:"MOST", emoji:"📈", s:"My brother has the most toy cars.", diff:"med"},
+    {w:"MUCH", emoji:"💯", s:"Thank you very much for your help!", diff:"med"},
+
+    // --- LEVEL 20 ---
+    {w:"NEAT", emoji:"🧹", s:"Keep your bedroom clean and neat.", diff:"med"},
+    {w:"NECK", emoji:"🦒", s:"A tall giraffe has a very long neck.", diff:"med"},
+    {w:"OATS", emoji:"🥣", s:"I eat warm oats for my breakfast.", diff:"med"},
+    {w:"PEAR", emoji:"🍐", s:"A green pear is sweet and very juicy.", diff:"med"},
+    {w:"PLUM", emoji:"🍑", s:"A purple plum is a tasty little fruit.", diff:"med"},
+    {w:"POND", emoji:"🦆", s:"Many ducks swim in the small blue pond.", diff:"med"},
+    {w:"ROCK", emoji:"🪨", s:"A big, heavy grey rock is in the yard.", diff:"med"},
+    {w:"SALT", emoji:"🧂", s:"Add a little dash of salt to the food.", diff:"med"},
+    {w:"SILK", emoji:"👘", s:"A soft and smooth purple silk dress.", diff:"med"},
+    {w:"SINK", emoji:"🚰", s:"Wash your dirty hands in the sink.", diff:"med"},
+    
+    // --- LEVEL 21 ---
+    {w:"SKIN", emoji:"🧴", s:"Wash your skin to keep it clean.", diff:"med"},
+    {w:"SLOW", emoji:"🐢", s:"The green turtle is very slow.", diff:"med"},
+    {w:"SNOW", emoji:"❄️", s:"We built a snowman in the cold snow.", diff:"med"},
+    {w:"SOAP", emoji:"🧼", s:"Wash your hands with soap and water.", diff:"med"},
+    {w:"SOUP", emoji:"🥣", s:"Eat a hot bowl of chicken soup.", diff:"med"},
+    {w:"STAR", emoji:"⭐", s:"Look at the bright star in the sky.", diff:"med"},
+    {w:"STEM", emoji:"🌱", s:"A beautiful flower grows on a green stem.", diff:"med"},
+    {w:"SUCH", emoji:"😲", s:"That is such a big and happy surprise!", diff:"med"},
+    {w:"SWAN", emoji:"🦢", s:"The white swan swims in the calm lake.", diff:"med"},
+    {w:"SWIM", emoji:"🏊", s:"I like to swim in the cool pool.", diff:"med"},
+
+    // --- LEVEL 22 ---
+    {w:"TOAD", emoji:"🐸", s:"A bumpy brown toad jumped on the log.", diff:"med"},
+    {w:"WARM", emoji:"☕", s:"Drink some warm cocoa in the winter.", diff:"med"},
+    {w:"WILD", emoji:"🦁", s:"A roaring lion is a fierce wild animal.", diff:"med"},
+    {w:"WIND", emoji:"🌬️", s:"The strong wind blew the brown leaves away.", diff:"med"},
+    {w:"WREN", emoji:"🐦", s:"A little wren is a small brown bird.", diff:"med"},
+    {w:"YARD", emoji:"🏡", s:"Play with the dog in the green back yard.", diff:"med"},
+    {w:"YARN", emoji:"🧶", s:"The playful cat bats at a ball of yarn.", diff:"med"},
+    {w:"YEAR", emoji:"📅", s:"A brand new year begins in January.", diff:"med"},
+    {w:"YOUR", emoji:"🫵", s:"Is this your favorite blue toy car?", diff:"med"},
+    {w:"BONE", emoji:"🦴", s:"The happy dog chewed on a tasty bone.", diff:"med"},
+
+    // --- LEVEL 23 ---
+    {w:"BOTH", emoji:"👯", s:"Both of the twins are wearing red hats.", diff:"med"},
+    {w:"CAME", emoji:"🚶", s:"My best friend came over to play today.", diff:"med"},
+    {w:"CANE", emoji:"🦯", s:"Grandpa walks carefully with a wooden cane.", diff:"med"},
+    {w:"CARE", emoji:"❤️", s:"Take very good care of your little pet.", diff:"med"},
+    {w:"CHEF", emoji:"🧑‍🍳", s:"The busy chef cooks a yummy dinner.", diff:"med"},
+    {w:"FAST", emoji:"🐆", s:"The spotted cheetah is a very fast runner.", diff:"med"},
+    {w:"FORK", emoji:"🍴", s:"Use a silver fork to eat your spaghetti.", diff:"med"},
+    {w:"HASH", emoji:"🥔", s:"We ate crispy potato hash for breakfast.", diff:"med"},
+    {w:"HELP", emoji:"🤝", s:"Please help me clean up my messy room.", diff:"med"},
+    {w:"HIGH", emoji:"✈️", s:"The fast airplane flies very high.", diff:"med"},
+
+    // --- LEVEL 24 ---
+    {w:"IDEA", emoji:"💡", s:"I just had a really great idea!", diff:"med"},
+    {w:"JUMP", emoji:"🦘", s:"See how high you can jump in the air.", diff:"med"},
+    {w:"JUST", emoji:"⏳", s:"I just finished reading my new book.", diff:"med"},
+    {w:"KNOW", emoji:"🧠", s:"Do you know the answer to the question?", diff:"med"},
+    {w:"LACE", emoji:"👟", s:"Tie the white lace on your running shoe.", diff:"med"},
+    {w:"LANE", emoji:"🛣️", s:"Stay in your lane while driving the car.", diff:"med"},
+    {w:"LEFT", emoji:"⬅️", s:"Turn left at the red stop sign.", diff:"med"},
+    {w:"LIME", emoji:"🍈", s:"A green lime is very sour and juicy.", diff:"med"},
+    {w:"LINE", emoji:"➖", s:"Draw a straight line with a yellow ruler.", diff:"med"},
+    {w:"MATH", emoji:"➕", s:"We learn how to add numbers in math.", diff:"med"},
+
+    // --- LEVEL 25 ---
+    {w:"MORE", emoji:"➕", s:"Can I please have some more cold water?", diff:"med"},
+    {w:"NAME", emoji:"🏷️", s:"What is the name of your new puppy?", diff:"med"},
+    {w:"NEXT", emoji:"⏭️", s:"Who is next in line to play the game?", diff:"med"},
+    {w:"NOSE", emoji:"👃", s:"I smell the sweet flowers with my nose.", diff:"med"},
+    {w:"PARK", emoji:"🏞️", s:"Let's go play on the swings at the park.", diff:"med"},
+    {w:"PINK", emoji:"🌸", s:"The beautiful blooming flower is pink.", diff:"med"},
+    {w:"PLAY", emoji:"⚽", s:"I love to play fun games with my friends.", diff:"med"},
+    {w:"PLOW", emoji:"🚜", s:"The green tractor will plow the farm field.", diff:"med"},
+    {w:"PUSH", emoji:"🫸", s:"Push the heavy door open to go inside.", diff:"med"},
+    {w:"RICE", emoji:"🍚", s:"We ate a warm bowl of white rice.", diff:"med"},
+
+    // --- LEVEL 26 ---
+    {w:"RIDE", emoji:"🚲", s:"I like to safely ride my shiny bicycle.", diff:"med"},
+    {w:"ROSE", emoji:"🌹", s:"A red rose is a beautiful garden flower.", diff:"med"},
+    {w:"SAGE", emoji:"🌿", s:"Sage is a green herb used in cooking food.", diff:"med"},
+    {w:"SAME", emoji:"👯", s:"We are wearing the exact same blue shirt.", diff:"med"},
+    {w:"SHOP", emoji:"🛒", s:"Let's go buy fresh food at the shop.", diff:"med"},
+    {w:"SHOW", emoji:"📺", s:"Watch my favorite funny cartoon show.", diff:"med"},
+    {w:"SHUT", emoji:"🚪", s:"Please gently shut the door behind you.", diff:"med"},
+    {w:"SOFT", emoji:"🧸", s:"My fluffy brown teddy bear is very soft.", diff:"med"},
+    {w:"SOME", emoji:"🍕", s:"Can I please have some of your hot pizza?", diff:"med"},
+    {w:"STEW", emoji:"🍲", s:"Eat a warm bowl of hearty beef stew.", diff:"med"},
+
+    // --- LEVEL 27 ---
+    {w:"STOP", emoji:"🛑", s:"The bright red sign says to stop.", diff:"med"},
+    {w:"TACK", emoji:"📌", s:"Use a sharp tack to hang the poster.", diff:"med"},
+    {w:"TALK", emoji:"🗣️", s:"We talk to each other on the phone every day.", diff:"med"},
+    {w:"TART", emoji:"🥧", s:"A lemon tart is a sweet and sour dessert.", diff:"med"},
+    {w:"TEST", emoji:"📝", s:"I studied hard and got a good grade on my test.", diff:"med"},
+    {w:"THAN", emoji:"⚖️", s:"An elephant is much bigger than a mouse.", diff:"med"},
+    {w:"THEM", emoji:"👨‍👩‍👧‍👦", s:"I really want to go to the park with them.", diff:"med"},
+    {w:"THEN", emoji:"⏳", s:"Finish your healthy dinner, then you can play.", diff:"med"},
+    {w:"THIN", emoji:"🧵", s:"A tiny piece of sewing thread is very thin.", diff:"med"},
+    {w:"THIS", emoji:"👈", s:"This is my absolute favorite storybook.", diff:"med"},
+
+    // --- LEVEL 28 ---
+    {w:"TOWN", emoji:"🏙️", s:"We live in a very quiet and peaceful town.", diff:"med"},
+    {w:"TWIG", emoji:"🌿", s:"A small wooden twig fell down from the tree.", diff:"med"},
+    {w:"WALK", emoji:"🚶", s:"Let's go for a nice long walk outside.", diff:"med"},
+    {w:"WANT", emoji:"🥺", s:"I want a brand new toy for my birthday.", diff:"med"},
+    {w:"WASH", emoji:"🧼", s:"Always wash your hands before you eat.", diff:"med"},
+    {w:"WASP", emoji:"🐝", s:"A yellow wasp buzzed around the garden.", diff:"med"},
+    {w:"WENT", emoji:"🏃", s:"He went to the grocery store to buy milk.", diff:"med"},
+    {w:"WHEN", emoji:"⏰", s:"When is it finally time to eat our lunch?", diff:"med"},
+    {w:"WOLF", emoji:"🐺", s:"The wild grey wolf howls loudly at the moon.", diff:"med"},
+    {w:"WORK", emoji:"💼", s:"My mom goes to work early every morning.", diff:"med"},
+
+    // --- LEVEL 29 ---
+    {w:"BEEN", emoji:"🗺️", s:"Have you ever been to the big city zoo?", diff:"med"},
+    {w:"BELL", emoji:"🔔", s:"The loud school bell rings in the morning.", diff:"med"},
+    {w:"CALL", emoji:"📱", s:"I will call my sweet grandma on the phone.", diff:"med"},
+    {w:"DEER", emoji:"🦌", s:"A gentle brown deer ran into the thick forest.", diff:"med"},
+    {w:"DOOR", emoji:"🚪", s:"Always knock on the door before entering.", diff:"med"},
+    {w:"GOOD", emoji:"👍", s:"Eating your green vegetables is good for you.", diff:"med"},
+    {w:"GULL", emoji:"🕊️", s:"A white sea gull flies over the blue ocean.", diff:"med"},
+    {w:"MISS", emoji:"😢", s:"I miss my best friend when they are away.", diff:"med"},
+    {w:"MOON", emoji:"🌙", s:"The glowing moon shines bright at night.", diff:"med"},
+    {w:"MOSS", emoji:"🪨", s:"Soft green moss grows on the wet rocks.", diff:"med"},
+
+    // --- LEVEL 30 ---
+    {w:"NEED", emoji:"💧", s:"Green plants need water to grow up tall.", diff:"med"},
+    {w:"NOON", emoji:"🕛", s:"We eat our yummy lunch at twelve noon.", diff:"med"},
+    {w:"ROLL", emoji:"🎳", s:"Roll the heavy ball down the bowling alley.", diff:"med"},
+    {w:"SEED", emoji:"🌱", s:"Plant a tiny round seed in the dark dirt.", diff:"med"},
+    {w:"SEEM", emoji:"🤔", s:"You seem very happy and excited today!", diff:"med"},
+    {w:"SOON", emoji:"🔜", s:"We will be there very soon, just wait.", diff:"med"},
+    {w:"BABY", emoji:"👶", s:"The cute little baby is sleeping soundly.", diff:"med"},
+    {w:"BODY", emoji:"🧍", s:"Running and playing is great for your body.", diff:"med"},
+    {w:"CAKE", emoji:"🎂", s:"Bake a sweet chocolate birthday cake.", diff:"med"},
+    {w:"CAVE", emoji:"🦇", s:"The dark and rocky cave is home to bats.", diff:"med"},
+
+    // --- LEVEL 31 ---
+    {w:"DATE", emoji:"📅", s:"Mark the important date on the calendar.", diff:"med"},
+    {w:"DOVE", emoji:"🕊️", s:"A white dove is a symbol of peace.", diff:"med"},
+    {w:"EVEN", emoji:"⚖️", s:"Make sure the two sides are perfectly even.", diff:"med"},
+    {w:"EXAM", emoji:"📝", s:"Study hard to do well on your exam.", diff:"med"},
+    {w:"FACE", emoji:"😃", s:"Wash your face with soap and water.", diff:"med"},
+    {w:"FILE", emoji:"📁", s:"Put the important paper in the file.", diff:"med"},
+    {w:"GATE", emoji:"⛩️", s:"Open the wooden gate to enter the garden.", diff:"med"},
+    {w:"GIVE", emoji:"🎁", s:"It is nice to give gifts to your friends.", diff:"med"},
+    {w:"HAWK", emoji:"🦅", s:"The hawk flies high looking for food.", diff:"med"},
+    {w:"HERE", emoji:"📍", s:"Please come over here and sit down.", diff:"med"},
+
+    // --- LEVEL 32 ---
+    {w:"HOME", emoji:"🏠", s:"We are going back home after school.", diff:"med"},
+    {w:"HUGE", emoji:"🐘", s:"That elephant is absolutely huge!", diff:"med"},
+    {w:"INTO", emoji:"📥", s:"Pour the cold water into the glass.", diff:"med"},
+    {w:"JUNE", emoji:"☀️", s:"June is a warm and sunny summer month.", diff:"med"},
+    {w:"LAKE", emoji:"🏞️", s:"We went fishing at the quiet blue lake.", diff:"med"},
+    {w:"LIFE", emoji:"🌱", s:"Water brings new life to the dry plants.", diff:"med"},
+    {w:"LIKE", emoji:"👍", s:"I really like playing with my new toys.", diff:"med"},
+    {w:"LILY", emoji:"🪷", s:"A beautiful pink lily grows in the pond.", diff:"med"},
+    {w:"LIVE", emoji:"🏡", s:"I live in a big house with my family.", diff:"med"},
+    {w:"MAKE", emoji:"🛠️", s:"Let's make a big castle out of sand.", diff:"med"},
+
+    // --- LEVEL 33 ---
+    {w:"MANY", emoji:"📚", s:"There are many books in the library.", diff:"med"},
+    {w:"MOVE", emoji:"📦", s:"Please help me move this heavy box.", diff:"med"},
+    {w:"ONLY", emoji:"☝️", s:"I have only one piece of candy left.", diff:"med"},
+    {w:"OPEN", emoji:"📖", s:"Open your book to the very first page.", diff:"med"},
+    {w:"OVEN", emoji:"♨️", s:"Bake the sweet cookies in the hot oven.", diff:"med"},
+    {w:"OVER", emoji:"🌈", s:"The bird flew over the bright rainbow.", diff:"med"},
+    {w:"PAGE", emoji:"📄", s:"Turn the page to keep reading the story.", diff:"med"},
+    {w:"PATH", emoji:"🛤️", s:"Follow the dirt path through the woods.", diff:"med"},
+    {w:"SOFA", emoji:"🛋️", s:"Sit and relax on the soft living room sofa.", diff:"med"},
+    {w:"TAME", emoji:"🐕", s:"My pet dog is very friendly and tame.", diff:"med"},
+
+    // --- LEVEL 34 ---
+    {w:"THAT", emoji:"👉", s:"Look at that big bird in the sky.", diff:"med"},
+    {w:"THEY", emoji:"👨‍👩‍👧‍👦", s:"They are going to the park together.", diff:"med"},
+    {w:"TIME", emoji:"⏰", s:"What time does the fun movie start?", diff:"med"},
+    {w:"TIRE", emoji:"🛞", s:"The car has a flat black rubber tire.", diff:"med"},
+    {w:"TUNA", emoji:"🐟", s:"I ate a yummy tuna sandwich for lunch.", diff:"med"},
+    {w:"UGLY", emoji:"👺", s:"The scary monster wore an ugly mask.", diff:"med"},
+    {w:"WERE", emoji:"🤔", s:"Where were you hiding during the game?", diff:"med"},
+    {w:"WIDE", emoji:"👐", s:"Open your mouth wide for the dentist.", diff:"med"},
+    {w:"WISE", emoji:"🦉", s:"The old owl is very smart and wise.", diff:"med"},
+    {w:"WITH", emoji:"🤝", s:"I want to play games with my friends.", diff:"med"},
+
+    // --- LEVEL 35 ---
+    {w:"BEET", emoji:"🍠", s:"A beet is a dark red root vegetable.", diff:"med"},
+    {w:"BOOK", emoji:"📖", s:"Read a nice story book before bedtime.", diff:"med"},
+    {w:"COOK", emoji:"🍳", s:"Let's cook a delicious meal for dinner.", diff:"med"},
+    {w:"FEEL", emoji:"🥰", s:"How do you feel today?", diff:"med"},
+    {w:"HILL", emoji:"⛰️", s:"Roll the ball down the steep green hill.", diff:"med"},
+    {w:"KNEE", emoji:"🦵", s:"I tripped and scraped my left knee.", diff:"med"},
+    {w:"LOOK", emoji:"👀", s:"Look both ways before crossing the street.", diff:"med"},
+    {w:"MEET", emoji:"🤝", s:"It is nice to meet new friends at school.", diff:"med"},
+    {w:"PEEL", emoji:"🍌", s:"Peel the yellow banana before you eat it.", diff:"med"},
+    {w:"PULL", emoji:"🪢", s:"Pull the heavy wagon up the steep hill.", diff:"med"},
+
+    // --- LEVEL 36 ---
+    {w:"ROOF", emoji:"🏠", s:"The house has a strong red roof.", diff:"med"},
+    {w:"TALL", emoji:"🦒", s:"A giraffe is a very tall animal.", diff:"med"},
+    {w:"TELL", emoji:"🗣️", s:"Please tell me a funny bedtime story.", diff:"med"},
+    {w:"TOOL", emoji:"🔨", s:"A hammer is a very useful tool.", diff:"med"},
+    {w:"TREE", emoji:"🌳", s:"The monkey climbed up the tall green tree.", diff:"med"},
+    {w:"WALL", emoji:"🧱", s:"The brick wall keeps the garden safe.", diff:"med"},
+    {w:"WEED", emoji:"🌿", s:"Pull the pesky weed out of the garden.", diff:"med"},
+    {w:"WELL", emoji:"🚰", s:"We get fresh water from the deep well.", diff:"med"},
+    {w:"WOOD", emoji:"🪵", s:"The sturdy chair is made of solid wood.", diff:"med"},
+    {w:"WOOL", emoji:"🐑", s:"A sheep gives us warm and soft wool.", diff:"med"},
+
+    // --- LEVEL 37 ---
+    {w:"AWAY", emoji:"🏃", s:"The scared rabbit ran far away.", diff:"med"},
+    {w:"CITY", emoji:"🏙️", s:"There are many tall buildings in the city.", diff:"med"},
+    {w:"HAVE", emoji:"🤲", s:"I have two red apples in my hands.", diff:"med"},
+    {w:"HOPE", emoji:"🙏", s:"I hope we can go to the fun park today.", diff:"med"},
+    {w:"JULY", emoji:"🎆", s:"July is a very hot summer month.", diff:"med"},
+    {w:"LAZY", emoji:"🥱", s:"The lazy cat slept all day long.", diff:"med"},
+    {w:"TAKE", emoji:"🫴", s:"Please take this book to your teacher.", diff:"med"},
+    {w:"TAXI", emoji:"🚕", s:"We rode a yellow taxi to the airport.", diff:"med"},
+    {w:"TIDY", emoji:"🧹", s:"Keep your bedroom clean and tidy.", diff:"med"},
+    {w:"TINY", emoji:"🐜", s:"An ant is a very tiny insect.", diff:"med"},
+
+    // --- LEVEL 38 ---
+    {w:"VERY", emoji:"💯", s:"I am very happy to see you today!", diff:"med"},
+    {w:"WAVE", emoji:"🌊", s:"A big wave crashed on the sandy beach.", diff:"med"},
+    {w:"FEET", emoji:"👣", s:"Wear warm socks on your cold feet.", diff:"med"},
+    {w:"FOOT", emoji:"🦶", s:"I stepped in a puddle with my right foot.", diff:"med"},
+    {w:"JEEP", emoji:"🚙", s:"The green jeep drove over the bumpy dirt.", diff:"med"},
+    {w:"KEEP", emoji:"🔒", s:"Keep your secret safe with me.", diff:"med"},
+    {w:"WEEK", emoji:"📅", s:"There are seven days in one week.", diff:"med"},
+    {w:"BOARD", emoji:"🛹", s:"Write the spelling words on the board.", diff:"hard"},
+    {w:"BRAIN", emoji:"🧠", s:"Use your brain to solve the hard puzzle.", diff:"hard"},
+    {w:"BREAD", emoji:"🍞", s:"We made sandwiches with fresh white bread.", diff:"hard"},
+
+    // --- LEVEL 39 ---
+    {w:"BRING", emoji:"🎒", s:"Bring your backpack to school tomorrow.", diff:"hard"},
+    {w:"BUILD", emoji:"🧱", s:"Let's build a tall tower with these blocks.", diff:"hard"},
+    {w:"CLEAN", emoji:"🧼", s:"Wash your hands to keep them clean.", diff:"hard"},
+    {w:"CLIMB", emoji:"🧗", s:"Climb the ladder to reach the slide.", diff:"hard"},
+    {w:"CLOUD", emoji:"☁️", s:"A fluffy white cloud floats in the sky.", diff:"hard"},
+    {w:"COULD", emoji:"🤔", s:"Could you please pass me the salt?", diff:"hard"},
+    {w:"CREAM", emoji:"🍦", s:"I love eating sweet vanilla ice cream.", diff:"hard"},
+    {w:"GOURD", emoji:"🎃", s:"A pumpkin is a type of large gourd.", diff:"hard"},
+    {w:"GUARD", emoji:"🛡️", s:"The brave dog will guard the house.", diff:"hard"},
+    {w:"LEARN", emoji:"📚", s:"We go to school to learn new things.", diff:"hard"},
+
+    // --- LEVEL 40 ---
+    {w:"SNAIL", emoji:"🐌", s:"The tiny snail moves very slowly.", diff:"hard"},
+    {w:"BEACH", emoji:"🏖️", s:"Build a big sandcastle at the beach.", diff:"hard"},
+    {w:"BENCH", emoji:"🪑", s:"Sit and rest on the wooden park bench.", diff:"hard"},
+    {w:"BLACK", emoji:"⬛", s:"The night sky is very dark and black.", diff:"hard"},
+    {w:"BLUNT", emoji:"✏️", s:"A blunt pencil needs to be sharpened.", diff:"hard"},
+    {w:"BREAK", emoji:"💔", s:"Be careful not to break the glass cup.", diff:"hard"},
+    {w:"BROWN", emoji:"🟫", s:"The grizzly bear has thick brown fur.", diff:"hard"},
+    {w:"BRUSH", emoji:"🪥", s:"Always brush your teeth before bed.", diff:"hard"},
+    {w:"CHAIR", emoji:"🪑", s:"Pull up a chair and sit at the table.", diff:"hard"},
+    {w:"CHILD", emoji:"🧒", s:"The happy child played on the swings.", diff:"hard"},
+
+    // --- LEVEL 41 ---
+    {w:"CLERK", emoji:"👨‍💼", s:"The store clerk helped us find the milk.", diff:"hard"},
+    {w:"CLOCK", emoji:"⏰", s:"The clock shows it is time for school.", diff:"hard"},
+    {w:"CLOWN", emoji:"🤡", s:"The funny clown made everyone laugh.", diff:"hard"},
+    {w:"COACH", emoji:"🧢", s:"The soccer coach blew his loud whistle.", diff:"hard"},
+    {w:"COUNT", emoji:"🔢", s:"Can you count to ten on your fingers?", diff:"hard"},
+    {w:"FIELD", emoji:"🌾", s:"The horses ran across the open green field.", diff:"hard"},
+    {w:"FLOUR", emoji:"🌾", s:"Bake the fresh bread with white flour.", diff:"hard"},
+    {w:"FOUND", emoji:"🔍", s:"I finally found my lost toy under the bed.", diff:"hard"},
+    {w:"GIANT", emoji:"🧟", s:"The giant beanstalk reached the fluffy clouds.", diff:"hard"},
+    {w:"GREAT", emoji:"👍", s:"You did a great job on your spelling test!", diff:"hard"},
+
+    // --- LEVEL 42 ---
+    {w:"GROUP", emoji:"👨‍👩‍👧‍👦", s:"A group of friends played games at the park.", diff:"hard"},
+    {w:"LAUGH", emoji:"😂", s:"The funny joke made us all laugh out loud.", diff:"hard"},
+    {w:"MARCH", emoji:"🥁", s:"The loud band will march in the big parade.", diff:"hard"},
+    {w:"MARSH", emoji:"🐸", s:"A green frog lives in the wet, muddy marsh.", diff:"hard"},
+    {w:"PROUD", emoji:"🦁", s:"I am very proud of all your hard work.", diff:"hard"},
+    {w:"ROUGH", emoji:"🪨", s:"The old brown tree bark feels very rough.", diff:"hard"},
+    {w:"SCARF", emoji:"🧣", s:"Wear a warm scarf around your neck in winter.", diff:"hard"},
+    {w:"SCREW", emoji:"🔩", s:"Turn the metal screw to fix the broken toy.", diff:"hard"},
+    {w:"SHOES", emoji:"👞", s:"Put your shoes on before going outside to play.", diff:"hard"},
+    {w:"SMART", emoji:"🧠", s:"Reading lots of books makes you very smart.", diff:"hard"},
+
+    // --- LEVEL 43 ---
+    {w:"SOCKS", emoji:"🧦", s:"Wear warm fuzzy socks inside your winter boots.", diff:"hard"},
+    {w:"SQUID", emoji:"🦑", s:"A pink squid swims deep down in the ocean.", diff:"hard"},
+    {w:"STORM", emoji:"⛈️", s:"A loud storm brought heavy rain and thunder.", diff:"hard"},
+    {w:"SWING", emoji:"🛝", s:"Push me high up on the playground swing.", diff:"hard"},
+    {w:"TRAIN", emoji:"🚂", s:"The long train chugged quickly down the tracks.", diff:"hard"},
+    {w:"WORDS", emoji:"📖", s:"How many new spelling words do you know?", diff:"hard"},
+    {w:"WORLD", emoji:"🌍", s:"We live on a beautiful green and blue world.", diff:"hard"},
+    {w:"WOULD", emoji:"🤔", s:"Would you like to play a fun game with me?", diff:"hard"},
+    {w:"YOUNG", emoji:"👶", s:"The young puppy likes to chew on tasty bones.", diff:"hard"},
+    {w:"ACORN", emoji:"🌰", s:"The busy squirrel hid an acorn in the tree.", diff:"hard"},
+
+    // --- LEVEL 44 ---
+    {w:"AGAIN", emoji:"🔁", s:"Let's ride the fun rollercoaster again!", diff:"hard"},
+    {w:"ALONG", emoji:"🚶", s:"Walk along the dirt path to find the house.", diff:"hard"},
+    {w:"AMBER", emoji:"🟠", s:"Amber is a beautiful, warm orange color.", diff:"hard"},
+    {w:"BADGE", emoji:"📛", s:"The police officer wears a shiny silver badge.", diff:"hard"},
+    {w:"BASIL", emoji:"🌿", s:"Basil is a tasty green herb used in cooking.", diff:"hard"},
+    {w:"BEGIN", emoji:"🏁", s:"Ready, set, let the fun running race begin!", diff:"hard"},
+    {w:"CABIN", emoji:"🪵", s:"We stayed in a cozy wooden cabin in the woods.", diff:"hard"},
+    {w:"CAMEL", emoji:"🐪", s:"A desert camel has big humps on its back.", diff:"hard"},
+    {w:"CANOE", emoji:"🛶", s:"Paddle the small wooden canoe down the river.", diff:"hard"},
+    {w:"CATCH", emoji:"⚾", s:"Use your two hands to catch the flying ball.", diff:"hard"},
+
+    // --- LEVEL 45 ---
+    {w:"CHALK", emoji:"🖍️", s:"Draw on the sidewalk with bright pink chalk.", diff:"hard"},
+    {w:"CHEST", emoji:"🧰", s:"The pirate found a heavy wooden treasure chest.", diff:"hard"},
+    {w:"CHIRP", emoji:"🐦", s:"I hear the little baby bird chirp in the tree.", diff:"hard"},
+    {w:"CLOSE", emoji:"🚪", s:"Please close the front door when you leave.", diff:"hard"},
+    {w:"CLOTH", emoji:"🧻", s:"Wipe the dirty table with a clean wet cloth.", diff:"hard"},
+    {w:"COLOR", emoji:"🎨", s:"Red is my absolute favorite bright color.", diff:"hard"},
+    {w:"CORAL", emoji:"🪸", s:"Colorful pink coral grows under the deep ocean.", diff:"hard"},
+    {w:"CRANE", emoji:"🏗️", s:"The tall yellow crane lifted the heavy bricks.", diff:"hard"},
+    {w:"DWARF", emoji:"🧔‍♂️", s:"The friendly dwarf had a very long white beard.", diff:"hard"},
+    {w:"EAGLE", emoji:"🦅", s:"A bald eagle flies high up in the blue sky.", diff:"hard"},
+
+    // --- LEVEL 46 ---
+    {w:"EARTH", emoji:"🌍", s:"We must take good care of our planet Earth.", diff:"hard"},
+    {w:"FIRST", emoji:"🥇", s:"The very fast runner came in first place.", diff:"hard"},
+    {w:"FLESH", emoji:"🍑", s:"The flesh of the peach is sweet, soft, and juicy.", diff:"hard"},
+    {w:"FRUIT", emoji:"🍎", s:"A red apple is a healthy and very tasty fruit.", diff:"hard"},
+    {w:"GLOBE", emoji:"🌐", s:"Spin the round globe to find our home country.", diff:"hard"},
+    {w:"GRADE", emoji:"💯", s:"You got a great grade on your spelling test!", diff:"hard"},
+    {w:"GUIDE", emoji:"🗺️", s:"The tour guide showed us the large museum.", diff:"hard"},
+    {w:"HEART", emoji:"❤️", s:"I love my kind family with all of my heart.", diff:"hard"},
+    {w:"LARGE", emoji:"🐘", s:"A blue whale is a very large ocean animal.", diff:"hard"},
+    {w:"LEMON", emoji:"🍋", s:"A yellow lemon tastes very sour in your mouth.", diff:"hard"},
+
+    // --- LEVEL 47 ---
+    {w:"LIGHT", emoji:"💡", s:"Turn on the bright light so we can see the book.", diff:"hard"},
+    {w:"LINEN", emoji:"🛏️", s:"We sleep on soft and clean white linen sheets.", diff:"hard"},
+    {w:"MANGO", emoji:"🥭", s:"A ripe yellow mango is sweet and very juicy.", diff:"hard"},
+    {w:"MELON", emoji:"🍈", s:"A watermelon is a large, sweet, and juicy melon.", diff:"hard"},
+    {w:"MIGHT", emoji:"🌈", s:"You might see a pretty rainbow after the rain.", diff:"hard"},
+    {w:"MINCE", emoji:"🔪", s:"Use a safe knife to carefully mince the garlic.", diff:"hard"},
+    {w:"MINER", emoji:"⛏️", s:"The hard-working miner digs deep under the ground.", diff:"hard"},
+    {w:"MONTH", emoji:"📅", s:"December is the very last month of the year.", diff:"hard"},
+    {w:"MOUSE", emoji:"🐭", s:"The tiny grey mouse ate a yummy piece of cheese.", diff:"hard"},
+    {w:"MUSIC", emoji:"🎵", s:"Let's dance and sing along to the happy music.", diff:"hard"},
+
+    // --- LEVEL 48 ---
+    {w:"NIECE", emoji:"👧", s:"My kind aunt loves to play with her little niece.", diff:"hard"},
+    {w:"NIGHT", emoji:"🌙", s:"The bright twinkling stars come out at night.", diff:"hard"},
+    {w:"NURSE", emoji:"👩‍⚕️", s:"The friendly nurse helps sick people feel better.", diff:"hard"},
+    {w:"OCEAN", emoji:"🌊", s:"Grey dolphins swim fast in the deep blue ocean.", diff:"hard"},
+    {w:"ONION", emoji:"🧅", s:"Chopping a strong onion might make you cry.", diff:"hard"},
+    {w:"PAINT", emoji:"🖌️", s:"Let's use a brush to paint a picture of a barn.", diff:"hard"},
+    {w:"PANTS", emoji:"👖", s:"Wear warm long pants when it is cold outside.", diff:"hard"},
+    {w:"PEACH", emoji:"🍑", s:"A peach is a fuzzy, sweet, and juicy fruit.", diff:"hard"},
+    {w:"POINT", emoji:"☝️", s:"Use your finger to point at the correct answer.", diff:"hard"},
+    {w:"PRAWN", emoji:"🍤", s:"A little pink prawn swims in the salty sea.", diff:"hard"},
+
+    // --- LEVEL 49 ---
+    {w:"QUICK", emoji:"⚡", s:"The quick brown bunny hopped away very fast.", diff:"hard"},
+    {w:"QUIET", emoji:"🤫", s:"Please be quiet while the little baby is sleeping.", diff:"hard"},
+    {w:"RIGHT", emoji:"👉", s:"Turn right at the street corner to find the park.", diff:"hard"},
+    {w:"ROBIN", emoji:"🐦", s:"A robin is a beautiful bird with a bright red chest.", diff:"hard"},
+    {w:"RULER", emoji:"📏", s:"Use a yellow ruler to draw a perfectly straight line.", diff:"hard"},
+    {w:"SALAD", emoji:"🥗", s:"Eat a healthy, crunchy green salad for your lunch.", diff:"hard"},
+    {w:"SAUCE", emoji:"🍅", s:"Put some yummy red tomato sauce on the pasta.", diff:"hard"},
+    {w:"SHARK", emoji:"🦈", s:"A large grey shark has many sharp white teeth.", diff:"hard"},
+    {w:"SHARP", emoji:"🔪", s:"Be very careful, that kitchen knife is sharp.", diff:"hard"},
+    {w:"SHELF", emoji:"📚", s:"Put your favorite story book back on the shelf.", diff:"hard"},
+
+    // --- LEVEL 50 ---
+    {w:"SHIRT", emoji:"👕", s:"I am wearing a bright blue, clean shirt today.", diff:"hard"},
+    {w:"SHORT", emoji:"📏", s:"A tiny grey mouse is very short and small.", diff:"hard"},
+    {w:"SHOUT", emoji:"🗣️", s:"Do not shout out loud inside the quiet library.", diff:"hard"},
+    {w:"SKIRT", emoji:"👗", s:"She wore a beautiful, pink, spinning skirt.", diff:"hard"},
+    {w:"SLIDE", emoji:"🛝", s:"Go down the fun, tall playground slide.", diff:"hard"},
+    {w:"SMILE", emoji:"😁", s:"Always wear a big, bright, and happy smile.", diff:"hard"},
+    {w:"STALK", emoji:"🌽", s:"The yellow corn grows on a tall, green leafy stalk.", diff:"hard"},
+    {w:"START", emoji:"🏁", s:"Ready, set, go start the fun running race!", diff:"hard"},
+    {w:"STRAW", emoji:"🥤", s:"Drink your cold apple juice with a plastic straw.", diff:"hard"},
+    {w:"SUGAR", emoji:"🍬", s:"Sweet yummy candy is made with lots of sugar.", diff:"hard"},
+
+    // --- LEVEL 51 ---
+    {w:"SWAMP", emoji:"🐊", s:"Alligators live in the muddy green swamp.", diff:"hard"},
+    {w:"TEACH", emoji:"👩‍🏫", s:"The teacher will teach us how to read.", diff:"hard"},
+    {w:"THEIR", emoji:"👨‍👩‍👧‍👦", s:"The kids played happily with their toys.", diff:"hard"},
+    {w:"THING", emoji:"📦", s:"What is that strange thing in the box?", diff:"hard"},
+    {w:"TOAST", emoji:"🍞", s:"Eat warm buttered toast for breakfast.", diff:"hard"},
+    {w:"TROUT", emoji:"🐟", s:"A silver trout swims in the cold river.", diff:"hard"},
+    {w:"TRUCK", emoji:"🚚", s:"The big red truck carries heavy boxes.", diff:"hard"},
+    {w:"UNCLE", emoji:"👨", s:"My kind uncle took me to the park.", diff:"hard"},
+    {w:"UNDER", emoji:"⬇️", s:"The scared mouse hid under the bed.", diff:"hard"},
+    {w:"WRIST", emoji:"⌚", s:"Wear a shiny watch on your wrist.", diff:"hard"},
+
+    // --- LEVEL 52 ---
+    {w:"BLOOM", emoji:"🌸", s:"The pink flower will bloom in spring.", diff:"hard"},
+    {w:"BROOM", emoji:"🧹", s:"Sweep the dirty floor with a broom.", diff:"hard"},
+    {w:"CROSS", emoji:"🚶", s:"Look both ways before you cross the street.", diff:"hard"},
+    {w:"DRESS", emoji:"👗", s:"She wore a pretty blue dress to the party.", diff:"hard"},
+    {w:"DRILL", emoji:"🪛", s:"Use a power drill to fix the wood.", diff:"hard"},
+    {w:"GLASS", emoji:"🥛", s:"Drink a cold glass of fresh water.", diff:"hard"},
+    {w:"GRASS", emoji:"🌿", s:"The green grass grows in the front yard.", diff:"hard"},
+    {w:"GREEN", emoji:"🟩", s:"A frog is a jumping green animal.", diff:"hard"},
+    {w:"GUESS", emoji:"🤔", s:"Can you guess what is inside the box?", diff:"hard"},
+    {w:"SMALL", emoji:"🐜", s:"An ant is a very small insect.", diff:"hard"},
+
+    // --- LEVEL 53 ---
+    {w:"ABOUT", emoji:"📖", s:"Read a fun book about space aliens.", diff:"hard"},
+    {w:"ACTOR", emoji:"🎭", s:"The actor wore a costume on the stage.", diff:"hard"},
+    {w:"ANGRY", emoji:"😠", s:"Take a deep breath when you feel angry.", diff:"hard"},
+    {w:"ANKLE", emoji:"🦶", s:"I wore short socks that show my ankle.", diff:"hard"},
+    {w:"APRIL", emoji:"🌧️", s:"April showers bring pretty May flowers.", diff:"hard"},
+    {w:"BAKER", emoji:"🧑‍🍳", s:"The baker made a sweet chocolate cake.", diff:"hard"},
+    {w:"BELOW", emoji:"⬇️", s:"The fish swim deep below the water.", diff:"hard"},
+    {w:"BRAKE", emoji:"🛑", s:"Use the brake to stop the fast bicycle.", diff:"hard"},
+    {w:"BRAVE", emoji:"🦸", s:"The brave hero saved the little cat.", diff:"hard"},
+    {w:"CANDY", emoji:"🍬", s:"Eat a sweet piece of fruit candy.", diff:"hard"},
+
+    // --- LEVEL 54 ---
+    {w:"DAISY", emoji:"🌼", s:"A daisy is a pretty white and yellow flower.", diff:"hard"},
+    {w:"ELBOW", emoji:"💪", s:"Bend your arm at the elbow.", diff:"hard"},
+    {w:"GLOVE", emoji:"🧤", s:"Wear a warm glove on your cold hand.", diff:"hard"},
+    {w:"GRAPE", emoji:"🍇", s:"A purple grape is sweet and juicy.", diff:"hard"},
+    {w:"GUAVA", emoji:"🍐", s:"A guava is a tasty green tropical fruit.", diff:"hard"},
+    {w:"HERON", emoji:"🦩", s:"A heron is a tall bird with long legs.", diff:"hard"},
+    {w:"HORSE", emoji:"🐎", s:"The fast brown horse gallops in the field.", diff:"hard"},
+    {w:"HOUSE", emoji:"🏠", s:"We live in a cozy house with a red roof.", diff:"hard"},
+    {w:"JUDGE", emoji:"⚖️", s:"The fair judge makes good rules.", diff:"hard"},
+    {w:"JUICE", emoji:"🧃", s:"Drink cold apple juice with your lunch.", diff:"hard"},
+
+    // --- LEVEL 55 ---
+    {w:"KOALA", emoji:"🐨", s:"The cute koala sleeps in the tall tree.", diff:"hard"},
+    {w:"LATER", emoji:"⏰", s:"We will go to the fun park later today.", diff:"hard"},
+    {w:"LEAVE", emoji:"🚪", s:"It is time to leave the house for school.", diff:"hard"},
+    {w:"MAIZE", emoji:"🌽", s:"Yellow maize is another name for corn.", diff:"hard"},
+    {w:"MOTOR", emoji:"⚙️", s:"The car engine has a loud motor.", diff:"hard"},
+    {w:"NEVER", emoji:"🙅", s:"Never run near the deep swimming pool.", diff:"hard"},
+    {w:"PANDA", emoji:"🐼", s:"The black and white panda eats bamboo.", diff:"hard"},
+    {w:"PECAN", emoji:"🥜", s:"A pecan is a crunchy and tasty nut.", diff:"hard"},
+    {w:"PEDAL", emoji:"🚲", s:"Push the pedal to ride your bicycle.", diff:"hard"},
+    {w:"PITCH", emoji:"⚾", s:"The player will pitch the baseball.", diff:"hard"},
+
+    // --- LEVEL 56 ---
+    {w:"PLACE", emoji:"📍", s:"This is a great place to have a picnic.", diff:"hard"},
+    {w:"PLANE", emoji:"✈️", s:"The fast plane flies high in the clouds.", diff:"hard"},
+    {w:"PRUNE", emoji:"🫐", s:"A prune is a dried, sweet, and wrinkly plum.", diff:"hard"},
+    {w:"RHINO", emoji:"🦏", s:"A grey rhino has a big horn on its nose.", diff:"hard"},
+    {w:"RIVER", emoji:"🏞️", s:"The cold water flows down the river.", diff:"hard"},
+    {w:"SATIN", emoji:"🎀", s:"The pink ribbon is made of soft satin.", diff:"hard"},
+    {w:"SHARE", emoji:"🤝", s:"It is very nice to share toys with friends.", diff:"hard"},
+    {w:"SHORE", emoji:"🏖️", s:"Walk on the sandy shore by the ocean.", diff:"hard"},
+    {w:"SLATE", emoji:"⬛", s:"Write with chalk on the dark slate.", diff:"hard"},
+    {w:"SPACE", emoji:"🚀", s:"Astronauts travel into outer space.", diff:"hard"},
+
+    // --- LEVEL 57 ---
+    {w:"SPICE", emoji:"🌶️", s:"Add a little spice to make the food tasty.", diff:"hard"},
+    {w:"STONE", emoji:"🪨", s:"The heavy stone sank to the bottom of the pond.", diff:"hard"},
+    {w:"TABLE", emoji:"🍽️", s:"Sit at the table to eat your dinner.", diff:"hard"},
+    {w:"THICK", emoji:"📚", s:"I am reading a very thick story book.", diff:"hard"},
+    {w:"THINK", emoji:"🤔", s:"Use your smart brain to think of an answer.", diff:"hard"},
+    {w:"THROW", emoji:"⚾", s:"Throw the red ball to your best friend.", diff:"hard"},
+    {w:"TIGER", emoji:"🐅", s:"A fierce tiger has orange and black stripes.", diff:"hard"},
+    {w:"TIRED", emoji:"🥱", s:"I feel very tired after playing all day.", diff:"hard"},
+    {w:"UNTIL", emoji:"⏳", s:"Wait until the traffic light turns green.", diff:"hard"},
+    {w:"WAGON", emoji:"🛻", s:"Pull the toys in the little red wagon.", diff:"hard"},
+
+    // --- LEVEL 58 ---
+    {w:"WATCH", emoji:"⌚", s:"Check the watch to see what time it is.", diff:"hard"},
+    {w:"WHEAT", emoji:"🌾", s:"Golden wheat is used to make fresh bread.", diff:"hard"},
+    {w:"WHICH", emoji:"🤷", s:"Which fun game do you want to play?", diff:"hard"},
+    {w:"YACHT", emoji:"🛥️", s:"The white yacht sails on the blue ocean.", diff:"hard"},
+    {w:"ZEBRA", emoji:"🦓", s:"A zebra has black and white stripes.", diff:"hard"},
+    {w:"BOOTS", emoji:"👢", s:"Wear warm boots when it snows outside.", diff:"hard"},
+    {w:"QUEEN", emoji:"👑", s:"The royal queen wears a golden crown.", diff:"hard"},
+    {w:"SHELL", emoji:"🐚", s:"I found a pretty shell on the sandy beach.", diff:"hard"},
+    {w:"SLEEP", emoji:"😴", s:"It is time to go to bed and sleep.", diff:"hard"},
+    {w:"SPELL", emoji:"🔠", s:"Can you spell your name with the letters?", diff:"hard"},
+
+    // --- LEVEL 59 ---
+    {w:"SPOON", emoji:"🥄", s:"Eat your hot soup with a silver spoon.", diff:"hard"},
+    {w:"STILL", emoji:"🛑", s:"Please sit very still while I take a picture.", diff:"hard"},
+    {w:"WOODS", emoji:"🌲", s:"We went hiking in the green woods.", diff:"hard"},
+    {w:"AFTER", emoji:"⏭️", s:"We will eat a sweet dessert after dinner.", diff:"hard"},
+    {w:"DIRTY", emoji:"🐷", s:"Wash your dirty hands with soap.", diff:"hard"},
+    {w:"ENJOY", emoji:"😊", s:"I hope you enjoy eating the yummy cake.", diff:"hard"},
+    {w:"FAIRY", emoji:"🧚", s:"The magical fairy flew with tiny wings.", diff:"hard"},
+    {w:"FLUTE", emoji:"🎶", s:"She played a sweet song on the flute.", diff:"hard"},
+    {w:"GRAVY", emoji:"🍲", s:"Pour the warm brown gravy on the potatoes.", diff:"hard"},
+    {w:"HONEY", emoji:"🍯", s:"The busy bees make sweet golden honey.", diff:"hard"},
+
+    // --- LEVEL 60 ---
+    {w:"KNIFE", emoji:"🔪", s:"Be careful, the kitchen knife is sharp.", diff:"hard"},
+    {w:"OFTEN", emoji:"🔁", s:"I often go to the park to play with friends.", diff:"hard"},
+    {w:"OTHER", emoji:"🔀", s:"Try putting the shoe on your other foot.", diff:"hard"},
+    {w:"PAPER", emoji:"📄", s:"Draw a picture on a blank piece of paper.", diff:"hard"},
+    {w:"PASTA", emoji:"🍝", s:"Eat a bowl of yummy pasta with sauce.", diff:"hard"},
+    {w:"PHONE", emoji:"📱", s:"I will call my friend on the phone.", diff:"hard"},
+    {w:"PILOT", emoji:"🧑‍✈️", s:"The brave pilot flies the big airplane.", diff:"hard"},
+    {w:"PLATE", emoji:"🍽️", s:"Put the healthy food on your dinner plate.", diff:"hard"},
+    {w:"SALTY", emoji:"🥨", s:"A pretzel is a crunchy and salty snack.", diff:"hard"},
+    {w:"STORY", emoji:"📖", s:"Read a bedtime story before you go to sleep.", diff:"hard"},
+
+    // --- LEVEL 61 ---
+    {w:"STOVE", emoji:"🍳", s:"Cook the hot food on the kitchen stove.", diff:"hard"},
+    {w:"STUDY", emoji:"📚", s:"Study hard to learn new things.", diff:"hard"},
+    {w:"SYRUP", emoji:"🥞", s:"Pour sweet syrup on your warm pancakes.", diff:"hard"},
+    {w:"THERE", emoji:"👉", s:"Look over there at the big green tree.", diff:"hard"},
+    {w:"THESE", emoji:"🤲", s:"These are my absolute favorite toys.", diff:"hard"},
+    {w:"THOSE", emoji:"👈", s:"Look at those bright stars in the sky.", diff:"hard"},
+    {w:"TOWEL", emoji:"🧖", s:"Dry off with a warm towel after your bath.", diff:"hard"},
+    {w:"TULIP", emoji:"🌷", s:"A tulip is a beautiful blooming spring flower.", diff:"hard"},
+    {w:"VISIT", emoji:"🏡", s:"We will visit my sweet grandma today.", diff:"hard"},
+    {w:"WATER", emoji:"💧", s:"Drink a cold glass of fresh water.", diff:"hard"},
+
+    // --- LEVEL 62 ---
+    {w:"WHALE", emoji:"🐳", s:"A blue whale is the biggest ocean animal.", diff:"hard"},
+    {w:"WHERE", emoji:"🗺️", s:"Where did you hide the secret treasure?", diff:"hard"},
+    {w:"WRITE", emoji:"✍️", s:"Write your name on the paper with a pencil.", diff:"hard"},
+    {w:"AGREE", emoji:"🤝", s:"I agree that playing fun games is the best.", diff:"hard"},
+    {w:"CLIFF", emoji:"⛰️", s:"The steep rock cliff looks over the ocean.", diff:"hard"},
+    {w:"SHEEP", emoji:"🐑", s:"The fluffy white sheep eats green grass.", diff:"hard"},
+    {w:"SHEET", emoji:"🛏️", s:"Put a clean white sheet on the bed.", diff:"hard"},
+    {w:"SWEET", emoji:"🍭", s:"A lollipop is a very sweet and tasty treat.", diff:"hard"},
+    {w:"THREE", emoji:"3️⃣", s:"I am holding three bright red balloons.", diff:"hard"},
+    {w:"WHEEL", emoji:"🛞", s:"The round car wheel goes round and round.", diff:"hard"},
+
+    // --- LEVEL 63 ---
+    {w:"ABOVE", emoji:"⬆️", s:"The birds fly high above the fluffy clouds.", diff:"hard"},
+    {w:"HEAVY", emoji:"🪨", s:"That big grey rock is very heavy to lift.", diff:"hard"},
+    {w:"OLIVE", emoji:"🫒", s:"An olive is a small, salty green fruit.", diff:"hard"},
+    {w:"THYME", emoji:"🌿", s:"Thyme is a fresh green herb used in cooking.", diff:"hard"},
+    {w:"WHITE", emoji:"⚪", s:"The cold winter snow is bright white.", diff:"hard"},
+    {w:"ALLOW", emoji:"✅", s:"My mom will allow me to play outside today.", diff:"hard"},
+    {w:"BERRY", emoji:"🍓", s:"A strawberry is a sweet and juicy red berry.", diff:"hard"},
+    {w:"BUNNY", emoji:"🐰", s:"The soft little bunny hops in the green grass.", diff:"hard"},
+    {w:"CARRY", emoji:"🎒", s:"Please help me carry this heavy box inside.", diff:"hard"},
+    {w:"LORRY", emoji:"🚛", s:"The big lorry carries many boxes to the store.", diff:"hard"},
+
+    // --- LEVEL 64 ---
+    {w:"MERRY", emoji:"🥳", s:"Have a very merry and happy birthday party!", diff:"hard"},
+    {w:"SILLY", emoji:"🤪", s:"The funny clown made a very silly face.", diff:"hard"},
+    {w:"TEETH", emoji:"🦷", s:"Brush your teeth to keep them clean and white.", diff:"hard"},
+    {w:"TOOTH", emoji:"🦷", s:"I lost my very first baby tooth today.", diff:"hard"},
+    {w:"BRANCH", emoji:"🌿", s:"The little bird sat on the wooden tree branch.", diff:"hard"},
+    {w:"CRAYON", emoji:"🖍️", s:"Color the beautiful picture with a red crayon.", diff:"hard"},
+    {w:"EVERY", emoji:"💯", s:"I ate every single piece of my healthy broccoli.", diff:"hard"},
+    {w:"FRIEND", emoji:"👯", s:"I love to play games with my best friend.", diff:"hard"},
+    {w:"SHOULD", emoji:"🤔", s:"You should always say please and thank you.", diff:"hard"},
+    {w:"SPRING", emoji:"🌸", s:"Beautiful flowers start to bloom in the spring.", diff:"hard"},
+
+    // --- LEVEL 65 ---
+    {w:"STREAM", emoji:"🏞️", s:"A small fish swims in the clear water stream.", diff:"hard"},
+    {w:"STRING", emoji:"🧶", s:"Tie the red balloon with a long piece of string.", diff:"hard"},
+    {w:"STRONG", emoji:"💪", s:"Eating healthy food makes your body very strong.", diff:"hard"},
+    {w:"APPLE", emoji:"🍎", s:"An apple is a sweet, juicy, and crunchy red fruit.", diff:"hard"},
+    {w:"FERRY", emoji:"⛴️", s:"The big ferry boat carries cars across the water.", diff:"hard"},
+    {w:"FUNNY", emoji:"😂", s:"The clown told a very funny joke to the kids.", diff:"hard"},
+    {w:"JELLY", emoji:"🍇", s:"I like to eat peanut butter and sweet fruit jelly.", diff:"hard"},
+    {w:"JOLLY", emoji:"🎅", s:"Santa Claus is a very happy and jolly man.", diff:"hard"},
+    {w:"OTTER", emoji:"🦦", s:"The cute brown otter swims on its back.", diff:"hard"},
+    {w:"WORRY", emoji:"😟", s:"Do not worry, everything is going to be fine.", diff:"hard"},
+
+    // --- LEVEL 66 ---
+    {w:"ALMOND", emoji:"🌰", s:"An almond is a healthy, crunchy brown nut.", diff:"hard"},
+    {w:"AROUND", emoji:"🔄", s:"The earth spins around the bright hot sun.", diff:"hard"},
+    {w:"BADGER", emoji:"🦡", s:"The black and white badger digs a deep hole.", diff:"hard"},
+    {w:"BRIDGE", emoji:"🌉", s:"Cars drive safely over the big, long bridge.", diff:"hard"},
+    {w:"BRIGHT", emoji:"☀️", s:"The yellow sun is very hot and extremely bright.", diff:"hard"},
+    {w:"CANDLE", emoji:"🕯️", s:"Blow out the candle on your yummy birthday cake.", diff:"hard"},
+    {w:"CHURCH", emoji:"⛪", s:"The old church has a tall, ringing bell tower.", diff:"hard"},
+    {w:"CIRCUS", emoji:"🎪", s:"We saw funny clowns and acrobats at the circus.", diff:"hard"},
+    {w:"CLINIC", emoji:"🏥", s:"The nice doctor works at the medical clinic.", diff:"hard"},
+    {w:"CORNER", emoji:"📐", s:"The toy box is sitting in the corner of the room.", diff:"hard"},
+
+    // --- LEVEL 67 ---
+    {w:"COUSIN", emoji:"🧒", s:"My aunt's happy child is my fun cousin.", diff:"hard"},
+    {w:"DANCER", emoji:"💃", s:"The graceful dancer spins beautifully on the stage.", diff:"hard"},
+    {w:"GARDEN", emoji:"🌷", s:"We planted colorful seeds in the flower garden.", diff:"hard"},
+    {w:"GARLIC", emoji:"🧄", s:"White garlic adds lots of yummy flavor to the food.", diff:"hard"},
+    {w:"GINGER", emoji:"🫚", s:"Ginger is a spicy, healthy, and tasty brown root.", diff:"hard"},
+    {w:"GREASE", emoji:"🛢️", s:"Grease makes the car wheels spin very smoothly.", diff:"hard"},
+    {w:"GROCER", emoji:"🛒", s:"The friendly grocer sells fresh fruits and vegetables.", diff:"hard"},
+    {w:"ISLAND", emoji:"🏝️", s:"An island is a piece of land surrounded by water.", diff:"hard"},
+    {w:"NUMBER", emoji:"🔢", s:"Seven is my absolute favorite lucky number.", diff:"hard"},
+    {w:"RAISIN", emoji:"🍇", s:"A dark raisin is a very sweet and dried grape.", diff:"hard"},
+
+    // --- LEVEL 68 ---
+    {w:"SAILOR", emoji:"⚓", s:"The brave sailor works hard on the big boat.", diff:"hard"},
+    {w:"SALMON", emoji:"🐟", s:"A salmon is a large, swimming silver fish.", diff:"hard"},
+    {w:"SCARED", emoji:"😨", s:"The loud thunder made the little puppy scared.", diff:"hard"},
+    {w:"SEASON", emoji:"🍂", s:"Autumn is a very cool and windy fall season.", diff:"hard"},
+    {w:"SECOND", emoji:"🥈", s:"The fast runner came in second place today.", diff:"hard"},
+    {w:"SHRIMP", emoji:"🦐", s:"A small pink shrimp swims deep in the ocean.", diff:"hard"},
+    {w:"SINGER", emoji:"🎤", s:"The singer sang a beautiful and happy song.", diff:"hard"},
+    {w:"SPLASH", emoji:"💦", s:"Jump in the wet puddle and make a big splash.", diff:"hard"},
+    {w:"SQUASH", emoji:"🎃", s:"A bumpy yellow squash grows in the garden.", diff:"hard"},
+    {w:"STARCH", emoji:"🥔", s:"White potatoes and rice have a lot of starch.", diff:"hard"},
+
+    // --- LEVEL 69 ---
+    {w:"THREAD", emoji:"🧵", s:"Use a sharp needle and thread to sew the button.", diff:"hard"},
+    {w:"WRENCH", emoji:"🔧", s:"Use a metal wrench to fix the broken water pipe.", diff:"hard"},
+    {w:"GUPPY", emoji:"🐟", s:"A guppy is a tiny, colorful swimming pet fish.", diff:"hard"},
+    {w:"HIPPO", emoji:"🦛", s:"The big grey hippo loves to swim in the river.", diff:"hard"},
+    {w:"PIZZA", emoji:"🍕", s:"I love eating hot, cheesy, and yummy pizza.", diff:"hard"},
+    {w:"SCREEN", emoji:"📺", s:"We watched a funny movie on the big TV screen.", diff:"hard"},
+    {w:"ALMOST", emoji:"⏳", s:"We are almost at the fun playground right now.", diff:"hard"},
+    {w:"ANSWER", emoji:"🙋", s:"Raise your hand if you know the right answer.", diff:"hard"},
+    {w:"AUGUST", emoji:"☀️", s:"August is a very hot and sunny summer month.", diff:"hard"},
+    {w:"AUTUMN", emoji:"🍁", s:"Leaves change color and fall down in autumn.", diff:"hard"},
+
+    // --- LEVEL 70 ---
+    {w:"BARLEY", emoji:"🌾", s:"Barley is a healthy grain used in warm soup.", diff:"hard"},
+    {w:"BEAVER", emoji:"🦫", s:"The busy brown beaver builds a wooden dam.", diff:"hard"},
+    {w:"CANVAS", emoji:"🖼️", s:"The artist painted a pretty picture on the canvas.", diff:"hard"},
+    {w:"CASTLE", emoji:"🏰", s:"The king and queen live in a big stone castle.", diff:"hard"},
+    {w:"CHANGE", emoji:"🔄", s:"A green caterpillar will change into a butterfly.", diff:"hard"},
+    {w:"CITRON", emoji:"🍋", s:"A citron is a large, bumpy, and sour yellow fruit.", diff:"hard"},
+    {w:"CLEVER", emoji:"🧠", s:"The clever smart dog learned a brand new trick.", diff:"hard"},
+    {w:"CLOSET", emoji:"🚪", s:"Hang your clean clothes up neatly in the closet.", diff:"hard"},
+    {w:"CLOVER", emoji:"🍀", s:"Finding a four-leaf clover brings you good luck.", diff:"hard"},
+    {w:"CREATE", emoji:"🎨", s:"Use the colorful blocks to create a tall tower.", diff:"hard"},
+
+    // --- LEVEL 71 ---
+    {w:"DESERT", emoji:"🐪", s:"It is very hot and dry in the sandy desert.", diff:"hard"},
+    {w:"DOCTOR", emoji:"👨‍⚕️", s:"The kind doctor helps sick people feel better.", diff:"hard"},
+    {w:"DRAWER", emoji:"🗄️", s:"Put your clean socks in the bottom drawer.", diff:"hard"},
+    {w:"DRIVER", emoji:"🚌", s:"The safe bus driver takes us to school today.", diff:"hard"},
+    {w:"ENOUGH", emoji:"🛑", s:"I have eaten enough yummy food for my dinner.", diff:"hard"},
+    {w:"FABRIC", emoji:"🧵", s:"The soft cloth fabric is used to make clothes.", diff:"hard"},
+    {w:"FALCON", emoji:"🦅", s:"The fast falcon flies high up in the blue sky.", diff:"hard"},
+    {w:"FARMER", emoji:"🧑‍🌾", s:"The busy farmer grows healthy crops in the field.", diff:"hard"},
+    {w:"FINGER", emoji:"☝️", s:"Point your pointer finger at the correct answer.", diff:"hard"},
+    {w:"FOLDER", emoji:"📁", s:"Put your homework papers safely in the folder.", diff:"hard"},
+
+    // --- LEVEL 72 ---
+    {w:"GENTLE", emoji:"🦋", s:"Be very soft and gentle with the little butterfly.", diff:"hard"},
+    {w:"GEYSER", emoji:"⛲", s:"A hot geyser shoots boiling water into the air.", diff:"hard"},
+    {w:"GUITAR", emoji:"🎸", s:"Play a beautiful song on the wooden guitar.", diff:"hard"},
+    {w:"HANDLE", emoji:"🚪", s:"Turn the round door handle to open the door.", diff:"hard"},
+    {w:"HARBOR", emoji:"🛳️", s:"The big ships safely park in the deep blue harbor.", diff:"hard"},
+    {w:"INSECT", emoji:"🐞", s:"A ladybug is a small red and black insect.", diff:"hard"},
+    {w:"JUNGLE", emoji:"🌴", s:"Many wild animals live deep in the green jungle.", diff:"hard"},
+    {w:"KERNEL", emoji:"🌽", s:"A yellow popcorn kernel pops into a tasty snack.", diff:"hard"},
+    {w:"LENTIL", emoji:"🍲", s:"A lentil is a small healthy bean used in soup.", diff:"hard"},
+    {w:"LISTEN", emoji:"👂", s:"Listen carefully to the teacher during the class.", diff:"hard"},
+
+    // --- LEVEL 73 ---
+    {w:"LIZARD", emoji:"🦎", s:"The green lizard climbs quickly up the tall tree.", diff:"hard"},
+    {w:"MARKER", emoji:"🖍️", s:"Draw a colorful picture with a bright blue marker.", diff:"hard"},
+    {w:"MEADOW", emoji:"🌼", s:"Pretty flowers grow in the wide open green meadow.", diff:"hard"},
+    {w:"MONDAY", emoji:"📅", s:"Monday is the very first day of the school week.", diff:"hard"},
+    {w:"NATION", emoji:"🏳️", s:"Our beautiful country is a very large nation.", diff:"hard"},
+    {w:"PENCIL", emoji:"✏️", s:"Write your name on the paper with a sharp pencil.", diff:"hard"},
+    {w:"PIGEON", emoji:"🕊️", s:"A grey pigeon flies around the busy city park.", diff:"hard"},
+    {w:"PRINCE", emoji:"🤴", s:"The royal prince lives in a big stone castle.", diff:"hard"},
+    {w:"RELISH", emoji:"🌭", s:"Put some sweet green relish on your hot dog.", diff:"hard"},
+    {w:"SILVER", emoji:"🥈", s:"The shiny silver medal is for second place.", diff:"hard"},
+
+    // --- LEVEL 74 ---
+    {w:"SPIDER", emoji:"🕷️", s:"The creeping spider spins a sticky white web.", diff:"hard"},
+    {w:"SPONGE", emoji:"🧽", s:"Use a wet soapy sponge to clean the dirty dishes.", diff:"hard"},
+    {w:"SUNDAY", emoji:"☀️", s:"We relax and play at home every Sunday.", diff:"hard"},
+    {w:"SUNSET", emoji:"🌇", s:"The sky turns pink and orange at a beautiful sunset.", diff:"hard"},
+    {w:"TAILOR", emoji:"🧵", s:"The clever tailor sews clothes with a sharp needle.", diff:"hard"},
+    {w:"TIMBER", emoji:"🪵", s:"The lumberjack chops tall trees into heavy timber.", diff:"hard"},
+    {w:"TONGUE", emoji:"👅", s:"You use your pink tongue to taste sweet food.", diff:"hard"},
+    {w:"TOUCAN", emoji:"🦜", s:"A toucan is a tropical bird with a large colorful beak.", diff:"hard"},
+    {w:"VIOLIN", emoji:"🎻", s:"She plays beautiful music on her wooden violin.", diff:"hard"},
+    {w:"WALRUS", emoji:"🦭", s:"A large brown walrus has long white tusks.", diff:"hard"},
+
+    // --- LEVEL 75 ---
+    {w:"WONDER", emoji:"🤔", s:"I wonder what fun games we will play tomorrow.", diff:"hard"},
+    {w:"HAPPY", emoji:"😊", s:"I feel so happy when I play with my friends.", diff:"hard"},
+    {w:"PUPPY", emoji:"🐶", s:"The cute little puppy loves to run and fetch.", diff:"hard"},
+    {w:"SCHOOL", emoji:"🏫", s:"We learn how to read and write at our school.", diff:"hard"},
+    {w:"ALWAYS", emoji:"💯", s:"You should always say please and thank you.", diff:"hard"},
+    {w:"ANIMAL", emoji:"🦁", s:"A lion is a very fierce and strong wild animal.", diff:"hard"},
+    {w:"ARTIST", emoji:"🧑‍🎨", s:"The clever artist paints a very beautiful picture.", diff:"hard"},
+    {w:"BANANA", emoji:"🍌", s:"Peel the yellow banana before you eat it up.", diff:"hard"},
+    {w:"BASKET", emoji:"🧺", s:"Put the fresh red apples in the woven basket.", diff:"hard"},
+    {w:"BUCKET", emoji:"🪣", s:"Fill the plastic bucket with water and wet sand.", diff:"hard"},
+
+    // --- LEVEL 76 ---
+    {w:"CAMERA", emoji:"📷", s:"Smile big while I take your picture with my camera.", diff:"hard"},
+    {w:"CARPET", emoji:"🛋️", s:"Sit comfortably on the soft living room carpet.", diff:"hard"},
+    {w:"DECIDE", emoji:"🤔", s:"Which fun game do you decide to play today?", diff:"hard"},
+    {w:"DONKEY", emoji:"🫏", s:"The grey donkey carried a heavy load on its back.", diff:"hard"},
+    {w:"ENGINE", emoji:"🚂", s:"The loud train engine pulls the heavy cars along.", diff:"hard"},
+    {w:"ERASER", emoji:"🧽", s:"Use the pink eraser to fix your pencil mistake.", diff:"hard"},
+    {w:"FLOWER", emoji:"🌻", s:"A beautiful pink flower grows in the garden.", diff:"hard"},
+    {w:"FOREST", emoji:"🌲", s:"Many tall green trees grow closely in the forest.", diff:"hard"},
+    {w:"FORGET", emoji:"🧠", s:"Do not forget to do your homework after school.", diff:"hard"},
+    {w:"FRIDAY", emoji:"📅", s:"Friday is the absolute best day of the school week.", diff:"hard"},
+
+    // --- LEVEL 77 ---
+    {w:"HAMLET", emoji:"🏘️", s:"A hamlet is a very small and quiet little village.", diff:"hard"},
+    {w:"HONEST", emoji:"😇", s:"It is important to always be truthful and honest.", diff:"hard"},
+    {w:"HORNET", emoji:"🐝", s:"A hornet is a flying insect with a sharp sting.", diff:"hard"},
+    {w:"HUNGRY", emoji:"🤤", s:"I feel very hungry when it is time for dinner.", diff:"hard"},
+    {w:"INDIGO", emoji:"🌌", s:"Indigo is a very deep and beautiful dark blue color.", diff:"hard"},
+    {w:"JIGSAW", emoji:"🧩", s:"Let's put the puzzle pieces together in the jigsaw.", diff:"hard"},
+    {w:"LAWYER", emoji:"💼", s:"The smart lawyer helps people understand the rules.", diff:"hard"},
+    {w:"MARKET", emoji:"🍎", s:"We buy fresh fruits and vegetables at the market.", diff:"hard"},
+    {w:"MONKEY", emoji:"🐒", s:"The silly monkey swings from branch to branch.", diff:"hard"},
+    {w:"MOTHER", emoji:"👩", s:"My kind mother gives me a warm and loving hug.", diff:"hard"},
+
+    // --- LEVEL 78 ---
+    {w:"ORANGE", emoji:"🍊", s:"An orange is a round, sweet, and juicy citrus fruit.", diff:"hard"},
+    {w:"OYSTER", emoji:"🦪", s:"A shiny white pearl grows inside of an oyster shell.", diff:"hard"},
+    {w:"PARENT", emoji:"👪", s:"A mother or a father is called a loving parent.", diff:"hard"},
+    {w:"PEANUT", emoji:"🥜", s:"I love to eat sticky and sweet peanut butter.", diff:"hard"},
+    {w:"PEOPLE", emoji:"🧑‍🤝‍🧑", s:"Many friendly people live in our busy town.", diff:"hard"},
+    {w:"PICKLE", emoji:"🥒", s:"A pickle is a cucumber that tastes very sour.", diff:"hard"},
+    {w:"PLANET", emoji:"🪐", s:"Earth is the beautiful blue planet where we live.", diff:"hard"},
+    {w:"PURPLE", emoji:"🟪", s:"Mix red and blue paint to make the color purple.", diff:"hard"},
+    {w:"SHADOW", emoji:"👤", s:"My dark shadow follows me when I walk in the sun.", diff:"hard"},
+    {w:"SHIVER", emoji:"🥶", s:"The freezing cold winter wind makes me shiver.", diff:"hard"},
+
+    // --- LEVEL 79 ---
+    {w:"SHOVEL", emoji:"🛠️", s:"Use a plastic shovel to dig a hole in the sand.", diff:"hard"},
+    {w:"SHOWER", emoji:"🚿", s:"Wash your body with warm water in the shower.", diff:"hard"},
+    {w:"TEMPLE", emoji:"🛕", s:"A temple is a very old and quiet place to pray.", diff:"hard"},
+    {w:"TRAVEL", emoji:"🧳", s:"I want to pack my bags and travel around the world.", diff:"hard"},
+    {w:"TURNIP", emoji:"🥔", s:"A turnip is a healthy root vegetable from the garden.", diff:"hard"},
+    {w:"TURTLE", emoji:"🐢", s:"The green turtle carries its heavy home on its back.", diff:"hard"},
+    {w:"VIOLET", emoji:"🌸", s:"A violet is a tiny and pretty purple spring flower.", diff:"hard"},
+    {w:"WALNUT", emoji:"🌰", s:"A walnut is a bumpy brown nut that is good to eat.", diff:"hard"},
+    {w:"WINDOW", emoji:"🪟", s:"Look outside the clear glass window to see the birds.", diff:"hard"},
+    {w:"WINTER", emoji:"⛄", s:"It gets very cold and snowy during the winter season.", diff:"hard"},
+
+    // --- LEVEL 80 ---
+    {w:"WIZARD", emoji:"🧙", s:"The magical wizard waved his wand and cast a spell.", diff:"hard"},
+    {w:"WRITER", emoji:"✍️", s:"The clever writer wrote a very exciting storybook.", diff:"hard"},
+    {w:"YOGURT", emoji:"🍨", s:"Eat some sweet strawberry yogurt for a healthy snack.", diff:"hard"},
+    {w:"BAMBOO", emoji:"🎋", s:"The giant panda loves to eat tall green bamboo.", diff:"hard"},
+    {w:"BANNER", emoji:"🎌", s:"We hung a colorful birthday banner on the wall.", diff:"hard"},
+    {w:"BUBBLE", emoji:"🫧", s:"Blow a big soapy bubble into the air.", diff:"hard"},
+    {w:"CALLED", emoji:"📱", s:"My grandma called me on the telephone today.", diff:"hard"},
+    {w:"LADDER", emoji:"🪜", s:"Climb safely up the tall ladder to reach the roof.", diff:"hard"},
+    {w:"LESSON", emoji:"🏫", s:"We learned a brand new math lesson in school today.", diff:"hard"},
+    {w:"MIRROR", emoji:"🪞", s:"Look at your own reflection in the shiny glass mirror.", diff:"hard"},
+
+    // --- LEVEL 81 ---
+    {w:"NEEDLE", emoji:"🪡", s:"Use a sharp needle to sew the torn cloth.", diff:"hard"},
+    {w:"NOODLE", emoji:"🍜", s:"I slurped up a long and tasty yellow noodle.", diff:"hard"},
+    {w:"RECESS", emoji:"⚽", s:"We play fun games outside during school recess.", diff:"hard"},
+    {w:"RIBBON", emoji:"🎀", s:"Tie a pretty pink ribbon around the birthday gift.", diff:"hard"},
+    {w:"RIDDLE", emoji:"❓", s:"Can you solve this tricky and funny riddle?", diff:"hard"},
+    {w:"SADDLE", emoji:"🐎", s:"Put the leather saddle on the horse before you ride.", diff:"hard"},
+    {w:"SMOOTH", emoji:"🧴", s:"The shiny glass marble feels very smooth to touch.", diff:"hard"},
+    {w:"STREET", emoji:"🛣️", s:"Look both ways before you cross the busy street.", diff:"hard"},
+    {w:"SUMMER", emoji:"☀️", s:"We go swimming in the pool during the hot summer.", diff:"hard"},
+    {w:"BEFORE", emoji:"⏪", s:"Wash your hands well before you eat your dinner.", diff:"hard"},
+
+    // --- LEVEL 82 ---
+    {w:"CANARY", emoji:"🐤", s:"A canary is a beautiful singing yellow bird.", diff:"hard"},
+    {w:"CELERY", emoji:"🥬", s:"Crunchy green celery is a very healthy snack.", diff:"hard"},
+    {w:"DEVICE", emoji:"📱", s:"A tablet is a fun electronic device for playing games.", diff:"hard"},
+    {w:"FATHER", emoji:"👨", s:"My kind father reads me a great bedtime story.", diff:"hard"},
+    {w:"JACKET", emoji:"🧥", s:"Wear a warm jacket when it gets cold outside.", diff:"hard"},
+    {w:"LONELY", emoji:"😔", s:"The puppy felt lonely when its friends went home.", diff:"hard"},
+    {w:"NATURE", emoji:"🌲", s:"We went for a hike to see the trees in nature.", diff:"hard"},
+    {w:"NEPHEW", emoji:"👦", s:"My aunt loves to play games with her nephew.", diff:"hard"},
+    {w:"NOTICE", emoji:"📌", s:"Did you notice the pretty rainbow in the sky?", diff:"hard"},
+    {w:"PALACE", emoji:"🏰", s:"The royal king and queen live in a grand palace.", diff:"hard"},
+
+    // --- LEVEL 83 ---
+    {w:"PAPAYA", emoji:"🍈", s:"A papaya is a sweet and juicy tropical fruit.", diff:"hard"},
+    {w:"PASTRY", emoji:"🥐", s:"We ate a sweet and flaky pastry at the bakery.", diff:"hard"},
+    {w:"POCKET", emoji:"👖", s:"Keep your shiny coins safe in your pants pocket.", diff:"hard"},
+    {w:"VELVET", emoji:"🧣", s:"The beautiful red dress is made of soft velvet.", diff:"hard"},
+    {w:"BEETLE", emoji:"🪲", s:"A little green beetle crawled up the leaf.", diff:"hard"},
+    {w:"BREEZE", emoji:"🌬️", s:"A cool breeze blew the leaves off the tree.", diff:"hard"},
+    {w:"CARROT", emoji:"🥕", s:"The hungry rabbit munches on a crunchy orange carrot.", diff:"hard"},
+    {w:"CHEESE", emoji:"🧀", s:"The tiny grey mouse loves to eat yellow cheese.", diff:"hard"},
+    {w:"CHOOSE", emoji:"🤔", s:"Which fun game do you want to choose to play?", diff:"hard"},
+    {w:"COOKIE", emoji:"🍪", s:"I ate a warm chocolate chip cookie with milk.", diff:"hard"},
+
+    // --- LEVEL 84 ---
+    {w:"GRASSY", emoji:"🌿", s:"We had a picnic on the soft, grassy hill.", diff:"hard"},
+    {w:"HAMMER", emoji:"🔨", s:"Use a heavy hammer to pound the metal nail.", diff:"hard"},
+    {w:"MALLET", emoji:"🔨", s:"Hit the toy xylophone gently with the wooden mallet.", diff:"hard"},
+    {w:"NARROW", emoji:"📏", s:"The dirt path through the woods is very narrow.", diff:"hard"},
+    {w:"PEBBLE", emoji:"🪨", s:"I threw a tiny smooth pebble into the pond.", diff:"hard"},
+    {w:"PUDDLE", emoji:"💦", s:"Put your boots on and jump in the wet puddle.", diff:"hard"},
+    {w:"RABBIT", emoji:"🐰", s:"The fluffy white rabbit hopped across the yard.", diff:"hard"},
+    {w:"TUNNEL", emoji:"🚇", s:"The fast train chugged through the dark tunnel.", diff:"hard"},
+    {w:"VESSEL", emoji:"🚢", s:"A large boat sailing on the sea is called a vessel.", diff:"hard"},
+    {w:"FAMILY", emoji:"👨‍👩‍👧‍👦", s:"I love spending time at home with my happy family.", diff:"hard"},
+
+    // --- LEVEL 85 ---
+    {w:"GALAXY", emoji:"🌌", s:"Our planet Earth is part of a huge starry galaxy.", diff:"hard"},
+    {w:"INVITE", emoji:"✉️", s:"I will invite all my friends to my birthday party.", diff:"hard"},
+    {w:"LOVELY", emoji:"🥰", s:"You drew a very lovely picture of a flower.", diff:"hard"},
+    {w:"POLITE", emoji:"🤝", s:"Saying please and thank you is very polite.", diff:"hard"},
+    {w:"TOMATO", emoji:"🍅", s:"A juicy red tomato is great in a fresh salad.", diff:"hard"},
+    {w:"BITTER", emoji:"🍋", s:"A raw lemon can taste very sour and bitter.", diff:"hard"},
+    {w:"BOTTLE", emoji:"🍼", s:"Drink some cold water from your water bottle.", diff:"hard"},
+    {w:"BUTTER", emoji:"🧈", s:"Spread some yellow butter on your warm toast.", diff:"hard"},
+    {w:"BUTTON", emoji:"🔘", s:"Push the red button to start the fun machine.", diff:"hard"},
+    {w:"CHERRY", emoji:"🍒", s:"Put a sweet red cherry on top of the ice cream.", diff:"hard"},
+
+    // --- LEVEL 86 ---
+    {w:"COTTON", emoji:"☁️", s:"My favorite blue shirt is made of soft cotton.", diff:"hard"},
+    {w:"FELLOW", emoji:"🧑", s:"The friendly fellow waved hello as he walked by.", diff:"hard"},
+    {w:"FOLLOW", emoji:"🚶", s:"Follow the teacher closely when walking in line.", diff:"hard"},
+    {w:"LETTER", emoji:"✉️", s:"I wrote a nice letter to my grandma today.", diff:"hard"},
+    {w:"LITTLE", emoji:"🐜", s:"A crawling ant is a very little insect.", diff:"hard"},
+    {w:"PARROT", emoji:"🦜", s:"A colorful parrot can learn how to talk.", diff:"hard"},
+    {w:"PILLOW", emoji:"🛌", s:"Rest your sleepy head on the soft white pillow.", diff:"hard"},
+    {w:"VALLEY", emoji:"⛰️", s:"A green valley sits low between two tall mountains.", diff:"hard"},
+    {w:"YELLOW", emoji:"🟡", s:"The bright sun in the sky is the color yellow.", diff:"hard"},
+    {w:"BUILDER", emoji:"👷", s:"The busy builder uses bricks to make a house.", diff:"hard"},
+
+    // --- LEVEL 87 ---
+    {w:"GRANDMA", emoji:"👵", s:"My sweet grandma baked a yummy cake for me.", diff:"hard"},
+    {w:"MORNING", emoji:"🌅", s:"The sun rises early in the morning every day.", diff:"hard"},
+    {w:"POTATO", emoji:"🥔", s:"A potato grows underground and makes tasty fries.", diff:"hard"},
+    {w:"SCIENCE", emoji:"🔬", s:"We did a really cool experiment in science class.", diff:"hard"},
+    {w:"SOLDIER", emoji:"🪖", s:"The brave soldier marched proudly in the parade.", diff:"hard"},
+    {w:"KETTLE", emoji:"🫖", s:"Boil some hot water for tea in the kettle.", diff:"hard"},
+    {w:"KITTEN", emoji:"🐈", s:"A baby cat is called a cute and playful kitten.", diff:"hard"},
+    {w:"PEPPER", emoji:"🌶️", s:"A green pepper can be very spicy to eat.", diff:"hard"},
+    {w:"PUZZLE", emoji:"🧩", s:"Let's put all the pieces of the puzzle together.", diff:"hard"},
+    {w:"WAFFLE", emoji:"🧇", s:"Pour some sticky syrup on your breakfast waffle.", diff:"hard"},
+
+    // --- LEVEL 88 ---
+    {w:"ZIPPER", emoji:"🤐", s:"Pull the zipper up to close your warm jacket.", diff:"hard"},
+    {w:"BISCUIT", emoji:"🍪", s:"I ate a warm, buttery biscuit with my soup.", diff:"hard"},
+    {w:"CRACKER", emoji:"🍘", s:"A salty cracker is a very crunchy snack.", diff:"hard"},
+    {w:"CURTAIN", emoji:"🪟", s:"Open the window curtain to let the sunlight in.", diff:"hard"},
+    {w:"CUSHION", emoji:"🛋️", s:"Sit down comfortably on the soft sofa cushion.", diff:"hard"},
+    {w:"CUSTARD", emoji:"🍮", s:"Vanilla custard is a creamy and sweet dessert.", diff:"hard"},
+    {w:"GRANDPA", emoji:"👴", s:"My grandpa tells the absolute best funny stories.", diff:"hard"},
+    {w:"LEOPARD", emoji:"🐆", s:"A wild leopard has black spots on its fur.", diff:"hard"},
+    {w:"LOBSTER", emoji:"🦞", s:"A red lobster has big claws and lives in the sea.", diff:"hard"},
+    {w:"MUSTARD", emoji:"🌭", s:"Put some yellow mustard on your hot dog.", diff:"hard"},
+
+    // --- LEVEL 89 ---
+    {w:"ORCHARD", emoji:"🍎", s:"We picked fresh red apples at the fruit orchard.", diff:"hard"},
+    {w:"PENGUIN", emoji:"🐧", s:"A penguin is a bird that swims in icy water.", diff:"hard"},
+    {w:"PLUMBER", emoji:"🔧", s:"The helpful plumber fixed the broken water pipe.", diff:"hard"},
+    {w:"RAINBOW", emoji:"🌈", s:"A beautiful colorful rainbow appeared after the storm.", diff:"hard"},
+    {w:"SCAMPER", emoji:"🏃", s:"Watch the little mouse scamper quickly across the floor.", diff:"hard"},
+    {w:"SCARLET", emoji:"🔴", s:"Scarlet is a very bright and beautiful shade of red.", diff:"hard"},
+    {w:"STEAMER", emoji:"🚢", s:"The large steamer boat chugged across the ocean.", diff:"hard"},
+    {w:"THROUGH", emoji:"➡️", s:"The fast train went straight through the dark tunnel.", diff:"hard"},
+    {w:"PRETTY", emoji:"🎀", s:"You are wearing a very pretty pink dress today.", diff:"hard"},
+    {w:"PUPPET", emoji:"🎎", s:"We put on a fun show using a hand puppet.", diff:"hard"},
+
+    // --- LEVEL 90 ---
+    {w:"AIRPORT", emoji:"✈️", s:"We went to the busy airport to catch a plane.", diff:"hard"},
+    {w:"BLANKET", emoji:"🛏️", s:"Cover up with a warm blanket when you feel cold.", diff:"hard"},
+    {w:"BUTCHER", emoji:"🥩", s:"The butcher at the store sells fresh meat.", diff:"hard"},
+    {w:"CAPTAIN", emoji:"⚓", s:"The brave captain safely steers the large ship.", diff:"hard"},
+    {w:"COUNTRY", emoji:"🗺️", s:"India is a very beautiful and large country.", diff:"hard"},
+    {w:"DENTIST", emoji:"🦷", s:"The dentist helps keep our teeth clean and healthy.", diff:"hard"},
+    {w:"DOLPHIN", emoji:"🐬", s:"A smart grey dolphin jumped high out of the water.", diff:"hard"},
+    {w:"EXPLAIN", emoji:"👩‍🏫", s:"The teacher will explain how to play the game.", diff:"hard"},
+    {w:"HAMSTER", emoji:"🐹", s:"The pet hamster runs fast on its spinning wheel.", diff:"hard"},
+    {w:"LEATHER", emoji:"👢", s:"My strong brown winter boots are made of leather.", diff:"hard"},
+
+    // --- LEVEL 91 ---
+    {w:"MANAGER", emoji:"👨‍💼", s:"The store manager helps run the business smoothly.", diff:"hard"},
+    {w:"OSTRICH", emoji:"🴩", s:"An ostrich is a very large bird that runs fast.", diff:"hard"},
+    {w:"PAINTER", emoji:"🧑‍🎨", s:"The artist is a great painter of colorful pictures.", diff:"hard"},
+    {w:"PARSLEY", emoji:"🌿", s:"Parsley is a green herb we put on our food.", diff:"hard"},
+    {w:"PEACOCK", emoji:"🦚", s:"A peacock has beautiful green and blue feathers.", diff:"hard"},
+    {w:"POSTMAN", emoji:"📮", s:"The friendly postman delivers letters to our house.", diff:"hard"},
+    {w:"RAILWAY", emoji:"🛤️", s:"The long train travels quickly down the railway.", diff:"hard"},
+    {w:"SARDINE", emoji:"🐟", s:"A sardine is a very small, oily, silver fish.", diff:"hard"},
+    {w:"SEAPORT", emoji:"🚢", s:"Big ships park in the water at the busy seaport.", diff:"hard"},
+    {w:"SPINACH", emoji:"🥬", s:"Eating green spinach makes your body very strong.", diff:"hard"},
+
+    // --- LEVEL 92 ---
+    {w:"STATION", emoji:"🚉", s:"We waited for the train at the busy railway station.", diff:"hard"},
+    {w:"STOMACH", emoji:"🤰", s:"My stomach feels full after eating a big dinner.", diff:"hard"},
+    {w:"STUDENT", emoji:"🧑‍🎓", s:"The smart student reads books at the school desk.", diff:"hard"},
+    {w:"SUNRISE", emoji:"🌅", s:"The sky turns pink and yellow at the early sunrise.", diff:"hard"},
+    {w:"TEACHER", emoji:"👩‍🏫", s:"The kind teacher helps us learn new things in class.", diff:"hard"},
+    {w:"THOUGHT", emoji:"💭", s:"I had a very happy thought about my birthday party.", diff:"hard"},
+    {w:"THUNDER", emoji:"⛈️", s:"Loud thunder booms in the sky during a rain storm.", diff:"hard"},
+    {w:"TRACTOR", emoji:"🚜", s:"The farmer drives a green tractor across the field.", diff:"hard"},
+    {w:"TUESDAY", emoji:"📅", s:"Tuesday is the second day of our busy school week.", diff:"hard"},
+    {w:"BLOSSOM", emoji:"🌸", s:"The pretty pink flower will blossom in the spring.", diff:"hard"},
+
+    // --- LEVEL 93 ---
+    {w:"MONSOON", emoji:"🌧️", s:"Heavy rains fall from the sky during the monsoon.", diff:"hard"},
+    {w:"SEAGULL", emoji:"🕊️", s:"A white seagull flies high over the salty ocean.", diff:"hard"},
+    {w:"BICYCLE", emoji:"🚲", s:"Wear a safe helmet when you ride your fast bicycle.", diff:"hard"},
+    {w:"CAREFUL", emoji:"⚠️", s:"Please be very careful when crossing the busy street.", diff:"hard"},
+    {w:"CATFISH", emoji:"🐟", s:"A catfish has long whiskers that look like a cat.", diff:"hard"},
+    {w:"CLIMATE", emoji:"🌤️", s:"The weather climate is very hot and dry in the desert.", diff:"hard"},
+    {w:"COCONUT", emoji:"🥥", s:"A coconut is a hard brown fruit with sweet white milk.", diff:"hard"},
+    {w:"EVENING", emoji:"🌆", s:"We eat our family dinner together in the evening.", diff:"hard"},
+    {w:"FEATHER", emoji:"🪶", s:"The beautiful bird dropped a soft blue feather.", diff:"hard"},
+    {w:"HARVEST", emoji:"🌾", s:"The farmer will harvest the crops when they are ready.", diff:"hard"},
+
+    // --- LEVEL 94 ---
+    {w:"HELPFUL", emoji:"🤝", s:"It is very nice and helpful to clean up your toys.", diff:"hard"},
+    {w:"LIBRARY", emoji:"📚", s:"We borrowed some great books from the quiet library.", diff:"hard"},
+    {w:"MACHINE", emoji:"⚙️", s:"A washing machine helps us clean our dirty clothes.", diff:"hard"},
+    {w:"OCTOBER", emoji:"🎃", s:"Halloween is a fun and spooky holiday in October.", diff:"hard"},
+    {w:"PANTHER", emoji:"🐆", s:"A black panther is a large, wild, and beautiful cat.", diff:"hard"},
+    {w:"PLAYFUL", emoji:"🐶", s:"The playful puppy loves to fetch the red ball.", diff:"hard"},
+    {w:"PROMISE", emoji:"🤞", s:"I promise to always be a kind and good friend.", diff:"hard"},
+    {w:"PROTECT", emoji:"🛡️", s:"A sturdy umbrella will protect you from the rain.", diff:"hard"},
+    {w:"RECEIVE", emoji:"🎁", s:"It is so much fun to receive a surprise birthday gift.", diff:"hard"},
+    {w:"REJOICE", emoji:"🎉", s:"We will celebrate and rejoice when we win the game!", diff:"hard"},
+
+    // --- LEVEL 95 ---
+    {w:"TRUMPET", emoji:"🎺", s:"He played loud music on the shiny brass trumpet.", diff:"hard"},
+    {w:"VINEGAR", emoji:"🍶", s:"Vinegar has a very sour smell and sharp taste.", diff:"hard"},
+    {w:"WEATHER", emoji:"🌤️", s:"The sunny weather today is perfect for a picnic.", diff:"hard"},
+    {w:"WHISPER", emoji:"🤫", s:"Please whisper quietly so you do not wake the baby.", diff:"hard"},
+    {w:"WHISTLE", emoji:"😗", s:"The gym coach blew his loud whistle to stop the game.", diff:"hard"},
+    {w:"CURRANT", emoji:"🍇", s:"A currant is a tiny, sweet, and dried red berry.", diff:"hard"},
+    {w:"PUDDING", emoji:"🍮", s:"Chocolate pudding is a very sweet and creamy dessert.", diff:"hard"},
+    {w:"SHIMMER", emoji:"✨", s:"The bright stars shimmer and shine in the night sky.", diff:"hard"},
+    {w:"ANOTHER", emoji:"➕", s:"May I please have another slice of the yummy pizza?", diff:"hard"},
+    {w:"APRICOT", emoji:"🍑", s:"An apricot is a soft, sweet, and orange summer fruit.", diff:"hard"},
+
+    // --- LEVEL 96 ---
+    {w:"EXAMPLE", emoji:"📝", s:"The helpful teacher showed us a good math example.", diff:"hard"},
+    {w:"EXCITED", emoji:"🤩", s:"I am so excited to go to the fun amusement park!", diff:"hard"},
+    {w:"HIGHWAY", emoji:"🛣️", s:"Cars drive very fast on the long, paved highway.", diff:"hard"},
+    {w:"HOLIDAY", emoji:"🏖️", s:"We went on a fun family trip during the summer holiday.", diff:"hard"},
+    {w:"JANUARY", emoji:"❄️", s:"January is the very first, cold month of the new year.", diff:"hard"},
+    {w:"OCTOPUS", emoji:"🐙", s:"An octopus is a sea animal with eight long arms.", diff:"hard"},
+    {w:"PANCAKE", emoji:"🥞", s:"Pour sweet brown syrup on your warm breakfast pancake.", diff:"hard"},
+    {w:"PASTURE", emoji:"🐎", s:"The brown horses ran freely in the green grassy pasture.", diff:"hard"},
+    {w:"PICTURE", emoji:"🖼️", s:"I drew a beautiful picture of a bright rainbow.", diff:"hard"},
+    {w:"TAPIOCA", emoji:"🧋", s:"I love to eat sweet vanilla tapioca pudding for dessert.", diff:"hard"},
+
+    // --- LEVEL 97 ---
+    {w:"THIRSTY", emoji:"🚰", s:"Drink a tall glass of cold water if you feel thirsty.", diff:"hard"},
+    {w:"BETWEEN", emoji:"↔️", s:"The number two comes exactly between one and three.", diff:"hard"},
+    {w:"CABBAGE", emoji:"🥬", s:"Cabbage is a healthy, round, and leafy green vegetable.", diff:"hard"},
+    {w:"FOOLISH", emoji:"🤪", s:"It is very foolish to run around the slippery pool.", diff:"hard"},
+    {w:"SPARROW", emoji:"🐦", s:"A little brown sparrow chirps happily in the tree.", diff:"hard"},
+    {w:"SWALLOW", emoji:"💧", s:"Chew your tasty food very well before you swallow it.", diff:"hard"},
+    {w:"AVOCADO", emoji:"🥑", s:"An avocado has a large round seed inside of it.", diff:"hard"},
+    {w:"BALLOON", emoji:"🎈", s:"The bright red balloon floated high up into the sky.", diff:"hard"},
+    {w:"HISTORY", emoji:"🏛️", s:"We read about very old times in our history class.", diff:"hard"},
+    {w:"PATHWAY", emoji:"🛤️", s:"Follow the rocky pathway through the green forest.", diff:"hard"},
+
+    // --- LEVEL 98 ---
+    {w:"CHEETAH", emoji:"🐆", s:"A spotted cheetah is the fastest animal on land.", diff:"hard"},
+    {w:"FLUTTER", emoji:"🦋", s:"Watch the beautiful butterfly flutter its colorful wings.", diff:"hard"},
+    {w:"FRITTER", emoji:"🍩", s:"An apple fritter is a sweet, fried, and tasty treat.", diff:"hard"},
+    {w:"VILLAGE", emoji:"🏘️", s:"A small and quiet village has just a few houses.", diff:"hard"},
+    {w:"CHILDREN", emoji:"🧒", s:"The happy children played games on the playground.", diff:"hard"},
+    {w:"MOUNTAIN", emoji:"⛰️", s:"The tall, snowy mountain reaches high into the clouds.", diff:"hard"},
+    {w:"NEIGHBOR", emoji:"🏡", s:"Our kind neighbor lives in the house right next door.", diff:"hard"},
+    {w:"RAINCOAT", emoji:"🧥", s:"Wear a yellow raincoat to stay dry in the storm.", diff:"hard"},
+    {w:"SCORPION", emoji:"🦂", s:"A scorpion is a desert bug with a sharp, stinging tail.", diff:"hard"},
+    {w:"SHOULDER", emoji:"🧍", s:"He carried the heavy backpack on his strong shoulder.", diff:"hard"},
+
+    // --- LEVEL 99 ---
+    {w:"COTTAGE", emoji:"🏡", s:"We stayed in a small, cozy cottage near the lake.", diff:"hard"},
+    {w:"GIRAFFE", emoji:"🦒", s:"A tall, yellow giraffe has a very long spotted neck.", diff:"hard"},
+    {w:"LETTUCE", emoji:"🥬", s:"Put some crunchy green lettuce in your fresh salad.", diff:"hard"},
+    {w:"OFFICER", emoji:"👮", s:"The brave police officer keeps our town safe from harm.", diff:"hard"},
+    {w:"CUCUMBER", emoji:"🥒", s:"A long green cucumber tastes great in a healthy salad.", diff:"hard"},
+    {w:"DECEMBER", emoji:"⛄", s:"December is the very last, cold month of the year.", diff:"hard"},
+    {w:"FOUNTAIN", emoji:"⛲", s:"Water sprays high into the air from the stone fountain.", diff:"hard"},
+    {w:"FRIENDLY", emoji:"😊", s:"My best friend is very kind, sweet, and friendly.", diff:"hard"},
+    {w:"GARDENER", emoji:"🧑‍🌾", s:"The busy gardener plants beautiful flowers in the dirt.", diff:"hard"},
+    {w:"GOLDFISH", emoji:"🐠", s:"My pet goldfish swims in a round glass bowl.", diff:"hard"},
+
+    // --- LEVEL 100 ---
+    {w:"KEYBOARD", emoji:"⌨️", s:"Type the letters carefully on the computer keyboard.", diff:"hard"},
+    {w:"MANDARIN", emoji:"🍊", s:"A mandarin is a small, sweet, and juicy orange fruit.", diff:"hard"},
+    {w:"MIDNIGHT", emoji:"🕛", s:"The dark clock strikes exactly twelve o'clock at midnight.", diff:"hard"},
+    {w:"PLEASANT", emoji:"🌷", s:"A warm, sunny spring day is very nice and pleasant.", diff:"hard"},
+    {w:"REMEMBER", emoji:"🧠", s:"Always remember to brush your teeth before going to bed.", diff:"hard"},
+    {w:"SANDWICH", emoji:"🥪", s:"I ate a yummy peanut butter sandwich for my lunch.", diff:"hard"},
+    {w:"SCISSORS", emoji:"✂️", s:"Use safety scissors to carefully cut the white paper.", diff:"hard"},
+    {w:"BACKPACK", emoji:"🎒", s:"Carry your heavy school books inside your backpack.", diff:"hard"},
+    {w:"CHESTNUT", emoji:"🌰", s:"A chestnut is a smooth, brown, and tasty roasted nut.", diff:"hard"},
+    {w:"FLAMINGO", emoji:"🦩", s:"A pink flamingo stands gracefully on one long leg.", diff:"hard"},
+    
+    // --- EXTRA ANAGRAMS (To accept alternate spellings) ---
+    {w:"ATE", emoji:"🍽️", s:"I ate all my delicious dinner.", diff:"easy"},
+    {w:"ACT", emoji:"🎭", s:"It is fun to act in a school play.", diff:"easy"},
+    {w:"ARE", emoji:"🤷", s:"How are you doing today?", diff:"easy"},
+    {w:"APE", emoji:"🦍", s:"A big ape swings in the jungle.", diff:"easy"},
+    {w:"RAM", emoji:"🐏", s:"A ram is a sheep with big curved horns.", diff:"easy"},
+    {w:"TAB", emoji:"📁", s:"Pull the paper tab to open the folder.", diff:"easy"},
+    {w:"WAS", emoji:"⏳", s:"I was at the park yesterday.", diff:"easy"},
+    {w:"BUT", emoji:"🛑", s:"I want to play, but it is raining.", diff:"easy"},
+    {w:"NOW", emoji:"⏰", s:"We need to leave right now.", diff:"easy"},
+    {w:"LOW", emoji:"⬇️", s:"The airplane flew very low to the ground.", diff:"easy"},
+    {w:"TAR", emoji:"🛣️", s:"Black sticky tar is used to make roads.", diff:"easy"},
+    {w:"PALM", emoji:"🌴", s:"A tall palm tree grows near the beach.", diff:"med"},
+    {w:"TEAM", emoji:"🤝", s:"We work together as a great team.", diff:"med"},
+    {w:"BARE", emoji:"🦶", s:"Walk on the soft sand with bare feet.", diff:"med"},
+    {w:"BLOW", emoji:"🌬️", s:"Blow out the candles on your cake.", diff:"med"},
+    {w:"FLOW", emoji:"🌊", s:"The cold river water will flow down the hill.", diff:"med"},
+    {w:"FLEA", emoji:"🐜", s:"A tiny flea jumped on the dog.", diff:"med"},
+    {w:"SPOT", emoji:"📍", s:"X marks the spot on the treasure map.", diff:"med"},
+    {w:"POST", emoji:"📮", s:"Put the letter in the mail post.", diff:"med"},
+    {w:"POTS", emoji:"🍲", s:"Cook the soup in the big metal pots.", diff:"med"},
+    {w:"TOPS", emoji:"🏔️", s:"The snow sits on the tops of the mountains.", diff:"med"},
+    {w:"SLIME", emoji:"🦠", s:"Kids love to play with green sticky slime.", diff:"hard"},
+    {w:"SILENT", emoji:"🤫", s:"The library is very quiet and silent.", diff:"hard"},
+    {w:"REED", emoji:"🌾", s:"A green reed grows tall near the pond.", diff:"hard"},
+    {w:"CHARM", emoji:"✨", s:"She wears a shiny lucky charm on her wrist.", diff:"hard"},
+    {w:"CHEAP", emoji:"🪙", s:"The small plastic toy was very cheap to buy.", diff:"hard"}
         ];
         
         const WORLDS = [];
@@ -1920,14 +3152,122 @@ body {
         window.wjBuyLife = () => { if(state.coins >= 10) { state.coins -= 10; state.extraLives++; saveState(); if($("shopCoins")) $("shopCoins").textContent = state.coins; if($("shopLivesOwned")) $("shopLivesOwned").textContent = state.extraLives; window.wjSFX.coin(); window.wjShowToast("Extra Life Purchased!", "streak"); } else { window.wjSFX.wrong(); window.wjShowToast("Not enough coins!"); } };
         
         let selectedLvl = 1, sessionWords = [], sessionIdx = 0, currentWord = null, currentSlots = [], placedCount = 0, lives = 3, inGameStreak = 0, wordMistakes = 0, sessionAccStats = { correct: 0, wrong: 0 };
-        function getWordsForLevel(lvl) {
-            let eCount = 0, mCount = 0, hCount = 0;
-            if (lvl <= 10)      { eCount = 8; mCount = 2; hCount = 0; } else if (lvl <= 20) { eCount = 6; mCount = 3; hCount = 1; } else if (lvl <= 40) { eCount = 4; mCount = 3; hCount = 3; } else if (lvl <= 80) { eCount = 3; mCount = 3; hCount = 4; } else { eCount = 2; mCount = 4; hCount = 4; }
-            let easyPool = ALL_WORDS.filter(w => w.diff === "easy").sort(()=>Math.random()-0.5); let medPool = ALL_WORDS.filter(w => w.diff === "med").sort(()=>Math.random()-0.5); let hardPool = ALL_WORDS.filter(w => w.diff === "hard").sort(()=>Math.random()-0.5);
-            let selection = [].concat(easyPool.slice(0, eCount), medPool.slice(0, mCount), hardPool.slice(0, hCount));
-            while(selection.length < 10 && ALL_WORDS.length >= 10) { let randomWord = ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)]; if(!selection.includes(randomWord)) selection.push(randomWord); }
-            return selection.sort(()=>Math.random()-0.5);
-        }
+        const RAW_LEVELS = `level_1:go,us,air,and,arm,bad,bag,bed,big,bud
+level_2:bun,bus,cab,car,cod,dig,dog,ear,gum,leg
+level_3:man,men,mud,oil,old,our,red,rug,run,sad
+level_4:sea,sun,ant,art,ask,bat,bay,box,boy,cap
+level_5:cat,cow,cup,cut,day,dry,eat,eye,fan,far
+level_6:fig,fun,fur,get,hen,jam,let,lip,map,mat
+level_7:may,new,nut,owl,own,pea,pen,pie,pig,pin
+level_8:rat,sap,saw,say,sit,tea,toe,tub,van,win
+level_9:yam,fat,few,fly,fox,hat,hay,hit,hop,hot
+level_10:jaw,key,put,shy,sky,the,toy,try,vet,wax
+level_11:wet,add,bee,eel,egg,see,any,why,bean,bear
+level_12:blue,bulb,cold,comb,corn,crab,curd,drum,girl,glad
+level_13:glue,gold,lamb,land,lion,long,loud,meal,mean,nail
+level_14:near,rain,read,real,road,said,sand,seal,sing,song
+level_15:sour,aunt,back,bark,bolt,bowl,bush,calf,carp,cart
+level_16:chin,crow,dark,desk,dish,down,draw,duck,each,farm
+level_17:fern,find,foal,form,frog,from,goat,grey,grow,hair
+level_18:hand,hard,head,hear,hold,hour,kind,king,lamp,lark
+level_19:last,leaf,list,loaf,mark,meat,milk,mint,most,much
+level_20:neat,neck,oats,pear,plum,pond,rock,salt,silk,sink
+level_21:skin,slow,snow,soap,soup,star,stem,such,swan,swim
+level_22:toad,warm,wild,wind,wren,yard,yarn,year,your,bone
+level_23:both,came,cane,care,chef,fast,fork,hash,help,high
+level_24:idea,jump,just,know,lace,lane,left,lime,line,math
+level_25:more,name,next,nose,park,pink,play,plow,push,rice
+level_26:ride,rose,sage,same,shop,show,shut,soft,some,stew
+level_27:stop,tack,talk,tart,test,than,them,then,thin,this
+level_28:town,twig,walk,want,wash,wasp,went,when,wolf,work
+level_29:been,bell,call,deer,door,good,gull,miss,moon,moss
+level_30:need,noon,roll,seed,seem,soon,baby,body,cake,cave
+level_31:date,dove,even,exam,face,file,gate,give,hawk,here
+level_32:home,huge,into,june,lake,life,like,lily,live,make
+level_33:many,move,only,open,oven,over,page,path,sofa,tame
+level_34:that,they,time,tire,tuna,ugly,were,wide,wise,with
+level_35:beet,book,cook,feel,hill,knee,look,meet,peel,pull
+level_36:roof,tall,tell,tool,tree,wall,weed,well,wood,wool
+level_37:away,city,have,hope,july,lazy,take,taxi,tidy,tiny
+level_38:very,wave,feet,foot,jeep,keep,week,board,brain,bread
+level_39:bring,build,clean,climb,cloud,could,cream,gourd,guard,learn
+level_40:snail,beach,bench,black,blunt,break,brown,brush,chair,child
+level_41:clerk,clock,clown,coach,count,field,flour,found,giant,great
+level_42:group,laugh,march,marsh,proud,rough,scarf,screw,shoes,smart
+level_43:socks,squid,storm,swing,train,words,world,would,young,acorn
+level_44:again,along,amber,badge,basil,begin,cabin,camel,canoe,catch
+level_45:chalk,chest,chirp,close,cloth,color,coral,crane,dwarf,eagle
+level_46:earth,first,flesh,fruit,globe,grade,guide,heart,large,lemon
+level_47:light,linen,mango,melon,might,mince,miner,month,mouse,music
+level_48:niece,night,nurse,ocean,onion,paint,pants,peach,point,prawn
+level_49:quick,quiet,right,robin,ruler,salad,sauce,shark,sharp,shelf
+level_50:shirt,short,shout,skirt,slide,smile,stalk,start,straw,sugar
+level_51:swamp,teach,their,thing,toast,trout,truck,uncle,under,wrist
+level_52:bloom,broom,cross,dress,drill,glass,grass,green,guess,small
+level_53:about,actor,angry,ankle,april,baker,below,brake,brave,candy
+level_54:daisy,elbow,glove,grape,guava,heron,horse,house,judge,juice
+level_55:koala,later,leave,maize,motor,never,panda,pecan,pedal,pitch
+level_56:place,plane,prune,rhino,river,satin,share,shore,slate,space
+level_57:spice,stone,table,thick,think,throw,tiger,tired,until,wagon
+level_58:watch,wheat,which,yacht,zebra,boots,queen,shell,sleep,spell
+level_59:spoon,still,woods,after,dirty,enjoy,fairy,flute,gravy,honey
+level_60:knife,often,other,paper,pasta,phone,pilot,plate,salty,story
+level_61:stove,study,syrup,there,these,those,towel,tulip,visit,water
+level_62:whale,where,write,agree,cliff,sheep,sheet,sweet,three,wheel
+level_63:above,heavy,olive,thyme,white,allow,berry,bunny,carry,lorry
+level_64:merry,silly,teeth,tooth,branch,crayon,every,friend,should,spring
+level_65:stream,string,strong,apple,ferry,funny,jelly,jolly,otter,worry
+level_66:almond,around,badger,bridge,bright,candle,church,circus,clinic,corner
+level_67:cousin,dancer,garden,garlic,ginger,grease,grocer,island,number,raisin
+level_68:sailor,salmon,scared,season,second,shrimp,singer,splash,squash,starch
+level_69:thread,wrench,guppy,hippo,pizza,screen,almost,answer,august,autumn
+level_70:barley,beaver,canvas,castle,change,citron,clever,closet,clover,create
+level_71:desert,doctor,drawer,driver,enough,fabric,falcon,farmer,finger,folder
+level_72:gentle,geyser,guitar,handle,harbor,insect,jungle,kernel,lentil,listen
+level_73:lizard,marker,meadow,monday,nation,pencil,pigeon,prince,relish,silver
+level_74:spider,sponge,sunday,sunset,tailor,timber,tongue,toucan,violin,walrus
+level_75:wonder,happy,puppy,school,always,animal,artist,banana,basket,bucket
+level_76:camera,carpet,decide,donkey,engine,eraser,flower,forest,forget,friday
+level_77:hamlet,honest,hornet,hungry,indigo,jigsaw,lawyer,market,monkey,mother
+level_78:orange,oyster,parent,peanut,people,pickle,planet,purple,shadow,shiver
+level_79:shovel,shower,temple,travel,turnip,turtle,violet,walnut,window,winter
+level_80:wizard,writer,yogurt,bamboo,banner,bubble,called,ladder,lesson,mirror
+level_81:needle,noodle,recess,ribbon,riddle,saddle,smooth,street,summer,before
+level_82:canary,celery,device,father,jacket,lonely,nature,nephew,notice,palace
+level_83:papaya,pastry,pocket,velvet,beetle,breeze,carrot,cheese,choose,cookie
+level_84:grassy,hammer,mallet,narrow,pebble,puddle,rabbit,tunnel,vessel,family
+level_85:galaxy,invite,lovely,polite,tomato,bitter,bottle,butter,button,cherry
+level_86:cotton,fellow,follow,letter,little,parrot,pillow,valley,yellow,builder
+level_87:grandma,morning,potato,science,soldier,kettle,kitten,pepper,puzzle,waffle
+level_88:zipper,biscuit,cracker,curtain,cushion,custard,grandpa,leopard,lobster,mustard
+level_89:orchard,penguin,plumber,rainbow,scamper,scarlet,steamer,through,pretty,puppet
+level_90:airport,blanket,butcher,captain,country,dentist,dolphin,explain,hamster,leather
+level_91:manager,ostrich,painter,parsley,peacock,postman,railway,sardine,seaport,spinach
+level_92:station,stomach,student,sunrise,teacher,thought,thunder,tractor,tuesday,blossom
+level_93:monsoon,seagull,bicycle,careful,catfish,climate,coconut,evening,feather,harvest
+level_94:helpful,library,machine,october,panther,playful,promise,protect,receive,rejoice
+level_95:trumpet,vinegar,weather,whisper,whistle,currant,pudding,shimmer,another,apricot
+level_96:example,excited,highway,holiday,january,octopus,pancake,pasture,picture,tapioca
+level_97:thirsty,between,cabbage,foolish,sparrow,swallow,avocado,balloon,history,pathway
+level_98:cheetah,flutter,fritter,village,children,mountain,neighbor,raincoat,scorpion,shoulder
+level_99:cottage,giraffe,lettuce,officer,cucumber,december,fountain,friendly,gardener,goldfish
+level_100:keyboard,mandarin,midnight,pleasant,remember,sandwich,scissors,backpack,chestnut,flamingo`;
+
+const LEVEL_WORDS = {};
+RAW_LEVELS.split("\n").forEach(line => {
+   if(!line.includes(":")) return;
+   let parts = line.split(":");
+   let lvlNum = parseInt(parts[0].replace("level_", ""));
+   LEVEL_WORDS[lvlNum] = parts[1].split(",").map(w => w.toUpperCase().trim());
+});
+
+function getWordsForLevel(lvl) {
+    let words = LEVEL_WORDS[lvl] || LEVEL_WORDS[1];
+    return words.map(w => {
+        let dictWord = ALL_WORDS.find(x => x.w === w);
+        return dictWord || { w: w, emoji: "✨", s: `You spelled ${w}!`, diff: "med" };
+    });
+}
         
         function startSession(lvl) {
             try { if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } } catch(e) {}
@@ -1948,7 +3288,8 @@ body {
         function loadWord(){
           if(sessionIdx >= sessionWords.length || lives <= 0){ finishSession(); return; }
           currentWord = sessionWords[sessionIdx]; 
-          placedCount = 0; 
+        window.currentSpellingDirection = null;
+        placedCount = 0; 
           wordMistakes = 0; 
           currentSlots = currentWord.w.split(""); 
           
@@ -1957,8 +3298,14 @@ body {
           if($("wordProgressTitle")) $("wordProgressTitle").innerText = `WORD ${sessionIdx + 1} OF 10`;
           
           let prefilled = []; 
-          let fillCount = currentWord.w.length >= 5 ? (Math.random() > 0.5 ? 2 : 1) : 1; 
-          let indices = Array.from(Array(currentWord.w.length).keys()).sort(()=>Math.random()-0.5); 
+      let fillCount = 0;
+      
+      // Only give 1 hint letter if the word is marked "hard" or is very long
+      if (currentWord.diff === "hard" || currentWord.w.length >= 6) {
+          fillCount = 1; 
+      }
+      
+      let indices = Array.from(Array(currentWord.w.length).keys()).sort(()=>Math.random()-0.5); 
           prefilled = indices.slice(0, fillCount);
           let extra = selectedLvl > 10 ? 2 : (selectedLvl > 3 ? 1 : 0); 
           const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
@@ -2062,9 +3409,47 @@ body {
                 } 
             }); 
             
-            if(droppedSlot && droppedSlot.dataset.letter === draggedTile.dataset.letter && parseInt(droppedSlot.dataset.index) === placedCount) { 
-                handleCorrectPlacement(droppedSlot); 
-            } else if(droppedSlot) { 
+            if (droppedSlot && parseInt(droppedSlot.dataset.index) === placedCount) { 
+                let letter = draggedTile.innerText;
+                let expected = currentWord.w[placedCount];
+
+                if (letter === expected) {
+                    // Correct letter placed
+                    droppedSlot.dataset.letter = letter;
+                    draggedTile.dataset.letter = letter;
+                    handleCorrectPlacement(droppedSlot); 
+                } else {
+                    // Check if the student is spelling a DIFFERENT valid word (Anagram)
+                    let placedSoFar = currentWord.w.substring(0, placedCount) + letter;
+                    let currentSorted = currentWord.w.split('').sort().join('');
+                    
+                    // Look through the dictionary for a matching word
+                    let alternateWord = ALL_WORDS.find(dictWord => {
+                        if (dictWord.w.length !== currentWord.w.length) return false;
+                        let dictSorted = dictWord.w.split('').sort().join('');
+                        if (currentSorted !== dictSorted) return false;
+                        return dictWord.w.startsWith(placedSoFar);
+                    });
+
+                    if (alternateWord) {
+                        // Swap the target word to the new valid word the student chose!
+                        currentWord = alternateWord;
+                        
+                        // Update remaining empty slots to expect the new word
+                        const slots = document.querySelectorAll('#wj-wrapper .slot');
+                        for (let i = placedCount + 1; i < slots.length; i++) {
+                            slots[i].dataset.letter = currentWord.w[i];
+                        }
+
+                        droppedSlot.dataset.letter = letter;
+                        draggedTile.dataset.letter = letter;
+                        handleCorrectPlacement(droppedSlot);
+                    } else {
+                        // Word is meaningless (like DUM), reject it
+                        handleWrongPlacement(); 
+                    }
+                }
+            } else if (droppedSlot) { 
                 handleWrongPlacement(); 
             } else { 
                 returnTileToPool(); 
@@ -2129,25 +3514,35 @@ body {
         }
         
         window.wjUseHint = () => { 
-            const htBtn = document.querySelector("#wj-wrapper .icon-btn[onclick='window.wjUseHint()']");
-            if(htBtn) { htBtn.classList.add("slot", "reject-shake"); setTimeout(() => htBtn.classList.remove("slot", "reject-shake"), 400); }
-            
+            const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); 
+            if(slots.length === 0) return; 
+            if(slots[0].classList.contains('active-hint')) return; 
+
             if(state.stars >= 1) { 
-                state.stars -= 1; if($("hudStars")) $("hudStars").textContent = state.stars; saveState(); 
-                const slots = document.querySelectorAll('#wj-wrapper .slot:not(.filled)'); 
-                if(slots.length > 0) { 
-                    window.wjSFX.button(); 
-                    slots[0].classList.add('active-hint'); 
-                    const neededLetter = slots[0].dataset.letter; 
-                    const tiles = [...$("tray").children].filter(t=>t.dataset.letter===neededLetter); 
-                    if(tiles[0]) tiles[0].classList.add("hint-target"); 
-                    pronounceWord(currentWord.w); 
-                    setOwlState('wink', 'owlMascot'); 
-                    if($("mascotSpeech")) $("mascotSpeech").textContent = "Look for glowing letter!"; 
-                } 
+                state.stars -= 1; 
+                if($("hudStars")) $("hudStars").textContent = state.stars; 
+                saveState(); 
+                
+                window.wjSFX.button(); 
+                slots[0].classList.add('active-hint'); 
+                const neededLetter = slots[0].dataset.letter; 
+                const tiles = [...$("tray").children].filter(t => t.dataset.letter === neededLetter); 
+                if(tiles[0]) tiles[0].classList.add("hint-target"); 
+                
+                // Speak ONLY the specific letter that is glowing
+                pronounceWord(neededLetter); 
+                
+                setOwlState('wink', 'owlMascot'); 
+                if($("mascotSpeech")) $("mascotSpeech").textContent = "Find this letter!"; 
             } else { 
                 window.wjSFX.wrong(); 
-                window.wjShowToast("Need Stars for hints!"); 
+                window.wjShowToast("Need 1 ⭐ for a hint!"); 
+                
+                const htBtn = document.querySelector("#wj-wrapper .icon-btn[onclick='window.wjUseHint()']");
+                if(htBtn) { 
+                    htBtn.classList.add("reject-shake"); 
+                    setTimeout(() => htBtn.classList.remove("reject-shake"), 400); 
+                }
             } 
         };
         
