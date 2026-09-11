@@ -548,31 +548,7 @@ body {
         @keyframes mgPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
         @keyframes mgShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px) rotate(-5deg); } 50% { transform: translateX(10px) rotate(5deg); } 75% { transform:      translateX(-10px) rotate(-5deg); } }
 
-        /* ================= MAZE GAME SPECIFIC CSS ================= */
-        .maze-pill { background:rgba(255,255,255,0.9); border-radius:12px; padding:6px 12px; font-weight:800; font-size:14px; box-shadow:0 4px 10px rgba(0,0,0,0.15); display:flex; align-items:center; gap:5px; color: #0f172a;}
-        .maze-score { color:#7a5b00; background:#ffc93c; }
-        .maze-ctrl { font-family:'Quicksand',sans-serif; font-size:14px; font-weight:700; border:none; border-radius:10px; padding:10px 14px; cursor:pointer; background:#f1f5f9; color:#475569; display:flex; align-items:center; gap:10px; transition:all .1s; justify-content: flex-start; width: 100%; box-shadow: 0 2px 0 #cbd5e1;}
-        .maze-ctrl:active { transform:translateY(2px); box-shadow: 0 0 0 #cbd5e1;}
-        .maze-ctrl.maze-on { background:#e0f2fe; color:#0284c7; box-shadow: 0 2px 0 #bae6fd;}
-        .maze-ctrl.maze-primary { background:linear-gradient(135deg,#ff8b3d,#ff5f7e); color:#fff; box-shadow: 0 2px 0 #d93858;}
-        .maze-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; background:rgba(255,255,255,0.95); backdrop-filter:blur(5px); z-index:50; }
-        .maze-big-btn { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; border:none; border-radius:999px; padding:12px 36px; cursor:pointer; background:linear-gradient(180deg,#38bdf8,#0284c7); color:#fff; box-shadow:0 6px 0 #0369a1, 0 10px 20px rgba(2, 132, 199, 0.3); transition:transform .1s ease; margin-top:10px; }
-        .maze-big-btn:active { transform:translateY(4px); box-shadow:0 2px 0 #0369a1; }
-        .maze-panel-box { background:#fff; border-radius:24px; max-width:700px; width:94%; max-height:85vh; overflow-y:auto; padding:30px; box-shadow:0 20px 60px rgba(0,0,0,.3); text-align:left; position:relative; }
-        .maze-close-x { position:absolute; top:15px; right:15px; background:#f1f5f9; border:none; border-radius:50%; width:36px; height:36px; font-size:18px; cursor:pointer; font-weight:bold; color:#475569; display: flex; align-items: center; justify-content: center; z-index: 10;}
-        .maze-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
-        .maze-mode-btn { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 10px; font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s; display:flex; flex-direction:column; align-items:center; gap:5px; text-align: center;}
-        .maze-mode-btn.active { background: #e0f2fe; border-color: #38bdf8; color: #0284c7; }
-        .maze-mode-btn span { font-size: 32px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));}
-        .maze-decade-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:14px;}
-        @media(min-width:600px){ .maze-decade-grid { grid-template-columns:repeat(10,1fr); } }
-        .maze-lvl-btn { aspect-ratio:1; border-radius:10px; border:none; cursor:pointer; font-family:'Baloo 2',cursive; font-weight:700; font-size:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#e0f2fe; color:#0284c7; box-shadow:0 2px 0 #bae6fd; }
-        .maze-lvl-btn.current { background:#ffc93c; color:#7a5b00; box-shadow:0 2px 0 #d69e16; }
-        .maze-lvl-btn.locked { background:#f1f5f9; color:#94a3b8; box-shadow:0 2px 0 #e2e8f0; }
-        .maze-star-anim { display: inline-block; animation: mazeStarPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0); margin: 0 4px; }
-        @keyframes mazeStarPop { 0% { opacity: 0; transform: scale(0) rotate(-45deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
-        .maze-pop-anim { animation: mazeBtnPop 0.5s ease forwards; opacity: 0; }
-        @keyframes mazeBtnPop { 0% { transform: scale(0.8); opacity:0;} 100% { transform: scale(1); opacity:1;} }
+        
 /* =========================================
            SPLIT-COLOR CATEGORY CARDS (LIKE REFERENCE)
            ========================================= */
@@ -937,7 +913,7 @@ body {
         </section>
 
         <!-- ================= FUN PLAY MENU SCREEN ================= -->
-        <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding-bottom: 90px;">
+        <section id="funplay-menu-screen" class="hidden" style="flex: 1; flex-direction: column; align-items: center; justify-content: flex-start; width: 100%; padding-top: 100px; padding-bottom: 90px; overflow-y: auto;">
 <button onclick="enterOrangeRunner()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
     <div class="pill-left-content">
         <div class="pill-icon-box">
@@ -974,6 +950,18 @@ body {
                     </div>
                 </div>
                 <div class="pill-arrow-circle" style="color: #059669;">➔</div>
+            </button>
+<button onclick="enterSpellingMaze()" class="main-menu-pill scale-in" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                <div class="pill-left-content">
+                    <div class="pill-icon-box" style="background: rgba(255,255,255,0.9); font-size: 35px;">
+                        🏃
+                    </div>
+                    <div class="pill-text-area">
+                        <h3 class="pill-title">Spelling Maze</h3>
+                        <p class="pill-subtitle">Survive the ghosts & spell!</p>
+                    </div>
+                </div>
+                <div class="pill-arrow-circle" style="color: #16a34a;">➔</div>
             </button>
         </section>
 
@@ -1241,6 +1229,103 @@ body {
 
     <canvas id="or-gameCanvas"></canvas>
 </div>
+<!-- ================= SPELLING MAZE WRAPPER ================= -->
+    <div id="mz-wrapper" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; background: #03070f; font-family: 'Segoe UI', sans-serif;">
+        <audio id="mz-bgm" loop src="maze.mp3"></audio>
+
+        <div id="mz-canvas-container">
+            <canvas id="mz-gameCanvas"></canvas>
+            <div class="top-hud">
+                <div class="hud-stat text-gold">⭐ <span id="mz-ui-score">0</span> <span style="font-size:0.8rem; opacity:0.8; margin-left: 5px;">HI: <span id="mz-ui-highscore">0</span></span></div>
+                <div class="hud-stat text-gold">🪙 <span id="mz-ui-coins">0</span></div>
+                <div class="hud-stat icon-key" id="mz-ui-key">🔑</div>
+                
+                <!-- MOVED THE WORD HUD HERE -->
+                <div class="word-hud" id="mz-ui-word-container"></div>
+
+                <div class="hud-stat text-blue">LV <span id="mz-ui-level">1</span></div>
+                <div class="hud-stat text-red" id="mz-ui-hearts">❤️❤️❤️</div>
+                <div class="pause-btn-ingame" onclick="window.mzTogglePause()">⏸️</div>
+            </div>
+
+            <div class="word-hud" id="mz-ui-word-container"></div>
+
+            <div class="mobile-dpad" id="mz-dpad-container">
+                <div class="dpad-center-drag" id="mz-dpad-drag-handle">✥</div>
+                <div class="dpad-btn up" id="mz-btn-up">▲</div>
+                <div class="dpad-btn down" id="mz-btn-down">▼</div>
+                <div class="dpad-btn left" id="mz-btn-left">◄</div>
+                <div class="dpad-btn right" id="mz-btn-right">►</div>
+            </div>
+
+            <div class="action-pad" id="mz-action-pad-container">
+                <div class="dpad-center-drag" id="mz-action-drag-handle" style="width: 35px; height: 35px; font-size: 1rem;">✥</div>
+                <div class="dpad-btn disabled" id="mz-btn-ghost" style="left: 10px; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; border: 2px solid var(--neon-blue); background: rgba(0,0,0,0.5);" onclick="window.mzUsePowerup('ghost')">
+                    👻<div class="badge" id="mz-count-ghost">0</div>
+                </div>
+                <div class="dpad-btn disabled" id="mz-btn-shield" style="right: 10px; top: 50%; transform: translateY(-50%); width: 55px; height: 55px; border: 2px solid var(--neon-blue); background: rgba(0,0,0,0.5);" onclick="window.mzUsePowerup('shield')">
+                    🛡️<div class="badge" id="mz-count-shield">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mz-screen-menu" class="mz-screen active">
+            <h1 class="title-large">EDUPLAY<br>MAZE</h1>
+            <div class="subtitle">SPELL THE WORD & SURVIVE THE GHOSTS</div>
+            <button class="mz-btn" onclick="window.mzStartGame()">Play Game</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzShowScreen('mz-screen-howtoplay')">How To Play</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzShowScreen('mz-screen-settings')">Settings</button>
+            <button class="mz-btn btn-secondary" style="border-color: #ff3333; color: #ff3333;" onclick="window.exitSpellingMaze()">Exit</button>
+        </div>
+
+        <div id="mz-screen-howtoplay" class="mz-screen">
+            <h1 class="title-large" style="font-size: 2.5rem;">HOW TO PLAY</h1>
+            <div class="stats-box" style="font-size: 1rem; text-align: left; line-height: 1.6; max-width: 90%;">
+                <p style="margin: 5px 0;">🔤 <b>SPELL THE WORD:</b> Find all the letters hidden in the maze to spell the target word.</p>
+                <p style="margin: 5px 0;">🔑 <b>FIND THE KEY:</b> Grab the golden key to unlock the exit portal.</p>
+                <p style="margin: 5px 0;">👻 <b>AVOID GHOSTS:</b> Run away from red ghosts! Listen closely for their footsteps.</p>
+                <p style="margin: 5px 0;">⚡ <b>POWER-UPS:</b> Collect Ghost Eaters (purple) and Shields (blue). Tap their buttons to use them!</p>
+                <p style="margin: 5px 0;">🕹️ <b>CONTROLS:</b> Drag the D-Pad to move it, swipe the screen, or use Keyboard Arrows.</p>
+            </div>
+            <button class="mz-btn" onclick="window.mzShowScreen('mz-screen-menu')">Got it!</button>
+        </div>
+        
+        <div id="mz-screen-settings" class="mz-screen">
+            <h1 class="title-large" style="font-size: 3rem;">SETTINGS</h1>
+            <div class="stats-box" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                <button class="mz-btn btn-secondary" id="mz-toggle-sound-btn" style="width: 250px; border-color: var(--neon-blue); color: white;" onclick="window.mzToggleSound()">Sound: ON</button>
+                <p style="width: 100%; justify-content: center; margin-bottom: 0;">Music Volume: <span id="mz-vol-val" style="color:var(--neon-blue); margin-left: 10px;">30%</span></p>
+                <input type="range" id="mz-bgm-vol-slider" min="0" max="100" value="30" style="width: 250px;">
+                <div style="width: 100%; height: 1px; background: rgba(0, 229, 255, 0.3);"></div>
+                <p style="width: 100%; justify-content: center; margin-bottom: 0;">Controls Size: <span id="mz-size-val" style="color:var(--neon-blue); margin-left: 10px;">100%</span></p>
+                <input type="range" id="mz-dpad-size-slider" min="50" max="200" value="100" style="width: 250px;">
+            </div>
+            <button class="mz-btn" onclick="window.mzShowScreen('mz-screen-menu')">Save & Back</button>
+        </div>
+
+        <div id="mz-screen-pause" class="mz-screen">
+            <h1 class="title-large">PAUSED</h1>
+            <button class="mz-btn" onclick="window.mzResumeGame()">▶ Resume</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzStartGame()">Restart Level</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzGoToMainMenu()">🏠 Main Menu</button>
+        </div>
+        
+        <div id="mz-screen-complete" class="mz-screen">
+            <h1 id="mz-win-title" class="title-large" style="color:#00ff66;">LEVEL COMPLETE</h1>
+            <div id="mz-trophy-icon" style="font-size: 6rem; display: none; margin-bottom: 10px; animation: bounce 2s infinite;">🏆</div>
+            <div class="stats-box"><p><span id="mz-win-label">Word Spelled:</span> <span id="mz-stat-word-win" class="text-gold"></span></p><p><span>Score:</span> <span id="mz-stat-score-win"></span></p></div>
+            <button class="mz-btn" id="mz-next-lvl-btn" onclick="window.mzNextLevel()">Next Level</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzGoToMainMenu()">Main Menu</button>
+        </div>
+        
+        <div id="mz-screen-gameover" class="mz-screen">
+            <h1 class="title-large" style="color:#ff3333;">GAME OVER</h1>
+            <div class="stats-box"><p><span>Level:</span> <span id="mz-stat-level-lose">1</span></p><p><span>Score:</span> <span id="mz-stat-score-lose" class="text-gold">0</span></p></div>
+            <button class="mz-btn" onclick="window.mzStartGame()">Try Again</button>
+            <button class="mz-btn btn-secondary" onclick="window.mzGoToMainMenu()">Main Menu</button>
+        </div>
+    </div>
+    <!-- ================= END SPELLING MAZE WRAPPER ================= -->
 <!-- ================= WORD JUMBLE ADVENTURE WRAPPER ================= -->
 <div id="wj-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000; overflow: hidden; background: #A7F3D0;">
     
@@ -1604,6 +1689,53 @@ body {
         }
         @keyframes bcResultTeddySprite {
             100% { background-position: -480px center; }
+        }
+/* ================= SPELLING MAZE STYLES ================= */
+        #mz-wrapper { --neon-blue: #00e5ff; --neon-gold: #ffcc00; --neon-red: #ff3333; --neon-green: #00ff66; --dark-bg: #03070f; --text-light: #e0f7fa; --dpad-scale: 1; color: var(--text-light); }
+        #mz-canvas-container { position: absolute; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: #000; }
+        #mz-canvas { display: block; width: 100%; height: 100%; object-fit: cover; touch-action: none; }
+        #mz-wrapper .top-hud { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); display: flex; justify-content: space-between; align-items: center; width: 98%; max-width: 900px; z-index: 10; pointer-events: none; }
+        #mz-wrapper .hud-stat { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+        #mz-wrapper .text-gold { color: var(--neon-gold); text-shadow: 2px 2px 4px #000, 0 0 10px var(--neon-gold); }
+        #mz-wrapper .text-blue { color: var(--neon-blue); text-shadow: 2px 2px 4px #000, 0 0 10px var(--neon-blue); }
+        #mz-wrapper .text-red { color: var(--neon-red); text-shadow: 2px 2px 4px #000, 0 0 10px var(--neon-red); letter-spacing: 2px; }
+        #mz-wrapper .pause-btn-ingame { font-size: 2rem; cursor: pointer; pointer-events: auto; text-shadow: 2px 2px 4px #000, 0 0 10px var(--neon-blue); transition: transform 0.2s; margin-left: 10px; }
+        #mz-wrapper .pause-btn-ingame:active { transform: scale(0.8); }
+        #mz-wrapper .word-hud { display: flex; align-items: center; gap: 6px; z-index: 10; pointer-events: none; background: rgba(0, 10, 20, 0.7); padding: 4px 15px; border-radius: 12px; border: 2px solid rgba(0, 229, 255, 0.3); box-shadow: 0 0 15px rgba(0,0,0,0.8); margin: 0 10px; }
+        #mz-wrapper .word-letter { font-size: 1.5rem; font-weight: 900; color: rgba(255, 255, 255, 0.15); text-shadow: 2px 2px 4px #000; text-transform: uppercase; transition: color 0.3s, text-shadow 0.3s, transform 0.2s; }
+        #mz-wrapper .word-letter.collected { color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green), 2px 2px 4px #000; transform: scale(1.1); }
+        #mz-wrapper .mobile-dpad { position: absolute; bottom: 40px; left: 40px; width: 160px; height: 160px; background: rgba(0, 30, 40, 0.6); border: 2px solid rgba(0, 229, 255, 0.4); border-radius: 50%; z-index: 20; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.1); backdrop-filter: blur(4px); transform-origin: top left; transform: scale(var(--dpad-scale)); }
+        #mz-wrapper .action-pad { position: absolute; bottom: 40px; right: 40px; width: 180px; height: 90px; background: rgba(0, 30, 40, 0.6); border: 2px solid rgba(0, 229, 255, 0.4); border-radius: 45px; z-index: 20; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), inset 0 0 20px rgba(0, 229, 255, 0.1); backdrop-filter: blur(4px); transform-origin: top left; transform: scale(var(--dpad-scale)); }
+        #mz-wrapper .dpad-center-drag { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 45px; height: 45px; background: rgba(0, 229, 255, 0.15); border: 1px dashed rgba(0, 229, 255, 0.6); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--neon-blue); font-size: 1.5rem; cursor: grab; pointer-events: auto; }
+        #mz-wrapper .dpad-center-drag:active { background: rgba(0, 229, 255, 0.3); }
+        #mz-wrapper .dpad-btn { position: absolute; width: 45px; height: 45px; color: var(--neon-blue); font-size: 1.8rem; display: flex; justify-content: center; align-items: center; pointer-events: auto; cursor: pointer; border-radius: 50%; background: transparent; transition: 0.1s; }
+        #mz-wrapper .dpad-btn:active { background: rgba(0, 229, 255, 0.4); text-shadow: 0 0 10px white; }
+        #mz-wrapper .dpad-btn.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(100%); }
+        #mz-wrapper .dpad-btn.up { top: 5px; left: 50%; transform: translateX(-50%); }
+        #mz-wrapper .dpad-btn.down { bottom: 5px; left: 50%; transform: translateX(-50%); }
+        #mz-wrapper .dpad-btn.left { left: 5px; top: 50%; transform: translateY(-50%); }
+        #mz-wrapper .dpad-btn.right { right: 5px; top: 50%; transform: translateY(-50%); }
+        #mz-wrapper .badge { position: absolute; bottom: -5px; right: -5px; background: var(--neon-red); color: white; font-size: 0.8rem; font-weight: bold; padding: 2px 6px; border-radius: 10px; border: 1px solid white; text-shadow: none; font-family: sans-serif; }
+        @media (min-width: 900px) { #mz-wrapper .mobile-dpad, #mz-wrapper .action-pad { display: none; } }
+        @media (max-width: 600px) { #mz-wrapper .top-hud { width: 98%; padding: 0; } #mz-wrapper .hud-stat { font-size: 1rem; } #mz-wrapper .pause-btn-ingame { font-size: 1.6rem; } }
+        #mz-wrapper .mz-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 5, 10, 0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
+        #mz-wrapper .mz-screen.active { display: flex; }
+        #mz-wrapper .title-large { font-size: 4rem; text-align: center; margin: 0 0 10px 0; color: white; text-shadow: 0 0 30px var(--neon-blue); line-height: 1.1; font-family: 'Segoe UI', sans-serif;}
+        #mz-wrapper .subtitle { font-size: 1.1rem; color: var(--neon-blue); letter-spacing: 3px; margin-bottom: 30px; text-align: center; }
+        #mz-wrapper .mz-btn { background: rgba(0, 229, 255, 0.15); border: 2px solid var(--neon-blue); color: white; padding: 15px 50px; font-size: 1.4rem; font-weight: bold; border-radius: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); transition: 0.2s; margin-bottom: 15px; width: 300px; text-align: center; font-family: 'Segoe UI', sans-serif;}
+        #mz-wrapper .mz-btn:hover { background: var(--neon-blue); color: var(--dark-bg); box-shadow: 0 0 40px var(--neon-blue); }
+        #mz-wrapper .btn-secondary { background: transparent; border-color: #555; font-size: 1.1rem; box-shadow: none; color: #ccc; }
+        #mz-wrapper .btn-secondary:hover { background: #333; color: white; border-color: #777; box-shadow: none; }
+        #mz-wrapper .stats-box { background: rgba(0,0,0,0.6); border: 1px solid var(--neon-blue); padding: 20px 40px; border-radius: 10px; margin-bottom: 30px; font-size: 1.2rem; min-width: 300px; font-family: 'Segoe UI', sans-serif;}
+        #mz-wrapper .stats-box p { display: flex; justify-content: space-between; margin: 12px 0; color: white;}
+        #mz-wrapper input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        #mz-wrapper input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 25px; width: 25px; border-radius: 50%; background: var(--neon-blue); cursor: pointer; margin-top: -10px; box-shadow: 0 0 10px var(--neon-blue); }
+        #mz-wrapper input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 5px; cursor: pointer; background: rgba(0, 229, 255, 0.3); border-radius: 5px; }
+        @media (orientation: portrait) {
+            #mz-wrapper .title-large { font-size: 3.5rem; }
+            #mz-wrapper .subtitle { font-size: 0.9rem; margin-bottom: 20px; letter-spacing: 1px; padding: 0 20px; }
+            #mz-wrapper .mz-btn { width: 85%; max-width: 300px; padding: 12px 20px; font-size: 1.2rem; }
+            #mz-wrapper .stats-box { width: 90%; padding: 15px 20px; font-size: 1rem; }
         }
     </style>
 
@@ -3070,6 +3202,7 @@ body {
     {w:"CHARM", emoji:"✨", s:"She wears a shiny lucky charm on her wrist.", diff:"hard"},
     {w:"CHEAP", emoji:"🪙", s:"The small plastic toy was very cheap to buy.", diff:"hard"}
         ];
+    window.GLOBAL_1000_WORDS = ALL_WORDS.map(item => item.w);
         
         const WORLDS = [];
         for(let i = 1; i <= 100; i++) { let xPos = Math.sin(i * Math.PI / 2) * 110; WORLDS.push({ id: i, name: "Level " + i, pos: { x: xPos, y: 0 } }); }
@@ -3705,99 +3838,7 @@ function getWordsForLevel(lvl) {
     })();
     </script>
 </div>
-<!-- ================= MAZE GAME WRAPPER ================= -->
-<div id="maze-wrapper" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #e0f2fe; z-index: 5000; overflow: hidden;">
-    
-    <!-- FULL SCREEN STAGE -->
-    <div id="stage" style="position:absolute; top:0; left:0; width:100%; height:100%; background:#7dd3fc; touch-action:none; overflow:hidden;">
-        <canvas id="mazeGameCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; display:block; touch-action:none;"></canvas>
 
-        <!-- FLOATING TOP BAR OVER THE MAZE -->
-        <div style="position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none; z-index:1000;">
-          
-          <div style="display:flex; gap:6px; flex-wrap:wrap; pointer-events:auto;">
-            <div class="maze-pill">🏠 Draw Path</div>
-            <div class="maze-pill">⭐ Lvl <span id="mazeLevelNum">1</span></div>
-            <div class="maze-pill maze-score">🏆 <span id="mazeScoreTotal">0</span></div>
-          </div>
-          
-          <div style="position:relative; pointer-events:auto;">
-            <!-- HAMBURGER CORNER BUTTON -->
-            <button onclick="document.getElementById('mazeDropdown').classList.toggle('hidden')" style="background:rgba(255,255,255,0.95); border:2px solid #cbd5e1; border-radius:12px; font-size:24px; color:#0284c7; cursor:pointer; padding:4px 12px; line-height:1; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.1s;">☰</button>
-            
-            <!-- SCROLLABLE DROPDOWN MENU -->
-            <div id="mazeDropdown" class="hidden" style="position:absolute; top:45px; right:0; background:#fff; padding:10px; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.3); display:flex; flex-direction:column; gap:6px; z-index:1001; min-width:160px; border: 2px solid #e2e8f0; transform-origin: top right; animation: mazeBtnPop 0.2s ease forwards; max-height: calc(100vh - 70px); overflow-y: auto;">
-              <button class="maze-ctrl maze-primary" onclick="window.mazeOpenCategories(); document.getElementById('mazeDropdown').classList.add('hidden');">🗂️ Categories</button>
-              <button class="maze-ctrl maze-on" id="mazeMusicBtn" onclick="window.mazeToggleMusic()">🎵 Music</button>
-              <button class="maze-ctrl maze-on" id="mazeSfxBtn" onclick="window.mazeToggleSfx()">🔊 SFX</button>
-              <button class="maze-ctrl" id="mazeHintBtn" onclick="window.mazeUseHint(); document.getElementById('mazeDropdown').classList.add('hidden');">💡 Hint</button>
-              <button class="maze-ctrl" onclick="window.mazeOpenHelp(); document.getElementById('mazeDropdown').classList.add('hidden');">❔ Help</button>
-              <button class="maze-ctrl" onclick="window.mazeOpenLevels(); document.getElementById('mazeDropdown').classList.add('hidden');">📚 Levels</button>
-              <button class="maze-ctrl" onclick="window.mazeResetCurrentLevel(); document.getElementById('mazeDropdown').classList.add('hidden');">↺ Retry</button>
-              <button class="maze-ctrl" style="background: #ef4444; color: white; box-shadow: 0 2px 0 #b91c1c;" onclick="window.exitMazeGame(); document.getElementById('mazeDropdown').classList.add('hidden');">✖ Exit</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- OVERLAYS -->
-        <div class="maze-overlay" id="mazeMainMenuOverlay">
-          <div class="maze-panel-box" style="text-align: center; max-width:800px; width:95%;">
-            <button class="maze-close-x" id="mazeCloseMainMenu" onclick="window.mazeHideAllOverlays()" style="display:none;">✕</button>
-            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px;">🏠 Draw the Path Home</h2>
-            <p style="margin: 0 auto 20px auto; color:#475569; font-weight:600;">Choose a category to start playing!</p>
-            <div class="maze-mode-grid" id="mazeMainMenuGrid"></div>
-          </div>
-        </div>
-
-        <div class="maze-overlay hidden" id="mazeWinOverlay">
-          <h2 style="font-family:'Baloo 2',cursive; font-size:clamp(26px,5vw,38px); margin:0; color:#0284c7;">🎉 Home Sweet Home! 🎉</h2>
-          <div style="font-size:55px; letter-spacing:4px; filter:drop-shadow(0 4px 6px rgba(0,0,0,.15)); height: 80px; display:flex; justify-content:center; align-items:center;" id="mazeWinStars"></div>
-          <p style="margin:10px 0 0 0; font-weight:600; font-size:16px; color:#475569;">Level Complete!</p>
-          <button class="maze-big-btn" id="mazeNextBtn" style="display:none;" onclick="window.mazeNextLevelAction()">Next Level →</button>
-        </div>
-
-        <div class="maze-overlay hidden" id="mazeLockOverlay">
-          <div class="maze-panel-box" style="text-align: center; max-width: 500px;">
-            <button class="maze-close-x" onclick="document.getElementById('mazeLockOverlay').classList.add('hidden')">✕</button>
-            <h2 style="font-size: 30px; color:#ef4444;">🔒 Area Locked!</h2>
-            <div style="font-size: 60px; margin: 10px 0; filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));">⭐</div>
-            <p id="mazeLockMessage" style="font-size: 18px; color: #475569; font-weight: bold; line-height:1.6;"></p>
-            <button class="maze-big-btn" style="background:linear-gradient(180deg,#ef4444,#b91c1c); box-shadow:0 6px 0 #7f1d1d;" onclick="document.getElementById('mazeLockOverlay').classList.add('hidden')">Okay</button>
-          </div>
-        </div>
-
-        <div class="maze-overlay hidden" id="mazeHelpOverlay">
-          <div class="maze-panel-box">
-            <button class="maze-close-x" onclick="window.mazeHideAllOverlays()">✕</button>
-            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px; text-align:center;">How To Play</h2>
-            <div style="text-align:center; background:#ffc93c; padding:10px; border-radius:12px; color:#7a5b00; font-weight:800; font-size:18px; margin-bottom:20px; font-family:'Baloo 2', cursive;" id="mazeHelpSequence">Current Sequence: A ➔ B ➔ C</div>
-            <div style="display:flex; justify-content:space-around; align-items:center; text-align:center; margin-bottom:20px; background:#e0f2fe; padding:15px; border-radius:16px;">
-              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">1</div><b>Start</b><div style="font-size:32px; margin-top:5px;">👦</div></div>
-              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">2</div><b>Draw Path</b><div style="font-size:24px; color:#0ea5e9; font-weight:900; margin-top:10px; font-family:'Baloo 2', cursive;">A-B-C</div></div>
-              <div style="display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:#0284c7;"><div style="background:#38bdf8; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:8px; font-weight:bold;">3</div><b>Reach Home</b><div style="font-size:32px; margin-top:5px;">🏠</div></div>
-            </div>
-            <ul style="list-style:none; padding:0; margin:0; font-size:15px; font-weight:600; color:#334155;">
-              <li style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:20px;">✅</span> <div>Follow the exact sequence shown.</div></li>
-              <li style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; background:#f8fafc; padding:12px; border-radius:12px; border:1px solid #e2e8f0;"><span style="font-size:20px;">❌</span> <div>Avoid Traps! Touching them breaks your line.</div></li>
-            </ul>
-            <div style="text-align:center; margin-top:20px;">
-              <button class="maze-big-btn" onclick="window.mazeHideAllOverlays()" style="padding:10px 40px; font-size:18px;">Got It! 👍</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="maze-overlay hidden" id="mazeLevelsOverlay">
-          <div class="maze-panel-box">
-            <button class="maze-close-x" onclick="window.mazeHideAllOverlays()">✕</button>
-            <h2 style="font-family:'Baloo 2',cursive; color:#0284c7; margin:0 0 15px; text-align:center;">📚 Choose a Level</h2>
-            <div id="mazeDecadeContainer"></div>
-          </div>
-        </div>
-
-    </div>
-  </div>
-</div>
-<!-- ================= END MAZE GAME WRAPPER ================= -->
 <!-- ================= BASKET CATCH WRAPPER ================= -->
 <div id="bc-wrapper" class="hidden">
     <div id="bc-rotate-warning">
@@ -3929,6 +3970,76 @@ function getWordsForLevel(lvl) {
      ================================================== -->
     <script>
 // Global Game Routers to ensure they are never blocked
+window.enterSpellingMaze = function() {
+            document.getElementById("app-container").classList.replace("active-flex", "hidden");
+            document.getElementById("mz-wrapper").classList.remove("hidden");
+            if(window.speechSynthesis) window.speechSynthesis.cancel();
+            try { 
+                let elem = document.documentElement; 
+                if (elem.requestFullscreen) { 
+                    elem.requestFullscreen().then(() => { 
+                        if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => {}); } 
+                    }).catch(e => {}); 
+                } 
+            } catch(err) {}
+            // Initialize maze logic if it hasn't started yet
+            if(window.mzInitApp) window.mzInitApp();
+        };
+
+        window.exitSpellingMaze = function() {
+            var bgm = document.getElementById('mz-bgm');
+            if (bgm) bgm.pause();
+            
+            document.getElementById("mz-wrapper").classList.add("hidden");
+            document.getElementById("app-container").classList.replace("hidden", "active-flex");
+            document.getElementById("main-header").classList.remove("hidden");
+            
+            // FIX: Explicitly hide the home screen so they don't overlap!
+            document.getElementById("home-screen").classList.replace("active-grid", "hidden");
+            document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden");
+            
+            // Show only the Fun Play menu
+            document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex");
+            
+            document.getElementById("app-title").innerText = "Fun Play";
+            document.getElementById("btn-home").classList.remove("hidden");
+            try { 
+                if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
+                if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+            } catch(err) {}
+        };
+window.enterWordJumble = function() {
+            var appContainer = document.getElementById("app-container");
+            if(appContainer) appContainer.classList.replace("active-flex", "hidden");
+            document.getElementById("wj-wrapper").classList.remove("hidden");
+            if(window.speechSynthesis) window.speechSynthesis.cancel();
+            try { 
+                let elem = document.documentElement; 
+                if (elem.requestFullscreen) { 
+                    elem.requestFullscreen().then(() => { 
+                        // LOCK MAP TO PORTRAIT!
+                        if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } 
+                    }).catch(e => {}); 
+                } 
+            } catch(err) {}
+            if(window.wjBoot) window.wjBoot();
+        };
+
+        window.exitWordJumble = function() {
+            if(window.wjStopBGM) window.wjStopBGM();
+            document.getElementById("wj-wrapper").classList.add("hidden");
+            
+            var appContainer = document.getElementById("app-container");
+            if(appContainer) appContainer.classList.replace("hidden", "active-flex");
+            document.getElementById("main-header").classList.remove("hidden");
+            document.getElementById("home-screen").classList.replace("hidden", "active-grid");
+            document.getElementById("app-title").innerText = "🎮 Games Menu";
+            document.getElementById("btn-home").classList.remove("hidden");
+            try { 
+                if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
+                if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
+            } catch(err) {}
+        };
         function enterMatchingGame() {
             // 1. Prepare the layout silently first
             document.getElementById('mg-menu-screen').style.display = 'flex';
@@ -4393,8 +4504,7 @@ if(langSelect) {
                     { id: "guessShape", name: "Guess the Shape", img: "game_guess_shape.png", color: "#8AC926" }, 
                     { id: "shadowMatch", name: "Shadow Match", img: "game_shadow_match.png", color: "#6A4C93" },
                     { id: "matchingGame", name: "Balloon Match", img: "game_balloon_match.png", color: "#F72585" }, 
-                    { id: "mazeGame", name: "Draw Path Home", img: "game_draw_path.png", color: "#22c55e" },
-{ id: "wordJumble", name: "Word Jumble", img: "game_word_jumble.png", color: "#F59E0B" }
+                    { id: "wordJumble", name: "Word Jumble", img: "game_word_jumble.png", color: "#F59E0B" }
                 ]; 
                 gamesList.forEach(game => { 
                     const card = document.createElement("div"); card.className = "category-card scale-in"; 
@@ -4415,11 +4525,7 @@ if(langSelect) {
     if (gameId === "matchingGame") { 
         enterMatchingGame(); 
         return; 
-    } 
-    if (gameId === "mazeGame") { 
-        window.enterMazeGame(); 
-        return; 
-    } 
+    }  
     if (gameId === "wordJumble") {
         enterWordJumble();
         return;
@@ -5349,474 +5455,6 @@ if(langSelect) {
         window.addEventListener('touchend', mgHandlePointerUp);
         window.addEventListener('touchcancel', mgHandlePointerUp);
     </script>
-
-<!-- ================= MAZE GAME ENGINE ================= -->
-<script>
-(function(){
-"use strict";
-
-window.enterMazeGame = function() {
-    var appContainer = document.getElementById("app-container");
-    if(appContainer) appContainer.classList.replace("active-flex", "hidden");
-    document.getElementById("maze-wrapper").classList.remove("hidden");
-    if(window.speechSynthesis) window.speechSynthesis.cancel();
-    try { 
-        let elem = document.documentElement; 
-        if (elem.requestFullscreen) { 
-            elem.requestFullscreen().then(() => { 
-                if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("landscape").catch(e => console.log("Orientation lock not supported.")); } 
-            }).catch(e => console.log("Fullscreen blocked.")); 
-        } 
-    } catch(err) {}
-    window.mazeBootGame();
-};
-
-window.exitMazeGame = function() {
-    if(window.mazeGame && window.mazeGame.stopMusic) window.mazeGame.stopMusic();
-    if(window.mazeGame && window.mazeGame.stopDragSound) window.mazeGame.stopDragSound();
-    document.getElementById("maze-wrapper").classList.add("hidden");
-    var appContainer = document.getElementById("app-container");
-    if(appContainer) appContainer.classList.replace("hidden", "active-flex");
-    document.getElementById("main-header").classList.remove("hidden");
-    document.getElementById("home-screen").classList.replace("hidden", "active-grid");
-    document.getElementById("app-title").innerText = "🎮 Games Menu";
-    document.getElementById("btn-home").classList.remove("hidden");
-    try { 
-        if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
-        if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
-    } catch(err) {}
-};
-
-window.mazeHideAllOverlays = function() {
-    try {
-        var menus = ['mazeMainMenuOverlay', 'mazeWinOverlay', 'mazeHelpOverlay', 'mazeLevelsOverlay', 'mazeLockOverlay', 'mazeDropdown'];
-        for(var i=0; i<menus.length; i++) {
-            var el = document.getElementById(menus[i]);
-            if(el) el.classList.add('hidden');
-        }
-    } catch(e){}
-};
-window.enterWordJumble = function() {
-    var appContainer = document.getElementById("app-container");
-    if(appContainer) appContainer.classList.replace("active-flex", "hidden");
-    document.getElementById("wj-wrapper").classList.remove("hidden");
-    if(window.speechSynthesis) window.speechSynthesis.cancel();
-    try { 
-        let elem = document.documentElement; 
-        if (elem.requestFullscreen) { 
-            elem.requestFullscreen().then(() => { 
-                // LOCK MAP TO PORTRAIT!
-                if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } 
-            }).catch(e => {}); 
-        } 
-    } catch(err) {}
-    if(window.wjBoot) window.wjBoot();
-};
-
-window.exitWordJumble = function() {
-    if(window.wjStopBGM) window.wjStopBGM();
-    document.getElementById("wj-wrapper").classList.add("hidden");
-    
-    var appContainer = document.getElementById("app-container");
-    if(appContainer) appContainer.classList.replace("hidden", "active-flex");
-    document.getElementById("main-header").classList.remove("hidden");
-    document.getElementById("home-screen").classList.replace("hidden", "active-grid");
-    document.getElementById("app-title").innerText = "🎮 Games Menu";
-    document.getElementById("btn-home").classList.remove("hidden");
-    try { 
-        if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
-        if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
-    } catch(err) {}
-};
-window.mazeOpenCategories = function() { window.mazeHideAllOverlays(); window.mazeBuildMainMenu(); var closeBtn = document.getElementById('mazeCloseMainMenu'); if(closeBtn) closeBtn.style.display = 'flex'; var menuOverlay = document.getElementById('mazeMainMenuOverlay'); if(menuOverlay) menuOverlay.classList.remove('hidden'); };
-window.mazeOpenLevels = function() { window.mazeHideAllOverlays(); window.mazeBuildLevelGrid(); var levelsOverlay = document.getElementById('mazeLevelsOverlay'); if(levelsOverlay) levelsOverlay.classList.remove('hidden'); };
-window.mazeOpenHelp = function() { window.mazeHideAllOverlays(); var helpOverlay = document.getElementById('mazeHelpOverlay'); if(helpOverlay) helpOverlay.classList.remove('hidden'); };
-window.mazeResetCurrentLevel = function() { window.mazeHideAllOverlays(); window.mazeNewLevel(window.mazeGameData.level, true); };
-window.mazeNextLevelAction = function() { window.mazeTryStartLevel(Math.min(100, window.mazeGameData.level + 1)); };
-
-window.mazeGetTotalStars = function() {
-    var st = window.MazeStorageMgr.get(); var total = 0;
-    if(st.results) { for(var key in st.results) { total += st.results[key].stars || 0; } }
-    return total;
-};
-
-window.mazeTryStartLevel = function(n) {
-    var decade = Math.floor((n - 1) / 10); 
-    var requiredStars = decade * 30; 
-    var currentStars = window.mazeGetTotalStars();
-    
-    if (currentStars < requiredStars) {
-        var msg = "You need " + requiredStars + " stars to unlock levels " + (decade*10 + 1) + " to " + (decade*10 + 10) + ".\n\nYou currently have " + currentStars + " / " + requiredStars + " stars.\nReplay previous levels to earn more stars!";
-        document.getElementById('mazeLockMessage').innerText = msg;
-        window.mazeHideAllOverlays();
-        document.getElementById('mazeLockOverlay').classList.remove('hidden');
-        return;
-    }
-    window.mazeHideAllOverlays();
-    window.mazeNewLevel(n, true);
-};
-
-var GAME_MODES = {
-  'en_upper': { name: 'A B C', icon: '🔠', data: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('') },
-  'en_lower': { name: 'a b c', icon: '🔡', data: "abcdefghijklmnopqrstuvwxyz".split('') },
-  'urdu': { name: 'Urdu', icon: '🕌', data: "ا ب پ ت ٹ ث ج چ ح خ د ڈ ذ ر ڑ ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ہ ء ی ے".split(' ') },
-  'telugu': { name: 'Telugu', icon: '🕉️', data: "అ ఆ ఇ ఈ ఉ ఊ ఋ ఎ ఏ ఐ ఒ ఓ ఔ క ఖ గ ఘ ఙ చ ఛ జ ఝ ఞ ట ఠ డ ఢ ణ త థ ద ధ న ప ఫ బ భ మ య ర ల వ శ ష స హ ళ క్ష ఱ".split(' ') },
-  'animals': { name: 'Animals', icon: '🐶', data: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐒','🐔','🐧','🐦','🐤','🦆','🦅','🦉','🦇','🐺','🐗','🐴','🦄','🐝','🐛','🦋','🐌','🐞','🐜'] },
-  'vehicles': { name: 'Vehicles', icon: '🚗', data: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🚚','🚛','🚜','🛴','🚲','🛵','🏍️','🚨','🚔','🚍','🚘','🚖','🚡','🚠','🚟','🚃','🚋','🚁','🛩️','✈️'] },
-  'colors': { name: 'Colors', icon: '🔴', data: ['🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪','🟥','🟧','🟨','🟩','🟦','🟪','🟫','⬛','⬜'] }
-};
-
-var TRAP_POOL = ['1','2','3','4','5','6','7','8','9','🍎','🍌','🍉','🍇','🍓','🥕','🍆','❓','❌','⛔'];
-var ITEM_COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#eab308'];
-
-window.MazeStorageMgr = (function(){
-  var hasStorage = false; try { hasStorage = (typeof window!=='undefined' && window.localStorage); } catch(e){}
-  var cache = { mode: 'en_upper', unlocked: 100, results: {}, settings: { music:true, sfx:true } };
-  function load(){ if(!hasStorage){ return cache; } try{ var r = localStorage.getItem('eduplay_ulti_maze_v9'); if(r){ cache = Object.assign(cache, JSON.parse(r)); } }catch(e){} cache.unlocked = 100; if(!GAME_MODES[cache.mode]) cache.mode = 'en_upper'; return cache; }
-  function save(){ if(!hasStorage) return; try{ localStorage.setItem('eduplay_ulti_maze_v9', JSON.stringify(cache)); } catch(e){} }
-  return { load: load, get: function(){ return cache; }, setMode: function(m){ cache.mode = m; save(); }, setLevelResult: function(n, data){ cache.results[n] = data; save(); }, setSettings: function(s){ cache.settings = s; save(); } };
-})();
-
-var mCanvas = document.getElementById('mazeGameCanvas');
-var mCtx = mCanvas.getContext('2d');
-var W = 1000, H = 580;
-mCanvas.width = W; mCanvas.height = H;
-
-function mDrawRoundedRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
-
-var mAudioCtx = null; var mMusicOn = true, mSfxOn = true; var mMusicTimer = null; var mDragOsc = null, mDragGain = null;
-function mEnsureAudio(){ try { var AudioContextClass = window.AudioContext || window.webkitAudioContext; if(AudioContextClass && !mAudioCtx) mAudioCtx = new AudioContextClass(); if(mAudioCtx && mAudioCtx.state === 'suspended') mAudioCtx.resume(); } catch(e) {} }
-function mPluck(freq, t0, dur, vol, type){ try { if(!mAudioCtx || mAudioCtx.state !== 'running') return; var o = mAudioCtx.createOscillator(); var g = mAudioCtx.createGain(); o.type = type || 'triangle'; o.frequency.value = freq; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0+0.02); g.gain.exponentialRampToValueAtTime(0.001, t0+dur); o.connect(g); g.connect(mAudioCtx.destination); o.start(t0); o.stop(t0+dur+0.05); } catch(e) {} }
-var mSCALE = [261.63, 329.63, 392.00, 523.25, 659.25];
-function mMusicTick(){ try { if(!mAudioCtx || !mMusicOn) return; var now = mAudioCtx.currentTime; var notes = 2 + Math.floor(Math.random()*2); for(var i=0;i<notes;i++){ var n = mSCALE[Math.floor(Math.random()*mSCALE.length)] / (Math.random()<0.4?2:1); mPluck(n, now + i*0.4, 1.2, 0.05, 'sine'); } } catch(e){} }
-window.mazeGame = { stopMusic: function(){ if(mMusicTimer){ clearInterval(mMusicTimer); mMusicTimer=null; } }, stopDragSound: function(){ try { if(mDragOsc && mAudioCtx && mDragGain){ mDragGain.gain.cancelScheduledValues(mAudioCtx.currentTime); mDragGain.gain.setTargetAtTime(0.0001, mAudioCtx.currentTime, 0.03); mDragOsc.stop(mAudioCtx.currentTime+0.1); } } catch(e){} mDragOsc=null; mDragGain=null; } };
-function mStartMusic(){ if(mMusicTimer || !mMusicOn) return; mMusicTick(); mMusicTimer = setInterval(mMusicTick, 2000); }
-function mStartDragSound(){ try { if(!mAudioCtx || !mSfxOn) return; window.mazeGame.stopDragSound(); mDragOsc = mAudioCtx.createOscillator(); mDragGain = mAudioCtx.createGain(); mDragOsc.type = 'sine'; mDragOsc.frequency.value = 400; mDragGain.gain.value = 0.0001; mDragGain.gain.linearRampToValueAtTime(0.06, mAudioCtx.currentTime+0.05); mDragOsc.connect(mDragGain); mDragGain.connect(mAudioCtx.destination); mDragOsc.start(); } catch(e){} }
-function mUpdateDragSound(distTraveled){ try{ if(mDragOsc && mAudioCtx) mDragOsc.frequency.setTargetAtTime(350 + (distTraveled%150), mAudioCtx.currentTime, 0.05); }catch(e){} }
-function mErrorSound(){ try { if(!mAudioCtx || !mSfxOn) return; var now = mAudioCtx.currentTime; var o = mAudioCtx.createOscillator(); var g = mAudioCtx.createGain(); o.type='sawtooth'; o.frequency.value = 140; g.gain.setValueAtTime(0.001,now); g.gain.linearRampToValueAtTime(0.08, now+0.03); g.gain.exponentialRampToValueAtTime(0.001, now+0.3); o.connect(g); g.connect(mAudioCtx.destination); o.start(now); o.stop(now+0.35); } catch(e){} }
-function mSuccessFanfare(){ try { if(!mAudioCtx || !mSfxOn) return; var now = mAudioCtx.currentTime; var freqs = [523.25,659.25,783.99,1046.5]; for(var i=0; i<freqs.length; i++) { mPluck(freqs[i], now+i*0.14, 0.5, 0.1, 'triangle'); } mPluck(1318.5, now+0.6, 0.8, 0.08, 'sine'); } catch(e){} }
-function mItemSound(){ try{ if(mAudioCtx && mSfxOn) mPluck(880, mAudioCtx.currentTime, 0.2, 0.05, 'sine'); }catch(e){} }
-function mPlayStarSound(index) { try { if(!mAudioCtx || !mSfxOn) return; var freqs = [659.25, 783.99, 1046.5]; mPluck(freqs[index], mAudioCtx.currentTime, 0.3, 0.1, 'sine'); } catch(e){} }
-
-window.mazeToggleMusic = function() { mMusicOn = !mMusicOn; var mBtn = document.getElementById('mazeMusicBtn'); if(mBtn) { mBtn.classList.toggle('maze-on', mMusicOn); mBtn.textContent = mMusicOn ? '🎵 Music' : '🔇 Music'; } try { if(mMusicOn){ mEnsureAudio(); mStartMusic(); } else { window.mazeGame.stopMusic(); } } catch(e){} window.MazeStorageMgr.setSettings({ music:mMusicOn, sfx:mSfxOn }); };
-window.mazeToggleSfx = function() { mSfxOn = !mSfxOn; var sBtn = document.getElementById('mazeSfxBtn'); if(sBtn) { sBtn.classList.toggle('maze-on', mSfxOn); sBtn.textContent = mSfxOn ? '🔊 SFX' : '🔈 SFX'; } window.MazeStorageMgr.setSettings({ music:mMusicOn, sfx:mSfxOn }); };
-window.mazeUseHint = function() { if(window.mazeGameData.hintUsed || window.mazeGameData.state==='walking' || window.mazeGameData.state==='complete' || !window.mazeGameData.data) return; try { mEnsureAudio(); } catch(e){} window.mazeGameData.hintUsed = true; window.mazeGameData.hintUntil = performance.now()+3000; var hBtn = document.getElementById('mazeHintBtn'); if(hBtn){ hBtn.disabled = true; hBtn.classList.add('maze-on'); } };
-
-function mMulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
-function mDist(a,b){ return Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y)); }
-function mDistToSegment(p, v, w) { var l2 = (v.x - w.x)*(v.x - w.x) + (v.y - w.y)*(v.y - w.y); if (l2 === 0) return Math.sqrt((p.x - v.x)*(p.x - v.x) + (p.y - v.y)*(p.y - v.y)); var t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2; t = Math.max(0, Math.min(1, t)); return Math.sqrt((p.x - (v.x + t * (w.x - v.x)))*(p.x - (v.x + t * (w.x - v.x))) + (p.y - (v.y + t * (w.y - v.y)))*(p.y - (v.y + t * (w.y - v.y)))); }
-function mCatmullRom(pts, samples){ if(pts.length<2) return pts.slice(); var res=[]; function get(i){ return pts[Math.max(0,Math.min(pts.length-1,i))]; } for(var i=0;i<pts.length-1;i++){ var p0=get(i-1), p1=get(i), p2=get(i+1), p3=get(i+2); for(var s=0;s<samples;s++){ var t=s/samples, t2=t*t, t3=t2*t; res.push({ x:0.5*((2*p1.x)+(-p0.x+p2.x)*t+(2*p0.x-5*p1.x+4*p2.x-p3.x)*t2+(-p0.x+3*p1.x-3*p2.x+p3.x)*t3), y:0.5*((2*p1.y)+(-p0.y+p2.y)*t+(2*p0.y-5*p1.y+4*p2.y-p3.y)*t2+(-p0.y+3*p1.y-3*p2.y+p3.y)*t3) }); } } res.push(pts[pts.length-1]); return res; }
-function mBuildArcLen(cl){ var cum=[0]; for(var i=1;i<cl.length;i++) cum.push(cum[i-1] + mDist(cl[i], cl[i-1])); return cum; }
-function mPointAtFraction(cl, cum, frac){ var target = Math.max(0,Math.min(1,frac)) * cum[cum.length-1]; var lo=0, hi=cum.length-1; while(lo<hi){ var mid=(lo+hi)>>1; if(cum[mid]<target) lo=mid+1; else hi=mid; } var i=lo; if(i===0) return {x:cl[0].x,y:cl[0].y}; var p0=cl[i-1], p1=cl[i], segLen=(cum[i]-cum[i-1])||1, t=(target-cum[i-1])/segLen; return {x:p0.x+(p1.x-p0.x)*t, y:p0.y+(p1.y-p0.y)*t}; }
-function mSimplifyRDP(points, epsilon){ if(points.length<3) return points.slice(); function rdp(pts){ if(pts.length<3) return pts; var maxD=0, idx=0; for(var i=1;i<pts.length-1;i++){ var d = mDistToSegment(pts[i], pts[0], pts[pts.length-1]); if(d>maxD){ maxD=d; idx=i; } } if(maxD>epsilon){ var left = rdp(pts.slice(0,idx+1)); var right = rdp(pts.slice(idx)); return left.slice(0,-1).concat(right); } return [pts[0], pts[pts.length-1]]; } return rdp(points); }
-
-function mGenerateLevel(level, modeId){
-  var stageEl = document.getElementById('stage');
-  if(stageEl && stageEl.clientWidth > 0) {
-      W = stageEl.clientWidth; H = stageEl.clientHeight;
-      mCanvas.width = W; mCanvas.height = H;
-  }
-  
-  var aspectRatio = W / H;
-  var diff = 4 + level * 0.5; 
-  var cols = Math.max(4, Math.floor(diff * Math.sqrt(aspectRatio)));
-  var rows = Math.max(4, Math.floor(diff / Math.sqrt(aspectRatio)));
-  cols = Math.min(16, cols); rows = Math.min(12, rows);
-
-  var modeHash = 0; for(var i=0; i<modeId.length; i++) modeHash += modeId.charCodeAt(i);
-  var rng = mMulberry32(8000 + level*999 + modeHash*123);
-  
-  // PUSHES THE MAZE DOWN SO IT DOESNT OVERLAP BUTTONS
-  var ox = Math.max(30, W * 0.05); 
-  var oyTop = 65; // Clear space for the floating buttons!
-  var oyBot = Math.max(15, H * 0.04); 
-  var mazeW = W - (ox * 2); 
-  var mazeH = H - oyTop - oyBot; 
-  var cw = mazeW / cols; 
-  var ch = mazeH / rows;
-
-  var cells = []; var nodes = [];
-  for(var c=0; c<cols; c++){ cells[c] = []; for(var r=0; r<rows; r++){ var node = { c:c, r:r, x: ox + c*cw + cw/2, y: oyTop + r*ch + ch/2, walls: [true, true, true, true], visited: false, edges: [] }; cells[c][r] = node; nodes.push(node); } }
-
-  var stack = [cells[0][0]]; cells[0][0].visited = true;
-
-  while(stack.length > 0){
-    var curr = stack[stack.length-1]; var dirs = [[0,-1,0,2], [1,0,1,3], [0,1,2,0], [-1,0,3,1]];
-    for(var i=dirs.length-1; i>0; i--){ var j = Math.floor(rng() * (i + 1)); var temp = dirs[i]; dirs[i] = dirs[j]; dirs[j] = temp; }
-    var found = false;
-    for(var i=0; i<dirs.length; i++){
-      var d = dirs[i]; var nc = curr.c + d[0], nr = curr.r + d[1];
-      if(nc>=0 && nc<cols && nr>=0 && nr<rows && !cells[nc][nr].visited){
-        var next = cells[nc][nr]; curr.walls[d[2]] = false; next.walls[d[3]] = false;
-        curr.edges.push(next); next.edges.push(curr); next.visited = true; stack.push(next); found = true; break;
-      }
-    }
-    if(!found) stack.pop();
-  }
-
-  var startR = Math.floor(rows/2); var endR = Math.floor(rows/2);
-  cells[0][startR].walls[3] = false; cells[cols-1][endR].walls[1] = false;
-  var boyX = ox - (ox*0.6); 
-  var boyY = oyTop + startR*ch + ch/2; 
-  var houseX = ox + mazeW + (ox*0.6); 
-  var houseY = oyTop + endR*ch + ch/2 - 10;
-
-  var solidWalls = [];
-  for(var c=0; c<cols; c++){ for(var r=0; r<rows; r++){ var cx = ox + c*cw, cy = oyTop + r*ch;
-      if(cells[c][r].walls[0]) solidWalls.push({ p1:{x:cx, y:cy}, p2:{x:cx+cw, y:cy} }); 
-      if(cells[c][r].walls[1]) solidWalls.push({ p1:{x:cx+cw, y:cy}, p2:{x:cx+cw, y:cy+ch} }); 
-      if(cells[c][r].walls[2]) solidWalls.push({ p1:{x:cx+cw, y:cy+ch}, p2:{x:cx, y:cy+ch} }); 
-      if(cells[c][r].walls[3]) solidWalls.push({ p1:{x:cx, y:cy+ch}, p2:{x:cx, y:cy} }); 
-  } }
-
-  var q = [[cells[0][startR]]]; var sol = []; var visitedPath = []; visitedPath.push(cells[0][startR]);
-  while(q.length > 0){
-    var p = q.shift(); var curr = p[p.length-1];
-    if(curr === cells[cols-1][endR]){ sol = p; break; }
-    for(var i=0; i<curr.edges.length; i++){ var next = curr.edges[i]; if(visitedPath.indexOf(next) === -1){ visitedPath.push(next); q.push(p.concat([next])); } }
-  }
-  var solutionNodes = [{x: boyX, y: boyY}].concat(sol).concat([{x: houseX-10, y: houseY + 10}]);
-  
-  var modeObj = GAME_MODES[modeId] || GAME_MODES['en_upper']; var modeData = modeObj.data; var seqLen = Math.min(modeData.length, 4 + level); var targetSeq = modeData.slice(0, seqLen);
-  var items = []; var pathInternal = sol.slice(1); 
-  if(pathInternal.length < seqLen) { pathInternal = sol.slice(); seqLen = Math.min(seqLen, pathInternal.length); targetSeq = modeData.slice(0, seqLen); }
-  var step = Math.max(1, Math.floor((pathInternal.length - 1) / Math.max(1, seqLen - 1))); var placedIndexes = [];
-  
-  for(var i=0; i<seqLen; i++){
-      var n; if (i === seqLen - 1) { n = pathInternal[pathInternal.length - 1]; } else { var idx = Math.min(pathInternal.length - 2, i * step); n = pathInternal[idx]; }
-      placedIndexes.push(n); items.push({ x: n.x, y: n.y, type: 'correct', text: targetSeq[i] || '', color: ITEM_COLORS[i % ITEM_COLORS.length], collected: false });
-  }
-  var safeTraps = []; for(var i=0; i<TRAP_POOL.length; i++) { if(targetSeq.indexOf(TRAP_POOL[i]) === -1) safeTraps.push(TRAP_POOL[i]); }
-  for(var i=0; i<nodes.length; i++){
-      var n = nodes[i];
-      if(sol.indexOf(n) === -1){
-          if(rng() < 0.40){ items.push({ x: n.x, y: n.y, type: 'trap', text: safeTraps[Math.floor(rng() * safeTraps.length)] || '❌', color: '#ef4444' }); }
-      }
-  }
-
-  var decor = []; var tries=0, placed=0;
-  while(placed < 20 && tries < 400){ tries++; var px = rng()*W; var py = rng()*H; if(px > ox-60 && px < ox+mazeW+60 && py > oyTop-40 && py < oyTop+mazeH+40) continue; decor.push({x:px, y:py, scale: 0.6 + rng()*0.6}); placed++; }
-
-  return { cells: cells, cols: cols, rows: rows, cw: cw, ch: ch, ox: ox, oy: oyTop, solidWalls: solidWalls, solutionNodes: solutionNodes, startX: boyX, startY: boyY, houseX: houseX, houseY: houseY, decor: decor, items: items, targetSeq: targetSeq, modeId: modeId };
-}
-
-window.mazeGameData = { level: 1, data: null, state: 'ready', strokePoints: [], lastRawPoint: null, flashUntil: 0, hintUntil: 0, hintUsed: false, attempts: 0, levelStartTime: 0, totalDistance: 0, walkPath: null, walkCumLen: null, walkStartTime: 0, walkDuration: 0, confetti: [], totalScore: 0, floatingTexts: [] };
-
-function mAddFloatingText(text, x, y, color) { window.mazeGameData.floatingTexts.push({ text: text, x: x, y: y, color: color, life: 1.0 }); }
-
-window.mazeNewLevel = function(level, skipOverlayReset){
-  try {
-      var modeId = window.MazeStorageMgr.get().mode; level = Math.max(1, Math.min(100, level));
-      window.mazeGameData.level = level; window.mazeGameData.data = mGenerateLevel(level, modeId); window.mazeGameData.state = 'ready'; window.mazeGameData.strokePoints = []; window.mazeGameData.lastRawPoint = null; window.mazeGameData.flashUntil = 0; window.mazeGameData.hintUntil = 0; window.mazeGameData.hintUsed = false; window.mazeGameData.attempts = 0; window.mazeGameData.totalDistance = 0; window.mazeGameData.levelStartTime = performance.now(); window.mazeGameData.confetti = []; window.mazeGameData.floatingTexts = [];
-      var levelNumEl = document.getElementById('mazeLevelNum'); if(levelNumEl) levelNumEl.textContent = level;
-      var modeObj = GAME_MODES[modeId] || GAME_MODES['en_upper']; var modeName = modeObj.name; var startLetter = window.mazeGameData.data.targetSeq[0] || ''; var endLetter = window.mazeGameData.data.targetSeq[window.mazeGameData.data.targetSeq.length-1] || '';
-      var formattedSeq = window.mazeGameData.data.targetSeq.join(' ➔ '); if(window.mazeGameData.data.targetSeq.length > 5) { var secondLetter = window.mazeGameData.data.targetSeq[1] || ''; formattedSeq = startLetter + ' ➔ ' + secondLetter + ' ➔ ... ➔ ' + endLetter; }
-      var helpSequence = document.getElementById('mazeHelpSequence'); if(helpSequence) helpSequence.innerHTML = 'Category: <b>' + modeName + '</b><br>Follow: ' + formattedSeq;
-      var hintBtn = document.getElementById('mazeHintBtn'); if(hintBtn) { hintBtn.disabled = false; hintBtn.classList.remove('maze-on'); }
-      if(!skipOverlayReset) { window.mazeHideAllOverlays(); }
-  } catch(e) { }
-};
-
-// --- Rendering ---
-function mDrawScenery(){
-  var g = mCtx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#bae6fd'); g.addColorStop(0.4,'#e0f2fe'); g.addColorStop(1,'#dcfce7'); mCtx.fillStyle = g; mCtx.fillRect(0,0,W,H); mCtx.fillStyle='#bbf7d0'; mCtx.fillRect(0,H*0.4,W,H*0.6);
-  if(!window.mazeGameData.data || !window.mazeGameData.data.decor) return;
-  for(var i=0; i<window.mazeGameData.data.decor.length; i++){ var d = window.mazeGameData.data.decor[i]; mCtx.save(); mCtx.translate(d.x, d.y); mCtx.scale(d.scale, d.scale); mCtx.fillStyle = '#8b4513'; mCtx.fillRect(-4, 0, 8, 15); mCtx.fillStyle = '#166534'; mCtx.beginPath(); mCtx.moveTo(0,-30); mCtx.lineTo(-15,5); mCtx.lineTo(15,5); mCtx.fill(); mCtx.fillStyle = '#22c55e'; mCtx.beginPath(); mCtx.moveTo(0,-45); mCtx.lineTo(-12,-10); mCtx.lineTo(12,-10); mCtx.fill(); mCtx.restore(); }
-}
-function mDrawHouse(x,y, scale){ 
-  mCtx.save(); mCtx.translate(x,y); mCtx.scale(scale, scale);
-  mCtx.fillStyle = 'rgba(253, 224, 71, 0.4)'; mCtx.save(); mCtx.translate(0, 20); mCtx.scale(3, 1); mCtx.beginPath(); mCtx.arc(0, 0, 20, 0, Math.PI*2); mCtx.fill(); mCtx.restore();
-  mCtx.fillStyle='#d8c9a3'; mCtx.fillRect(-35, -20, 70, 40); mCtx.fillStyle='#c2410c'; mCtx.beginPath(); mCtx.moveTo(-45,-20); mCtx.lineTo(0,-50); mCtx.lineTo(45,-20); mCtx.fill(); mCtx.fillStyle='#5c3a22'; mCtx.fillRect(-10, -5, 20, 25); mCtx.fillStyle='#7dd3fc'; mCtx.fillRect(-25, -10, 10, 10); mCtx.fillRect(15, -10, 10, 10); mCtx.restore(); }
-function mDrawBoy(x,y,walking,bob,scale){ 
-  mCtx.save(); mCtx.translate(x,y); mCtx.scale(scale, scale);
-  if(window.mazeGameData.state === 'ready') { mCtx.fillStyle = 'rgba(74, 222, 128, 0.4)'; mCtx.save(); mCtx.translate(0, 15); mCtx.scale(2.5, 1); mCtx.beginPath(); mCtx.arc(0, 0, 10, 0, Math.PI*2); mCtx.fill(); mCtx.restore(); mCtx.strokeStyle = '#22c55e'; mCtx.lineWidth=2; mCtx.save(); mCtx.translate(0, 15); mCtx.scale(2.5, 1); mCtx.beginPath(); mCtx.arc(0, 0, 10, 0, Math.PI*2); mCtx.stroke(); mCtx.restore(); } 
-  var leg = walking ? Math.sin(bob*10)*6 : 0; mCtx.translate(0,walking?Math.abs(Math.sin(bob*10))*-2:0); mCtx.strokeStyle='#1e3a8a'; mCtx.lineWidth=5; mCtx.lineCap='round'; mCtx.beginPath(); mCtx.moveTo(-4,5); mCtx.lineTo(-4+leg*0.5,18); mCtx.stroke(); mCtx.beginPath(); mCtx.moveTo(4,5); mCtx.lineTo(4-leg*0.5,18); mCtx.stroke(); mCtx.fillStyle='#ef4444'; mDrawRoundedRect(mCtx, -8, -10, 16, 16, 4); mCtx.fill(); mCtx.fillStyle='#fcd34d'; mCtx.beginPath(); mCtx.arc(0,-18,10,0,Math.PI*2); mCtx.fill(); mCtx.fillStyle='#1c1917'; mCtx.beginPath(); mCtx.arc(0,-20,10,Math.PI,Math.PI*2); mCtx.fill(); mCtx.strokeStyle='#475569'; mCtx.lineWidth=2; mCtx.beginPath(); mCtx.moveTo(-5,-8); mCtx.lineTo(-5,5); mCtx.stroke(); mCtx.beginPath(); mCtx.moveTo(5,-8); mCtx.lineTo(5,5); mCtx.stroke(); mCtx.restore(); }
-function mDrawHedgeMaze(d, now){
-  mCtx.fillStyle = '#fef08a'; mDrawRoundedRect(mCtx, d.ox, d.oy, d.cols*d.cw, d.rows*d.ch, 12); mCtx.fill(); var fontBase = Math.min(28, d.ch * 0.4);
-  for(var i=0; i<d.items.length; i++){
-      var item = d.items[i]; mCtx.save(); mCtx.translate(item.x, item.y);
-      if(item.type === 'correct' && !item.collected) mCtx.translate(0, Math.sin(now/200 + item.x) * 3);
-      if(item.collected){ mCtx.globalAlpha = 0.3; mCtx.fillStyle = '#22c55e'; mCtx.beginPath(); mCtx.arc(0,0,15,0,Math.PI*2); mCtx.fill(); } else {
-          var fontStr = "bold " + fontBase + "px 'Quicksand', sans-serif";
-          if(d.modeId === 'urdu') fontStr = "bold " + (fontBase+4) + "px 'Noto Nastaliq Urdu', serif";
-          else if(d.modeId === 'telugu') fontStr = "bold " + (fontBase-2) + "px 'Noto Sans Telugu', sans-serif";
-          else if(/[\uD800-\uDBFF][\uDC00-\uDFFF]/.test(item.text)) fontStr = (fontBase-2) + "px Arial"; 
-          mCtx.font = fontStr; mCtx.textAlign = "center"; mCtx.textBaseline = "middle";
-          if(item.type === 'correct') { mCtx.fillStyle = item.color; mCtx.shadowColor = 'rgba(255,255,255,0.8)'; mCtx.shadowBlur = 10; } else { mCtx.fillStyle = item.color || '#0f172a'; }
-          if(item.text) mCtx.fillText(item.text, 0, 0);
-      }
-      mCtx.restore();
-  }
-  var wt = Math.min(26, (d.cw+d.ch)*0.15); mCtx.lineCap = 'round'; mCtx.lineJoin = 'round'; mCtx.beginPath();
-  for(var i=0; i<d.solidWalls.length; i++){ var wall = d.solidWalls[i]; mCtx.moveTo(wall.p1.x, wall.p1.y); mCtx.lineTo(wall.p2.x, wall.p2.y); }
-  mCtx.strokeStyle = 'rgba(0,0,0,0.15)'; mCtx.lineWidth = wt; mCtx.stroke(); mCtx.strokeStyle = '#14532d'; mCtx.lineWidth = wt - 4; mCtx.stroke(); mCtx.strokeStyle = '#166534'; mCtx.lineWidth = Math.max(4, wt - 12); mCtx.stroke(); mCtx.strokeStyle = '#22c55e'; mCtx.lineWidth = Math.max(2, wt - 20); mCtx.stroke();
-  
-  mCtx.strokeStyle = '#fef08a'; mCtx.lineWidth = Math.max(4, wt - 14); mCtx.beginPath(); 
-  mCtx.moveTo(d.ox, d.oy + 4); mCtx.lineTo(d.ox, d.oy + d.ch - 4); 
-  mCtx.moveTo(d.ox + d.cols*d.cw, d.oy + (d.rows-1)*d.ch + 4); mCtx.lineTo(d.ox + d.cols*d.cw, d.oy + (d.rows-1)*d.ch + d.ch - 4); 
-  mCtx.stroke();
-}
-function mDrawUserStroke(now){ var pts = window.mazeGameData.strokePoints; if(pts.length<2) return; mCtx.save(); var flashing = now < window.mazeGameData.flashUntil; var d = window.mazeGameData.data; var st = Math.min(18, (d.cw+d.ch)*0.1); mCtx.strokeStyle = flashing ? 'rgba(239,68,68,0.5)' : 'rgba(14,165,233,0.3)'; mCtx.lineWidth = st; mCtx.lineJoin='round'; mCtx.lineCap='round'; mCtx.beginPath(); mCtx.moveTo(pts[0].x,pts[0].y); for(var i=1;i<pts.length;i++) mCtx.lineTo(pts[i].x,pts[i].y); mCtx.stroke(); mCtx.strokeStyle = flashing ? '#ef4444' : '#0ea5e9'; mCtx.lineWidth = Math.max(3, st - 10); mCtx.stroke(); if(window.mazeGameData.state==='paused'){ var head = pts[pts.length-1]; mCtx.globalAlpha = 0.6+0.4*Math.sin(now/200); mCtx.fillStyle='#38bdf8'; mCtx.beginPath(); mCtx.arc(head.x, head.y, Math.max(6, st-2), 0, Math.PI*2); mCtx.fill(); } mCtx.restore(); }
-function mDrawHint(now){ if(now >= window.mazeGameData.hintUntil || !window.mazeGameData.data) return; var sol = window.mazeGameData.data.solutionNodes; var d = window.mazeGameData.data; mCtx.save(); mCtx.globalAlpha = 0.4+0.3*Math.sin(now/150); mCtx.strokeStyle = '#fde047'; mCtx.lineWidth = Math.min(15, (d.cw+d.ch)*0.08); mCtx.lineCap='round'; mCtx.lineJoin='round'; mCtx.beginPath(); mCtx.moveTo(sol[0].x, sol[0].y); for(var i=1; i<sol.length; i++) mCtx.lineTo(sol[i].x, sol[i].y); mCtx.stroke(); mCtx.restore(); }
-function mDrawFloatingTexts(){ if(window.mazeGameData.floatingTexts && window.mazeGameData.floatingTexts.length > 0) { mCtx.save(); mCtx.textAlign = 'center'; mCtx.textBaseline = 'middle'; mCtx.font = "bold 22px 'Quicksand', sans-serif"; for(var i=window.mazeGameData.floatingTexts.length-1; i>=0; i--){ var ft = window.mazeGameData.floatingTexts[i]; ft.y -= 1; ft.life -= 0.02; mCtx.fillStyle = ft.color; mCtx.globalAlpha = Math.max(0, ft.life); mCtx.strokeStyle = 'white'; mCtx.lineWidth = 4; mCtx.strokeText(ft.text, ft.x, ft.y); mCtx.fillText(ft.text, ft.x, ft.y); if(ft.life <= 0) window.mazeGameData.floatingTexts.splice(i, 1); } mCtx.restore(); } }
-function mDrawConfettiParticles(dt){ mCtx.save(); for(var i=0; i<window.mazeGameData.confetti.length; i++){ var p = window.mazeGameData.confetti[i]; p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 260*dt; p.rot += p.vr*dt; p.life -= dt; mCtx.save(); mCtx.globalAlpha = Math.max(0,Math.min(1,p.life)); mCtx.translate(p.x,p.y); mCtx.rotate(p.rot); mCtx.fillStyle = p.color; mCtx.fillRect(-4,-3,8,6); mCtx.restore(); } var activeConfetti = []; for(var i=0; i<window.mazeGameData.confetti.length; i++){ if(window.mazeGameData.confetti[i].life > 0 && window.mazeGameData.confetti[i].y < H+30) activeConfetti.push(window.mazeGameData.confetti[i]); } window.mazeGameData.confetti = activeConfetti; mCtx.restore(); }
-function mSpawnConfetti(x,y){ var colors=['#ef4444','#fde047','#0ea5e9','#22c55e','#a855f7','#f97316']; for(var i=0;i<40;i++){ window.mazeGameData.confetti.push({ x: x, y: y, vx:(Math.random()-0.5)*300, vy:-150-Math.random()*250, rot:Math.random()*Math.PI, vr:(Math.random()-0.5)*10, life:1.3+Math.random()*0.8, color:colors[Math.floor(Math.random()*colors.length)] }); } }
-
-var mLastT = performance.now();
-function mFrame(now){ 
-    // AGAR MAZE GAME HIDDEN HAI TOH LOOP ROK DO
-    if(document.getElementById("maze-wrapper").classList.contains("hidden")) {
-        setTimeout(function() { requestAnimationFrame(mFrame); }, 500);
-        return;
-    }
-    try { var dt = Math.min(0.05,(now-mLastT)/1000); mLastT = now; mRender(now, dt); } catch(err) { } 
-    requestAnimationFrame(mFrame); 
-}
-
-function mRender(now, dt){
-  var d = window.mazeGameData.data; if(!d) return; mCtx.clearRect(0,0,W,H);
-  var spriteScale = Math.max(0.6, Math.min(1.2, (d.cw + d.ch) / 160));
-  mDrawScenery(); mDrawHedgeMaze(d, now); mDrawHint(now); mDrawHouse(d.houseX, d.houseY, spriteScale);
-  if(window.mazeGameData.state==='drawing' || window.mazeGameData.state==='paused') mDrawUserStroke(now);
-  if(window.mazeGameData.state==='walking'){ var elapsed = (now - window.mazeGameData.walkStartTime)/1000; var t = elapsed / window.mazeGameData.walkDuration; if(t>=1){ t=1; mFinishWalk(); } var p = mPointAtFraction(window.mazeGameData.walkPath, window.mazeGameData.walkCumLen, t); mDrawBoy(p.x, p.y, true, elapsed, spriteScale);
-  } else if(window.mazeGameData.state==='complete'){ mDrawBoy(d.houseX, d.houseY+5, false, 0, spriteScale); } else { mDrawBoy(d.startX, d.startY, false, 0, spriteScale); }
-  if(window.mazeGameData.confetti.length > 0) mDrawConfettiParticles(dt);
-  mDrawFloatingTexts();
-}
-
-function mCanvasPoint(evt){ var rect = mCanvas.getBoundingClientRect(); var scaleX = W/rect.width, scaleY = H/rect.height; var clientX = evt.clientX; var clientY = evt.clientY; if(evt.touches && evt.touches.length > 0) { clientX = evt.touches[0].clientX; clientY = evt.touches[0].clientY; } return { x:(clientX-rect.left)*scaleX, y:(clientY-rect.top)*scaleY }; }
-function mOnPointerDown(evt){
-  var mOverlay = document.getElementById('mazeMainMenuOverlay'); if(!window.mazeGameData.data || (mOverlay && !mOverlay.classList.contains('hidden'))) return; 
-  evt.preventDefault(); try { mEnsureAudio(); if(mMusicOn) mStartMusic(); } catch(e){}
-  var p = mCanvasPoint(evt); var d = window.mazeGameData.data;
-  if(window.mazeGameData.state==='ready'){ if(mDist(p,{x:d.startX,y:d.startY}) <= 50){ window.mazeGameData.state='drawing'; window.mazeGameData.strokePoints=[{x:d.startX,y:d.startY}, p]; window.mazeGameData.lastRawPoint = p; mStartDragSound(); }
-  } else if(window.mazeGameData.state==='paused'){ var head = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; if(mDist(p, head) <= 40){ window.mazeGameData.state='drawing'; window.mazeGameData.lastRawPoint = p; mStartDragSound(); } }
-}
-function mOnPointerMove(evt){
-  if(window.mazeGameData.state!=='drawing' || !window.mazeGameData.data) return; evt.preventDefault();
-  var p = mCanvasPoint(evt); var d = window.mazeGameData.data;
-  var moveDist = window.mazeGameData.lastRawPoint ? mDist(p, window.mazeGameData.lastRawPoint) : 0; window.mazeGameData.lastRawPoint = p; window.mazeGameData.totalDistance += moveDist;
-  
-  var hitWall = false; var tolerance = Math.min(10, (d.cw+d.ch)*0.08); 
-  for(var i=0; i<d.solidWalls.length; i++){ var wall = d.solidWalls[i]; if(mDistToSegment(p, wall.p1, wall.p2) < tolerance){ hitWall = true; break; }
-    if(window.mazeGameData.strokePoints.length > 0){ var lastP = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; var minX = Math.min(lastP.x, p.x), maxX = Math.max(lastP.x, p.x); var minY = Math.min(lastP.y, p.y), maxY = Math.max(lastP.y, p.y); var wMinX = Math.min(wall.p1.x, wall.p2.x), wMaxX = Math.max(wall.p1.x, wall.p2.x); var wMinY = Math.min(wall.p1.y, wall.p2.y), wMaxY = Math.max(wall.p1.y, wall.p2.y); if(maxX >= wMinX && minX <= wMaxX && maxY >= wMinY && minY <= wMaxY){ if(mDistToSegment(lastP, wall.p1, wall.p2) < tolerance) { hitWall = true; break; } } }
-  }
-  if(p.x < d.ox - 60 || p.x > d.ox + d.cols*d.cw + 60 || p.y < d.oy - 20 || p.y > d.oy + d.rows*d.ch + 20) hitWall = true;
-  
-  var hitTrap = false;
-  for(var i=0; i<d.items.length; i++){ var item = d.items[i]; if(!hitWall && mDist(p, item) < Math.min(20, d.cw*0.35)){ if(item.type === 'trap') { hitTrap = true; break; } } if(!hitWall && mDist(p, item) < Math.min(35, d.cw*0.5)){ if (item.type === 'correct' && !item.collected) { item.collected = true; mItemSound(); } } }
-  
-  if(!hitWall && !hitTrap){
-    var lastPt = window.mazeGameData.strokePoints[window.mazeGameData.strokePoints.length-1]; if(!lastPt || mDist(p, lastPt) >= 4){ window.mazeGameData.strokePoints.push(p); if(window.mazeGameData.strokePoints.length>2500) window.mazeGameData.strokePoints.shift(); } mUpdateDragSound(window.mazeGameData.totalDistance); 
-    if(mDist(p, {x: d.houseX, y: d.houseY}) < 50){ 
-        var allCollected = true; for(var k=0; k<d.items.length; k++){ if(d.items[k].type === 'correct' && !d.items[k].collected) allCollected = false; }
-        if(allCollected) { mBeginWalk(); } else { mTriggerError(false); mAddFloatingText("Follow sequence first!", d.houseX, d.houseY - 50, "#ef4444"); }
-    } 
-  } else { mTriggerError(hitTrap); }
-}
-function mOnPointerUp(evt){ if(window.mazeGameData.state==='drawing'){ window.mazeGameData.state='paused'; window.mazeGame.stopDragSound(); } }
-function mTriggerError(hitTrap){ window.mazeGameData.flashUntil = performance.now()+400; window.mazeGame.stopDragSound(); mErrorSound(); window.mazeGameData.attempts++; window.mazeGameData.state='ready'; window.mazeGameData.strokePoints=[]; window.mazeGameData.lastRawPoint=null; window.mazeGameData.totalDistance=0; for(var i=0; i<window.mazeGameData.data.items.length; i++){ if(window.mazeGameData.data.items[i].type === 'correct') window.mazeGameData.data.items[i].collected = false; } }
-
-mCanvas.addEventListener('pointerdown', mOnPointerDown); mCanvas.addEventListener('pointermove', mOnPointerMove); mCanvas.addEventListener('pointerup', mOnPointerUp); mCanvas.addEventListener('pointercancel', mOnPointerUp);
-mCanvas.addEventListener('touchstart', mOnPointerDown, {passive: false}); mCanvas.addEventListener('touchmove', mOnPointerMove, {passive: false}); mCanvas.addEventListener('touchend', mOnPointerUp);
-
-function mBeginWalk(){ window.mazeGame.stopDragSound(); window.mazeGameData.state='walking'; var d = window.mazeGameData.data; var simplified = mSimplifyRDP(window.mazeGameData.strokePoints, 3); if(simplified.length<2) simplified = [{x:d.startX,y:d.startY},{x:d.houseX,y:d.houseY}]; simplified[0] = {x:d.startX, y:d.startY}; simplified[simplified.length-1] = {x:d.houseX, y:d.houseY}; window.mazeGameData.walkPath = mCatmullRom(simplified, 8); window.mazeGameData.walkCumLen = mBuildArcLen(window.mazeGameData.walkPath); var total = window.mazeGameData.walkCumLen[window.mazeGameData.walkCumLen.length-1]; window.mazeGameData.walkDuration = Math.min(6.5, Math.max(2.0, total/260)); window.mazeGameData.walkStartTime = performance.now(); }
-
-function mFinishWalk(){
-  if(window.mazeGameData.state !== 'walking') return;
-  window.mazeGameData.state = 'complete';
-
-  try { mSuccessFanfare(); } catch(e){}
-  try { var d = window.mazeGameData.data; mSpawnConfetti(d.houseX, d.houseY-30); } catch(e){}
-
-  var stars = 3;
-  if(window.mazeGameData.attempts >= 1) stars = 2;
-  if(window.mazeGameData.attempts >= 3) stars = 1;
-  var timeSec = (performance.now()-window.mazeGameData.levelStartTime)/1000;
-  if(timeSec > 40 && stars > 1) stars--;
-  
-  var score = 50 + stars*20;
-  if(timeSec<20) score += 10; if(window.mazeGameData.hintUsed) score -= 10;
-  score = Math.max(20, Math.round(score));
-  
-  window.mazeGameData.totalScore += score; 
-  try { var scoreTotalEl = document.getElementById('mazeScoreTotal'); if(scoreTotalEl) scoreTotalEl.textContent = window.mazeGameData.totalScore; } catch(e){}
-  try { window.MazeStorageMgr.setLevelResult(window.mazeGameData.level, { stars: stars, score: score, attempts: window.mazeGameData.attempts }); window.MazeStorageMgr.setUnlocked(100); } catch (e) {}
-
-  var winStars = document.getElementById('mazeWinStars');
-  var nextBtn = document.getElementById('mazeNextBtn');
-  if(winStars) winStars.innerHTML = '';
-  if(nextBtn) { nextBtn.style.display = 'none'; nextBtn.classList.remove('maze-pop-anim'); }
-  
-  try { window.mazeHideAllOverlays(); var winOverlay = document.getElementById('mazeWinOverlay'); if(winOverlay) { winOverlay.classList.remove('hidden'); winOverlay.style.display = ''; } } catch(e){}
-
-  var starDelays = [600, 1200, 1800];
-  for(var i=0; i<3; i++) {
-      (function(idx) {
-          setTimeout(function() {
-              if(window.mazeGameData.state !== 'complete') return; 
-              var starSpan = document.createElement('span');
-              starSpan.className = 'maze-star-anim';
-              if(idx < stars) { starSpan.textContent = '⭐'; mPlayStarSound(idx); } else { starSpan.textContent = '☆'; }
-              if(winStars) winStars.appendChild(starSpan);
-              if(idx === 2) {
-                  if(nextBtn) { nextBtn.style.display = 'inline-block'; nextBtn.classList.add('maze-pop-anim'); }
-                  setTimeout(function(){ if (window.mazeGameData.state === 'complete') { try { window.mazeNextLevelAction(); } catch(e){} } }, 3500);
-              }
-          }, starDelays[idx]);
-      })(i);
-  }
-}
-
-window.mazeBuildMainMenu = function(){
-  var mainMenuGrid = document.getElementById('mazeMainMenuGrid'); if(!mainMenuGrid) return; mainMenuGrid.innerHTML = ''; var currentMode = window.MazeStorageMgr.get().mode;
-  for(var m in GAME_MODES){
-    (function(m){
-        var btn = document.createElement('button'); btn.className = 'maze-mode-btn' + (m === currentMode ? ' active' : ''); btn.innerHTML = '<span>' + GAME_MODES[m].icon + '</span><div>' + GAME_MODES[m].name + '</div>';
-        btn.onclick = function() { window.MazeStorageMgr.setMode(m); window.mazeHideAllOverlays(); try { mEnsureAudio(); mStartMusic(); } catch(e){} window.mazeNewLevel(1, true); };
-        mainMenuGrid.appendChild(btn);
-    })(m);
-  }
-};
-window.mazeBuildLevelGrid = function(){
-  var decadeContainer = document.getElementById('mazeDecadeContainer'); if(!decadeContainer) return; decadeContainer.innerHTML = '';
-  var currentStars = window.mazeGetTotalStars();
-  for(var dBase=0; dBase<100; dBase+=10){
-    var requiredStarsForDecade = (dBase / 10) * 30; var isDecadeLocked = currentStars < requiredStarsForDecade;
-    var wrap = document.createElement('div'); wrap.className='decade'; var title = document.createElement('div'); title.className='decade-title'; title.textContent = (dBase+1)+'–'+(dBase+10) + (isDecadeLocked ? ' (Requires ' + requiredStarsForDecade + ' ⭐)' : ''); var grid = document.createElement('div'); grid.className='maze-decade-grid';
-    for(var i=1;i<=10;i++){
-      (function(n, locked){
-          var btn = document.createElement('button'); var isCurrent = n===window.mazeGameData.level;
-          btn.className = 'maze-lvl-btn' + (locked ? ' locked' : '') + (isCurrent && !locked ? ' current':''); 
-          var res = window.MazeStorageMgr.get().results[n]; var starHtml = '';
-          if (res && res.stars && !locked) { starHtml = '<div style="font-size:10px; margin-top:2px;">' + '⭐'.repeat(res.stars) + '</div>'; }
-          btn.innerHTML = (locked ? '🔒 ' + n : n) + starHtml;
-          btn.onclick = function(){ if (locked) { window.mazeTryStartLevel(n); } else { window.mazeHideAllOverlays(); window.mazeNewLevel(n, true); } };
-          grid.appendChild(btn);
-      })(dBase+i, isDecadeLocked);
-    }
-    wrap.appendChild(title); wrap.appendChild(grid); decadeContainer.appendChild(wrap);
-  }
-};
-
-(function boot(){
-  window.MazeStorageMgr.load(); var st = window.MazeStorageMgr.get();
-  mMusicOn = st.settings && st.settings.music !== false; mSfxOn = st.settings && st.settings.sfx !== false;
-  var musicBtn = document.getElementById('mazeMusicBtn'); var sfxBtn = document.getElementById('mazeSfxBtn');
-  if(musicBtn) { musicBtn.classList.toggle('maze-on', mMusicOn); musicBtn.textContent = mMusicOn ? '🎵 Music' : '🔇 Music'; }
-  if(sfxBtn) { sfxBtn.classList.toggle('maze-on', mSfxOn); sfxBtn.textContent = mSfxOn ? '🔊 SFX' : '🔈 SFX'; }
-  window.mazeGameData.totalScore = window.mazeGetTotalStars(); var scoreTotalEl = document.getElementById('mazeScoreTotal'); if(scoreTotalEl) scoreTotalEl.textContent = window.mazeGameData.totalScore;
-  
-  window.mazeBuildMainMenu();
-  var closeMainMenu = document.getElementById('mazeCloseMainMenu'); if(closeMainMenu) closeMainMenu.style.display = 'none'; 
-  
-  window.mazeNewLevel(st.unlocked || 1, true); 
-  requestAnimationFrame(mFrame);
-})();
-
-})();
-</script>
-<!-- ================= END MAZE GAME ENGINE ================= -->
 <!-- ================= BASKET CATCH ENGINE ================= -->
 <script>
 (function() {
@@ -6615,5 +6253,524 @@ window.mazeBuildLevelGrid = function(){
       .catch(err => console.log("Service Worker Failed:", err));
   }
 </script>
+<!-- ================= SPELLING MAZE ENGINE ================= -->
+<script>
+(function(){
+    "use strict";
+    
+    // We only attach variables once the game is actually opened
+    var isInitialized = false;
+    
+    window.mzInitApp = function() {
+        if(isInitialized) return;
+        isInitialized = true;
+        
+        const EDUPLAY_WORDS = window.GLOBAL_1000_WORDS || ["APPLE", "TIGER", "WATER"];
+
+        let soundEnabled = localStorage.getItem('eduMazeSound') !== 'off'; 
+        document.getElementById('mz-toggle-sound-btn').innerText = soundEnabled ? 'Sound: ON' : 'Sound: OFF';
+
+        let bgmVolume = parseFloat(localStorage.getItem('eduMazeBgmVol'));
+        if (isNaN(bgmVolume)) bgmVolume = 0.3;
+
+        const volSlider = document.getElementById('mz-bgm-vol-slider');
+        volSlider.value = Math.round(bgmVolume * 100);
+        document.getElementById('mz-vol-val').innerText = volSlider.value + '%';
+
+        volSlider.addEventListener('input', (e) => {
+            bgmVolume = e.target.value / 100;
+            document.getElementById('mz-vol-val').innerText = e.target.value + '%';
+            document.getElementById('mz-bgm').volume = bgmVolume;
+            localStorage.setItem('eduMazeBgmVol', bgmVolume);
+        });
+
+        window.mzToggleSound = function() {
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('eduMazeSound', soundEnabled ? 'on' : 'off');
+            document.getElementById('mz-toggle-sound-btn').innerText = soundEnabled ? 'Sound: ON' : 'Sound: OFF';
+            if (!soundEnabled) document.getElementById('mz-bgm').pause();
+            else if (GAME.state === STATE.PLAYING) playBGM();
+        };
+
+        function playBGM() {
+            if (soundEnabled) {
+                let bgm = document.getElementById('mz-bgm');
+                bgm.volume = bgmVolume;
+                bgm.play().catch(e => {});
+            }
+        }
+
+        let dpadScale = parseFloat(localStorage.getItem('dpadScale')) || 1.0;
+        let highScore = parseInt(localStorage.getItem('eduMazeHighScore')) || 0;
+        document.getElementById('mz-wrapper').style.setProperty('--dpad-scale', dpadScale);
+
+        const slider = document.getElementById('mz-dpad-size-slider');
+        slider.value = Math.round(dpadScale * 100); 
+        document.getElementById('mz-size-val').innerText = slider.value + '%';
+
+        slider.addEventListener('input', (e) => {
+            dpadScale = e.target.value / 100;
+            document.getElementById('mz-wrapper').style.setProperty('--dpad-scale', dpadScale);
+            document.getElementById('mz-size-val').innerText = e.target.value + '%';
+            localStorage.setItem('dpadScale', dpadScale);
+        });
+
+        window.mzShowScreen = function(id) { 
+            document.querySelectorAll('#mz-wrapper .mz-screen').forEach(s => s.classList.remove('active')); 
+            if(id) document.getElementById(id).classList.add('active'); 
+        };
+
+        const SPEECH = {
+            speak: function(text) {
+                if (!soundEnabled) return;
+                window.speechSynthesis.cancel(); 
+                let msg = new SpeechSynthesisUtterance(text);
+                msg.rate = 0.9; msg.pitch = 1.1; 
+                window.speechSynthesis.speak(msg);
+            }
+        };
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        const SOUND = {
+            init: function() {
+                if (!soundEnabled) return;
+                if (!audioCtx) audioCtx = new AudioContextClass();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            },
+            play: function(freq, type, duration, vol, slideFreq=null) {
+                if (!soundEnabled || !audioCtx) return;
+                let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain();
+                osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                if (slideFreq) osc.frequency.exponentialRampToValueAtTime(slideFreq, audioCtx.currentTime + duration);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
+            },
+            enemyStep: function(ex, ey, px, py) {
+                if (!soundEnabled || !audioCtx) return;
+                let dist = Math.hypot(ex - px, ey - py);
+                if (dist > 700) return; 
+                let vol = Math.max(0, 1 - (dist / 700)) * 0.9; 
+                if (vol <= 0.05) return;
+                let osc = audioCtx.createOscillator(); let gain = audioCtx.createGain(); let panner = audioCtx.createPanner();
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(80, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                panner.panningModel = 'equalpower'; panner.positionX.value = (ex - px) / 150; panner.positionY.value = 0; panner.positionZ.value = (ey - py) / 150; 
+                osc.connect(panner); panner.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            },
+            coin: function() { this.play(1200, 'sine', 0.1, 0.1, 1800); },
+            letter: function() { this.play(800, 'sine', 0.15, 0.1, 1200); setTimeout(() => this.play(1200, 'sine', 0.2, 0.1, 1600), 100); },
+            key: function() { this.play(600, 'square', 0.3, 0.1, 1200); },
+            shield: function() { this.play(300, 'triangle', 0.4, 0.1, 800); },
+            ghost: function() { this.play(250, 'square', 0.5, 0.1, 100); },
+            eatEnemy: function() { this.play(900, 'square', 0.2, 0.1, 300); },
+            hit: function() { this.play(150, 'sawtooth', 0.5, 0.3, 50); },
+            door: function() { this.play(400, 'sine', 0.2, 0.1); setTimeout(() => this.play(500, 'sine', 0.2, 0.1), 150); setTimeout(() => this.play(600, 'sine', 0.4, 0.1), 300); },
+            stepTime: 0,
+            walk: function(dt) { this.stepTime -= dt; if (this.stepTime <= 0) { this.play(150, 'sine', 0.05, 0.01); this.stepTime = 0.25; } }
+        };
+
+        function makeDraggable(containerId, handleId) {
+            const container = document.getElementById(containerId);
+            const handle = document.getElementById(handleId);
+            let isDragging = false, offsetX = 0, offsetY = 0;
+            function startDrag(e) {
+                isDragging = true;
+                let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                const rect = container.getBoundingClientRect();
+                offsetX = clientX - rect.left; offsetY = clientY - rect.top;
+            }
+            function onDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                let clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                let scaledW = container.offsetWidth * dpadScale; let scaledH = container.offsetHeight * dpadScale;
+                let newX = Math.max(0, Math.min(clientX - offsetX, window.innerWidth - scaledW));
+                let newY = Math.max(0, Math.min(clientY - offsetY, window.innerHeight - scaledH));
+                container.style.left = newX + 'px'; container.style.top = newY + 'px'; container.style.bottom = 'auto'; container.style.right = 'auto';
+            }
+            function stopDrag() { isDragging = false; }
+            handle.addEventListener('mousedown', startDrag); window.addEventListener('mousemove', onDrag); window.addEventListener('mouseup', stopDrag);
+            handle.addEventListener('touchstart', startDrag, {passive: false}); window.addEventListener('touchmove', onDrag, {passive: false}); window.addEventListener('touchend', stopDrag);
+        }
+
+        makeDraggable('mz-dpad-container', 'mz-dpad-drag-handle');
+        makeDraggable('mz-action-pad-container', 'mz-action-drag-handle');
+
+        const canvas = document.getElementById('mz-gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let COLS = 21, ROWS = 21, TILE_SIZE = 60; 
+        const STATE = { MENU: 0, PLAYING: 1, PAUSED: 2, COMPLETE: 3, GAMEOVER: 4, SETTINGS: 5 };
+        const DIRS = { UP: {x: 0, y: -1}, DOWN: {x: 0, y: 1}, LEFT: {x: -1, y: 0}, RIGHT: {x: 1, y: 0}, NONE: {x: 0, y: 0} };
+
+        const GAME = { state: STATE.MENU, level: 1, score: 0, time: 0, startTime: 0, lastFrameTime: 0, camera: { x: 0, y: 0 }, shakeTime: 0, grid: [], exitActive: false, inventory: { ghost: 0, shield: 0 }, powerActive: { ghost: 0, shield: 0 }, targetWord: "", collectedIndices: [], coinsCollected: 0, hasKey: false };
+        let player = null, enemies = [], items = [], particles = [], exitPortal = null;
+
+        function generateMaze(cols, rows) {
+            let maze = Array(rows).fill().map(() => Array(cols).fill(1)); let stack = [{x: 1, y: 1}]; maze[1][1] = 0;
+            const dirs = [{x: 0, y: -2}, {x: 0, y: 2}, {x: -2, y: 0}, {x: 2, y: 0}];
+            while(stack.length > 0) {
+                let current = stack[stack.length - 1]; let unvisited = [];
+                for(let d of dirs) { let nx = current.x + d.x, ny = current.y + d.y; if(nx > 0 && nx < cols-1 && ny > 0 && ny < rows-1 && maze[ny][nx] === 1) unvisited.push({x: nx, y: ny, dx: d.x/2, dy: d.y/2}); }
+                if(unvisited.length > 0) { let next = unvisited[Math.floor(Math.random() * unvisited.length)]; maze[current.y + next.dy][current.x + next.dx] = 0; maze[next.y][next.x] = 0; stack.push({x: next.x, y: next.y}); } else { stack.pop(); }
+            }
+            let midR = Math.floor(rows / 2); if (midR % 2 === 0) midR++; let midC = Math.floor(cols / 2); if (midC % 2 === 0) midC++;
+            maze[midR][0] = 0; maze[midR][1] = 0; maze[midR][cols - 1] = 0; maze[midR][cols - 2] = 0; 
+            maze[0][midC] = 0; maze[1][midC] = 0; maze[rows - 1][midC] = 0; maze[rows - 2][midC] = 0; 
+            let loops = Math.floor((cols * rows) * 0.08); for(let i=0; i<loops; i++) { let rx = Math.floor(Math.random() * (cols-2)) + 1; let ry = Math.floor(Math.random() * (rows-2)) + 1; maze[ry][rx] = 0; }
+            return maze;
+        }
+
+        class Player {
+            constructor(x, y) { this.x = x * TILE_SIZE + TILE_SIZE/2; this.y = y * TILE_SIZE + TILE_SIZE/2; this.speed = 200; this.radius = TILE_SIZE * 0.35; this.dir = DIRS.NONE; this.nextDir = null; this.hearts = 3; this.invulnerableTime = 0; this.angle = 0; this.animFrame = 0; }
+            update(dt) {
+                if (this.invulnerableTime > 0) this.invulnerableTime -= dt; this.animFrame += dt * 10;
+                let cx = Math.floor(this.x / TILE_SIZE) * TILE_SIZE + TILE_SIZE/2; let cy = Math.floor(this.y / TILE_SIZE) * TILE_SIZE + TILE_SIZE/2; let distToCenter = Math.hypot(this.x - cx, this.y - cy);
+                if (distToCenter <= Math.max(this.speed * dt * 1.5, 3)) {
+                    if (this.nextDir) { let nx = Math.floor(this.x / TILE_SIZE) + this.nextDir.x; let ny = Math.floor(this.y / TILE_SIZE) + this.nextDir.y; if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || (GAME.grid[ny] && GAME.grid[ny][nx] === 0)) { this.x = cx; this.y = cy; this.dir = this.nextDir; this.nextDir = null; } }
+                    if (this.dir !== DIRS.NONE) { let fx = Math.floor(this.x / TILE_SIZE) + this.dir.x; let fy = Math.floor(this.y / TILE_SIZE) + this.dir.y; if (fx >= 0 && fx < COLS && fy >= 0 && fy < ROWS && GAME.grid[fy][fx] === 1) { this.x = cx; this.y = cy; this.dir = DIRS.NONE; } }
+                }
+                this.x += this.dir.x * this.speed * dt; this.y += this.dir.y * this.speed * dt;
+                if (this.dir !== DIRS.NONE) { SOUND.walk(dt); this.angle = Math.atan2(this.dir.y, this.dir.x); }
+                let maxW = COLS * TILE_SIZE; let maxH = ROWS * TILE_SIZE;
+                if (this.x < 0) this.x = maxW - 5; else if (this.x > maxW) this.x = 5;
+                if (this.y < 0) this.y = maxH - 5; else if (this.y > maxH) this.y = 5;
+            }
+            draw(ctx) {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle); let bob = (this.dir !== DIRS.NONE) ? Math.sin(this.animFrame) * 2 : 0;
+                ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.beginPath(); ctx.arc(2, 4, this.radius, 0, Math.PI*2); ctx.fill();
+                if (GAME.powerActive.shield > 0) { ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 4; ctx.shadowBlur = 20; ctx.shadowColor = '#00ffff'; ctx.beginPath(); ctx.arc(0, 0, this.radius + 8, 0, Math.PI*2); ctx.stroke(); ctx.shadowBlur = 0; }
+                ctx.fillStyle = '#654321'; ctx.fillRect(-this.radius-2, -this.radius*0.6 + bob, this.radius, this.radius*1.2);
+                ctx.fillStyle = GAME.powerActive.ghost > 0 ? '#cc00ff' : '#2288cc'; ctx.beginPath(); ctx.arc(0, bob, this.radius, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(2, bob, this.radius*0.7, -Math.PI/2, Math.PI/2); ctx.fill(); ctx.restore();
+            }
+            hit() {
+                if (GAME.powerActive.shield > 0) return; 
+                if (this.invulnerableTime <= 0) { SOUND.hit(); this.hearts--; this.invulnerableTime = 2.0; GAME.shakeTime = 0.3; updateUI(); for(let i=0; i<15; i++) particles.push(new Particle(this.x, this.y, '#ff3333', 1.5, true)); if(this.hearts <= 0) endGame(false); }
+            }
+        }
+
+        class Enemy {
+            constructor(x, y, speedMult) { 
+                this.x = x * TILE_SIZE + TILE_SIZE/2; 
+                this.y = y * TILE_SIZE + TILE_SIZE/2; 
+                this.speed = 110 * speedMult; 
+                this.radius = TILE_SIZE * 0.4; 
+                this.dir = DIRS.RIGHT; 
+                this.angle = 0; 
+                this.lastDecisionX = -1; 
+                this.lastDecisionY = -1; 
+                this.stepTimer = Math.random() * 0.3; 
+            }
+            update(dt) {
+                this.stepTimer -= dt; 
+                if(this.stepTimer <= 0) { SOUND.enemyStep(this.x, this.y, player.x, player.y); this.stepTimer = 0.35; }
+                let cx = Math.floor(this.x / TILE_SIZE) * TILE_SIZE + TILE_SIZE/2; 
+                let cy = Math.floor(this.y / TILE_SIZE) * TILE_SIZE + TILE_SIZE/2; 
+                let distToCenter = Math.hypot(this.x - cx, this.y - cy);
+                
+                if (distToCenter <= Math.max(this.speed * dt * 1.5, 3) && (this.lastDecisionX !== Math.floor(this.x / TILE_SIZE) || this.lastDecisionY !== Math.floor(this.y / TILE_SIZE))) {
+                    this.x = cx; this.y = cy; 
+                    this.lastDecisionX = Math.floor(this.x / TILE_SIZE); 
+                    this.lastDecisionY = Math.floor(this.y / TILE_SIZE);
+                    let possibleDirs = [];
+                    for (let key in DIRS) { 
+                        let d = DIRS[key]; 
+                        if (d === DIRS.NONE || (d.x === -this.dir.x && d.y === -this.dir.y)) continue; 
+                        let nx = this.lastDecisionX + d.x, ny = this.lastDecisionY + d.y; 
+                        if (nx >= 0 && nx < COLS && ny >= 0 && ny < ROWS && GAME.grid[ny][nx] === 0) possibleDirs.push(d); 
+                    }
+                    if (possibleDirs.length > 0) {
+                        let pxGrid = Math.floor(player.x/TILE_SIZE); 
+                        let pyGrid = Math.floor(player.y/TILE_SIZE); 
+                        let bestDir = possibleDirs[0]; 
+                        let bestDist = GAME.powerActive.ghost > 0 ? -Infinity : Infinity;
+                        for (let d of possibleDirs) { 
+                            let dist = Math.abs((this.lastDecisionX + d.x) - pxGrid) + Math.abs((this.lastDecisionY + d.y) - pyGrid); 
+                            if (GAME.powerActive.ghost > 0) { if (dist > bestDist) { bestDist = dist; bestDir = d; } } 
+                            else { if (dist < bestDist) { bestDist = dist; bestDir = d; } } 
+                        }
+                        this.dir = bestDir;
+                    } else { this.dir = {x: -this.dir.x, y: -this.dir.y}; }
+                }
+                this.x += this.dir.x * this.speed * dt; 
+                this.y += this.dir.y * this.speed * dt; 
+                this.angle = Math.atan2(this.dir.y, this.dir.x);
+                
+                if (Math.hypot(this.x - player.x, this.y - player.y) < this.radius + player.radius) { 
+                    if (GAME.powerActive.ghost > 0) { 
+                        SOUND.eatEnemy(); GAME.score += 50; 
+                        for(let i=0; i<20; i++) particles.push(new Particle(this.x, this.y, '#cc00ff', 1.5, true)); 
+                        this.x = (COLS - 2) * TILE_SIZE; this.y = (ROWS - 2) * TILE_SIZE; 
+                    } else { player.hit(); } 
+                }
+            }
+            draw(ctx) { 
+                ctx.save(); 
+                ctx.translate(this.x, this.y); 
+                ctx.rotate(this.angle); 
+                let isScared = GAME.powerActive.ghost > 0; 
+                ctx.shadowBlur = 15; 
+                ctx.shadowColor = isScared ? '#cc00ff' : 'red'; 
+                ctx.fillStyle = isScared ? '#330033' : '#220000'; 
+                ctx.beginPath(); ctx.arc(0, 0, this.radius, 0, Math.PI*2); ctx.fill(); 
+                ctx.strokeStyle = isScared ? '#aa00cc' : '#551111'; ctx.lineWidth = 2; 
+                ctx.beginPath(); ctx.arc(0, 0, this.radius*0.8, 0, Math.PI*2); ctx.stroke(); 
+                ctx.fillStyle = isScared ? '#cc00ff' : '#ff0000'; 
+                ctx.beginPath(); ctx.arc(this.radius*0.6, -this.radius*0.3, 3, 0, Math.PI*2); ctx.fill(); 
+                ctx.beginPath(); ctx.arc(this.radius*0.6, this.radius*0.3, 3, 0, Math.PI*2); ctx.fill(); 
+                ctx.restore(); 
+
+                // Off-screen indicator logic
+                let camX = GAME.camera.x;
+                let camY = GAME.camera.y;
+                let cw = canvas.width;
+                let ch = canvas.height;
+                let pad = 35; 
+                
+                if (this.x < camX + pad || this.x > camX + cw - pad || this.y < camY + pad || this.y > camY + ch - pad) {
+                    let cx = camX + cw / 2;
+                    let cy = camY + ch / 2;
+                    let dx = this.x - cx;
+                    let dy = this.y - cy;
+                    let angle = Math.atan2(dy, dx);
+                    
+                    let hw = cw / 2 - pad;
+                    let hh = ch / 2 - pad;
+                    let scaleX = hw / Math.abs(dx);
+                    let scaleY = hh / Math.abs(dy);
+                    let scale = Math.min(scaleX, scaleY);
+                    
+                    let indX = cx + dx * scale;
+                    let indY = cy + dy * scale;
+                    
+                    ctx.save();
+                    ctx.translate(indX, indY);
+                    ctx.rotate(angle);
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = isScared ? '#cc00ff' : '#ff0000';
+                    ctx.fillStyle = isScared ? '#cc00ff' : '#ff3333';
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(12, 0);
+                    ctx.lineTo(-12, 12);
+                    ctx.lineTo(-12, -12);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+        }
+
+        class Item {
+            constructor(x, y, type, char="") { this.x = x * TILE_SIZE + TILE_SIZE/2; this.y = y * TILE_SIZE + TILE_SIZE/2; this.type = type; this.char = char; this.collected = false; this.animOffset = Math.random() * Math.PI * 2; }
+            update(dt) {
+                this.animOffset += dt * 3;
+                if (!this.collected && Math.hypot(this.x - player.x, this.y - player.y) < player.radius + 15) {
+                    this.collected = true;
+                    if(this.type === 0) { SOUND.coin(); GAME.score += 5; GAME.coinsCollected++; for(let i=0; i<5; i++) particles.push(new Particle(this.x, this.y, '#ffcc00', 1, true)); } 
+                    else if (this.type === 1) { SOUND.key(); GAME.hasKey = true; for(let i=0; i<15; i++) particles.push(new Particle(this.x, this.y, '#ffcc00', 2, true)); } 
+                    else if (this.type === 2) { SOUND.ghost(); GAME.inventory.ghost++; for(let i=0; i<10; i++) particles.push(new Particle(this.x, this.y, '#cc00ff', 1.5, true)); } 
+                    else if (this.type === 3) { SOUND.shield(); GAME.inventory.shield++; for(let i=0; i<10; i++) particles.push(new Particle(this.x, this.y, '#00ffff', 1.5, true)); } 
+                    else if (this.type === 4) {
+                        SPEECH.speak(this.char); GAME.score += 10; let targetArr = GAME.targetWord.split('');
+                        for(let j=0; j<targetArr.length; j++) { if(targetArr[j] === this.char && !GAME.collectedIndices.includes(j)) { GAME.collectedIndices.push(j); break; } }
+                        for(let i=0; i<15; i++) particles.push(new Particle(this.x, this.y, '#00ffcc', 1.5, true));
+                    }
+                    if (GAME.collectedIndices.length === GAME.targetWord.length && GAME.hasKey && !GAME.exitActive) { GAME.exitActive = true; SOUND.door(); }
+                    updateUI();
+                }
+            }
+            draw(ctx) {
+                if (this.collected) return; ctx.save(); ctx.translate(this.x, this.y); let scale = 1 + Math.sin(this.animOffset) * 0.15; ctx.scale(scale, scale);
+                if (this.type === 0) { ctx.shadowBlur = 10; ctx.shadowColor = '#ffaa00'; ctx.fillStyle = '#ffaa00'; ctx.beginPath(); ctx.arc(0, 0, 8, 0, Math.PI*2); ctx.fill(); } 
+                else if (this.type === 1) { ctx.shadowBlur = 15; ctx.shadowColor = '#ffcc00'; ctx.fillStyle = '#ffcc00'; ctx.translate(-5, -5); ctx.fillRect(0, 0, 15, 4); ctx.fillRect(10, 4, 4, 6); } 
+                else if (this.type === 2) { ctx.shadowBlur = 20; ctx.shadowColor = '#cc00ff'; ctx.fillStyle = '#cc00ff'; ctx.beginPath(); ctx.arc(0, 0, 11, 0, Math.PI*2); ctx.fill(); } 
+                else if (this.type === 3) { ctx.shadowBlur = 20; ctx.shadowColor = '#00ffff'; ctx.fillStyle = '#00ffff'; ctx.beginPath(); ctx.arc(0, 0, 11, 0, Math.PI*2); ctx.fill(); } 
+                else if (this.type === 4) { ctx.shadowBlur = 15; ctx.shadowColor = '#00ffcc'; ctx.fillStyle = '#003366'; ctx.beginPath(); ctx.arc(0, 0, 16, 0, Math.PI*2); ctx.fill(); ctx.strokeStyle = '#00ffcc'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#00ffcc'; ctx.font = "bold 20px Arial"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.shadowBlur = 0; ctx.fillText(this.char, 0, 2); }
+                ctx.restore();
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, life, explosive=false) { this.x = x; this.y = y; this.color = color; this.life = life; this.maxLife = life; let angle = Math.random() * Math.PI * 2; let speed = explosive ? Math.random() * 100 + 50 : Math.random() * 20 + 10; this.vx = Math.cos(angle) * speed; this.vy = Math.sin(angle) * speed; this.size = Math.random() * 3 + 1; }
+            update(dt) { this.x += this.vx * dt; this.y += this.vy * dt; this.life -= dt; }
+            draw(ctx) { ctx.globalAlpha = Math.max(0, this.life / this.maxLife); ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1.0; }
+        }
+
+        window.mzUsePowerup = function(type) {
+            if (GAME.state !== STATE.PLAYING) return;
+            if (type === 'ghost' && GAME.inventory.ghost > 0) { SOUND.ghost(); GAME.inventory.ghost--; GAME.powerActive.ghost = 15.0; } 
+            else if (type === 'shield' && GAME.inventory.shield > 0) { SOUND.shield(); GAME.inventory.shield--; GAME.powerActive.shield = 10.0; }
+            updateUI();
+        };
+
+        function initLevel() {
+            COLS = 19 + (GAME.level * 2); ROWS = 19 + (GAME.level * 2);
+            if(COLS > 35) COLS = 35; if(ROWS > 35) ROWS = 35;
+            GAME.targetWord = EDUPLAY_WORDS[(GAME.level - 1) % EDUPLAY_WORDS.length];
+            SPEECH.speak("Find " + GAME.targetWord); 
+            GAME.collectedIndices = []; GAME.hasKey = false; GAME.coinsCollected = 0; GAME.grid = generateMaze(COLS, ROWS); GAME.exitActive = false; player = new Player(1, 1);
+            let emptyCells = [];
+            for(let y=1; y<ROWS-1; y++) { for(let x=1; x<COLS-1; x++) { if(GAME.grid[y][x] === 0 && (x !== 1 || y !== 1)) emptyCells.push({x, y}); } }
+            for (let i = emptyCells.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [emptyCells[i], emptyCells[j]] = [emptyCells[j], emptyCells[i]]; }
+            items = [];
+            let lettersToSpawn = GAME.targetWord.split('');
+            for(let char of lettersToSpawn) { if(emptyCells.length > 0) { let cell = emptyCells.pop(); items.push(new Item(cell.x, cell.y, 4, char)); } }
+            if(emptyCells.length > 0) { let cell = emptyCells.pop(); items.push(new Item(cell.x, cell.y, 1)); } 
+            if(emptyCells.length > 0) { let cell = emptyCells.pop(); items.push(new Item(cell.x, cell.y, 2)); } 
+            if(emptyCells.length > 0) { let cell = emptyCells.pop(); items.push(new Item(cell.x, cell.y, 3)); } 
+            let exitCell = emptyCells[0]; for(let c of emptyCells) if(Math.hypot(c.x-1, c.y-1) > Math.hypot(exitCell.x-1, exitCell.y-1)) exitCell = c; exitPortal = { x: exitCell.x, y: exitCell.y }; emptyCells = emptyCells.filter(c => c.x !== exitCell.x || c.y !== exitCell.y);
+            let numCoins = 10 + (GAME.level * 2); for(let i=0; i<numCoins; i++) { if(emptyCells.length > 0) { let cell = emptyCells.pop(); items.push(new Item(cell.x, cell.y, 0)); } }
+            enemies = []; let numEnemies = Math.min(25, 2 + Math.floor(GAME.level * 0.6)); let speedMult = Math.min(3.0, 1 + (GAME.level * 0.05)); for(let i=0; i<numEnemies; i++) { if(emptyCells.length > 0) { let cell = emptyCells.pop(); enemies.push(new Enemy(cell.x, cell.y, speedMult)); } }
+            particles = []; if (GAME.grid[1][2] === 0) player.dir = DIRS.RIGHT;
+            updateUI(); GAME.startTime = Date.now();
+        }
+
+        function update(dt) {
+            if (GAME.state !== STATE.PLAYING) return;
+            GAME.time = Math.floor((Date.now() - GAME.startTime) / 1000);
+            if (GAME.powerActive.ghost > 0) GAME.powerActive.ghost -= dt; if (GAME.powerActive.shield > 0) GAME.powerActive.shield -= dt; if (Math.floor(GAME.powerActive.ghost) === 0 || Math.floor(GAME.powerActive.shield) === 0) updateUI();
+            if (GAME.shakeTime > 0) GAME.shakeTime -= dt;
+            player.update(dt); enemies.forEach(e => e.update(dt)); items.forEach(i => i.update(dt)); particles.forEach(p => p.update(dt)); particles = particles.filter(p => p.life > 0);
+            let pxGrid = Math.floor(player.x / TILE_SIZE); let pyGrid = Math.floor(player.y / TILE_SIZE);
+            if (GAME.exitActive && pxGrid === exitPortal.x && pyGrid === exitPortal.y) { SOUND.door(); endGame(true); }
+            GAME.camera.x += ((player.x - canvas.width/2) - GAME.camera.x) * 5 * dt; GAME.camera.y += ((player.y - canvas.height/2) - GAME.camera.y) * 5 * dt;
+            let maxCamX = (COLS * TILE_SIZE) - canvas.width; let maxCamY = (ROWS * TILE_SIZE) - canvas.height; GAME.camera.x = Math.max(0, Math.min(GAME.camera.x, Math.max(0, maxCamX))); GAME.camera.y = Math.max(0, Math.min(GAME.camera.y, Math.max(0, maxCamY)));
+        }
+
+        function draw() {
+            ctx.fillStyle = '#03070f'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (GAME.state === STATE.MENU || GAME.state === STATE.SETTINGS) return;
+            ctx.save();
+            if (GAME.shakeTime > 0) ctx.translate((Math.random()-0.5)*10, (Math.random()-0.5)*10); ctx.translate(-Math.floor(GAME.camera.x), -Math.floor(GAME.camera.y));
+            let startCol = Math.max(0, Math.floor(GAME.camera.x / TILE_SIZE)); let endCol = Math.min(COLS, startCol + (canvas.width / TILE_SIZE) + 2); let startRow = Math.max(0, Math.floor(GAME.camera.y / TILE_SIZE)); let endRow = Math.min(ROWS, startRow + (canvas.height / TILE_SIZE) + 2);
+            for(let y = startRow; y < endRow; y++) { for(let x = startCol; x < endCol; x++) { let px = x * TILE_SIZE, py = y * TILE_SIZE; if(GAME.grid[y][x] === 1) { ctx.fillStyle = '#0a101a'; ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE); ctx.strokeStyle = 'rgba(0, 229, 255, 0.3)'; ctx.lineWidth = 2; ctx.strokeRect(px+1, py+1, TILE_SIZE-2, TILE_SIZE-2); } else { ctx.fillStyle = ((x+y)%2===0) ? '#050a12' : '#070c16'; ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE); } } }
+            if (exitPortal) { let px = exitPortal.x * TILE_SIZE, py = exitPortal.y * TILE_SIZE; ctx.fillStyle = GAME.exitActive ? '#00e5ff' : 'rgba(0, 229, 255, 0.1)'; if(GAME.exitActive) { ctx.shadowBlur = 30; ctx.shadowColor = '#00e5ff'; } ctx.fillRect(px+5, py+5, TILE_SIZE-10, TILE_SIZE-10); ctx.shadowBlur = 0; }
+            items.forEach(i => i.draw(ctx)); particles.forEach(p => p.draw(ctx)); enemies.forEach(e => e.draw(ctx)); player.draw(ctx);
+            let gradient = ctx.createRadialGradient(player.x, player.y, 70, player.x, player.y, Math.max(canvas.width, canvas.height)*0.8); gradient.addColorStop(0, 'rgba(0,0,0,0)'); gradient.addColorStop(1, 'rgba(0,3,10,0.95)'); ctx.fillStyle = gradient; ctx.fillRect(GAME.camera.x, GAME.camera.y, canvas.width, canvas.height);
+            ctx.restore();
+        }
+
+        function loop() {
+            let now = Date.now(); let dt = Math.min((now - GAME.lastFrameTime) / 1000, 0.1); 
+            GAME.lastFrameTime = now; update(dt); draw(); requestAnimationFrame(loop);
+        }
+
+        function updateUI() {
+            document.getElementById('mz-ui-score').innerText = GAME.score;
+            document.getElementById('mz-ui-highscore').innerText = highScore;
+            document.getElementById('mz-ui-coins').innerText = GAME.coinsCollected;
+            document.getElementById('mz-ui-level').innerText = GAME.level;
+            
+            let h = ''; for(let i=0; i<player.hearts; i++) h += '❤️'; document.getElementById('mz-ui-hearts').innerText = h;
+            document.getElementById('mz-ui-key').className = GAME.hasKey ? 'hud-stat icon-key active' : 'hud-stat icon-key';
+
+            let btnGhost = document.getElementById('mz-btn-ghost'); let btnShield = document.getElementById('mz-btn-shield');
+            document.getElementById('mz-count-ghost').innerText = GAME.inventory.ghost + (GAME.powerActive.ghost > 0 ? ` (${Math.ceil(GAME.powerActive.ghost)}s)` : '');
+            document.getElementById('mz-count-shield').innerText = GAME.inventory.shield + (GAME.powerActive.shield > 0 ? ` (${Math.ceil(GAME.powerActive.shield)}s)` : '');
+            
+            if (GAME.inventory.ghost > 0 || GAME.powerActive.ghost > 0) btnGhost.classList.remove('disabled'); else btnGhost.classList.add('disabled');
+            if (GAME.inventory.shield > 0 || GAME.powerActive.shield > 0) btnShield.classList.remove('disabled'); else btnShield.classList.add('disabled');
+
+            let wordContainer = document.getElementById('mz-ui-word-container');
+            if(GAME.state === STATE.PLAYING && GAME.targetWord) {
+                wordContainer.innerHTML = ''; let letters = GAME.targetWord.split('');
+                for(let j=0; j<letters.length; j++) {
+                    let span = document.createElement('span'); span.className = GAME.collectedIndices.includes(j) ? 'word-letter collected' : 'word-letter'; span.innerText = letters[j]; wordContainer.appendChild(span);
+                }
+            } else if(GAME.state !== STATE.PLAYING) { wordContainer.innerHTML = ''; }
+        }
+
+        window.mzStartGame = function() { SOUND.init(); playBGM(); GAME.level = 1; GAME.score = 0; initLevel(); GAME.state = STATE.PLAYING; window.mzShowScreen(null); };
+        window.mzResumeGame = function() { SOUND.init(); playBGM(); GAME.state = STATE.PLAYING; window.mzShowScreen(null); GAME.lastFrameTime = Date.now(); };
+        window.mzNextLevel = function() { SOUND.init(); playBGM(); GAME.level++; initLevel(); GAME.state = STATE.PLAYING; window.mzShowScreen(null); };
+        window.mzTogglePause = function() { if(GAME.state === STATE.PLAYING) { document.getElementById('mz-bgm').pause(); GAME.state = STATE.PAUSED; window.mzShowScreen('mz-screen-pause'); } };
+        window.mzGoToMainMenu = function() { document.getElementById('mz-bgm').pause(); if (GAME.score > highScore) { highScore = GAME.score; localStorage.setItem('eduMazeHighScore', highScore); } GAME.state = STATE.MENU; window.mzShowScreen('mz-screen-menu'); };
+
+        function endGame(win) {
+            document.getElementById('mz-bgm').pause(); 
+            if (GAME.score > highScore) { highScore = GAME.score; localStorage.setItem('eduMazeHighScore', highScore); }
+            GAME.state = win ? STATE.COMPLETE : STATE.GAMEOVER; updateUI(); 
+            
+            if(win) { 
+                document.getElementById('mz-stat-score-win').innerText = GAME.score;
+                
+                if (GAME.level >= 1000) {
+                    // LEVEL 1000 GENIUS CELEBRATION!
+                    document.getElementById('mz-win-title').innerText = "CONGRATULATIONS!";
+                    document.getElementById('mz-win-label').innerText = "You are a";
+                    document.getElementById('mz-stat-word-win').innerText = "GENIUS!";
+                    document.getElementById('mz-trophy-icon').style.display = "block";
+                    document.getElementById('mz-next-lvl-btn').style.display = "none";
+                    
+                    // Trigger Voice & Cheers
+                    if(window.wjSFX && window.wjSFX.cheer) window.wjSFX.cheer();
+                    SPEECH.speak("Congratulations! You are a genius!");
+                } else {
+                    // Standard Win Screen
+                    document.getElementById('mz-win-title').innerText = "LEVEL COMPLETE";
+                    document.getElementById('mz-win-label').innerText = "Word Spelled:";
+                    document.getElementById('mz-stat-word-win').innerText = GAME.targetWord; 
+                    document.getElementById('mz-trophy-icon').style.display = "none";
+                    document.getElementById('mz-next-lvl-btn').style.display = "block";
+                }
+                window.mzShowScreen('mz-screen-complete'); 
+            } 
+            else { 
+                document.getElementById('mz-stat-level-lose').innerText = GAME.level; 
+                document.getElementById('mz-stat-score-lose').innerText = GAME.score; 
+                window.mzShowScreen('mz-screen-gameover'); 
+            }
+        }
+
+        function handleInput(dir) { if (GAME.state === STATE.PLAYING) player.nextDir = dir; }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (GAME.state === STATE.PLAYING) { window.mzTogglePause(); } else if (GAME.state === STATE.PAUSED) { window.mzResumeGame(); } return;
+            }
+            if (e.key === ' ') window.mzUsePowerup('ghost'); if (e.key === 'Shift') window.mzUsePowerup('shield'); 
+            switch(e.key) { case 'ArrowUp': case 'w': case 'W': handleInput(DIRS.UP); break; case 'ArrowDown': case 's': case 'S': handleInput(DIRS.DOWN); break; case 'ArrowLeft': case 'a': case 'A': handleInput(DIRS.LEFT); break; case 'ArrowRight': case 'd': case 'D': handleInput(DIRS.RIGHT); break; }
+        });
+
+        let tsX = 0, tsY = 0;
+        document.getElementById('mz-wrapper').addEventListener('touchstart', e => { 
+            if(e.target.closest('.mobile-dpad') || e.target.closest('.action-pad') || e.target.closest('.word-hud') || e.target.closest('.pause-btn-ingame')) return; 
+            tsX = e.changedTouches[0].screenX; tsY = e.changedTouches[0].screenY; 
+        }, {passive: false});
+        
+        document.getElementById('mz-wrapper').addEventListener('touchend', e => {
+            if (GAME.state !== STATE.PLAYING || document.getElementById('mz-dpad-drag-handle').isDragging || e.target.closest('.mobile-dpad') || e.target.closest('.action-pad') || e.target.closest('.word-hud') || e.target.closest('.pause-btn-ingame')) return;
+            let dx = e.changedTouches[0].screenX - tsX, dy = e.changedTouches[0].screenY - tsY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) handleInput(dx > 0 ? DIRS.RIGHT : DIRS.LEFT);
+            else if (Math.abs(dy) > 30) handleInput(dy > 0 ? DIRS.DOWN : DIRS.UP);
+        });
+
+        document.getElementById('mz-btn-up').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput(DIRS.UP); });
+        document.getElementById('mz-btn-down').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput(DIRS.DOWN); });
+        document.getElementById('mz-btn-left').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput(DIRS.LEFT); });
+        document.getElementById('mz-btn-right').addEventListener('touchstart', (e) => { e.preventDefault(); handleInput(DIRS.RIGHT); });
+        document.getElementById('mz-btn-up').addEventListener('mousedown', (e) => { e.preventDefault(); handleInput(DIRS.UP); });
+        document.getElementById('mz-btn-down').addEventListener('mousedown', (e) => { e.preventDefault(); handleInput(DIRS.DOWN); });
+        document.getElementById('mz-btn-left').addEventListener('mousedown', (e) => { e.preventDefault(); handleInput(DIRS.LEFT); });
+        document.getElementById('mz-btn-right').addEventListener('mousedown', (e) => { e.preventDefault(); handleInput(DIRS.RIGHT); });
+
+        function resizeCanvas() { 
+            let w = document.getElementById('mz-wrapper'); 
+            if(w && !w.classList.contains('hidden')) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        }
+        window.addEventListener('resize', resizeCanvas); 
+        resizeCanvas(); GAME.lastFrameTime = Date.now(); requestAnimationFrame(loop);
+    };
+})();
+</script>
+<!-- ================= END SPELLING MAZE ENGINE ================= -->
 </body>
 </html>
