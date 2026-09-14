@@ -4258,10 +4258,56 @@ if(langSelect) {
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-close-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
 
-            document.getElementById("btn-start").addEventListener("click", () => { const unlockUtterance = new SpeechSynthesisUtterance(""); unlockUtterance.volume = 0; window.speechSynthesis.speak(unlockUtterance); startOverlay.classList.remove("active-flex"); startOverlay.classList.add("hidden"); appContainer.classList.remove("hidden"); appContainer.classList.add("active-flex"); document.getElementById("home-screen").classList.replace("active-grid", "hidden"); document.getElementById("main-menu-screen").classList.replace("hidden", "active-flex"); appTitle.innerText = "Main Menu"; document.getElementById("bottom-nav").classList.remove("hidden"); });
-            document.getElementById("btn-menu-flashcards").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); homeScreen.classList.replace("hidden", "active-grid"); renderHome(); });
-            document.getElementById("btn-menu-games").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); homeScreen.classList.replace("hidden", "active-grid"); loadGamesMenu(); });
-            document.getElementById("btn-menu-funplay").addEventListener("click", () => { mainMenuScreen.classList.replace("active-flex", "hidden"); funplayMenuScreen.classList.replace("hidden", "active-flex"); appTitle.innerText = "Fun Play"; btnHome.classList.remove("hidden"); });
+            document.getElementById("btn-start").addEventListener("click", () => {
+    try {
+        if ('speechSynthesis' in window) {
+            const unlockUtterance = new SpeechSynthesisUtterance("");
+            unlockUtterance.volume = 0;
+            window.speechSynthesis.speak(unlockUtterance);
+        }
+    } catch(e) {}
+    
+    document.getElementById("start-overlay").classList.remove("active-flex");
+    document.getElementById("start-overlay").classList.add("hidden");
+    document.getElementById("app-container").classList.remove("hidden");
+    document.getElementById("app-container").classList.add("active-flex");
+    
+    let homeScreen = document.getElementById("home-screen");
+    if (homeScreen) homeScreen.classList.replace("active-grid", "hidden");
+    
+    let mainMenuScreen = document.getElementById("main-menu-screen");
+    if (mainMenuScreen) mainMenuScreen.classList.replace("hidden", "active-flex");
+    
+    let appTitle = document.getElementById("app-title");
+    if (appTitle) appTitle.innerText = "Main Menu";
+    
+    let bNav = document.getElementById("bottom-nav");
+    if (bNav) {
+        bNav.classList.remove("hidden");
+    }
+});
+
+// Flashcards Button
+document.getElementById("btn-menu-flashcards").addEventListener("click", () => { 
+    document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden"); 
+    document.getElementById("home-screen").classList.replace("hidden", "active-grid"); 
+    renderHome(); 
+});
+
+// Interactive Games Button
+document.getElementById("btn-menu-games").addEventListener("click", () => { 
+    document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden"); 
+    document.getElementById("home-screen").classList.replace("hidden", "active-grid"); 
+    loadGamesMenu(); 
+});
+
+// Fun Play Button
+document.getElementById("btn-menu-funplay").addEventListener("click", () => { 
+    document.getElementById("main-menu-screen").classList.replace("active-flex", "hidden"); 
+    document.getElementById("funplay-menu-screen").classList.replace("hidden", "active-flex"); 
+    document.getElementById("app-title").innerText = "Fun Play"; 
+    document.getElementById("btn-home").classList.remove("hidden"); 
+});
 
             // SMART MEMORY: Change Font Size function 
             window.currentModuleId = "";
