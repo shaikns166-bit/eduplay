@@ -4,7 +4,7 @@
   "description": "Fun offline learning flashcards, alphabets, words, and 3D mini-games for kids!",
   "start_url": "/eduplay/",
   "scope": "/eduplay/",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#f0f4f8",
   "theme_color": "#4EA8DE",
   "icons": [
