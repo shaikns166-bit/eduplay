@@ -273,89 +273,64 @@ body {
         .nav-item { display: flex; flex-direction: column; align-items: center; background: none; border: none; cursor: pointer; font-family: 'Baloo 2', cursive; font-size: 0.75rem; font-weight: 700; color: #a0aec0; }
         .nav-item span:first-child { font-size: 1.4rem; }
         .nav-item.active { color: #3182ce; }
-        #module-screen { flex: 1; flex-direction: column; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; width: 100%; min-height: 0; margin-top: 10px; }
-        .flashcard-container { perspective: 2000px; width: 95%; max-width: 600px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; padding: 10px 0; position: relative; }
-        .card {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-    border-radius: 30px !important;
-    
-    /* Restoring the Gorgeous Rainbow Glow Border */
-    border: 3px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 
-        0 0 0 6px #00FFFF, 
-        0 0 0 12px #FF00FF, 
-        0 20px 40px rgba(0, 0, 0, 0.5), 
-        inset 0 0 25px rgba(255, 255, 255, 0.5) !important;
-        
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    margin: 0 auto;
-}
-        #game-screen { 
-    flex: 1; 
-    flex-direction: column; 
-    align-items: center; 
-    width: 100%; 
-    padding: 10px; 
-    margin-top: 10px; 
-    background-image: url('interactivecard-bg.png') !important;
+        #game-screen { flex: 1; flex-direction: column; align-items: center; width: 100%; padding: 10px; margin-top: 10px; background-image: url('interactivecard-bg.png') !important; background-size: cover !important; background-position: center !important; }
+.game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
+.game-question-text { font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); margin-bottom: 20px; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
+.game-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 95%; max-width: 500px; margin-bottom: 40px; } 
+.game-option { background: rgba(255, 255, 255, 0.5); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 15px; font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; display: flex; justify-content: center; align-items: center; }
+.game-option:active { transform: scale(0.9); }
+.game-option.correct { background: var(--success); color: white; border-color: white; box-shadow: 0 0 30px var(--success); }
+.game-option.wrong { background: var(--danger); color: white; border-color: white; }
+.flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
+
+/* =========================================
+   🌟 NEW FLASHCARD REDESIGN (MATCHING UI) 🌟
+   ========================================= */
+#module-screen {
+    flex: 1 !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background-image: url('flash-bg.png') !important; /* 🌟 Background Wapas Aa Gaya */
     background-size: cover !important;
     background-position: center !important;
-}
-        .game-question-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; }
-        .game-question-text { font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); margin-bottom: 20px; text-shadow: 0 2px 5px rgba(255,255,255,0.8); }
-        .game-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 95%; max-width: 500px; margin-bottom: 40px; } 
-        .game-option { background: rgba(255, 255, 255, 0.5); border: 2px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 15px; font-size: clamp(2rem, 5vh, 3.5rem); font-weight: bold; color: var(--text-dark); box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .game-option:active { transform: scale(0.9); }
-        .game-option.correct { background: var(--success); color: white; border-color: white; box-shadow: 0 0 30px var(--success); }
-        .game-option.wrong { background: var(--danger); color: white; border-color: white; }
-        .flex-col { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; transform-style: preserve-3d; }
-        .controls-container { 
-    display: flex; gap: 10px; padding: 10px 16px; border-radius: 50px; margin: 0 auto 15px auto; 
-    align-items: center; justify-content: center; flex-wrap: nowrap; width: 95%; max-width: 420px; z-index: 10;
-    background: rgba(255, 255, 255, 0.25) !important; 
-    backdrop-filter: blur(15px); 
-    border: 2px solid rgba(255, 255, 255, 0.7) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
 }
 
-.glass-btn {
-    background: linear-gradient(135deg, #ff70a6, #ff9770) !important;
-    border: 2px solid #ffffff !important;
-    border-radius: 50% !important; 
-    width: 50px !important;
-    height: 50px !important;
-    color: #ffffff !important; 
-    font-size: 18px !important;
-    cursor: pointer;
+#module-screen .card {
+    background: #FFFFFF !important;
+    border-radius: 30px !important;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.2) !important;
+    border: 4px solid #FFD93D !important; /* 🌟 Pyara Yellow Border */
+    width: 92% !important;
+    max-width: 380px !important; /* 🌟 Card Bada Kiya */
+    height: 65vh !important;     /* 🌟 Card Lamba Kiya */
+    max-height: 550px !important;
     display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
-    box-shadow: 0 5px 0 #d946ef, 0 8px 15px rgba(0,0,0,0.3) !important;
-    transition: all 0.08s ease-in-out !important;
-    transform: translateY(0);
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 25px 20px !important;
+    position: relative !important;
+    margin: 0 auto !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
-.glass-btn:active {
-    transform: translateY(5px) !important; 
-    box-shadow: 0 0px 0 #d946ef, 0 3px 6px rgba(0,0,0,0.3) !important; 
-    background: linear-gradient(135deg, #ff4d94, #ff7a4d) !important;
-}
+.fc-star-icon { position: absolute; top: 15px; right: 20px; color: #FFD93D; font-size: 34px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.15)); }
+.fc-nav-arrow { background: #4EA8DE !important; color: white !important; border: 4px solid white !important; box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important; width: 55px !important; height: 55px !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 24px !important; position: absolute; z-index: 50; cursor: pointer; transition: transform 0.1s; }
+.fc-nav-arrow:active { transform: scale(0.9); }
 
-/* THIS makes it feel like it's being pressed down! */
-.glass-btn:active {
-    transform: scale(0.9) !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.4), inset 0 4px 8px rgba(0,0,0,0.3) !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-}
+.fc-bottom-bar { background: #1E3A8A; border-top-left-radius: 40px; border-top-right-radius: 40px; width: 100%; padding: 45px 15px 25px 15px; display: flex; justify-content: space-around; align-items: flex-end; box-shadow: 0 -5px 25px rgba(0,0,0,0.3); margin-top: -50px; } 
+.fc-action-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; box-shadow: 0 5px 0 rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.1s; }
+.fc-action-btn:active { transform: translateY(4px); box-shadow: 0 0 0 rgba(0,0,0,0.2); }
+
+/* 🌟 Green Button ko thoda upar shift kiya */
+.fc-huge-play { background: #22C55E; width: 90px; height: 90px; border-radius: 50%; border: 6px solid white; color: white; font-size: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 10; cursor: pointer; margin: 0 auto; position: relative; top: -15px; transition: transform 0.1s; }
+.fc-huge-play:active { transform: scale(0.9); }
         .scale-in { animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes scaleIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .bounce-anim { animation: bounce 2s infinite; }
@@ -855,10 +830,7 @@ body {
                 <label>Volume</label>
                 <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
             </div>
-<div class="setting-row">
-             <label>Font Size</label>
-             <input type="range" id="font-size-slider" min="0.5" max="2.0" step="0.1" value="0.5">
-         </div>
+
 <div class="setting-row">
                 <label>Flashcard Language</label>
                 <select id="flashcard-lang-select" style="font-family: 'Fredoka', sans-serif; padding: 6px 12px; border-radius: 12px; border: 2px solid #ccc; font-size: 1rem; font-weight: bold; background: #fff; cursor: pointer;">
@@ -998,53 +970,99 @@ body {
     <div id="lang-popup-toast" class="hidden" style="position: absolute; top: 75px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 0.95rem; font-weight: 700; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); animation: scaleIn 0.3s ease;">
         🌐 Change language in Settings (⚙️)
     </div>
+        <!-- ================= FLASHCARDS SCREEN ================= -->
         <section id="module-screen" class="hidden">
-            <div class="flashcard-container" style="position: relative;">
-                <button id="btn-fc-settings" class="btn-icon" style="position: absolute; top: 0px; right: 10px; z-index: 20; width: 45px; height: 45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">⚙️</button>
-                <div style="width: 100%; text-align: center; padding: 0 60px;">
-                    <div class="card-counter"><span id="current-card-num">1</span> / <span id="total-card-num">26</span></div>
-                    <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+            
+            <!-- TOP HEADER -->
+            <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 20px; z-index: 20;">
+                <button id="btn-fc-back" class="btn-icon" style="background: white; border: none; color: #4EA8DE; box-shadow: 0 4px 10px rgba(0,0,0,0.15); position: static !important;">⬅️</button>
+                <div style="text-align: center; line-height: 1.1; margin-top: 5px;">
+                    <h1 style="color: white; font-size: 28px; font-weight: 900; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">EduPlay</h1>
+                    <span style="color: white; font-size: 16px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Flash Cards</span>
                 </div>
-                <br>
+                <button id="btn-fc-settings" class="btn-icon" style="background: white; border: none; color: #4EA8DE; box-shadow: 0 4px 10px rgba(0,0,0,0.15); position: static !important;">⚙️</button>
+            </div>
+
+            <!-- HIDDEN COUNTER -->
+            <div class="hidden">
+                <span id="current-card-num">1</span> / <span id="total-card-num">26</span>
+                <div id="progress-bar"></div>
+            </div>
+
+            <!-- MAIN CARD AREA WITH SIDE ARROWS -->
+            <div class="flashcard-container" style="flex: 1; position: relative; width: 100%; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
+                
+                <button id="btn-prev" class="fc-nav-arrow" style="left: 5px;">◀</button>
+                
                 <div id="flashcard" class="card">
-<!-- The Floating Bubbles -->
-                    <div class="bubbles-container">
-                        <div class="bubble"></div>
-                        <div class="bubble"></div>
-                        <div class="bubble"></div>
-                        <div class="bubble"></div>
-                        <div class="bubble"></div>
-                    </div>
-                    <div class="card-inner flex-col">
-                        <div id="card-front-content" class="card-front flex-col" style="justify-content: space-between;">
-                            <div id="card-main-text" class="huge-text"></div>
-                            <div id="card-image-wrapper" class="card-image-wrapper">
-                                <img id="card-real-img" class="real-img hidden bounce-anim" src="" alt="" onerror="this.style.display='none';">
-                                <div id="card-emoji-img" class="emoji-text hidden bounce-anim">🍎</div>
-                            </div>
-                            <div id="card-sub-text" class="sub-text"></div>
+                    <div class="fc-star-icon">⭐</div>
+                    
+                    <div id="card-front-content" class="card-inner flex-col" style="height: 100%; justify-content: space-between; width: 100%;">
+                        
+                        <!-- 🌟 FIXED: TEXT NOW FORCED ON ONE LINE (Tutega nahi) -->
+                        <div style="width: 100%; display: flex; justify-content: center; align-items: center; min-height: 80px; overflow: hidden; margin-top: 15px;">
+                            <div id="card-main-text" style="color: #EF476F; line-height: 1.2; text-align: center; font-weight: 900; white-space: nowrap !important;"></div>
                         </div>
+                        
+                        <!-- 🌟 BIGGER IMAGE (Badi Picture) -->
+                        <div id="card-image-wrapper" class="card-image-wrapper" style="flex: 1; display: flex; align-items: center; justify-content: center; margin: 10px 0; width: 100%;">
+                            <img id="card-real-img" class="real-img hidden bounce-anim" src="" alt="" style="height: 30vh; max-width: 95%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.25));">
+                            <div id="card-emoji-img" class="emoji-text hidden bounce-anim" style="font-size: clamp(5rem, 16vh, 8rem);"></div>
+                        </div>
+                        
+                        <!-- YELLOW PILL SUBTEXT -->
+                        <div id="card-sub-text" style="background: #FFF8D6; color: #1E3A8A; width: 95%; border-radius: 25px; padding: 12px 10px; font-size: clamp(1.2rem, 4vw, 1.8rem) !important; font-weight: 800; border: 3px solid #FFD93D; box-shadow: 0 5px 0 #FDE047; text-align: center; margin-bottom: 5px; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;"></div>
                     </div>
+                </div>
+
+                <button id="btn-next" class="fc-nav-arrow" style="right: 5px;">▶</button>
+            </div>
+
+            <!-- HUGE GREEN PLAY BUTTON -->
+            <button id="btn-repeat" class="fc-huge-play">🔊</button>
+
+            <!-- DARK BLUE BOTTOM BAR -->
+            <div class="fc-bottom-bar">
+                <div style="text-align: center;">
+                    <button id="btn-random" class="fc-action-btn" style="background: #FF6B9D; box-shadow: 0 5px 0 #D83A6F;">🔀</button>
+                    <span style="color: white; font-size: 14px; font-weight: 700;">Random</span>
+                </div>
+                <div style="text-align: center;">
+                    <button id="btn-sound-toggle" class="fc-action-btn" style="background: #FF9F1C; box-shadow: 0 5px 0 #CC7A00;" onclick="document.getElementById('toggle-mute').click(); this.innerText = userSettings.mute ? '🔇' : '🔊';">🔊</button>
+                    <span style="color: white; font-size: 14px; font-weight: 700;">Sound</span>
+                </div>
+                <div style="text-align: center;">
+                    <button id="btn-auto" class="fc-action-btn" style="background: #9D4EDD; box-shadow: 0 5px 0 #6A2C99;">▶️</button>
+                    <span style="color: white; font-size: 14px; font-weight: 700;">Auto</span>
+                </div>
+                <div style="text-align: center;">
+                    <button class="fc-action-btn" style="background: #22C55E; box-shadow: 0 5px 0 #166534;" onclick="document.getElementById('btn-fc-back').click();">🗂️</button>
+                    <span style="color: white; font-size: 14px; font-weight: 700;">Menu</span>
                 </div>
             </div>
 
-            <!-- Moved the Back button to the top left so it stays out of your glass pill! -->
-            <button id="btn-fc-back" class="btn-icon" style="position: absolute; top: 0px; left: 10px; z-index: 20; width: 45px; height: 45px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.6); color: white;" title="Back to Grid">⬅️</button>
-            
-            <!-- The Glass Pill Buttons -->
-            <div class="controls-container">
-                <button id="btn-random" class="glass-btn" title="Random Card">🔀</button>
-                <button id="btn-prev" class="glass-btn" title="Previous Card">◀</button>
-                
-                <!-- Visible Auto Play Button -->
-                <button id="btn-auto" class="glass-btn" title="Auto Play">▶️</button>
-                
-                <!-- HIDDEN Repeat Button (Must stay here so the app doesn't crash!) -->
-                <button id="btn-repeat" class="hidden">↻</button>
-                
-                <button id="btn-sound-toggle" class="glass-btn" title="Toggle Sound" onclick="document.getElementById('toggle-mute').click(); this.innerText = userSettings.mute ? '🔇' : '🔊';">🔊</button>
-                <button id="btn-next" class="glass-btn" title="Next Card">▶</button>
-            </div>
+            <!-- 🌟 SMART TEXT AUTO-RESIZER SCRIPT (Issey word tootega nahi) 🌟 -->
+            <script>
+                setInterval(() => {
+                    const textEl = document.getElementById('card-main-text');
+                    if (textEl && textEl.innerText) {
+                        textEl.style.setProperty('white-space', 'nowrap', 'important');
+                        const textLen = textEl.innerText.trim().length;
+                        
+                        let newSize = '5.5rem'; // Default (A, B, C ke liye)
+                        
+                        if (textLen > 11) {
+                            newSize = '2rem'; // Bohat lambe words ke liye
+                        } else if (textLen > 7) {
+                            newSize = '2.8rem'; // Darmiyani words (Watermelon, Strawberry)
+                        } else if (textLen > 4) {
+                            newSize = '4rem'; // Chhote words (Apple)
+                        }
+                        
+                        textEl.style.setProperty('font-size', newSize, 'important');
+                    }
+                }, 150);
+            </script>
         </section>
 
         <section id="game-screen" class="hidden">
