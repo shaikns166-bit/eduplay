@@ -10,6 +10,30 @@
     <meta name="theme-color" content="#4EA8DE">
 <link rel="manifest" href="manifest.json">
     <style>
+/* 1. Main Header ko wapas normal karein */
+#main-header {
+    position: relative !important;
+    padding-top: 15px !important; /* Ise wapas 15px kar dein */
+    margin-bottom: 10px !important;
+}
+
+/* 2. Main Menu Logo */
+.floating-logo, .or-floating-logo {
+    top: 4vh !important; /* Ise wapas 4vh kar dein */
+}
+
+/* Flashcards Screen Top Buttons aur Games Top HUDs ko wapas normal karein */
+#btn-fc-back, #btn-fc-settings {
+    top: 10px !important; /* Ise wapas 10px kar dein */
+}
+
+#game-screen > div:first-child {
+    padding-top: 10px !important; /* Ise wapas 10px kar dein */
+}
+
+.top-hud, .bc-hud-top, .bc-top-bar, .hud-bar, #bp-hud, #sm-wrapper .hud, #or-wrapper .top-right-controls, #or-wrapper .btn-close {
+    margin-top: 10px !important; /* Ise wapas 10px kar dein */
+}
 button, .btn, .icon-btn, .category-card, .game-option, .main-menu-pill {
     touch-action: manipulation;
 }
@@ -32,7 +56,7 @@ body {
     flex-direction: column;
     overflow: hidden; 
     margin: 0;
-    padding: 0; /* This removes the blue borders squeezing your app! */
+    padding: 0;
 }
 
 /* This applies your custom image ONLY to the flashcard screen */
