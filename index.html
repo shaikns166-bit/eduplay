@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" href="data:,">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>EduPlay Complete PWA</title>
@@ -1994,7 +1995,7 @@ body {
         </div>
       </div>
 
-      <audio id="wj-bgMusic" src="bgm.mp3" loop preload="auto"></audio>
+      <audio id="wj-bgMusic" src="" loop preload="auto"></audio>
 
       <div class="overlay" id="wj-overlay-settings">
         <div class="overlay-box">
@@ -5988,10 +5989,19 @@ btnExitGame.addEventListener("click", () => {
             }
 
             function speakLetter(letter) {
-                if(!soundOn) return;
-                let msg = new SpeechSynthesisUtterance("Find " + letter);
-                msg.rate = 0.9; msg.pitch = 1.2; window.speechSynthesis.cancel(); window.speechSynthesis.speak(msg);
-            }
+    if(!soundOn) return;
+    
+    // NAYA CODE: Check karega ke phone mein aawaz ka system hai ya nahi
+    if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+        let msg = new SpeechSynthesisUtterance("Find " + letter);
+        msg.rate = 0.9; 
+        msg.pitch = 1.2; 
+        window.speechSynthesis.cancel(); 
+        window.speechSynthesis.speak(msg);
+    } else {
+        console.log("Device mein aawaz support nahi hai, game continue karo!");
+    }
+}
 
             const bgMusic = new Audio('bg_orange_music.mp3'); bgMusic.loop = true; bgMusic.volume = 0.3; 
 
