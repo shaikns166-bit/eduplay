@@ -5945,8 +5945,8 @@ btnExitGame.addEventListener("click", () => {
 
 </script>
 <!-- YAHAN ORANGE RUNNER KI FULL JAVASCRIPT PASTE KAREIN -->
+    <!-- ================= ORANGE RUNNER FULL GAME ENGINE (ANDROID WEBVIEW FIXED) ================= -->
     <script>
-        // ================= ORANGE RUNNER FULL GAME ENGINE (ORIGINAL LOGIC + SMOOTH FIXES) =================
         (function() {
             let soundOn = true;
             let gameState = 'menu'; 
@@ -6006,89 +6006,78 @@ btnExitGame.addEventListener("click", () => {
             window.addEventListener('resize', or_resizeCanvas);
             window.addEventListener('orientationchange', function() { setTimeout(or_resizeCanvas, 500); });
 
+            // 🌟 FIX 1: Menu par Portrait mode ko Java Bridge se call karna 
             window.enterOrangeRunner = function() {
-            let appCont = document.getElementById("app-container");
-            if(appCont) appCont.classList.replace("active-flex", "hidden");
-            let wrapper = document.getElementById("or-wrapper");
-            if(wrapper) wrapper.style.display = "block";
-            let hsDisplay = document.getElementById('or-high-score-display');
-            if(hsDisplay) hsDisplay.innerText = '🏆 High Score: ' + highScore;
-            window.or_returnToMenu();
-            
-            // 🚀 Menu ke liye Portrait Lock
-            try { 
-                let elem = document.documentElement; 
-                if (elem.requestFullscreen) { 
-                    elem.requestFullscreen().then(() => { 
-                        if (screen.orientation && screen.orientation.lock) { 
-                            screen.orientation.lock("portrait").catch(e => {}); 
-                        } 
-                        setTimeout(or_resizeCanvas, 600); 
-                    }).catch(e => {}); 
-                } 
-            } catch(err) {}
-        };
+                let appCont = document.getElementById("app-container");
+                if(appCont) appCont.classList.replace("active-flex", "hidden");
+                let wrapper = document.getElementById("or-wrapper");
+                if(wrapper) wrapper.style.display = "block";
+                let hsDisplay = document.getElementById('or-high-score-display');
+                if(hsDisplay) hsDisplay.innerText = '🏆 High Score: ' + highScore;
+                window.or_returnToMenu();
+                
+                try { if(window.AndroidApp) { window.AndroidApp.lockPortrait(); } } catch(err) {}
+                setTimeout(or_resizeCanvas, 400); 
+            };
             
             window.exitOrangeRunner = function() {
                 gameState = 'menu'; animationRunning = false; bgMusic.pause();
                 document.getElementById("or-wrapper").style.display = "none";
                 let appCont = document.getElementById("app-container");
                 if(appCont) appCont.classList.replace("hidden", "active-flex");
-                try { if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } if (screen.orientation && screen.orientation.lock) { screen.orientation.lock("portrait").catch(e => {}); } } catch(err) {}
+                
+                try { if(window.AndroidApp) { window.AndroidApp.unlockOrientation(); } } catch(err) {}
             };
 
             window.or_toggleSettings = function() { let m = document.getElementById('or-settings-modal'); if(m) m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; };
             window.or_toggleHowToPlay = function() { let m = document.getElementById('or-how-to-play-modal'); if(m) m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; };
             window.or_toggleSound = function() { soundOn = !soundOn; document.getElementById('or-btn-sound').innerText = soundOn ? "🔊 Sound: ON" : "🔇 Sound: OFF"; };
             
+            // 🌟 FIX 2: Wapas Menu aane par Portrait karna
             window.or_returnToMenu = function() {
-            document.getElementById('or-game-over-screen').style.display = 'none'; 
-            document.getElementById('or-pause-screen').style.display = 'none'; 
-            document.getElementById('or-game-hud').style.display = 'none'; 
-            document.getElementById('or-main-menu').style.display = 'flex'; 
-            document.getElementById('or-menu-controls').style.display = 'block'; 
-            document.getElementById('or-how-to-play-modal').style.display = 'none'; 
-            gameState = 'menu'; animationRunning = false; bgMusic.pause();
-            
-            // 🚀 Menu par wapas aane par Portrait Lock
-            try { 
-                if (screen.orientation && screen.orientation.lock) { 
-                    screen.orientation.lock("portrait").catch(e => {}); 
-                } 
-            } catch(err) {}
-        };
+                document.getElementById('or-game-over-screen').style.display = 'none'; 
+                document.getElementById('or-pause-screen').style.display = 'none'; 
+                document.getElementById('or-game-hud').style.display = 'none'; 
+                document.getElementById('or-main-menu').style.display = 'flex'; 
+                document.getElementById('or-menu-controls').style.display = 'block'; 
+                document.getElementById('or-how-to-play-modal').style.display = 'none'; 
+                gameState = 'menu'; animationRunning = false; bgMusic.pause();
+                
+                try { if(window.AndroidApp) { window.AndroidApp.lockPortrait(); } } catch(err) {}
+                setTimeout(or_resizeCanvas, 400);
+            };
 
             window.or_togglePause = function() {
                 if (gameState === 'playing') { gameState = 'paused'; document.getElementById('or-pause-screen').style.display = 'flex'; bgMusic.pause(); } 
                 else if (gameState === 'paused') { gameState = 'playing'; document.getElementById('or-pause-screen').style.display = 'none'; if (soundOn) bgMusic.play().catch(e => {}); }
             };
 
+            // 🌟 FIX 3: Game Start hote hi Landscape + Canvas ka Black Screen hatana
             window.or_prepareGame = function() {
-            or_canvas = document.getElementById('or-gameCanvas');
-            if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
-            
-            document.getElementById('or-main-menu').style.display = 'none'; 
-            document.getElementById('or-menu-controls').style.display = 'none'; 
-            document.getElementById('or-game-hud').style.display = 'block'; 
-            document.getElementById('or-touch-to-start').style.display = 'block';
-            
-            score = 0; lives = 3; currentSpeed = baseSpeed; items = []; bgOffset = 0;
-            platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
-            
-            pickNewTarget(); updateHUD(); or_resizeCanvas(); 
-            
-            player.vy = 0; player.state = 'ready'; player.animFrame = 0;
-            gameState = 'ready';
-            
-            // 🚀 Game shuru hone par Landscape Lock
-            try { 
-                if (screen.orientation && screen.orientation.lock) { 
-                    screen.orientation.lock("landscape").catch(e => {}); 
-                } 
-            } catch(err) {}
+                or_canvas = document.getElementById('or-gameCanvas');
+                if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
+                
+                document.getElementById('or-main-menu').style.display = 'none'; 
+                document.getElementById('or-menu-controls').style.display = 'none'; 
+                document.getElementById('or-game-hud').style.display = 'block'; 
+                document.getElementById('or-touch-to-start').style.display = 'block';
+                
+                score = 0; lives = 3; currentSpeed = baseSpeed; items = []; bgOffset = 0;
+                platforms = []; coins = []; enemies = []; extraLives = []; monsters = [];
+                
+                pickNewTarget(); updateHUD(); 
+                
+                player.vy = 0; player.state = 'ready'; player.animFrame = 0;
+                gameState = 'ready';
+                
+                try { if(window.AndroidApp) { window.AndroidApp.lockLandscape(); } } catch(err) {}
+                
+                // Android ko rotate hone mein time lagta hai, isliye 2 baar delay karke resize kiya
+                setTimeout(or_resizeCanvas, 400); 
+                setTimeout(or_resizeCanvas, 800);
 
-            if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
-        };
+                if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
+            };
 
             function startGameplay() {
                 document.getElementById('or-touch-to-start').style.display = 'none';
@@ -6114,9 +6103,11 @@ btnExitGame.addEventListener("click", () => {
             let wrapperEl = document.getElementById('or-wrapper');
             if(wrapperEl) {
                 wrapperEl.addEventListener('pointerdown', (e) => {
-                    let btn = e.target.closest('button');
-                    if(btn && btn.innerText.includes('⏸')) { e.preventDefault(); window.or_togglePause(); return; }
-                    if(e.target.closest('#or-main-menu') || e.target.closest('#or-settings-modal') || e.target.closest('.btn-settings') || e.target.closest('#or-game-over-screen') || e.target.closest('#or-pause-screen') || e.target.closest('#or-how-to-play-modal') || e.target.closest('.btn-close')) return;
+                    // 🌟 FIX 4: Button click issue solved! Agar button par click ho, toh jump ya pause ka double fire nahi hoga
+                    let btn = e.target.closest('button, .btn-settings, .btn-close');
+                    if(btn) { return; } // Button ka apna kaam karne do, yahan se mat chhedo
+                    
+                    if(e.target.closest('#or-main-menu') || e.target.closest('#or-settings-modal') || e.target.closest('#or-game-over-screen') || e.target.closest('#or-pause-screen') || e.target.closest('#or-how-to-play-modal')) return;
                     
                     if (gameState === 'ready') {
                         startGameplay();
@@ -6201,7 +6192,6 @@ btnExitGame.addEventListener("click", () => {
             function handleItems(canvas, ctx) {
                 if (gameState !== 'playing') return;
                 
-                // 🚀 EXACT SAME ORIGINAL SPAWN LOGIC FROM SOURCE: 5 🚀
                 spawnTimer++;
                 if (spawnTimer > 100 - (currentSpeed * 2)) {
                     spawnTimer = 0;
@@ -6278,22 +6268,20 @@ btnExitGame.addEventListener("click", () => {
                         extraLives.push({ x: spawnX + 400, y: heartY, size: 40, collected: false });
                     }
 
-                    // 🚀 ORIGINAL MONSTER SPAWN LOGIC 🚀
                     if (isCorrect && Math.random() < 0.35) { 
-    let mWidth = 120; let mHeight = 120; let groundLevel = canvas.height - 165; 
-    monsters.push({ x: spawnX + 500, y: groundLevel, w: mWidth, h: mHeight, animFrame: 0, active: true });
-    
-    // 🚀 FIX: Wolf ke upar aane wala letter hamesha Correct (Target) letter hi hoga
-    items.push({ 
-        x: spawnX + 530, 
-        y: groundLevel - 110, 
-        size: 60, 
-        letter: targetLetter, 
-        isCorrect: true, 
-        color: '#3b82f6', 
-        collected: false 
-    });
-}
+                        let mWidth = 120; let mHeight = 120; let groundLevel = canvas.height - 165; 
+                        monsters.push({ x: spawnX + 500, y: groundLevel, w: mWidth, h: mHeight, animFrame: 0, active: true });
+                        
+                        items.push({ 
+                            x: spawnX + 530, 
+                            y: groundLevel - 110, 
+                            size: 60, 
+                            letter: targetLetter, 
+                            isCorrect: true, 
+                            color: '#3b82f6', 
+                            collected: false 
+                        });
+                    }
                 }
 
                 let hitX = player.x + 35, hitY = player.y + 45, hitW = player.w - 70, hitH = player.h - 55;
@@ -6377,7 +6365,6 @@ btnExitGame.addEventListener("click", () => {
                 for (let i = monsters.length - 1; i >= 0; i--) {
                     let m = monsters[i]; 
                     
-                    // 🚀 ORIGINAL FAST WOLF SPEED 🚀
                     m.x -= (currentSpeed + 3); 
                     
                     if (m.active) {
@@ -6427,14 +6414,7 @@ btnExitGame.addEventListener("click", () => {
             }
 
         })();
-    </script> 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("Service Worker Registered Successfully!"))
-      .catch(err => console.log("Service Worker Failed:", err));
-  }
-</script>
+    </script>
 <!-- ================= SPELLING MAZE ENGINE ================= -->
 <script>
 (function(){
@@ -6952,39 +6932,6 @@ btnExitGame.addEventListener("click", () => {
         resizeCanvas(); GAME.lastFrameTime = Date.now(); requestAnimationFrame(loop);
     };
 })();
-</script>
-<!-- ================= END SPELLING MAZE ENGINE ================= -->
-<!-- 🌟 FINAL ANDROID STUDIO LANDSCAPE & CANVAS FIX 🌟 -->
-<script>
-    document.addEventListener('click', function(e) {
-        let target = e.target.closest('button, .main-menu-pill, div');
-        if (!target) return;
-        
-        let text = (target.innerText || target.textContent || "").toUpperCase();
-        
-        // 1. Agar Orange Runner ya koi bhi Landscape game dabaya -> LANDSCAPE kar do
-        if (text.includes("ORANGE RUNNER") || text.includes("BALLOON POP") || text.includes("SPELLING MAZE") || text.includes("BASKET CATCH") || text.includes("MATCHING") || text.toUpperCase() === "PLAY") {
-            try { 
-                if(window.AndroidApp) { 
-                    window.AndroidApp.lockLandscape(); 
-                } 
-            } catch(err) {}
-            
-            // 🌟 JADOO: Screen ghoomne ke baad 0.4 aur 0.8 seconds par Canvas ko refresh karna taaki black screen na aaye
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 400);
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 800);
-        }
-        
-        // 2. Agar Back, Exit ya Menu dabaya -> Wapas PORTRAIT (Seedha) kar do
-        if (text.includes("BACK") || text.includes("EXIT") || text.includes("MENU") || text.includes("QUIT") || text.includes("HOME")) {
-            try { 
-                if(window.AndroidApp) { 
-                    window.AndroidApp.unlockOrientation(); 
-                } 
-            } catch(err) {}
-            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 400);
-        }
-    });
 </script>
 </body>
 </html>
