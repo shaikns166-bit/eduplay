@@ -4310,17 +4310,25 @@ window.enterWordJumble = function() {
             let userSettings = JSON.parse(localStorage.getItem('eduplaySettings')) || { mute: false, volume: 1.0, lang: 'english' };
 
 function applySettings() { 
-    document.getElementById("toggle-mute").innerText = userSettings.mute ? "🔇 OFF" : "🔊 ON"; 
-    document.getElementById("toggle-mute").style.background = userSettings.mute ? "#E63946" : "var(--success)"; 
-    document.getElementById("volume-slider").value = userSettings.volume; 
+    let muteBtn = document.getElementById("toggle-mute");
+    if (muteBtn) {
+        muteBtn.innerText = userSettings.mute ? "🔇 OFF" : "🔊 ON"; 
+        muteBtn.style.background = userSettings.mute ? "#E63946" : "#06D6A0"; 
+    }
+    
+    let volSlider = document.getElementById("volume-slider");
+    if (volSlider) {
+        volSlider.value = userSettings.volume; 
+    }
+    
     const langSelect = document.getElementById("flashcard-lang-select");
-    if(langSelect) langSelect.value = userSettings.lang || 'english';
+    if (langSelect) langSelect.value = userSettings.lang || 'english';
     localStorage.setItem('eduplaySettings', JSON.stringify(userSettings)); 
 }
 
-const langSelect = document.getElementById("flashcard-lang-select");
-if(langSelect) {
-    langSelect.addEventListener("change", (e) => {
+const langSelectEvent = document.getElementById("flashcard-lang-select");
+if (langSelectEvent) {
+    langSelectEvent.addEventListener("change", (e) => {
         userSettings.lang = e.target.value;
         applySettings();
         if (typeof moduleScreen !== 'undefined' && moduleScreen.classList.contains("active-flex")) {
@@ -4328,9 +4336,25 @@ if(langSelect) {
         }
     });
 }
-            applySettings();
-            document.getElementById("toggle-mute").addEventListener("click", () => { userSettings.mute = !userSettings.mute; if(userSettings.mute) window.speechSynthesis.cancel(); applySettings(); });
-            document.getElementById("volume-slider").addEventListener("input", (e) => { userSettings.volume = parseFloat(e.target.value); applySettings(); });
+
+applySettings();
+
+let muteBtnEvent = document.getElementById("toggle-mute");
+if (muteBtnEvent) {
+    muteBtnEvent.addEventListener("click", () => { 
+        userSettings.mute = !userSettings.mute; 
+        if (userSettings.mute) window.speechSynthesis.cancel(); 
+        applySettings(); 
+    });
+}
+
+let volSliderEvent = document.getElementById("volume-slider");
+if (volSliderEvent) {
+    volSliderEvent.addEventListener("input", (e) => { 
+        userSettings.volume = parseFloat(e.target.value); 
+        applySettings(); 
+    });
+}
             document.getElementById("btn-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-fc-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.remove("hidden"));
             document.getElementById("btn-close-settings").addEventListener("click", () => document.getElementById("settings-modal").classList.add("hidden"));
@@ -6930,5 +6954,39 @@ btnExitGame.addEventListener("click", () => {
 })();
 </script>
 <!-- ================= END SPELLING MAZE ENGINE ================= -->
+<!-- 🌟 ANDROID STUDIO LANDSCAPE BRIDGE FIX 🌟 -->
+<script>
+    window.addEventListener("load", function() {
+        const landscapeGames = ["enterSpellingMaze", "enterBalloonPop", "enterMatchingGame", "enterOrangeRunner", "enterBasketCatch"];
+        landscapeGames.forEach(func => {
+            if(window[func]) {
+                const originalFunction = window[func];
+                window[func] = function() {
+                    try { AndroidApp.lockLandscape(); } catch(e) {} 
+                    originalFunction.apply(this, arguments);
+                };
+            }
+        });
+
+        if(window.enterWordJumble) {
+            const origWJ = window.enterWordJumble;
+            window.enterWordJumble = function() {
+                try { AndroidApp.lockPortrait(); } catch(e) {}
+                origWJ.apply(this, arguments);
+            };
+        }
+
+        const exitFunctions = ["exitSpellingMaze", "exitBalloonPop", "exitMatchingGame", "exitOrangeRunner", "exitBasketCatch", "exitWordJumble"];
+        exitFunctions.forEach(func => {
+            if(window[func]) {
+                const originalExit = window[func];
+                window[func] = function() {
+                    try { AndroidApp.unlockOrientation(); } catch(e) {}
+                    originalExit.apply(this, arguments);
+                };
+            }
+        });
+    });
+</script>
 </body>
 </html>
