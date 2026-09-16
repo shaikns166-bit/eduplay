@@ -999,15 +999,15 @@ body {
                     
                     <div id="card-front-content" class="card-inner flex-col" style="height: 100%; justify-content: space-between; width: 100%;">
                         
-                        <!-- 🌟 FIXED: TEXT NOW FORCED ON ONE LINE (Tutega nahi) -->
-                        <div style="width: 100%; display: flex; justify-content: center; align-items: center; min-height: 80px; overflow: hidden; margin-top: 15px;">
-                            <div id="card-main-text" style="color: #EF476F; line-height: 1.2; text-align: center; font-weight: 900; white-space: nowrap !important;"></div>
+                        <!-- 🌟 FIXED: Letter ko khul kar badhne ki jagah di gayi -->
+                        <div style="width: 100%; display: flex; justify-content: center; align-items: center; flex: 1; overflow: visible !important;">
+                            <div id="card-main-text" style="color: #EF476F; text-align: center; font-weight: 900; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));"></div>
                         </div>
                         
-                        <!-- 🌟 BIGGER IMAGE (Badi Picture) -->
-                        <div id="card-image-wrapper" class="card-image-wrapper" style="flex: 1; display: flex; align-items: center; justify-content: center; margin: 10px 0; width: 100%;">
-                            <img id="card-real-img" class="real-img hidden bounce-anim" src="" alt="" style="height: 30vh; max-width: 95%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.25));">
-                            <div id="card-emoji-img" class="emoji-text hidden bounce-anim" style="font-size: clamp(5rem, 16vh, 8rem);"></div>
+                        <!-- BIGGER IMAGE -->
+                        <div id="card-image-wrapper" class="card-image-wrapper" style="flex: 1.5; display: flex; align-items: center; justify-content: center; margin: 10px 0; width: 100%;">
+                            <img id="card-real-img" class="real-img hidden bounce-anim" src="" alt="" style="height: 32vh; max-width: 95%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0,0,0,0.25));">
+                            <div id="card-emoji-img" class="emoji-text hidden bounce-anim" style="font-size: clamp(6rem, 18vh, 10rem);"></div>
                         </div>
                         
                         <!-- YELLOW PILL SUBTEXT -->
@@ -1041,22 +1041,55 @@ body {
                 </div>
             </div>
 
-            <!-- 🌟 SMART TEXT AUTO-RESIZER SCRIPT (Issey word tootega nahi) 🌟 -->
+            <!-- 🌟 ADVANCED TEXT AUTO-RESIZER SCRIPT 🌟 -->
             <script>
                 setInterval(() => {
                     const textEl = document.getElementById('card-main-text');
+                    const imgWrap = document.getElementById('card-image-wrapper');
+                    
                     if (textEl && textEl.innerText) {
-                        textEl.style.setProperty('white-space', 'nowrap', 'important');
-                        const textLen = textEl.innerText.trim().length;
+                        const text = textEl.innerText.trim();
+                        const textLen = text.length;
                         
-                        let newSize = '5.5rem'; // Default (A, B, C ke liye)
+                        // Check karein ki image hidden hai kya (yaani card par sirf letter hai)
+                        const isJustLetter = imgWrap && imgWrap.classList.contains('hidden');
                         
-                        if (textLen > 11) {
-                            newSize = '2rem'; // Bohat lambe words ke liye
-                        } else if (textLen > 7) {
-                            newSize = '2.8rem'; // Darmiyani words (Watermelon, Strawberry)
-                        } else if (textLen > 4) {
-                            newSize = '4rem'; // Chhote words (Apple)
+                        // Language Check
+                        const isUrdu = /[\u0600-\u06FF]/.test(text); 
+                        const isTelugu = /[\u0C00-\u0C7F]/.test(text);
+                        
+                        if (isUrdu) {
+                            textEl.style.setProperty('white-space', 'normal', 'important');
+                            textEl.style.setProperty('line-height', '1.6', 'important');
+                        } else {
+                            textEl.style.setProperty('white-space', 'nowrap', 'important');
+                            textEl.style.setProperty('line-height', '1.1', 'important');
+                        }
+                        
+                        let newSize = '8rem'; 
+                        
+                        if (textLen >= 12) {
+                            newSize = '2.2rem'; 
+                        } else if (textLen >= 8) {
+                            newSize = '3rem'; 
+                        } else if (textLen >= 5) {
+                            newSize = '4.5rem'; 
+                        } else if (textLen >= 3) {
+                            newSize = '6rem'; 
+                        } else {
+                            // 🌟 AGAR SIRF 1 YA 2 LETTERS HAIN (Jaise A, B, ب, అ)
+                            if (isJustLetter) {
+                                // Agar Telugu akshar hai, toh max size 11rem rakhein taaki bahar na nikle
+                                if (isTelugu) {
+                                    newSize = '11rem';
+                                } else {
+                                    // Baki sabhi (English, Urdu) ke liye bada 18rem
+                                    newSize = '18rem';
+                                }
+                            } else {
+                                // Agar picture sath mein hai toh 8rem
+                                newSize = '8rem'; 
+                            }
                         }
                         
                         textEl.style.setProperty('font-size', newSize, 'important');
