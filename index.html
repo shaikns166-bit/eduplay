@@ -6954,38 +6954,36 @@ btnExitGame.addEventListener("click", () => {
 })();
 </script>
 <!-- ================= END SPELLING MAZE ENGINE ================= -->
-<!-- 🌟 ANDROID STUDIO LANDSCAPE BRIDGE FIX 🌟 -->
+<!-- 🌟 FINAL ANDROID STUDIO LANDSCAPE & CANVAS FIX 🌟 -->
 <script>
-    window.addEventListener("load", function() {
-        const landscapeGames = ["enterSpellingMaze", "enterBalloonPop", "enterMatchingGame", "enterOrangeRunner", "enterBasketCatch"];
-        landscapeGames.forEach(func => {
-            if(window[func]) {
-                const originalFunction = window[func];
-                window[func] = function() {
-                    try { AndroidApp.lockLandscape(); } catch(e) {} 
-                    originalFunction.apply(this, arguments);
-                };
-            }
-        });
-
-        if(window.enterWordJumble) {
-            const origWJ = window.enterWordJumble;
-            window.enterWordJumble = function() {
-                try { AndroidApp.lockPortrait(); } catch(e) {}
-                origWJ.apply(this, arguments);
-            };
+    document.addEventListener('click', function(e) {
+        let target = e.target.closest('button, .main-menu-pill, div');
+        if (!target) return;
+        
+        let text = (target.innerText || target.textContent || "").toUpperCase();
+        
+        // 1. Agar Orange Runner ya koi bhi Landscape game dabaya -> LANDSCAPE kar do
+        if (text.includes("ORANGE RUNNER") || text.includes("BALLOON POP") || text.includes("SPELLING MAZE") || text.includes("BASKET CATCH") || text.includes("MATCHING") || text.toUpperCase() === "PLAY") {
+            try { 
+                if(window.AndroidApp) { 
+                    window.AndroidApp.lockLandscape(); 
+                } 
+            } catch(err) {}
+            
+            // 🌟 JADOO: Screen ghoomne ke baad 0.4 aur 0.8 seconds par Canvas ko refresh karna taaki black screen na aaye
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 400);
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 800);
         }
-
-        const exitFunctions = ["exitSpellingMaze", "exitBalloonPop", "exitMatchingGame", "exitOrangeRunner", "exitBasketCatch", "exitWordJumble"];
-        exitFunctions.forEach(func => {
-            if(window[func]) {
-                const originalExit = window[func];
-                window[func] = function() {
-                    try { AndroidApp.unlockOrientation(); } catch(e) {}
-                    originalExit.apply(this, arguments);
-                };
-            }
-        });
+        
+        // 2. Agar Back, Exit ya Menu dabaya -> Wapas PORTRAIT (Seedha) kar do
+        if (text.includes("BACK") || text.includes("EXIT") || text.includes("MENU") || text.includes("QUIT") || text.includes("HOME")) {
+            try { 
+                if(window.AndroidApp) { 
+                    window.AndroidApp.unlockOrientation(); 
+                } 
+            } catch(err) {}
+            setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 400);
+        }
     });
 </script>
 </body>
