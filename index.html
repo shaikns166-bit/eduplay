@@ -1810,7 +1810,7 @@ body {
         #mz-wrapper .dpad-btn.left { left: 5px; top: 50%; transform: translateY(-50%); }
         #mz-wrapper .dpad-btn.right { right: 5px; top: 50%; transform: translateY(-50%); }
         #mz-wrapper .badge { position: absolute; bottom: -5px; right: -5px; background: var(--neon-red); color: white; font-size: 0.8rem; font-weight: bold; padding: 2px 6px; border-radius: 10px; border: 1px solid white; text-shadow: none; font-family: sans-serif; }
-        @media (min-width: 900px) { #mz-wrapper .mobile-dpad, #mz-wrapper .action-pad { display: none; } }
+        @media (min-width: 3000px) { #mz-wrapper .mobile-dpad, #mz-wrapper .action-pad { display: none; } }
         @media (max-width: 600px) { #mz-wrapper .top-hud { width: 98%; padding: 0; } #mz-wrapper .hud-stat { font-size: 1rem; } #mz-wrapper .pause-btn-ingame { font-size: 1.6rem; } }
         #mz-wrapper .mz-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 5, 10, 0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
         #mz-wrapper .mz-screen.active { display: flex; }
@@ -4068,6 +4068,14 @@ window.enterSpellingMaze = function() {
             document.getElementById("app-container").classList.replace("active-flex", "hidden");
             document.getElementById("mz-wrapper").classList.remove("hidden");
             if(window.speechSynthesis) window.speechSynthesis.cancel();
+            
+            // 🚀 NAYA CODE: Android ko force karke Landscape mein bhejna
+            try {
+                if (typeof AndroidApp !== 'undefined') {
+                    AndroidApp.lockLandscape();
+                }
+            } catch(err) {}
+
             try { 
                 let elem = document.documentElement; 
                 if (elem.requestFullscreen) { 
@@ -4097,6 +4105,14 @@ window.enterSpellingMaze = function() {
             
             document.getElementById("app-title").innerText = "Fun Play";
             document.getElementById("btn-home").classList.remove("hidden");
+
+            // 🚀 NAYA CODE: Wapas menu mein aane par phone ko seedha (Portrait) karna
+            try {
+                if (typeof AndroidApp !== 'undefined') {
+                    AndroidApp.unlockOrientation();
+                }
+            } catch(err) {}
+
             try { 
                 if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); } 
                 if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); } 
