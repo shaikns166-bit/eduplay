@@ -787,15 +787,15 @@ body {
         // Listen to BOTH touch and mouse events!
         document.addEventListener('touchstart', triggerClickSound, {passive: true});
         document.addEventListener('mousedown', triggerClickSound);
-    </script>
+    </script> <!-- 🚀 YEH LINE GAYAB THI! Isko yahan lagana hai -->
+
     <!-- ================= EDUPLAY SPARK INTRO SPLASH ================= -->
     <div id="video-splash" style="position: fixed; inset: 0; background: #070b19; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.5s ease; touch-action: none;">
         
-        <!-- Video is hidden until they tap -->
-        <video id="intro-video" playsinline preload="auto" style="position: absolute; width: 100%; height: 100%; object-fit: cover; outline: none; border: none; pointer-events: none; opacity: 0; transition: opacity 0.2s;"></video>
+        <video id="intro-video" playsinline preload="auto" style="position: absolute; width: 100%; height: 100%; object-fit: cover; outline: none; border: none; pointer-events: none;"></video>
         
-        <!-- THE AUDIO UNLOCK BUTTON -->
-        <button id="tap-to-start-btn" style="position: relative; z-index: 10000; background: linear-gradient(135deg, #ff8b3d, #ff5f7e); color: white; border: none; padding: 18px 45px; font-size: 26px; font-family: 'Baloo 2', cursive; font-weight: 800; border-radius: 999px; box-shadow: 0 8px 25px rgba(255, 95, 126, 0.5); cursor: pointer; animation: mazeBtnPop 0.6s ease forwards;">
+        <!-- SMART BUTTON (Sirf tab dikhega jab Browser video rok dega) -->
+        <button id="tap-to-start-btn" style="display: none; position: relative; z-index: 10000; background: linear-gradient(135deg, #ff8b3d, #ff5f7e); color: white; border: none; padding: 18px 45px; font-size: 26px; font-family: 'Baloo 2', cursive; font-weight: 800; border-radius: 999px; box-shadow: 0 8px 25px rgba(255, 95, 126, 0.5); cursor: pointer;">
             ▶ Tap to Play!
         </button>
 
@@ -4277,7 +4277,7 @@ window.enterWordJumble = function() {
 
         document.addEventListener("DOMContentLoaded", () => {
             
-            // === NEW: INTRO VIDEO LOGIC (GUARANTEED AUDIO) ===
+            // === SMART AUTOPLAY INTRO VIDEO LOGIC ===
             const videoSplash = document.getElementById("video-splash");
             const introVideo = document.getElementById("intro-video");
             const tapBtn = document.getElementById("tap-to-start-btn");
@@ -4290,47 +4290,54 @@ window.enterWordJumble = function() {
                 setTimeout(() => { videoSplash.remove(); }, 500); 
             }
 
-            if (introVideo && tapBtn && videoSplash) {
-                // Smart Device Detector
+            if (introVideo && videoSplash) {
+                // Device ke hisaab se video select karein
                 if (window.innerWidth < window.innerHeight) {
                     introVideo.src = "intro_mobile.mp4"; 
                 } else {
                     introVideo.src = "intro.mp4"; 
                 }
 
-                introVideo.load();
-                introVideo.playsInline = true;
-                introVideo.muted = false; // Set to full volume
+                introVideo.muted = false;
+                introVideo.load(); // 🚀 NAYA: Browser ko force load karwana
 
-                // SUPER SENSOR: Make the ENTIRE SCREEN tap-friendly, not just the button!
-                const startVideo = (e) => {
-                    e.preventDefault(); // Stop mobile double-tap bugs
-                    tapBtn.style.display = "none"; // Hide button instantly
-                    introVideo.style.opacity = "1"; // Reveal video
-                    
-                    let playPromise = introVideo.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch((error) => {
-                            console.log("Video playback failed:", error);
-                            endSplash(); // Failsafe skip if error
-                        });
+                // Direct chalane ki koshish (Mobile ke liye)
+                let playPromise = introVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        setTimeout(endSplash, 10000);
+                    }).catch((error) => {
+                        if (tapBtn) tapBtn.style.display = "block";
+                    });
+                }
+
+                // 🚀 NAYA BULLETPROOF TIMER: Agar Chrome hang ho jaye toh 1 sec baad button dikha do
+                setTimeout(() => {
+                    if (introVideo.paused && tapBtn) {
+                        tapBtn.style.display = "block";
                     }
+                }, 1000);
 
-                    // Start the failsafe timer ONLY AFTER they tap
-                    setTimeout(endSplash, 10000); 
-                };
+                // Agar button aata hai aur user click karta hai
+                if (tapBtn) {
+                    tapBtn.addEventListener("click", (e) => {
+                        e.stopPropagation(); 
+                        tapBtn.style.display = "none";
+                        introVideo.play().catch(err => endSplash());
+                        setTimeout(endSplash, 10000);
+                    });
+                }
 
-                // Listen for both clicks and mobile screen taps anywhere on the background!
-                videoSplash.addEventListener("click", startVideo, { once: true });
-                videoSplash.addEventListener("touchstart", startVideo, { once: true });
-
-                // End splash when video naturally finishes
+                // Video complete hone par menu aa jaye
                 introVideo.addEventListener('ended', endSplash);
 
+                // 🚀 NAYA: Screen par kahin bhi Touch/Click karne se Intro Skip ho jayega
+                videoSplash.addEventListener("click", endSplash, { once: true });
+                videoSplash.addEventListener("touchstart", endSplash, { once: true });
+
             } else {
-                endSplash(); // Skip if HTML is missing
+                endSplash();
             }
-            // =================================================
 
             const startOverlay = document.getElementById("start-overlay"); const appContainer = document.getElementById("app-container"); const mainMenuScreen = document.getElementById("main-menu-screen"); const funplayMenuScreen = document.getElementById("funplay-menu-screen"); const homeScreen = document.getElementById("home-screen"); const moduleScreen = document.getElementById("module-screen"); const gameScreen = document.getElementById("game-screen"); const btnHome = document.getElementById("btn-home"); const btnFcBack = document.getElementById("btn-fc-back"); const mainHeader = document.getElementById("main-header"); const appTitle = document.getElementById("app-title");
             const cardFrontContent = document.getElementById("card-front-content"); const cardImageWrapper = document.getElementById("card-image-wrapper"); const cardMainText = document.getElementById("card-main-text"); const cardSubText = document.getElementById("card-sub-text"); const cardEmojiImg = document.getElementById("card-emoji-img"); const cardRealImg = document.getElementById("card-real-img"); const flashcard = document.getElementById("flashcard");
