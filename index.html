@@ -6006,7 +6006,6 @@ btnExitGame.addEventListener("click", () => {
             window.addEventListener('resize', or_resizeCanvas);
             window.addEventListener('orientationchange', function() { setTimeout(or_resizeCanvas, 500); });
 
-            // 🌟 FIX 1: Menu par Portrait mode ko Java Bridge se call karna 
             window.enterOrangeRunner = function() {
                 let appCont = document.getElementById("app-container");
                 if(appCont) appCont.classList.replace("active-flex", "hidden");
@@ -6033,7 +6032,6 @@ btnExitGame.addEventListener("click", () => {
             window.or_toggleHowToPlay = function() { let m = document.getElementById('or-how-to-play-modal'); if(m) m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; };
             window.or_toggleSound = function() { soundOn = !soundOn; document.getElementById('or-btn-sound').innerText = soundOn ? "🔊 Sound: ON" : "🔇 Sound: OFF"; };
             
-            // 🌟 FIX 2: Wapas Menu aane par Portrait karna
             window.or_returnToMenu = function() {
                 document.getElementById('or-game-over-screen').style.display = 'none'; 
                 document.getElementById('or-pause-screen').style.display = 'none'; 
@@ -6052,7 +6050,7 @@ btnExitGame.addEventListener("click", () => {
                 else if (gameState === 'paused') { gameState = 'playing'; document.getElementById('or-pause-screen').style.display = 'none'; if (soundOn) bgMusic.play().catch(e => {}); }
             };
 
-            // 🌟 FIX 3: Game Start hote hi Landscape + Canvas ka Black Screen hatana
+            // 🌟 FORCE LANDSCAPE & CANVAS RESIZE
             window.or_prepareGame = function() {
                 or_canvas = document.getElementById('or-gameCanvas');
                 if (or_canvas) or_ctx = or_canvas.getContext('2d', { alpha: false }); 
@@ -6070,11 +6068,17 @@ btnExitGame.addEventListener("click", () => {
                 player.vy = 0; player.state = 'ready'; player.animFrame = 0;
                 gameState = 'ready';
                 
+                // 1. Send signal to Android
                 try { if(window.AndroidApp) { window.AndroidApp.lockLandscape(); } } catch(err) {}
                 
-                // Android ko rotate hone mein time lagta hai, isliye 2 baar delay karke resize kiya
-                setTimeout(or_resizeCanvas, 400); 
-                setTimeout(or_resizeCanvas, 800);
+                // 2. Force screen redraw & resize (fixes black canvas bug)
+                let forceResize = () => {
+                    window.dispatchEvent(new Event('resize'));
+                    or_resizeCanvas();
+                };
+                setTimeout(forceResize, 100); 
+                setTimeout(forceResize, 500); 
+                setTimeout(forceResize, 1000); 
 
                 if(!animationRunning) { animationRunning = true; requestAnimationFrame(gameLoop); }
             };
@@ -6100,12 +6104,13 @@ btnExitGame.addEventListener("click", () => {
                 document.getElementById('or-ui-lives').innerText = '❤️'.repeat(safeLives) + '🖤'.repeat(emptyHearts);
             }
 
+            // 🌟 TOUCH FIX (Prevents double fire, allows tap-to-run)
             let wrapperEl = document.getElementById('or-wrapper');
             if(wrapperEl) {
-                wrapperEl.addEventListener('pointerdown', (e) => {
-                    // 🌟 FIX 4: Button click issue solved! Agar button par click ho, toh jump ya pause ka double fire nahi hoga
+                const handleTap = (e) => {
+                    // Agar button par click hua hai, toh usko block mat karo (Pause button theek chalega)
                     let btn = e.target.closest('button, .btn-settings, .btn-close');
-                    if(btn) { return; } // Button ka apna kaam karne do, yahan se mat chhedo
+                    if(btn) return; 
                     
                     if(e.target.closest('#or-main-menu') || e.target.closest('#or-settings-modal') || e.target.closest('#or-game-over-screen') || e.target.closest('#or-pause-screen') || e.target.closest('#or-how-to-play-modal')) return;
                     
@@ -6118,7 +6123,11 @@ btnExitGame.addEventListener("click", () => {
                             player.vy = player.jumpPower; player.state = 'jump'; player.animFrame = 0; player.jumps++; playSFX('jump');
                         }
                     }
-                });
+                };
+
+                // Added touchstart for mobile WebView
+                wrapperEl.addEventListener('touchstart', handleTap, {passive: false});
+                wrapperEl.addEventListener('mousedown', handleTap);
             }
 
             function drawScenery(canvas, ctx) {
@@ -6415,7 +6424,6 @@ btnExitGame.addEventListener("click", () => {
 
         })();
     </script>
-<!-- ================= SPELLING MAZE ENGINE ================= -->
 <script>
 (function(){
     "use strict";
