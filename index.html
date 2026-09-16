@@ -2,6 +2,22 @@
 <html lang="en">
 <head>
 <link rel="icon" href="data:,">
+<!-- 🚀 ANDROID WEBVIEW CRASH MASTER FIX -->
+    <script>
+        if (typeof window.speechSynthesis === 'undefined') {
+            window.speechSynthesis = {
+                speak: function() {},
+                cancel: function() {},
+                getVoices: function() { return []; }
+            };
+        }
+        if (typeof window.SpeechSynthesisUtterance === 'undefined') {
+            window.SpeechSynthesisUtterance = function(text) {
+                this.text = text;
+            };
+        }
+    </script>
+    <!-- 🚀 FIX ENDS HERE -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>EduPlay Complete PWA</title>
