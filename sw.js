@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eduplay-pwa-games-v196'; 
+const CACHE_NAME = 'eduplay-pwa-games-v197'; 
 
 self.addEventListener('install', event => { 
     self.skipWaiting(); 
